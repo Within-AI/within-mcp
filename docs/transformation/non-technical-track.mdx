@@ -6,7 +6,7 @@ icon: "users"
 
 This track is for business users building in Advisor, or reaching the Company Brain from [ChatGPT](/install/chatgpt) or [Claude](/install/claude) via the MCP.
 
-The core idea: the people who do the work understand their pain points better than anyone. Empowering them to build is both the fastest path to useful skills and the single best way to drive cultural change.
+The people who do the work know the exceptions, judgment calls, and source material that a useful skill must handle. Giving them a direct build path reduces the distance between the process evidence and the instructions the skill follows.
 
 This track builds skills and simple agents. Compound agents are [the technical track](/transformation/technical-track).
 
@@ -28,9 +28,9 @@ skill, and show me the before-and-after workflow.
 
 Either works, with a clear tradeoff.
 
-**Advisor** has strong awareness of what makes a good skill and how to spot repeated usage worth formalizing, and it produces a before-and-after diagram of the workflow so the value is visible. Best when you want guidance and a clean artifact.
+**Advisor** guides the build inside Within and produces a before-and-after workflow diagram. Use it when you want the analysis and resulting artifact to remain in Within.
 
-**The MCP** brings the Company Brain into the chat app a person already uses, so the build can also draw on the other context and connectors they have there. Best when the work reaches beyond Within.
+**The MCP** brings Company Brain evidence into the chat app a person already uses. Use it when the build also needs files or connectors available in that client.
 
 ```text
 From Claude, using the Within MCP plus my email and Slack, draft a skill that
@@ -39,13 +39,108 @@ handles an inbound vendor request end to end.
 
 [Chain with other connectors](/guides/chain-with-connectors) covers that pattern in more detail.
 
+## Build one skill
+
+A skill fits a repeated task with a bounded outcome: prepare a brief, check an input against a policy, classify a request, or draft from known source material. The assistant should use the Agent Builder instructions served by the MCP rather than inventing its own build method.
+
+### Sample prompt
+
+This example uses a fictional shipment-exception process.
+
+```text
+Use Within Agent Builder to create a reusable skill for the synthetic "Resolve
+shipment exceptions" process. The skill should prepare a review brief from the
+exception record and the documented process, then stop for human approval. It must
+not approve a disposition, update the case system, or invent a missing policy.
+
+Ground the instructions in the current process and representative observations.
+Separate documented rules from behavior inferred from captured runs. Show me the
+proposed scope, inputs, output, and refusal conditions before writing the package.
+```
+
+The assistant begins with the MCP-served method. A client-neutral representation of the first call is:
+
+```javascript
+get_agent_builder_instructions({ "step": "skill_track" })
+```
+
+The returned instructions identify the resources needed for that build. The assistant first gathers current process evidence and drafts the proposed scope. You approve that outline before it writes the package. After the package is built, you review the result and its smoke-test evidence before installation.
+
+### Sample output
+
+```text
+Proposed skill: shipment-exception-brief
+
+Scope
+Prepare one review brief for a shipment exception. A person decides the disposition.
+
+Inputs
+- Exception record
+- Current documented process
+- Available shipment and contact context
+
+Output
+- Facts found in the source records
+- Missing information
+- Applicable process rules
+- Recommended questions for the reviewer
+
+Refuse when
+- The current process cannot be retrieved
+- The exception record is missing
+- The request asks the skill to approve or update the case
+
+Grounding
+- Current "Resolve shipment exceptions" process
+- Five synthetic representative observations
+
+Package
+- skills/shipment-exception-brief/SKILL.md
+- skills/shipment-exception-brief/decision-rules.md
+- skills/shipment-exception-brief/caveats.md
+- skills/shipment-exception-brief/examples.md
+- skills/shipment-exception-brief/README.md
+- skills/shipment-exception-brief/evals/positive.md
+- skills/shipment-exception-brief/evals/negative.md
+- skills/shipment-exception-brief/evals/neighbor.md
+- INSTALL.md
+```
+
+The package keeps its evidence references in the working audit trail rather than placing internal citation tokens in the files people install. The generated `SKILL.md` should be short enough to inspect and flexible enough to apply the documented judgment to a new case. For example:
+
+```md
+---
+name: shipment-exception-brief
+description: Load when preparing a shipment-exception review brief. Do not load for approving a disposition or updating the case system.
+---
+
+# Shipment exception brief
+
+Prepare a review brief from the supplied exception record and the current
+documented process.
+
+## Required content
+
+- Separate source-backed facts from missing information.
+- Apply only rules stated in the current process.
+- Draft questions and a non-binding recommendation for the reviewer.
+
+## Decision boundaries
+
+- Stop if the process or exception record cannot be retrieved.
+- Treat conflicting evidence as an issue for the reviewer.
+- Do not approve a disposition or change the case system.
+```
+
+Test the package with ordinary cases, missing inputs, conflicting evidence, and requests that should be refused. A useful skill is defined as much by where it stops as by what it produces.
+
 ## Stand up an AI committee
 
-A small cross-functional committee reviews the use cases and skills coming out of sessions and identifies the best ones to formalize and promote. It's a lightweight governance layer that keeps quality high and surfaces the highest-value builds.
+A small cross-functional committee can review the use cases and skills coming out of sessions, decide which ones are safe to distribute, and assign an owner for maintenance.
 
 ## Make it recurring
 
-Run the build ritual and the committee review on a regular cadence. Both cultural change and skill quality compound with repetition. A one-off event does not move an organization.
+Run the build session and committee review on a regular cadence. Repetition gives people time to improve the skills, add evaluations, and retire packages that no longer match the process.
 
 ## Keep a skills repository
 
@@ -53,14 +148,14 @@ Store the good skills in one place. A simple GitHub repository works well.
 
 ## Ship the skills
 
-Two options. Ship them directly into your AI platform as organizational skills available to everyone, or publish them to a separate repository people can download from. Either way, recommend the best ones so adoption spreads.
+Ship approved skills through your AI platform's organization controls or publish them in a repository your team manages. Record an owner, version, and evaluation set for each distributed skill.
 
 ## Within support
 
-Within's FDEs can facilitate the hackathon, curate the skills that come out of it, and take the best ones to production with your team.
+Within's team can facilitate the build session, help review the resulting skills, and work with you on production readiness.
 
 ## Why this drives culture
 
-For AI to succeed it has to be adopted by people, and this track is the best way to drive that. Two patterns separate the organizations that make it stick: leadership actually using AI themselves rather than only sponsoring it, and a recurring hands-on ritual.
+This track works when leaders use the same tools they ask teams to adopt and when people have a recurring place to build, test, and improve skills from their own work.
 
-The act of doing is paramount. Fluency comes from building, not from a workshop or a lecture.
+Hands-on building gives teams direct experience with what the tools can do, where they fail, and which controls they need.
