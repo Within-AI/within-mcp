@@ -21,7 +21,7 @@ This is not workflow automation. The loop watches for opportunities; it does not
 
 ## Define the optimization function
 
-The prompt needs a stable answer to "what do I care to look for?" Without it, each tick can rank the same evidence differently and create noise.
+The prompt needs a stable answer to "What should this scan prioritize?" Without it, each tick can rank the same evidence differently and create noise.
 
 Define:
 
@@ -89,7 +89,7 @@ get_process_observations({
 get_observation_citation({
   "observation_resource_key": "observation-example-101",
   "verbosity": "medium",
-  "activity_block_index": 0
+  "activity_block_index": 3
 })
 ```
 
