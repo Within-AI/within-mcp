@@ -32,14 +32,18 @@ The client can also combine Within with other connectors. Keep the source bounda
 
 ## A developer pull pattern
 
-Start with the smallest useful process scope, then retrieve more detail only when the task requires it.
+Within exposes two useful levels of process evidence. L3 is the process graph: the process definition, hierarchy, tasks, dependencies, policies, and observation summaries. L4 is the activity timeline behind a specific observation. Start at L3 with the smallest useful process scope, then retrieve L4 evidence only for a claim that needs it.
 
 <Steps>
   <Step title="Locate the process">
-    Use [`search_processes`](/tools/process-index) when you know the topic, or [`get_process_hierarchy`](/tools/process-index) when you need to browse the process tree.
+    Use [`search_processes`](/tools/process-index) when you know the topic, or [`get_process_hierarchy`](/tools/process-index) when you need to browse the process tree. If the result is a hierarchy node rather than a leaf process, inspect it with `get_hierarchy_node_details` before choosing a process.
 
     ```javascript
     search_processes({ "query": "shipment exceptions", "top_k": 5 })
+
+    get_hierarchy_node_details({
+      "node": { "node_resource_key": "<NODE_RESOURCE_KEY>" }
+    })
     ```
   </Step>
 
