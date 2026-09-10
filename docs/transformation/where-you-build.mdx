@@ -1,39 +1,91 @@
 ---
 title: "Where you build"
-description: "Four surfaces, split across a non-technical and a technical track."
+description: "Choose whether to build in Within or bring read-only Company Brain evidence into your AI client."
 icon: "table-columns"
 ---
 
-Four surfaces, each mapped to a track. The MCP carries the Company Brain into the AI tools people already use, reached one way by non-technical builders and another by technical ones.
+You can build inside Within with Advisor or in an external AI client connected through the Within MCP. The right location depends on where the work, tools, and resulting files need to live.
 
-## The surfaces
+## Advisor, the MCP, and your AI client
 
-**Advisor**, in-product and low-code, for non-technical builders. Recommends and generates builds, dashboards, and current-state analysis, with before-and-after diagrams.
+These components have separate responsibilities.
 
-**MCP from a chat platform**, [ChatGPT](/install/chatgpt) or [Claude](/install/claude), for non-technical builders. Ask the Company Brain and build simple skills and reusable prompts, drawing on the other context in your chat app.
-
-**MCP from a coding harness**, [Codex](/install/codex), [Claude Code](/install/claude-code), or [Cursor](/install/cursor), for technical builders. Feed live Company-Brain context into compound builds.
-
-**ADK**, the methodology served through the MCP in [Codex](/install/codex), [Claude Code](/install/claude-code), or the [Gemini CLI](/install/gemini-cli), for technical builders. Scaffolds compound agents end to end. See [The technical track](/transformation/technical-track).
-
-## The build grid
-
-Read it by track. If you're non-technical you use the top two, if you're technical the bottom two.
-
-| Track | Surface | What you build |
+| Component | Responsibility | Boundary |
 |---|---|---|
-| Non-technical | Advisor (in-product, low-code) | Skills and simple agents; before-and-after workflow diagrams |
-| Non-technical | MCP from a chat platform (ChatGPT, Claude) | Ask the Company Brain; build simple skills and reusable prompts, with your other chat context |
-| Technical | MCP from a coding harness (Codex, Claude Code, Cursor) | Feed live Company-Brain context into compound builds |
-| Technical | ADK, served through the MCP | Scaffold compound agents end to end: design, build, evals, deploy |
+| Advisor | Analyze process evidence and create Within-native outputs inside Within | Work remains in the Within product experience |
+| Within MCP | Give an authorized AI client read-only access to Company Brain context and builder methods | It retrieves from Within; it does not write to Within or another system |
+| Your AI client | Reason over the retrieved context and use the client's tools to create files, code, skills, or actions outside Within | The client's permissions and approval controls govern those actions |
 
-## Pick your track
+This boundary matters when a build uses several systems. The MCP supplies Within context. If the assistant drafts a document, commits code, or calls another connector, the AI client performs that action through its own tools.
 
-<Columns cols={2}>
-  <Card title="The non-technical track" icon="users" href="/transformation/non-technical-track">
-    Business users building skills and simple agents in Advisor or from a chat app.
-  </Card>
-  <Card title="The technical track" icon="code" href="/transformation/technical-track">
-    Developers and AI Centers of Excellence building compound agents in a coding harness.
-  </Card>
-</Columns>
+## Build inside Within
+
+Use Advisor when the work should stay in Within and the builder wants a guided product experience. Advisor can analyze the Company Brain, help shape a build, and produce Within-native artifacts such as current-state analysis and before-and-after workflow diagrams.
+
+This is the usual path for a business user building a skill or exploring a process without working in a code repository. Continue with [the non-technical track](/transformation/non-technical-track).
+
+## Build from your AI client
+
+Use the MCP when the build needs context or tools available in another client. A business user might combine Company Brain evidence with files available to ChatGPT or Claude. A developer might use Codex, Claude Code, Cursor, or the Gemini CLI to create and test a compound agent in a repository.
+
+The client can also combine Within with other connectors. Keep the source boundary explicit in the prompt so the result states which claims came from Within and which came from another system. See [Chain with other connectors](/guides/chain-with-connectors).
+
+## A developer pull pattern
+
+Start with the smallest useful process scope, then retrieve more detail only when the task requires it.
+
+<Steps>
+  <Step title="Locate the process">
+    Use [`search_processes`](/tools/process-index) when you know the topic, or [`get_process_hierarchy`](/tools/process-index) when you need to browse the process tree.
+
+    ```javascript
+    search_processes({ "query": "shipment exceptions", "top_k": 5 })
+    ```
+  </Step>
+
+  <Step title="Read the current process">
+    Retrieve the process record and request only the scopes needed for the build.
+
+    ```javascript
+    get_process_details({
+      "process_resource_key": "<PROCESS_RESOURCE_KEY>",
+      "scope": ["tasks", "dependencies", "policies", "history"]
+    })
+    ```
+  </Step>
+
+  <Step title="Check representative observations">
+    Scan summaries first. Open the underlying activity timeline only for the observations needed to confirm a material claim.
+
+    ```javascript
+    get_process_observations({
+      "process_resource_key": "<PROCESS_RESOURCE_KEY>",
+      "limit": 10,
+      "offset": 0,
+      "verbosity": "summary"
+    })
+
+    get_observation_citation({
+      "observation_resource_key": "<OBSERVATION_RESOURCE_KEY>",
+      "verbosity": "medium",
+      "activity_block_index": 3
+    })
+    ```
+  </Step>
+</Steps>
+
+Activity timelines can be large. Use low or medium verbosity and request one `activity_block_index` returned by the tool at a time. The citation tool can return timelines only for the authenticated user's own sessions; if it cannot retrieve one, state that limitation rather than treating the observation summary as primary evidence.
+
+## Choose the build method
+
+For a bounded task, ask the assistant to load the Agent Builder skill method through [`get_agent_builder_instructions`](/tools/agent-builder). [The non-technical track](/transformation/non-technical-track#build-one-skill) includes a complete example.
+
+For a compound build, use the Agent Development Kit sequence served through the MCP. The method guides objective setting, evidence review, design, implementation, evaluation, and deployment in the coding harness. Continue with [the technical track](/transformation/technical-track).
+
+## Connect securely
+
+Use OAuth for interactive clients that support it. Use a workspace-scoped API key for headless or automated connections, store it outside the repository, and rotate it if exposed. Both methods preserve the permissions of the Within user and workspace behind the connection. See [Authentication](/authentication) and the setup page for your client.
+
+<Warning>
+  Connecting the Within MCP does not authorize an external action. Configure write access, approvals, and credentials in the AI client or destination system that performs the action.
+</Warning>
