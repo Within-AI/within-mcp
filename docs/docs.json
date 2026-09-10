@@ -73,11 +73,27 @@
             ]
           },
           {
+            "group": "Drive AI transformation",
+            "pages": [
+              "transformation",
+              "transformation/objective",
+              "transformation/company-brain",
+              "guides/find-opportunities",
+              "transformation/opportunity-loops",
+              "transformation/readouts",
+              "transformation/use-case-selection",
+              "transformation/what-you-can-build",
+              "transformation/where-you-build",
+              "transformation/non-technical-track",
+              "transformation/technical-track",
+              "transformation/maintain-agents"
+            ]
+          },
+          {
             "group": "How-to guides",
             "pages": [
               "guides/process-performer",
               "guides/state-of-team",
-              "guides/find-opportunities",
               "guides/transformation-thesis",
               "guides/chain-with-connectors",
               "guides/deep-research",

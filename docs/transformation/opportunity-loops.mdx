@@ -1,0 +1,118 @@
+---
+title: "Run opportunity-scanning loops"
+description: "Re-scan the Process Index as capture grows and report newly supported transformation signals."
+icon: "arrows-rotate"
+---
+
+An opportunity-scanning loop is a scheduled evidence review. On each tick, an AI client re-runs a bounded scan of the Process Index, compares the result with its last checkpoint, and reports signals that are new or better supported.
+
+This is not workflow automation. The loop watches for opportunities; it does not perform the work inside a candidate process. The schedule, checkpoint, and notification live in your AI client or automation platform. The Within MCP supplies read-only process evidence.
+
+## When the loop fits
+
+<Columns cols={2}>
+  <Card title="Use it for continuing visibility" icon="radar">
+    A transformation owner wants to know when new capture changes the opportunity set, without repeating a manual review of the whole index.
+  </Card>
+  <Card title="Use another pattern for execution" icon="gears">
+    If the goal is to perform a known workflow on a schedule, build an Integration Flow or agent instead. An opportunity loop only identifies and sizes candidates.
+  </Card>
+</Columns>
+
+## Define the optimization function
+
+The prompt needs a stable answer to "What should this scan prioritize?" Without it, each tick can rank the same evidence differently and create noise.
+
+Define:
+
+- The business objective the scan should support
+- The process scope and patterns worth looking for
+- The evidence threshold for reporting a signal
+- The constraints that disqualify a candidate
+- What counts as a meaningful change from the prior checkpoint
+
+<Note>
+  Keep the optimization function stable between ticks. If the objective changes, start a new baseline instead of comparing unlike scans.
+</Note>
+
+## Sample routine prompt
+
+This prompt uses a fictional logistics workspace. The scheduler supplies `cycle_index`, `max_cycles`, and the prior checkpoint to the routine; those are routine state, not Within MCP arguments.
+
+```text
+Run one bounded opportunity scan for the synthetic "Shipment operations" value
+stream. The objective is to reduce delayed shipments without removing human approval
+for customer-facing decisions.
+
+Look for repeated manual context gathering, duplicate entry, retries, and handoffs that
+affect two or more downstream processes. Report a signal only when it appears in at
+least three observations. Treat observation counts and dependency depth as evidence,
+not as proof that automation is the right solution.
+
+Compare this tick with the supplied checkpoint. Return only new candidates, candidates
+whose evidence crossed the threshold, and material changes to a previously reported
+candidate. For each result, include the process, observation count, dependency depth,
+pattern, evidence pointer, uncertainty, and next validation step.
+
+Run at most max_cycles remediation cycles. On each cycle, return one outcome:
+- clear: save the new checkpoint and finish
+- remediate: correct a recoverable input or retrieval problem, increment cycle_index,
+  and try again
+- escalate: stop and name the missing access, evidence, or capability
+
+Escalate when cycle_index reaches max_cycles. Do not rerun a step that cannot succeed
+with the tools or evidence available.
+```
+
+## Tool-call chain for each tick
+
+The example calls below use synthetic resource keys. The argument names match the Within MCP tool contract.
+
+```javascript
+get_process_hierarchy({
+  "root": { "node_name": "Shipment operations" },
+  "max_depth": 3
+})
+
+get_process_details({
+  "process_resource_key": "process-example-001",
+  "scope": ["tasks", "dependencies", "attributes"]
+})
+
+get_process_observations({
+  "process_resource_key": "process-example-001",
+  "limit": 20,
+  "offset": 0,
+  "verbosity": "summary"
+})
+
+get_observation_citation({
+  "observation_resource_key": "observation-example-101",
+  "verbosity": "medium",
+  "activity_block_index": 3
+})
+```
+
+Run the detail and observation calls for each leaf in bounded parallel batches. Use `get_observation_citation` only for the strongest signals rather than loading every activity timeline. The routine compares returned observation keys or timestamps with its saved checkpoint; the MCP does not store loop state.
+
+If hierarchy browsing is too broad, start with [`search_processes`](/tools/process-index) using a pattern query and then run the same detail and observation calls on the matches. The full one-time scan is documented in [Find transformation opportunities](/guides/find-opportunities).
+
+## Bound every tick
+
+Each tick needs an exit rule as well as a schedule.
+
+| Outcome | Use it when | Action |
+|---|---|---|
+| `clear` | The scan completed with enough evidence to update or preserve the candidate set | Save the checkpoint and finish the tick |
+| `remediate` | A recoverable input, paging, or retrieval problem blocked the scan | Correct it, increment `cycle_index`, and retry within `max_cycles` |
+| `escalate` | Authentication, permission, missing evidence, or an unavailable capability makes the step structurally incapable of succeeding | Stop and ask for the specific human action required |
+
+Repeated retries do not create new evidence. When the maximum cycle count is reached, escalate with the last valid checkpoint intact.
+
+## Limits
+
+<Warning>
+  The loop's value tracks capture. When capture stops, the candidate set stops learning. A routine can keep running against old evidence and still produce a fresh timestamp, so every result should state the newest observation it used.
+</Warning>
+
+Sparse coverage is a result, not a reason to fill the gap with assumptions. Report which processes lack enough observations and what additional capture would make the next scan useful.

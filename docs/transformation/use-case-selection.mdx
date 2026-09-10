@@ -1,0 +1,41 @@
+---
+title: "Pick the right use case"
+description: "Screen candidate use cases against evidence, feasibility, controls, and materiality."
+icon: "list-check"
+---
+
+Select the problem before choosing the implementation. A technically successful build still fails its purpose if the use case is unsupported by process evidence, difficult to control, or too small to justify its operating cost.
+
+## The screens
+
+### Account for uneven model capability
+
+AI can perform well on one task and fail on an adjacent one. Do not assume a use case is feasible because a similar one worked. Carry several candidates into testing.
+
+### Account for the required accuracy
+
+Early candidates are easier to test when the work is frequent, the inputs already appear in the Company Brain, and a person can catch likely errors before they cause harm. Work that requires near-perfect accuracy needs stronger deterministic controls and may not suit an agent.
+
+### Qualify each candidate
+
+Apply three tests:
+
+| Test | What it means |
+|---|---|
+| Evidence | Grounded in observed work, not assumption |
+| Deployment readiness | Ships without new procurement, IT, or vendor review |
+| Materiality | Clears a meaningful value threshold |
+
+### Know when to decline
+
+Decline a candidate when the work depends on irreducible human judgment, regulations require human review, or the expected benefit cannot justify the build and operating cost.
+
+### Apply an enterprise bar
+
+Prioritize work with a durable, named owner and a measurable effect on a team, value stream, or system of record. Separate that from improvements that benefit only one person's working style.
+
+## Finding the candidates
+
+The screens above tell you what to keep. To generate the candidates in the first place, [Find transformation opportunities](/guides/find-opportunities) covers the tool chain for scanning the process tree and ranking what comes back. [Form a transformation thesis](/guides/transformation-thesis) goes deeper on a single candidate, including its blast radius.
+
+Once you know what to solve, choose the shape it should take in [What you can build](/transformation/what-you-can-build).

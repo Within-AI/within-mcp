@@ -1,0 +1,69 @@
+---
+title: "What you can build"
+description: "When to use a Skill, Integration Flow, Managed Agent, or MCP context bundle."
+icon: "cubes"
+---
+
+Once you know what to solve, choose the shape it should take. Four primitives cover most of what teams build on Within.
+
+## Skill
+
+An instruction package for one bounded task. Skills are small enough to review directly and can move between clients that support the same skill format.
+
+## Integration Flow
+
+Deterministic, rule-based automation on a fixed, predictable, auditable path. It does not use AI reasoning, so it is not an agent. Use it where the process is stable and every step must be explainable.
+
+## Managed Agent
+
+An AI agent that reasons and plans its own path under a human gate. It handles variable inputs a fixed flow can't. Chained across multiple tasks and tools, it becomes a compound agent.
+
+## MCP context bundle
+
+Packaged Company-Brain context that grounds an external AI tool, custom GPT, or code-generation build.
+
+## Describe the solution space
+
+The solution space records the choices a build is allowed to make. It is a set of dimensions, not a maturity score or a named tier.
+
+| Dimension | Question to answer | Common options |
+|---|---|---|
+| Trigger | What starts the work? | A person, an event, or a schedule |
+| Agency | What may the system do? | Retrieve, draft, recommend, decide within a rule, or act |
+| Autonomy | Where does a person approve or intervene? | Review every result, review defined exceptions, or monitor a bounded unattended step |
+| Compoundedness | How many reasoning steps and handoffs are required? | One bounded operation, a fixed sequence, or an orchestrated chain of tasks and tools |
+| Harness components | What does the runtime need? | Memory, tools, and integrations, each included only when the task requires it |
+
+Write the constraints beside those dimensions: approved systems, permissions, data residency, latency, cost ceiling, required controls, and the technology already in use. Then compare the available primitives. A scheduled trigger does not automatically require an agent, and a multi-step process does not make every step a model task.
+
+```text
+Trigger:
+Agency:
+Autonomy:
+Compoundedness:
+Harness components:
+Constraints:
+Technology options considered:
+```
+
+<Info>
+  Choose the smallest shape that can produce the required outcome and pass its controls. The result may be a process change or an Integration Flow rather than an AI build.
+</Info>
+
+## Simple and compound
+
+A simple agent handles one bounded task and can often be packaged as a skill. A compound agent chains tasks and tools and typically needs an orchestration layer or SDK.
+
+| | Simple | Compound |
+|---|---|---|
+| What it does | One task | Chains tasks and tools |
+| Built on | [The non-technical track](/transformation/non-technical-track) | [The technical track](/transformation/technical-track) |
+| Typical primitive | Skill | Managed Agent |
+
+Compound agents may use orchestration, multiple specialized agents, or a custom SDK. Each additional step and tool creates another failure path that the design and evaluations must cover.
+
+## Oversight
+
+Set oversight by stakes. Every build needs human approval before release. Runtime approvals should remain wherever an action is irreversible, regulated, or expensive to correct. Reduce review only when evaluation and production evidence support the change.
+
+Next, see [Where you build](/transformation/where-you-build) to choose between building in Advisor and building from an MCP-connected AI client.
