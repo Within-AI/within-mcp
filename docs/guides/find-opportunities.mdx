@@ -16,7 +16,7 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
 
 <Steps>
   <Step title="Confirm the workspace">
-    Call [`list_accessible_workspaces`](/tools/workspace) and switch if needed.
+    Call [`list_accessible_workspaces`](/tools/workspace). If the wrong workspace is active, reconnect with OAuth or use an API key created in the intended workspace before continuing.
   </Step>
   <Step title="Build the work queue">
     Call [`get_process_hierarchy`](/tools/process-index) — the whole tree, or filtered to the value stream of interest. The leaves become your work queue.
@@ -27,7 +27,7 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
     - [`get_process_observations`](/tools/observations-and-changes) — exception volume per process (default summary verbosity).
 
     <Tip>
-      The MCP is stateless per call. There's no penalty for parallel reads — fan out aggressively.
+      The MCP is stateless per call, so independent reads can run in parallel. Cap each batch so the scan stays within the routine's time and output budget.
     </Tip>
   </Step>
   <Step title="Hunt high-leverage patterns in the index">
@@ -45,6 +45,18 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
     Process IDs, observation counts, dependency depth, similarity to known patterns, evidence trail.
   </Step>
 </Steps>
+
+## Sample output
+
+The candidate set below is synthetic. Its identifiers and counts show the shape of a useful result, not customer data.
+
+| Rank | Process | Observations | Dependency depth | Pattern signal | Evidence pointer |
+|---|---|---:|---:|---|---|
+| 1 | Resolve shipment exceptions | 12 | 3 | Staff gathered the same context manually in 9 of 12 captured runs | `process-example-001`; `observation-example-101` to `observation-example-109` |
+| 2 | Reconcile supplier statements | 8 | 2 | Six runs repeated an export, comparison, and re-entry sequence | `process-example-002`; `observation-example-201` to `observation-example-206` |
+| 3 | Review temporary access requests | 15 | 1 | Ten runs paused while reviewers looked for the same missing approval evidence | `process-example-003`; `observation-example-301` to `observation-example-310` |
+
+The first candidate ranks highest because the repeated pattern has the broadest downstream reach. The evidence does not yet prove that an agent is the right answer. The next step is to inspect representative activity timelines, confirm the required system access, and compare a skill, a deterministic flow, and a process change.
 
 ## What to surface in the brief
 
