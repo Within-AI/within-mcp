@@ -43,6 +43,30 @@ Lead each section with the impact, then show the evidence that sizes it. A reade
 
 Surface uncertainty in the same way. Record what is unknown, why it matters, and what additional capture would resolve it. This turns an unseen risk into a named question and makes the value of continued capture concrete.
 
+For a client-neutral evidence pull, the sequence looks like this:
+
+```javascript
+get_process_details({
+  "process_resource_key": "process-example-001",
+  "scope": ["tasks", "dependencies", "attributes"]
+})
+
+get_process_observations({
+  "process_resource_key": "process-example-001",
+  "limit": 20,
+  "offset": 0,
+  "verbosity": "summary"
+})
+
+get_observation_citation({
+  "observation_resource_key": "observation-example-101",
+  "verbosity": "medium",
+  "activity_block_index": 0
+})
+```
+
+Start citations at low or medium verbosity and request one `activity_block_index` when the timeline is large. The citation tool only returns activity for sessions owned by the authenticated user. If the timeline is unavailable, cite the observation timestamp and limit the claim to the observation-level evidence rather than reconstructing missing actions.
+
 ## Analyze at depth, then compress
 
 <Steps>
@@ -78,10 +102,10 @@ Review diagrams twice: first as a person checking readability and meaning, then 
 ## Match the readout to the stage
 
 <Columns cols={2}>
-  <Card title="Pre-sale readout" icon="file-invoice-dollar">
-    Make the case in dollar terms when the inputs support it. Be prescriptive about the proposed change, show the calculation, and label every rate or adoption assumption.
+  <Card title="Before an investment decision" icon="file-invoice-dollar">
+    Size the case in dollar terms when the inputs support it. Describe the proposed change, show the calculation, and label every rate or adoption assumption.
   </Card>
-  <Card title="Post-sale readout" icon="route">
+  <Card title="During delivery" icon="route">
     Describe the current state and direction of travel. Focus on observed behavior, coverage gaps, and the decisions required to move from evidence to a tested build.
   </Card>
 </Columns>
@@ -164,6 +188,6 @@ Use a small set of standard sections so reviewers know where to find the objecti
 - State assumptions and uncertainty in the main narrative, not only in footnotes.
 - Keep a clear line from the stated outcome through the evidence to the proposed next action.
 - Put complex diagrams in scrollable, zoomable HTML artifacts rather than slide images.
-- Use dollar-denominated, prescriptive framing for pre-sale decisions when the inputs support it; use a more directional, current-state framing for post-sale readouts.
+- Before an investment decision, use dollar-denominated and prescriptive framing when the inputs support it. During delivery, use a more directional, current-state framing.
 - Treat Advisor output as a scope and a head start for builders, not as a finished agent. The files still need to move through build, test, and deployment. See [Where you build](/transformation/where-you-build).
 - Use stage gates between analysis, review, and compression. Each gate should leave the builder with an explicit next action.
