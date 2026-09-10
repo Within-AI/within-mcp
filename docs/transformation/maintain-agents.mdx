@@ -1,28 +1,67 @@
 ---
 title: "Keep agents current"
-description: "An agent built against last quarter's process drifts. Diff it against the Company Brain and refresh what moved."
+description: "Compare an existing build with current process evidence and retest what changed."
 icon: "arrows-rotate"
 ---
 
-A build is a product, not a one-time artifact. As the business changes, an agent built against last quarter's process drifts out of step with reality and its accuracy degrades.
+A released agent depends on process assumptions, source material, tool contracts, and controls that can change. Maintenance starts by recording those dependencies when the agent ships, then checking them on a defined schedule or after a known process change.
 
-## The update step
+## Record the baseline
 
-Point your assistant at a repository of your existing agents and run it against the Company Brain. It pulls fresh process data, diffs it against what each agent was built on, classifies the drift, and proposes the rebuild.
+Keep the following with the agent's code and evaluations:
 
-Classification matters here. A renamed field is noise. A new compliance step is not.
+- the process resource key and version used for the build
+- the observation set or evidence summary used to justify behavior
+- the policies, dependencies, tools, and model configuration the agent relies on
+- the evaluation set and release result
+- the owner and next review date
 
-```text
-Our process changed. Run this agent's repo against the company brain and tell
-me what's drifted and what to refresh.
+This gives the next review a known comparison point. The Within MCP supplies the current process evidence; your repository or AI client stores the prior baseline and performs the comparison.
+
+## Review current evidence
+
+Start with the recent workspace change feed, then retrieve the current details for processes used by the agent.
+
+```javascript
+get_recent_process_changes({ "limit": 50 })
+
+get_process_details({
+  "process_resource_key": "<PROCESS_RESOURCE_KEY>",
+  "scope": ["tasks", "dependencies", "policies", "history"]
+})
 ```
 
-## Why this compounds
+`get_recent_process_changes` returns a bounded feed of recent changes. It does not accept a date cutoff, so do not treat it as proof that nothing changed before the returned window. Use the saved resource keys and versions to check each process the agent depends on.
 
-Because [Companion](/transformation/company-brain) keeps running, the Company Brain always reflects current reality. Transformation compounds instead of decaying.
+Where behavior matters, review current observations as well. Captured activity can show that the documented process stayed the same while execution, exceptions, or systems changed.
 
-That is also why Discover is worth running on a recurring cadence rather than once. The refresh is only as good as the picture behind it.
+## Classify the change
+
+Not every difference requires the same response.
+
+| Change | Example | Response |
+|---|---|---|
+| Presentation | A field or step was renamed without changing its meaning | Update references and rerun affected evaluations |
+| Behavioral | A rule, exception, input, or handoff changed | Revise the build and rerun the full evaluation set |
+| Structural | The objective, owner, system boundary, or required approval changed | Return to use-case selection and design before rebuilding |
+
+The classification is a review decision, not an MCP verdict. Confirm material changes with the process owner before changing production behavior.
+
+## Ask for a maintenance review
+
+```text
+Compare this agent's saved process baseline with the current Company Brain.
+List the changes, classify each as presentation, behavioral, or structural,
+and identify the evaluations that must run again. Do not modify the agent until
+I approve the proposed response.
+```
+
+## Use a recurring cadence
+
+Run [Companion](/transformation/company-brain) often enough to cover the process and exceptions the agent depends on. A maintenance review is only as current as the underlying capture and published process version.
+
+After an approved update, save the new baseline, run the required evaluations, and record the release result. Keep the previous version available for rollback according to your deployment controls.
 
 <Note>
-  [Recent process changes](/tools/observations-and-changes) is the tool your assistant reaches for to see what moved since a given date.
+  [Process observations](/tools/observations-and-changes) documents the change feed, observation summaries, and activity timelines used in this review.
 </Note>

@@ -8,7 +8,7 @@ Once you know what to solve, choose the shape it should take. Four primitives co
 
 ## Skill
 
-The simplest primitive: an instruction package for one bounded task. Skills are small enough to review directly and can move between clients that support the same skill format. A skill is the canonical simple agent.
+An instruction package for one bounded task. Skills are small enough to review directly and can move between clients that support the same skill format.
 
 ## Integration Flow
 
@@ -52,7 +52,7 @@ Technology options considered:
 
 ## Simple and compound
 
-Simple versus compound agents is the line between the two tracks. A simple agent does one thing, which is a skill. A compound agent chains multiple tasks and tools and typically needs an orchestration layer or SDK.
+A simple agent handles one bounded task and can often be packaged as a skill. A compound agent chains tasks and tools and typically needs an orchestration layer or SDK.
 
 | | Simple | Compound |
 |---|---|---|
@@ -66,4 +66,4 @@ Compound agents may use orchestration, multiple specialized agents, or a custom 
 
 Set oversight by stakes. Every build needs human approval before release. Runtime approvals should remain wherever an action is irreversible, regulated, or expensive to correct. Reduce review only when evaluation and production evidence support the change.
 
-Next, see [Where you build](/transformation/where-you-build) for the surfaces each of these is built on.
+Next, see [Where you build](/transformation/where-you-build) to choose between building in Advisor and building from an MCP-connected AI client.

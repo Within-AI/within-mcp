@@ -1,14 +1,14 @@
 ---
 title: "Find transformation opportunities"
-description: "Rank the highest-leverage automation and transformation candidates across the index."
+description: "Find and rank automation and transformation candidates across the process index."
 icon: "magnifying-glass-chart"
 ---
 
-A platform lead, AI architect, or transformation owner asks where to focus next. This is the "spin up multiple agents to scan the entire process tree" use case — agents should fan out in parallel across the hierarchy.
+Use this pattern when a platform lead, AI architect, or transformation owner needs a broad scan of the process tree. Independent process reads can run in parallel, but the scan still needs a bounded scope, evidence threshold, and stopping condition.
 
 ## Example prompts
 
-- "Find the highest-leverage automation opportunities in our P2P value stream."
+- "Find the automation opportunities with the strongest evidence and expected impact in our procure-to-pay value stream."
 - "Where in our close cycle should we focus next?"
 - "Scan our org for duplicate invoice processing across geographies."
 
@@ -23,14 +23,14 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
   </Step>
   <Step title="Fan out in parallel across leaves">
     For each leaf:
-    - [`get_process_details`](/tools/process-index) — current version, steps, dependencies. Note step count, manual vs system steps, exception count.
-    - [`get_process_observations`](/tools/observations-and-changes) — exception volume per process (default summary verbosity).
+    - [`get_process_details`](/tools/process-index) — current version, steps, dependencies, and relevant attributes.
+    - [`get_process_observations`](/tools/observations-and-changes) — a bounded set of captured runs in summary mode. Record the returned count without treating it as total process volume.
 
     <Tip>
       The MCP is stateless per call, so independent reads can run in parallel. Cap each batch so the scan stays within the routine's time and output budget.
     </Tip>
   </Step>
-  <Step title="Hunt high-leverage patterns in the index">
+  <Step title="Find material patterns in the index">
     Call [`search`](/tools/entry-points) directly on the index with pattern queries: "manual approval", "duplicate entry", "data re-keying", "exception handling", "swivel-chair workflow". For each hit, [`fetch`](/tools/entry-points) the process to confirm the pattern is real, not just a name match.
   </Step>
   <Step title="Check process attributes">
@@ -38,11 +38,12 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
   </Step>
   <Step title="Confirm each top candidate">
     For each top candidate:
-    - [`get_process_observations`](/tools/observations-and-changes) with `verbosity="full"` — confirm the deviation or manual pattern with concrete evidence.
+    - [`get_process_observations`](/tools/observations-and-changes) with `verbosity="summary"` — identify representative runs and competing evidence.
+    - [`get_observation_citation`](/tools/observations-and-changes) at low or medium verbosity — inspect one activity block at a time for the material behavioral claims the brief will make.
     - Read the `dependencies` field already returned by [`get_process_details`](/tools/process-index) for a first cut at blast radius.
   </Step>
   <Step title="Synthesize a ranked candidate set">
-    Process IDs, observation counts, dependency depth, similarity to known patterns, evidence trail.
+    Include process identifiers, the bounded observation count, dependency depth, pattern signal, counterevidence, uncertainty, and the next validation step.
   </Step>
 </Steps>
 
@@ -50,7 +51,7 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
 
 The candidate set below is synthetic. Its identifiers and counts show the shape of a useful result, not customer data.
 
-| Rank | Process | Observations | Dependency depth | Pattern signal | Evidence pointer |
+| Rank | Process | Observations reviewed | Dependency depth | Pattern signal | Evidence pointer |
 |---|---|---:|---:|---|---|
 | 1 | Resolve shipment exceptions | 12 | 3 | Staff gathered the same context manually in 9 of 12 captured runs | `process-example-001`; `observation-example-101` to `observation-example-109` |
 | 2 | Reconcile supplier statements | 8 | 2 | Six runs repeated an export, comparison, and re-entry sequence | `process-example-002`; `observation-example-201` to `observation-example-206` |
@@ -61,6 +62,6 @@ The first candidate ranks highest because the repeated pattern has the broadest 
 ## What to surface in the brief
 
 - A ranked list of candidate processes
-- For each: observation count, dependency depth, pattern signal
-- Citable process IDs and observation timestamps
+- For each: bounded observation count, dependency depth, pattern signal, and counterevidence
+- Citable process resource keys and observation resource keys or timestamps
 - Gaps where the workspace doesn't have enough evidence yet
