@@ -1,6 +1,6 @@
 ---
 name: agent-builder
-description: Entry point for turning how your organization works into skills, agents, and automations. Invoke before responding when the user mentions processes, automation, agents, skills, or building something from how their team works.
+description: Use when the user wants to decide what to build, automate, or change based on how their organization currently works — for example, asks what a team should automate, explicitly asks for the agent builder, or asks to build a skill, agent, or automation from organizational processes or Within workspace data. Do NOT invoke for general coding, MCP servers or tools unrelated to Within workspace data, local scripts or automation, generic skill or agent development, or debugging. For questions that only ask how an existing organizational process works, use within-process-context-graph instead.
 ---
 
 # Agent Builder
