@@ -1,0 +1,194 @@
+---
+title: "Build defensible readouts"
+description: "Turn process evidence into a concise case for change, with the business context and uncertainty made explicit."
+icon: "presentation-screen"
+---
+
+A readout is a concise, evidence-backed brief that makes the case for change. It connects a business objective to what people actually do, sizes the impact, and gives the audience a clear next decision. It is not a list of Within features or everything found during analysis.
+
+The short version comes last. First, do enough analysis to know which facts, assumptions, and gaps belong in the final narrative.
+
+## Start with the business case
+
+Business context belongs at the front of the readout and at the start of the analysis. A readout without a stated objective has no reliable way to rank findings or decide what matters.
+
+<Note>
+  If the objective is missing, say "No stated objective" and stop short of a recommendation. Ask the sponsor to define the outcome before compressing the analysis into a deck.
+</Note>
+
+Capture the following inputs before you assess the process:
+
+- The business objective and the outcome used to judge progress
+- The value hypothesis, including how a process change could affect that outcome
+- The solution space: trigger, agency, autonomy, compoundedness, and which harness parts are in scope, such as memory, tools, and integrations
+- Current volume and time metrics, with their period and source
+- A blended full-time-equivalent (FTE) rate when it is available and appropriate for the audience
+
+Volume and rate inputs let you translate minutes of friction into capacity or cost. Keep the arithmetic visible. If an input is missing, show the formula with the missing value instead of substituting an industry estimate.
+
+## Make every claim defensible
+
+Use [`get_process_details`](/tools/process-index) to ground claims about the documented process. For claims about how work was performed, follow the relevant [`get_process_observations`](/tools/observations-and-changes) result to [`get_observation_citation`](/tools/observations-and-changes). Cite the process resource key and the observation resource key or timestamp so another person can audit the claim.
+
+<Columns cols={2}>
+  <Card title="Observed" icon="eye">
+    State what the process definition or captured activity shows. Include the evidence pointer next to the claim.
+  </Card>
+  <Card title="Inferred" icon="lightbulb">
+    State the interpretation and the evidence behind it. Label the claim as an inference, especially when it sizes future impact.
+  </Card>
+</Columns>
+
+Lead each section with the impact, then show the evidence that sizes it. A reader should be able to distinguish a measured fact from a planning assumption without checking an appendix.
+
+Surface uncertainty in the same way. Record what is unknown, why it matters, and what additional capture would resolve it. This turns an unseen risk into a named question and makes the value of continued capture concrete.
+
+For a client-neutral evidence pull, the sequence looks like this:
+
+```javascript
+get_process_details({
+  "process_resource_key": "process-example-001",
+  "scope": ["tasks", "dependencies", "attributes"]
+})
+
+get_process_observations({
+  "process_resource_key": "process-example-001",
+  "limit": 20,
+  "offset": 0,
+  "verbosity": "summary"
+})
+
+get_observation_citation({
+  "observation_resource_key": "observation-example-101",
+  "verbosity": "medium",
+  "activity_block_index": 3
+})
+```
+
+Start citations at low or medium verbosity and request one `activity_block_index` when the timeline is large. The citation tool only returns activity for sessions owned by the authenticated user. If the timeline is unavailable, cite the observation timestamp and limit the claim to the observation-level evidence rather than reconstructing missing actions.
+
+## Analyze at depth, then compress
+
+<Steps>
+  <Step title="Frame the decision">
+    Write down the objective, value hypothesis, solution space, intended audience, and the decision the readout should support.
+  </Step>
+  <Step title="Build the evidence base">
+    Pull the current process, its dependencies, and the observations behind behavioral claims. Record identifiers, timestamps, volume inputs, and source notes as you work.
+  </Step>
+  <Step title="Write the deep analysis">
+    Save the full analysis to a working file before creating slides. Include calculations, counterevidence, assumptions, uncertainty, and findings that may not appear in the final readout.
+  </Step>
+  <Step title="Review the argument">
+    Check that each conclusion follows from the cited evidence and that the narrative stays tied to the stated outcome. Resolve factual gaps or label them before editing for length.
+  </Step>
+  <Step title="Compress for the audience">
+    Reduce the analysis to the impact, supporting evidence, recommendation, uncertainty, and next decision. Keep the deep analysis as the audit trail.
+  </Step>
+</Steps>
+
+Generating the deck first forces the analysis to fit a slide before the evidence has been tested. The result may be tidy, but it is often shallow.
+
+## Keep complex diagrams interactive
+
+Put dense current-state maps, dependency graphs, and before-and-after flows in an HTML artifact that supports scrolling and zooming. Link to the artifact from the readout and keep only the decision-relevant portion on the slide.
+
+Review diagrams twice: first as a person checking readability and meaning, then with a structural check for missing nodes, broken connections, clipping, and overflow. A slide image of a large diagram makes both review and later investigation harder.
+
+<Tip>
+  A diagram earns its place when it helps the audience make the next decision. Move supporting detail to the interactive artifact instead of shrinking it until labels are unreadable.
+</Tip>
+
+## Match the readout to the stage
+
+<Columns cols={2}>
+  <Card title="Before an investment decision" icon="file-invoice-dollar">
+    Size the case in dollar terms when the inputs support it. Describe the proposed change, show the calculation, and label every rate or adoption assumption.
+  </Card>
+  <Card title="During delivery" icon="route">
+    Describe the current state and direction of travel. Focus on observed behavior, coverage gaps, and the decisions required to move from evidence to a tested build.
+  </Card>
+</Columns>
+
+The evidence rules do not change between stages. What changes is the decision being supported and how precisely the available evidence can size the outcome.
+
+## Synthetic example
+
+The example below uses a fictional shipment-exception process and fictional evidence identifiers.
+
+### Sample prompt
+
+```text
+Use only evidence available in the Within workspace. Cite the process resource key
+for process claims and the observation resource key or timestamp for behavioral
+claims. Separate observed facts, inferences, assumptions, and unknowns. Keep
+evidence gaps explicit rather than replacing them with benchmarks.
+
+Create a readout for the synthetic "Resolve shipment exceptions" process. The stated
+objective is to reduce delayed shipments and avoidable customer contacts. Test the
+value hypothesis that preparing exception context before human review will return
+handling capacity without weakening approval controls. Use a monthly volume of 1,200
+cases and a blended FTE rate of $58 per hour as planning assumptions.
+
+First write the deep analysis to a working file. Then produce a concise readout that
+leads with impact, shows the arithmetic, describes the solution-space dimensions,
+surfaces uncertainty, and ends with the next decision. Treat any proposed impact as
+an inference until it has been tested.
+```
+
+### Sample output
+
+```text
+Resolve shipment exceptions
+
+Objective
+Reduce delayed shipments and avoidable customer contacts.
+
+Impact
+Median review activity across five captured runs was 11 minutes. Applied to the
+assumed volume of 1,200 cases per month, the process uses about 220 hours per month.
+At the assumed blended FTE rate of $58 per hour, that is $153,120 in annualized
+labor capacity value.
+[observation-example-101 through observation-example-105]
+
+Evidence
+Observed: The documented process has seven steps, including manual collection of
+case context before review. [process-example-001]
+Observed: Five captured runs show 9 to 14 minutes of review activity, with a median
+of 11 minutes. [observation-example-101 through observation-example-105]
+Inferred: Preparing the context before review may reduce handling time by 40% to
+60%. This range is a hypothesis, not a measured result.
+
+Proposed solution space
+Trigger: a new exception enters the queue.
+Agency: prepare context and recommend a disposition.
+Autonomy: a person approves every disposition.
+Compoundedness: one bounded preparation flow; no agent-to-agent delegation.
+Harness: read tools and the case integration are in scope. Persistent memory is out
+of scope until retention requirements are approved.
+
+Assumptions and uncertainty
+The monthly volume and $58 rate are planning assumptions. Five observations do not
+show seasonal variation or the full exception mix. The annual figure describes
+capacity, not booked savings.
+
+Next decision
+Capture 20 more runs across exception types, confirm volume and rate inputs, then
+test the preparation flow with human approval. Use measured handling time and error
+rates to accept, revise, or stop the proposed change.
+```
+
+## Review before sharing
+
+Use a small set of standard sections so reviewers know where to find the objective, impact, evidence, assumptions, recommendation, and next decision. The narrative should still follow the sponsor's stated outcome rather than the order in which the analysis happened.
+
+### Quality checks
+
+- Business context belongs first. "No stated objective" is the most serious failure because it leaves the readout without a decision frame.
+- Write the deep analysis to a file before producing the deck. Early compression hides weak evidence and unresolved questions.
+- State assumptions and uncertainty in the main narrative, not only in footnotes.
+- Keep a clear line from the stated outcome through the evidence to the proposed next action.
+- Put complex diagrams in scrollable, zoomable HTML artifacts rather than slide images.
+- Before an investment decision, use dollar-denominated and prescriptive framing when the inputs support it. During delivery, use a more directional, current-state framing.
+- Treat Advisor output as a scope and a head start for builders, not as a finished agent. The files still need to move through build, test, and deployment. See [Where you build](/transformation/where-you-build).
+- Use stage gates between analysis, review, and compression. Each gate should leave the builder with an explicit next action.
