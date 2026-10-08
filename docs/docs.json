@@ -60,7 +60,8 @@
               "install/codex",
               "install/cursor",
               "install/gemini-cli",
-              "install/github-copilot"
+              "install/github-copilot",
+              "install/microsoft-copilot"
             ]
           },
           {

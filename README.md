@@ -15,6 +15,7 @@ This repository is the canonical public surface for two install paths:
 - **Claude Code / Claude** — Anthropic's plugin ecosystem.
 - **ChatGPT / Codex** — OpenAI's app ecosystem.
 - **Gemini CLI** — Google's CLI extension ecosystem.
+- **Microsoft Copilot** — a custom Copilot Studio agent (no official connector yet).
 
 
 ## What it does
@@ -82,6 +83,14 @@ To login:
 ```
 /mcp auth within
 ```
+
+## Install — Microsoft Copilot
+
+> (NOTE: there's no official Within connector for Microsoft Copilot yet. Your organization needs Copilot Studio to create and publish a custom agent that uses Within.)
+
+Copilot Studio -> New agent -> Tools -> Add tool -> Add new MCP -> `https://api.within.ai/mcp` (OAuth 2.0, Dynamic discovery) -> Publish
+
+Full walkthrough: <https://developers.within.ai/install/microsoft-copilot>
 
 ## Authentication
 You will need to be a Within customer to access this app.

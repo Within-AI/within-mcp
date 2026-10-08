@@ -1,0 +1,119 @@
+---
+title: "Microsoft Copilot"
+description: "Add Within to Microsoft 365 Copilot and Teams through a custom Copilot Studio agent."
+icon: "/images/icons/microsoft-copilot.svg"
+---
+
+<Warning>
+  **There's no official Within connector for Microsoft Copilot yet.** Until there is, the way to use Within in Microsoft 365 Copilot is a **custom agent**: someone in your organization creates an agent in Copilot Studio, adds Within to it as an MCP server, and publishes it to your users.
+</Warning>
+
+## What your organization needs
+
+- **Copilot Studio.** Your organization needs Copilot Studio, and the person doing the setup needs a license that can create and publish agents. Trial licenses can't publish. See [Copilot Studio licensing](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing).
+- **A Within account.** The person creating the agent signs in to Within while adding the server, which also tests the connection. Everyone who uses the agent needs their own Within account too, since each user signs in the first time the agent calls Within.
+
+<Note>
+  Copilot Studio runs MCP servers through Power Platform connectors. If your environment's [data policy](https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-data-loss-prevention) blocks custom connectors, your Power Platform admin needs to allow them.
+</Note>
+
+## How it fits together
+
+| Term | Meaning |
+|---|---|
+| [Agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio) | The assistant your users chat with in Microsoft 365 Copilot and Teams. You create it in Copilot Studio. |
+| [Tool](https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-tools-custom-agent) | Something an agent can call. Within is added as a tool of type **Model Context Protocol**. |
+| [Connection](https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-add-existing-server-to-agent) | A user's sign-in to Within. Each user connects once, the first time the agent calls Within, and sees only what their Within account can see. |
+| [Channel](https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams) | Where the published agent appears. Within uses the **Microsoft 365 and Microsoft Teams** channel. |
+
+<Note>
+  Labels below match Copilot Studio as of October 2026. Microsoft is renaming **Microsoft 365 Copilot** to **Microsoft Copilot**, so some screens may say **Teams and Microsoft Copilot** instead of **Microsoft 365 and Microsoft Teams**.
+</Note>
+
+## Create the agent
+
+<Steps>
+  <Step title="Create a new agent">
+    In [Copilot Studio](https://copilotstudio.microsoft.com), open **Agents** and click the chevron next to **New agent**. Under **Other ways to build**, choose **Agent** (**Standard**). Name the agent and click **Create**.
+  </Step>
+  <Step title="Add Within as an MCP server">
+    On the agent's **Overview** tab, go to **Tools** and click **+ Add tool**, then **Add new MCP**. Give the server a name and description, and set:
+
+    - **Server URL**: `https://api.within.ai/mcp`
+    - **Authentication**: **OAuth 2.0**
+    - **Type**: **Dynamic discovery**
+
+    Click **Create**. No client ID or secret is needed.
+  </Step>
+  <Step title="Connect and add the tool">
+    In the **Add tool** dialog, **Connection** shows **Not connected**. Open the dropdown, create a new connection, and sign in with your Within account. Once the connection shows a green check, click **Add**.
+  </Step>
+  <Step title="Test">
+    Click **Test** and ask a question about your processes, such as *What changed in our processes recently?* The agent should answer from your Within workspace.
+  </Step>
+</Steps>
+
+## Publish to your organization
+
+<Steps>
+  <Step title="Publish">
+    Click **Publish**, then **Publish** again in the confirmation dialog.
+  </Step>
+  <Step title="Turn on Microsoft 365 Copilot">
+    Open **Channels** and click **Microsoft 365 and Microsoft Teams**. Make sure **Make agent available in Microsoft 365 Copilot** is checked, then click **Add channel**.
+  </Step>
+  <Step title="Choose who can use it">
+    Click **Availability options**:
+
+    - **Show to my teammates and shared users** makes it available to people you share it with.
+    - **Show to everyone in my org**, followed by **Submit to org catalog**, sends it to your Microsoft 365 admin. Once approved in the [Microsoft 365 admin center](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/agent-requests) (**Agents → All agents → Requests → Publish to store**), it appears under **Built by your org** in the Agent Store.
+  </Step>
+</Steps>
+
+## Use it in Microsoft 365 Copilot
+
+<Steps>
+  <Step title="Add the agent">
+    Users find the agent in the **Agent Store** in Microsoft 365 Copilot and click **Add**. To open it yourself right away, go to **Channels → Microsoft 365 and Microsoft Teams** in Copilot Studio and click **See agent in Microsoft 365**.
+  </Step>
+  <Step title="Sign in to Within">
+    The first time the agent calls Within, it replies *Let's get you connected first*. Click **Open connection manager**, then **Connect** next to the Within connection, and sign in to Within. When it shows **Connected**, go back to the chat.
+  </Step>
+  <Step title="Retry">
+    Click **Retry** or send your request again. The agent now answers from your Within workspace.
+  </Step>
+</Steps>
+
+<Tip>
+  The connection prompt only appears when the agent actually tries to call Within. If you don't see it, ask a question that needs Within data.
+</Tip>
+
+## Verify
+
+In the agent in Microsoft 365 Copilot, ask:
+
+```text
+Search Within for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The agent should call Within tools and return process results from your workspace.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The agent doesn't show up in Microsoft 365 Copilot">
+    Publishing alone doesn't add it. Use **See agent in Microsoft 365** from the channel panel, or check that your admin approved the request in the Microsoft 365 admin center.
+  </Accordion>
+  <Accordion title="Sign-in fails or the agent keeps asking to connect">
+    Open the connection manager and check that the Within connection shows **Connected**. If sign-in fails, confirm you have a Within account.
+  </Accordion>
+  <Accordion title="Changes don't show up for users">
+    Click **Publish** again after every change in Copilot Studio. If the agent is in the org catalog, your admin approves the update before it reaches users.
+  </Accordion>
+</AccordionGroup>
+
+For more, see Microsoft's [Copilot Studio MCP guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp) and [MCP troubleshooting](https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-troubleshooting).
+
+## If you don't have access
+
+If your organization doesn't have Copilot Studio, install Within in one of the [other clients](/quickstart) instead.
