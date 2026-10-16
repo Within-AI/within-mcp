@@ -1,0 +1,407 @@
+{
+  "schema_version": 1,
+  "stage": "transformation-plan",
+  "generated_from": {
+    "transformation-plan.simple": {
+      "reference/library/transformation-plan/simple/README.md": "e461cbc8e373908d247011bedd62637aeaf9ab417043f397ec34481c9760a872",
+      "reference/library/transformation-plan/simple/transformation-map.md": "77c06bc13943f33ecbfc8e69954cf8229d236b105445b3e5f47c74b863f138c9"
+    },
+    "transformation-plan.middle": {
+      "reference/library/transformation-plan/middle/README.md": "b83f8ba0fe66cce3aa417c6af636ed98ce620dd1d2d4db7492366165acbdbc99",
+      "reference/library/transformation-plan/middle/transformation-map.md": "02b83ddb418b9a942f845e351cb164932424ea93cb678b79d2c1ab8dd40c71c3"
+    },
+    "transformation-plan.complex": {
+      "reference/library/transformation-plan/complex/README.md": "750c42ad6e2bd9f63d3cbc4a3700116892bd8640e888e57eb5a794fd59597114",
+      "reference/library/transformation-plan/complex/transformation-map.md": "3cb38127c5e1dfae9b2b0982b15183b874966500c4748e5aa63b667f992fb53a"
+    }
+  },
+  "strings": [
+    {
+      "text": "CP-1",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "CP-6",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-1",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-2",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-3",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-4",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-5",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-6",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-7",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-8",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-9",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Acme",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Additional Log",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Assign Batch To Processor",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Check Allocation Balanced",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Check Bulk Upload Needed",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Classify Assignment Tracker Row",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Confirm Invoice In Acme",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Confirm Mark Complete",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Cross-Check Supporting Evidence",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Enter Invoice Rows",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Item Left In Reviewed",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Item Text",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Open Additional Log",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Open Assigned Transaction Queue",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Open Automatic Clearing",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Open Transaction Details",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Open Weekly Marketing Metrics",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.simple"
+      ]
+    },
+    {
+      "text": "Reconcile Against Assignment Workbook",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining Difference",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Record Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Remittance Inquiry Drafted",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Save Remittance Update",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Select Working Row Block",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Uncheck Test Run",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ]
+    },
+    {
+      "text": "Unidentified Status",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Upload Remittance Template",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed Record",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.complex"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "text": "RM-2",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "reshape move id from the shared Reshape moves scheme (RM-<n>, pin P2); every run numbers its moves this way"
+    },
+    {
+      "text": "RM-3",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle"
+      ],
+      "reason": "reshape move id from the shared Reshape moves scheme (RM-<n>, pin P2); every run numbers its moves this way"
+    },
+    {
+      "text": "WG-2",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-3",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-4",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-5",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-6",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.simple",
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-7",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.middle",
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "WG-8",
+      "kind": "id",
+      "sources": [
+        "transformation-plan.complex"
+      ],
+      "reason": "write-grant id from the shared Write grants scheme (WG-<n>, design section 1); every run numbers its grants this way"
+    },
+    {
+      "text": "Google Sheets",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Google Slides",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Microsoft Teams",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Sticky Notes",
+      "kind": "name",
+      "sources": [
+        "transformation-plan.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "agent-design.targets/0",
+  "note": "Time targets in minutes per target key (open decision D, ruled as proposed). Script targets are fixed; every other key is multiplied by its set_factor, processes being the number of processes in stages/intake/intake.json. The run ceiling is 1.5 times the summed targets; a stage past 2 times its target is over time.",
+  "unit": "minutes",
+  "over_time_factor": 2,
+  "ceiling_factor": 1.5,
+  "targets": {
+    "intake": {
+      "minutes": 2,
+      "kind": "script",
+      "set_factor": null
+    },
+    "architecture": {
+      "minutes": 10,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "review-a": {
+      "minutes": 3,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "boundaries": {
+      "minutes": 5,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "rules": {
+      "minutes": 10,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "placement": {
+      "minutes": 4,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "fields-and-supply-check": {
+      "minutes": 6,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "review-b": {
+      "minutes": 8,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "test-suite": {
+      "minutes": 8,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "simulation": {
+      "minutes": 6,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "page-prep": {
+      "minutes": 5,
+      "kind": "agent",
+      "set_factor": "1 + 0.5 × (processes − 1)"
+    },
+    "page-gate": {
+      "minutes": 2,
+      "kind": "script",
+      "set_factor": null
+    }
+  }
+}

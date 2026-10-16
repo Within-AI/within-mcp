@@ -1,0 +1,80 @@
+{
+  "tokens": [
+    {
+      "token": "<entity.field>",
+      "meaning": "<what the value is, from the snapshot>",
+      "observation_ids": [
+        "<process_id>:observation:<id>"
+      ]
+    },
+    {
+      "token": "<entity.id>",
+      "meaning": "<the key of one item, from the snapshot>",
+      "observation_ids": [
+        "<process_id>:observation:<id>"
+      ]
+    },
+    {
+      "token": "<entity.amount>",
+      "meaning": "<a money amount, from the snapshot>",
+      "type": "amount",
+      "unit": "currency",
+      "amount_direction": "credit",
+      "observation_ids": [
+        "<process_id>:observation:<id>"
+      ]
+    }
+  ],
+  "config": [
+    {
+      "id": "CFG-1",
+      "value": 0,
+      "meaning": "<what this threshold is>",
+      "observation_ids": [
+        "<process_id>:observation:<id>"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-1",
+      "decision": "<process_id>:<node_id>",
+      "prose": "<one plain sentence a person can check>",
+      "expression": {
+        "reads": [
+          "<entity.field>"
+        ],
+        "test": {
+          "kind": "compare",
+          "op": ">",
+          "left": {
+            "kind": "read",
+            "token": "<entity.field>"
+          },
+          "right": {
+            "kind": "literal",
+            "value": 0
+          }
+        },
+        "sets": {
+          "outcome": {
+            "kind": "literal",
+            "value": "<typed_label>"
+          }
+        }
+      },
+      "scope": "item",
+      "item_key": "<entity.id>",
+      "observation_ids": [
+        "<process_id>:observation:<id>"
+      ],
+      "config_values": [
+        "CFG-1"
+      ],
+      "ratified_sources": [
+        "<snapshot-intake source id a person ratified; never a prior-art source>"
+      ],
+      "evidence_state": "Observed"
+    }
+  ]
+}

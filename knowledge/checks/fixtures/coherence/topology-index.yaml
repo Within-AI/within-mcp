@@ -1,0 +1,82 @@
+# DE-IDENTIFIED SYNTHETIC REFERENCE — the node/seam + closed-invariant index the coherence-matrix closure
+# gate reads. This is the ENUMERATED closed set the check is TOLD (§2.5 facet 1: the design set is passed in,
+# never self-detected). `closed_invariant_set` is the closed twenty-one-invariant set the reconciliation must
+# status; `reconciled_representations` names the closed six reps; `nodes`/`seams` enumerate the reference
+# recommender's topology so the checks read a closed set, not a globbed one. Generic — no client string.
+schema_version: coherence-topology-index-v1
+
+# Honesty stamp (provenance of every committed value in this file — topology, reps, invariants, nodes, seams,
+# interfaces). Parser-ignored metadata: the closure gate reads only `closed_invariant_set`; this mapping is
+# not consumed by any check. See HONESTY-STAMP-MANIFEST.md for the file-by-file coverage index.
+provenance:
+  source: synthetic reference fixture (de-identified)
+  evidence_state: Assumed   # illustrative synthetic values — not a real/Observed capture
+
+# The closed set of reconciled representations. Closed at SIX since 2026-09-25: the Test Suite joined when
+# coherence became the design-coherence gate that closes stage 10.
+reconciled_representations:
+  - backbone            # the build-spec spine + AGENTS.md thin index
+  - internal-map        # agents.yaml + sa-*.yaml + the graph object (source of truth) + coverage manifest
+  - interface-designs   # one design per seam + the published-token index
+  - decision-policy     # rule sets, gates, dispatch, escalation triggers, guardrails
+  - internal-dag-diagram  # the rendered diagram (a projection — never authoritative)
+  - test-suite          # stage 10's eval set, judge rubrics, calibration set and coverage manifest
+
+# The closed twenty-one-invariant set: fifteen structural (INV-1 to INV-15) and six judged on meaning
+# (INV-16 to INV-21). Plain-language name is the handle; the INV-n id is a footnote.
+closed_invariant_set:
+  - {id: INV-1,  name: "Every sub-agent appears everywhere it should"}
+  - {id: INV-2,  name: "Every no-agent seam is accounted for"}
+  - {id: INV-3,  name: "The dispatcher and coordination shape agree"}
+  - {id: INV-4,  name: "Every interface exists in every representation that owns it, both directions"}
+  - {id: INV-5,  name: "Interface seating mirrors"}
+  - {id: INV-6,  name: "Every predicate binds to a published interface token and its rule sits on the seated sub-agent"}
+  - {id: INV-7,  name: "The diagram is a faithful render of the graph"}
+  - {id: INV-8,  name: "Every seam that needs a decision owner has one"}
+  - {id: INV-9,  name: "Gates and escalation triggers seat on real topology"}
+  - {id: INV-10, name: "The authority shape is one shape everywhere"}
+  - {id: INV-11, name: "Opens stay open, stamped the same way everywhere"}
+  - {id: INV-12, name: "Every render reproduces from its source"}
+  - {id: INV-13, name: "Every Test Suite case points at real rules, real tokens and a real gate"}
+  - {id: INV-14, name: "Each rule's code-or-judgment mark agrees with the step it sits on"}
+  - {id: INV-15, name: "Every design artifact points at the upstream versions actually pinned"}
+  # The six reshape invariants (added 2026-10-07): judged on meaning, not matched on structure. A legacy design
+  # with no transformation map holds each with the evidence "no transformation map: reshape invariants not
+  # applicable"; the matrix still statuses every one.
+  - {id: INV-16, name: "Every outcome is truly delivered or justly retired"}
+  - {id: INV-17, name: "Every no-reshape line and every move's evidence holds"}
+  - {id: INV-18, name: "The scoped audit: no required person step is skipped and no action is lost"}
+  - {id: INV-19, name: "Each restated-default NOTE (flag 3) is judged"}
+  - {id: INV-20, name: "Each agent split cites a named reason"}
+  - {id: INV-21, name: "Each path-check warning is judged: routing, parallel work, or a real skip"}
+
+# The reference recommender's topology (the closed node/seam set the reconciliation keys off).
+nodes:
+  - root-agent
+  - s-read
+  - s-assemble
+  - s-corroborate
+  - eg-1
+  - s-stage-1
+  - s-balance
+  - s-residual
+  - eg-2
+  - s-stage-2
+coverage_seams:
+  - sa-queue-seam
+  - sa-finalize-seam
+review_seams:
+  - rs-1
+  - rs-2
+  - rs-3
+closed_interface_set:
+  - IC-1
+  - IR-1
+  - IR-2
+  - IH-1
+  - IH-2
+  - IH-3
+  - IW-1
+escalation_gate_nodes:
+  - eg-1
+  - eg-2

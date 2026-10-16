@@ -1,0 +1,47 @@
+{
+  "id": "C-2",
+  "decision": "recon:n2",
+  "kind": "must_escalate",
+  "layer": "part",
+  "critical": true,
+  "description": "a missing subledger balance is a source gap, never a zero",
+  "rows": [
+    {
+      "id": "ledger",
+      "values": {
+        "balance": {
+          "value": "17604.83",
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "subledger",
+      "values": {
+        "balance": {
+          "value": null,
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "transit",
+      "values": {
+        "amount": {
+          "value": "0.00",
+          "label": "synthetic"
+        }
+      }
+    }
+  ],
+  "holds": [],
+  "judgment_answers": [],
+  "expected": {
+    "label": "escalate_source_gap",
+    "values": {
+      "outcome": "escalate_source_gap"
+    },
+    "derivations": {}
+  },
+  "final_label": "escalate_source_gap"
+}

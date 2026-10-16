@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/boundary.schema.json",
+  "version": "agent-design.boundary/1",
+  "title": "boundary.schema.json",
+  "description": "A boundary the agent design crosses, one per future-state edge or implied node field.",
+  "type": "object",
+  "required": [
+    "id",
+    "edge_ref",
+    "from",
+    "to",
+    "kind",
+    "counted_apart",
+    "evidence_state"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "edge_ref": {
+      "type": "string",
+      "pattern": "^([^:\\s]+:[^:\\s]+|implied:[^:\\s]+:[^:\\s]+->[^:\\s]+|implied:[^:\\s]+->[^:\\s]+:[^:\\s]+)$"
+    },
+    "from": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "side",
+        "ref"
+      ],
+      "properties": {
+        "side": {
+          "enum": [
+            "agent",
+            "existing_tool",
+            "person",
+            "system",
+            "external"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "side": {
+                "const": "existing_tool"
+              }
+            },
+            "required": [
+              "side"
+            ]
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "pattern": "^[^:\\s]+:[^:\\s]+$",
+                "description": "A qualified ai_use node reference <process_id>:<node_id>; a bare node id fails."
+              }
+            }
+          }
+        }
+      ]
+    },
+    "to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "side",
+        "ref"
+      ],
+      "properties": {
+        "side": {
+          "enum": [
+            "agent",
+            "existing_tool",
+            "person",
+            "system",
+            "external"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "side": {
+                "const": "existing_tool"
+              }
+            },
+            "required": [
+              "side"
+            ]
+          },
+          "then": {
+            "properties": {
+              "ref": {
+                "pattern": "^[^:\\s]+:[^:\\s]+$",
+                "description": "A qualified ai_use node reference <process_id>:<node_id>; a bare node id fails."
+              }
+            }
+          }
+        }
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "counted_apart": {
+      "type": "boolean",
+      "description": "True for person-to-system and person-to-person edges."
+    },
+    "evidence_state": {
+      "enum": [
+        "Observed",
+        "Assumed",
+        "Contradictory",
+        "needs_more_information"
+      ]
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "meaning",
+        "evidence_state"
+      ],
+      "properties": {
+        "meaning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_state": {
+          "enum": [
+            "Observed",
+            "Assumed",
+            "Contradictory",
+            "needs_more_information"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "description": "Person-to-system and person-to-person edges are counted apart.",
+      "if": {
+        "properties": {
+          "from": {
+            "properties": {
+              "side": {
+                "const": "person"
+              }
+            },
+            "required": [
+              "side"
+            ]
+          },
+          "to": {
+            "properties": {
+              "side": {
+                "enum": [
+                  "person",
+                  "system"
+                ]
+              }
+            },
+            "required": [
+              "side"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      },
+      "then": {
+        "properties": {
+          "counted_apart": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "description": "A gate edge carries one gate object.",
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "gate"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "gate"
+        ]
+      }
+    }
+  ]
+}

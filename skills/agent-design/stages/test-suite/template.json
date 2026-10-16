@@ -1,0 +1,42 @@
+{
+  "status": "simulation-only",
+  "numeric_floors": "open",
+  "omitted_layers": [],
+  "cases": [
+    {
+      "id": "<case id, e.g. DEC-01>",
+      "decision": "<decision id from stages/rules/outcomes.json>",
+      "kind": "positive",
+      "layer": "part",
+      "critical": false,
+      "description": "<what the case tests>",
+      "rows": [
+        {
+          "id": "<row id>",
+          "values": {
+            "<column>": {"value": "<input value>", "label": "synthetic"}
+          }
+        }
+      ],
+      "holds": [],
+      "judgment_answers": [],
+      "expected": {
+        "label": "<outcome label from stages/rules/outcomes.json>",
+        "values": {"<output key>": "<exact expected value>"},
+        "derivations": {
+          "<output key>": {"kind": "read", "token": "<row_id>.<column>"}
+        }
+      },
+      "final_label": "<outcome label from stages/rules/outcomes.json>"
+    },
+    {
+      "id": "<exclusion id, e.g. DEC-02-OPEN>",
+      "decision": "<decision id>",
+      "kind": "boundary",
+      "exclusion": {
+        "missing": "<open item id from stages/rules/open-items.json, or 'missing rule: <what>'>",
+        "stamp": "needs_more_information"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1082 @@
+{
+ "schema_version": 2,
+ "kind": "workflow",
+ "variant": "future-state",
+ "extensions": [
+  "a3-lanes-v0.1"
+ ],
+ "process": {
+  "name": "Northwind Lettings repairs",
+  "process_ids": [
+   "aaaa11112222",
+   "bbbb33334444",
+   "cccc55556666",
+   "eeee99990000"
+  ]
+ },
+ "snapshot": {
+  "path": "inputs/snapshot.json",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "cutoff": "2026-01-14",
+  "frozen_at": "2026-01-15T09:00:00Z",
+  "process_versions": [
+   {
+    "process_id": "aaaa11112222",
+    "version_no": 4,
+    "created_at": "2026-01-10"
+   },
+   {
+    "process_id": "bbbb33334444",
+    "version_no": 7,
+    "created_at": "2026-01-11"
+   },
+   {
+    "process_id": "cccc55556666",
+    "version_no": 12,
+    "created_at": "2026-01-12"
+   },
+   {
+    "process_id": "eeee99990000",
+    "version_no": 2,
+    "created_at": "2026-01-09"
+   }
+  ]
+ },
+ "set_map": {
+  "path": "inputs/set-map.json",
+  "set_id": "northwind-repairs",
+  "read_at": "2026-01-15"
+ },
+ "presentation": "diagram",
+ "diagram": {
+  "title": "Future state - the work order's journey",
+  "subtitle": "Two agents share the one AI and agents lane, told apart by their tags.",
+  "notes": []
+ },
+ "graph": {
+  "lanes": [
+   {
+    "id": "people-tenant",
+    "band": "people",
+    "label": "Tenant",
+    "lane": "Analyst",
+    "roles": [
+     "Tenant"
+    ]
+   },
+   {
+    "id": "people-coord",
+    "band": "people",
+    "label": "Maintenance coordinator",
+    "lane": "Analyst",
+    "roles": [
+     "Maintenance coordinator"
+    ]
+   },
+   {
+    "id": "people-liaison",
+    "band": "people",
+    "label": "Tenant liaison",
+    "lane": "Analyst",
+    "roles": [
+     "Tenant liaison"
+    ]
+   },
+   {
+    "id": "ai",
+    "band": "ai_and_agents",
+    "label": "AI and agents",
+    "lane": "Agent"
+   },
+   {
+    "id": "sor-maint",
+    "band": "system_of_record",
+    "label": "Fixit maintenance system",
+    "lane": "System",
+    "system": "ws-maint",
+    "work_objects": [
+     "wo-order"
+    ]
+   },
+   {
+    "id": "ext-firm",
+    "band": "external",
+    "label": "Repair firm",
+    "lane": "External",
+    "party": "Repair firm",
+    "actor": "act-firm"
+   }
+  ],
+  "process_frames": [
+   {
+    "process_id": "aaaa11112222",
+    "name": "Log a repair from the tenant portal",
+    "role": "entry variant",
+    "key_control": false,
+    "set_map_ref": "aaaa11112222"
+   },
+   {
+    "process_id": "bbbb33334444",
+    "name": "Log a repair from a phone call",
+    "role": "entry variant",
+    "key_control": false,
+    "set_map_ref": "bbbb33334444"
+   },
+   {
+    "process_id": "cccc55556666",
+    "name": "Schedule and complete the repair",
+    "role": "main step",
+    "key_control": true,
+    "set_map_ref": "cccc55556666"
+   },
+   {
+    "process_id": "eeee99990000",
+    "name": "Remind the tenant of the booked visit",
+    "role": "other",
+    "key_control": false,
+    "set_map_ref": "eeee99990000"
+   }
+  ],
+  "work_objects": [
+   {
+    "id": "wo-order",
+    "set_map_ref": "wo-order"
+   }
+  ],
+  "nodes": [
+   {
+    "id": "start",
+    "title": "Repair needed",
+    "lane": "Analyst",
+    "lane_id": "people-tenant",
+    "type": "start_event",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "aaaa11112222:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     },
+     {
+      "source_id": "bbbb33334444:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "future": {
+     "from": [
+      "start"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "dec-channel",
+    "title": "Portal or phone?",
+    "lane": "Analyst",
+    "lane_id": "people-tenant",
+    "type": "decision",
+    "evidence_state": "needs_more_information",
+    "source_refs": [],
+    "process_id": "set",
+    "decision_table": "dt-channel",
+    "detail": "What decides the channel is not recorded (needs more information)",
+    "issue_id": "iss-channel",
+    "future": {
+     "from": [
+      "dec-channel"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "b1",
+    "title": "Submit the portal form",
+    "lane": "Analyst",
+    "lane_id": "people-tenant",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "aaaa11112222:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "aaaa11112222",
+    "subtask": {
+     "process_id": "aaaa11112222",
+     "step_range": "st-001–004",
+     "step_ids": [
+      "st-001",
+      "st-002",
+      "st-003",
+      "st-004"
+     ]
+    },
+    "systems": [
+     "ws-portal"
+    ],
+    "future": {
+     "from": [
+      "b1"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "b2f",
+    "title": "Check the drafted work order and save it",
+    "lane": "Analyst",
+    "lane_id": "people-coord",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "bbbb33334444:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "bbbb33334444",
+    "subtask": {
+     "process_id": "bbbb33334444",
+     "step_range": "st-001–007",
+     "step_ids": [
+      "st-001",
+      "st-002",
+      "st-003",
+      "st-004",
+      "st-005",
+      "st-006",
+      "st-007"
+     ]
+    },
+    "systems": [
+     "ws-maint",
+     "ws-phone"
+    ],
+    "person_check": {
+     "role": "Tenant",
+     "what": "confirms the details read back"
+    },
+    "recovery": [
+     {
+      "id": "b2f-r1",
+      "label": "Call the tenant back when the unit number is missing",
+      "step_ids": [
+       "st-005",
+       "st-006"
+      ]
+     }
+    ],
+    "future": {
+     "from": [
+      "b2"
+     ],
+     "change": "split",
+     "moves": [
+      "keying and summary move to ai"
+     ],
+     "split_pair": [
+      "ag-intake"
+     ]
+    }
+   },
+   {
+    "id": "ag-intake",
+    "title": "Draft the work order from the call",
+    "lane": "Agent",
+    "lane_id": "ai",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "bbbb33334444:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+     }
+    ],
+    "process_id": "bbbb33334444",
+    "agent": "intake-agent",
+    "systems": [
+     "ws-maint"
+    ],
+    "future": {
+     "from": [
+      "b2",
+      "ai1"
+     ],
+     "change": "split",
+     "moves": [
+      "b2 keying",
+      "ai1 summary"
+     ],
+     "split_pair": [
+      "b2f"
+     ]
+    }
+   },
+   {
+    "id": "s-logged",
+    "title": "Work order · Logged",
+    "lane": "System",
+    "lane_id": "sor-maint",
+    "type": "object_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "systems": [
+     "ws-maint"
+    ],
+    "object_state": {
+     "work_object": "wo-order",
+     "state": "os-logged"
+    },
+    "future": {
+     "from": [
+      "s-logged"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "ag-pick",
+    "title": "Shortlist a repair firm and send the job",
+    "lane": "Agent",
+    "lane_id": "ai",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "cccc55556666",
+    "agent": "scheduling-agent",
+    "systems": [
+     "ws-maint"
+    ],
+    "future": {
+     "from": [
+      "b3"
+     ],
+     "change": "split",
+     "split_pair": [
+      "b3f"
+     ]
+    }
+   },
+   {
+    "id": "b3f",
+    "title": "Approve the repair firm the agent picked",
+    "lane": "Analyst",
+    "lane_id": "people-coord",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "cccc55556666",
+    "subtask": {
+     "process_id": "cccc55556666",
+     "step_range": "st-001–005",
+     "step_ids": [
+      "st-001",
+      "st-002",
+      "st-003",
+      "st-004",
+      "st-005"
+     ]
+    },
+    "systems": [
+     "ws-maint"
+    ],
+    "writes": [
+     {
+      "record": "Repair firm job sheet"
+     }
+    ],
+    "future": {
+     "from": [
+      "b3"
+     ],
+     "change": "split",
+     "split_pair": [
+      "ag-pick"
+     ]
+    }
+   },
+   {
+    "id": "s-waiting",
+    "title": "Work order · Waiting on repair firm",
+    "lane": "System",
+    "lane_id": "sor-maint",
+    "type": "object_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/4"
+     }
+    ],
+    "systems": [
+     "ws-maint"
+    ],
+    "object_state": {
+     "work_object": "wo-order",
+     "state": "os-waiting"
+    },
+    "future": {
+     "from": [
+      "s-waiting"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "dec-accept",
+    "title": "Repair firm accepts the job?",
+    "lane": "External",
+    "lane_id": "ext-firm",
+    "type": "decision",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "cccc55556666",
+    "decision_table": "dt-accept",
+    "actor": "act-firm",
+    "future": {
+     "from": [
+      "dec-accept"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "x-none",
+    "title": "Stops: no repair firm accepts, unresolved",
+    "lane": "External",
+    "lane_id": "ext-firm",
+    "type": "end_event",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+     }
+    ],
+    "stop": {
+     "unresolved": true,
+     "reason": "st-009 ends the process with the order open"
+    },
+    "future": {
+     "from": [
+      "x-none"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "ag-book",
+    "title": "Offer visit slots and book the visit",
+    "lane": "Agent",
+    "lane_id": "ai",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-3-1",
+      "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "cccc55556666",
+    "agent": "scheduling-agent",
+    "systems": [
+     "ws-maint",
+     "ws-sms"
+    ],
+    "future": {
+     "from": [
+      "b5"
+     ],
+     "change": "assigned",
+     "moves": [
+      "b5 to ai"
+     ]
+    }
+   },
+   {
+    "id": "s-booked",
+    "title": "Work order · Visit booked",
+    "lane": "System",
+    "lane_id": "sor-maint",
+    "type": "object_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-3-1",
+      "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+     }
+    ],
+    "systems": [
+     "ws-maint"
+    ],
+    "object_state": {
+     "work_object": "wo-order",
+     "state": "os-booked"
+    },
+    "future": {
+     "from": [
+      "s-booked"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "b6",
+    "title": "Text the tenant a visit reminder",
+    "lane": "Analyst",
+    "lane_id": "people-liaison",
+    "type": "read_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "eeee99990000:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "eeee99990000",
+    "subtask": {
+     "process_id": "eeee99990000",
+     "step_range": "st-001–003",
+     "step_ids": [
+      "st-001",
+      "st-002",
+      "st-003"
+     ]
+    },
+    "systems": [
+     "ws-maint",
+     "ws-sms"
+    ],
+    "future": {
+     "from": [
+      "b6"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "b4",
+    "title": "Confirm the repair and close the order",
+    "lane": "Analyst",
+    "lane_id": "people-coord",
+    "type": "write_interaction",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-4-1",
+      "pointer": "/current_version/tasks/3/sub_tasks/0/steps/0"
+     }
+    ],
+    "process_id": "cccc55556666",
+    "subtask": {
+     "process_id": "cccc55556666",
+     "step_range": "st-012–014",
+     "step_ids": [
+      "st-012",
+      "st-013",
+      "st-014"
+     ]
+    },
+    "systems": [
+     "ws-maint"
+    ],
+    "writes": [
+     {
+      "record": "Tenant notice"
+     }
+    ],
+    "future": {
+     "from": [
+      "b4"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "s-closed",
+    "title": "Work order · Closed",
+    "lane": "System",
+    "lane_id": "sor-maint",
+    "type": "object_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-4-1",
+      "pointer": "/current_version/tasks/3/sub_tasks/0/steps/2"
+     }
+    ],
+    "systems": [
+     "ws-maint"
+    ],
+    "object_state": {
+     "work_object": "wo-order",
+     "state": "os-closed"
+    },
+    "future": {
+     "from": [
+      "s-closed"
+     ],
+     "change": "kept"
+    }
+   },
+   {
+    "id": "ctx-invoice",
+    "title": "Pay the repair firm's invoice",
+    "lane": "Analyst",
+    "lane_id": "people-coord",
+    "type": "context_neighbour",
+    "evidence_state": "Assumed",
+    "source_refs": [],
+    "neighbour": {
+     "process_id": "dddd77778888",
+     "touches": "continuation",
+     "set_map_ref": "cn-invoice"
+    },
+    "detail": "Payables desk (no lane of its own). Outside the set.",
+    "issue_id": "iss-invoice",
+    "future": {
+     "from": [
+      "ctx-invoice"
+     ],
+     "change": "kept"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "id": "f1",
+    "source": "start",
+    "target": "dec-channel",
+    "kind": "sequence",
+    "evidence_state": "needs_more_information",
+    "source_refs": [],
+    "link_ref": "lk-variants",
+    "issue_id": "iss-channel"
+   },
+   {
+    "id": "f2",
+    "source": "dec-channel",
+    "target": "b1",
+    "kind": "then",
+    "evidence_state": "needs_more_information",
+    "source_refs": [],
+    "display_label": "portal",
+    "link_ref": "lk-variants",
+    "issue_id": "iss-channel"
+   },
+   {
+    "id": "f3",
+    "source": "dec-channel",
+    "target": "ag-intake",
+    "kind": "then",
+    "evidence_state": "needs_more_information",
+    "source_refs": [],
+    "display_label": "phone",
+    "link_ref": "lk-variants",
+    "issue_id": "iss-channel"
+   },
+   {
+    "id": "f4",
+    "source": "ag-intake",
+    "target": "b2f",
+    "kind": "sequence",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "bbbb33334444:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+     }
+    ]
+   },
+   {
+    "id": "f5",
+    "source": "b1",
+    "target": "s-logged",
+    "kind": "handoff",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "aaaa11112222:observations",
+      "pointer": "/items/3"
+     }
+    ],
+    "link_ref": "lk-handoff-1"
+   },
+   {
+    "id": "f6",
+    "source": "b2f",
+    "target": "s-logged",
+    "kind": "handoff",
+    "evidence_state": "Assumed",
+    "source_refs": [],
+    "issue_id": "iss-phone-handoff",
+    "link_ref": "lk-handoff-2"
+   },
+   {
+    "id": "f7",
+    "source": "s-logged",
+    "target": "ag-pick",
+    "kind": "handoff",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "link_ref": "lk-handoff-1"
+   },
+   {
+    "id": "f8",
+    "source": "ag-pick",
+    "target": "b3f",
+    "kind": "sequence",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ]
+   },
+   {
+    "id": "f9",
+    "source": "b3f",
+    "target": "s-waiting",
+    "kind": "sets_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/4"
+     }
+    ]
+   },
+   {
+    "id": "f10",
+    "source": "b3f",
+    "target": "dec-accept",
+    "kind": "sequence",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+     }
+    ]
+   },
+   {
+    "id": "f11",
+    "source": "dec-accept",
+    "target": "ag-book",
+    "kind": "then",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+     }
+    ],
+    "display_label": "accepts"
+   },
+   {
+    "id": "f12",
+    "source": "dec-accept",
+    "target": "x-none",
+    "kind": "then",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+     }
+    ],
+    "display_label": "no one accepts"
+   },
+   {
+    "id": "f13",
+    "source": "ag-book",
+    "target": "s-booked",
+    "kind": "sets_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-3-1",
+      "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+     }
+    ]
+   },
+   {
+    "id": "f14",
+    "source": "s-booked",
+    "target": "b6",
+    "kind": "sequence",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "eeee99990000:process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+     }
+    ],
+    "link_ref": "lk-reminder"
+   },
+   {
+    "id": "f15",
+    "source": "ag-book",
+    "target": "b4",
+    "kind": "sequence",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-4-1",
+      "pointer": "/current_version/tasks/3/sub_tasks/0/steps/0"
+     }
+    ]
+   },
+   {
+    "id": "f16",
+    "source": "b4",
+    "target": "s-closed",
+    "kind": "sets_state",
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-4-1",
+      "pointer": "/current_version/tasks/3/sub_tasks/0/steps/2"
+     }
+    ]
+   },
+   {
+    "id": "f17",
+    "source": "s-closed",
+    "target": "ctx-invoice",
+    "kind": "sequence",
+    "evidence_state": "Assumed",
+    "source_refs": [],
+    "issue_id": "iss-invoice",
+    "context": true,
+    "link_ref": "lk-continuation"
+   }
+  ],
+  "workspaces": [
+   {
+    "id": "ws-maint",
+    "name": "Fixit maintenance system",
+    "short_label": "Fixit"
+   },
+   {
+    "id": "ws-portal",
+    "name": "Northwind tenant portal",
+    "short_label": "Tenant portal"
+   },
+   {
+    "id": "ws-phone",
+    "name": "Callbox phone system",
+    "short_label": "Callbox"
+   },
+   {
+    "id": "ws-chat",
+    "name": "General chat assistant",
+    "short_label": "Chat assistant"
+   },
+   {
+    "id": "ws-sms",
+    "name": "Pingly text messaging",
+    "short_label": "Pingly"
+   }
+  ],
+  "decision_tables": [
+   {
+    "id": "dt-channel",
+    "owner": "dec-channel",
+    "kind": "selection",
+    "purpose": "Which way in?",
+    "columns": [
+     "outcome"
+    ],
+    "rows": [
+     {
+      "id": "dt-channel-r1",
+      "attributes": {
+       "outcome": "Portal"
+      },
+      "next_edge": "f2",
+      "next_node": "b1",
+      "evidence_state": "needs_more_information",
+      "source_refs": [],
+      "issue_ids": [
+       "iss-channel"
+      ]
+     },
+     {
+      "id": "dt-channel-r2",
+      "attributes": {
+       "outcome": "Phone"
+      },
+      "next_edge": "f3",
+      "next_node": "ag-intake",
+      "evidence_state": "needs_more_information",
+      "source_refs": [],
+      "issue_ids": [
+       "iss-channel"
+      ]
+     }
+    ],
+    "evidence_state": "needs_more_information",
+    "source_refs": [],
+    "issue_ids": [
+     "iss-channel"
+    ]
+   },
+   {
+    "id": "dt-accept",
+    "owner": "dec-accept",
+    "kind": "selection",
+    "purpose": "Does a repair firm take the job?",
+    "columns": [
+     "outcome"
+    ],
+    "rows": [
+     {
+      "id": "dt-accept-r1",
+      "attributes": {
+       "outcome": "Accepts"
+      },
+      "next_edge": "f11",
+      "next_node": "ag-book",
+      "evidence_state": "Observed",
+      "source_refs": [
+       {
+        "source_id": "cccc55556666:process-details-steps-2-1",
+        "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+       }
+      ],
+      "issue_ids": []
+     },
+     {
+      "id": "dt-accept-r2",
+      "attributes": {
+       "outcome": "No one accepts"
+      },
+      "next_edge": "f12",
+      "next_node": "x-none",
+      "evidence_state": "Observed",
+      "source_refs": [
+       {
+        "source_id": "cccc55556666:process-details-steps-2-1",
+        "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+       }
+      ],
+      "issue_ids": []
+     }
+    ],
+    "evidence_state": "Observed",
+    "source_refs": [
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+     },
+     {
+      "source_id": "cccc55556666:process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+     }
+    ]
+   }
+  ],
+  "starts": [
+   "start"
+  ],
+  "outcomes": [
+   "s-closed"
+  ],
+  "open_ends": [
+   "x-none"
+  ],
+  "issues": [
+   {
+    "id": "iss-channel",
+    "kind": "open-question",
+    "status": "open",
+    "reason": "What decides portal or phone is not recorded.",
+    "source_ids": []
+   },
+   {
+    "id": "iss-phone-handoff",
+    "kind": "open-question",
+    "status": "open",
+    "reason": "No shared work-order number seen on the phone path.",
+    "source_ids": []
+   },
+   {
+    "id": "iss-invoice",
+    "kind": "open-question",
+    "status": "open",
+    "reason": "Invoicing is a sibling process outside the set; its trigger is assumed.",
+    "source_ids": []
+   }
+  ]
+ },
+ "coverage": [
+  {
+   "step_id": "bbbb33334444:process-details-steps-1-1:st-005",
+   "mapping": "mapped",
+   "graph_ids": [
+    "b2f"
+   ]
+  }
+ ],
+ "systems_coverage": [
+  {
+   "system": "Fixit maintenance system",
+   "treatment": "mapped",
+   "graph_ids": [
+    "s-logged",
+    "b3f"
+   ]
+  },
+  {
+   "system": "Spreadsheet",
+   "treatment": "cut",
+   "rationale": "Named in the systems inventory but on no sub-task box's tool line."
+  }
+ ],
+ "evidence_addendum": [
+  {
+   "id": "add-1",
+   "asked": "Does the call-taker key the unit number before the summary is drafted?",
+   "why": "To place the intake agent's draft before the coordinator's check",
+   "source_ids": [
+    "session-0412"
+   ],
+   "captured_at": "2026-01-13",
+   "capture_proof": "session_capture_date",
+   "read_at": "2026-01-16",
+   "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+   "supports": "ag-intake follows the call, before b2f",
+   "supports_ids": [
+    "f4"
+   ],
+   "after_cutoff": false
+  }
+ ]
+}

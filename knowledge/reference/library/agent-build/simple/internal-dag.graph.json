@@ -1,0 +1,254 @@
+{
+  "schema_version": "internal-dag-v1",
+  "artifact_kind": "agent-internal-subagent-dag",
+  "note": "Internal map of a pure deterministic script: one flow, no coordinator, no sub-agents, no model step. Authored from what the agent does (its future-state steps, its transformation map and its build-spec), not converted from the earlier plugin-shaped graph.",
+  "agent": {
+    "rec_id": "marketing-metrics-pack-refresh",
+    "spec_id": "marketing-metrics-pack-refresh",
+    "primitive_form": "script"
+  },
+  "header": {
+    "source_of_truth_note": "This graph object is the authored source of truth for the internal map. The diagram (HTML + SVG), agents.yaml and dag-coverage-manifest.md are renders of it by renderer/render_internal_dag.py.",
+    "band_model": "sub_agent",
+    "judgment_model": "none: deterministic script",
+    "zero_agent_action_boundary": "The script writes to no original or live file and holds no decision. Its only outputs are the Sheet and Slides review copies and the run log it creates for each run (one draft surface, never a system write), handed to the owner's review process; people promote, share and distribute.",
+    "coordination_shape": "one fixed sequence: a single flow started by its entry trigger, with one readiness gate that either stages the review copies or stops and escalates",
+    "coordination_shape_source": "../../transformation-plan/simple/transformation-map.md (placement: script; no sub-agent groups) + ../../agent-backbone/simple/build-spec.yaml end_to_end_loop",
+    "coordination_shape_evidence_state": "Observed",
+    "coordination_shapes_rejected": [
+      {
+        "shape": "a coordinator dispatching to sub-agents",
+        "rejection_rationale": "every agent-taken step in the transformation map is script-eligible and there are no sub-agent groups, so there is nothing to dispatch between"
+      },
+      {
+        "shape": "a model step (single agent with tools)",
+        "rejection_rationale": "the ratified remit has no judgment step anywhere: retrieval, computation, template fill and logging are deterministic"
+      }
+    ],
+    "router_type": "none: one flow, started by its entry trigger",
+    "routing_state_observability": "Not applicable: a single flow has no routing state to read.",
+    "routing_state_evidence_state": "Observed",
+    "routing_state_source": "../../transformation-plan/simple/transformation-map.md (no sub-agent groups)",
+    "r2_backbone_reconciliation": {
+      "declared_surface": "The build-spec declares no sub-agent surface (sub_agent_surface.declared: false, primitive_form: script).",
+      "this_stage_realizes": "One flow band of code steps; no root_agent, no sub_agents. People's steps (screenshot, share link, distribution) stay outside the agent and are named in the owner's review seam.",
+      "mapping": {
+        "build_spec.sub_agent_surface": "declared false: realized as the single flow (s-retrieve to s-stage-1-recommend / s-stage-2-escalate)",
+        "build_spec.tool_permission_inventory.must_not (all writes)": "no write edge or write interface; the review copies and run log are the draft surface IW-1",
+        "build_spec.integrations (access_mode: read)": "Salesforce as IR-1; Google Slides, Sheets and Drive templates and history as IR-2; access stays in assumptions",
+        "build_spec.decision_rules (cap 3-8, room_left_for_deepen_stage)": "rule_set_ref values are references only; the computation and readiness rules are the deepen stage's"
+      },
+      "surface_evidence_state_lift": "Nothing to lift: no surface was declared.",
+      "source": "../../agent-backbone/simple/build-spec.yaml (sub_agent_surface, tool_permission_inventory, integrations, decision_rules)",
+      "evidence_state": "Observed"
+    },
+    "declared_handoff_count": 2,
+    "flow_label": "SCRIPT",
+    "closed_interface_set": ["IC-1", "IR-1", "IR-2", "IH-1", "IH-2", "IW-1"],
+    "people_steps_note": "Outside the script and unchanged: the brand-awareness dashboard and its screenshot, inserting the screenshot, copying the share link and the Slack distribution (future-state steps n-step-1-1-1, n-step-1-1-2, n-step-1-2-2, n-step-2-1-7, n-step-3-1-1 to n-step-3-1-5). They pick up once the review copies exist."
+  },
+  "interfaces": [
+    {
+      "id": "IC-1",
+      "kind": "control",
+      "direction": "inbound_control",
+      "label": "Run start (what starts a run: a schedule or the owner's request)",
+      "seated_in": "s-retrieve",
+      "at_step": "s-retrieve",
+      "evidence_state": "needs_more_information",
+      "needs": "what starts a run, a schedule or a person; targeted enquiry with the business owner",
+      "source": "../../future-state/simple/future-state.json n-run-start (issue ann-open-start)",
+      "design_ref": null,
+      "boundary_extension_note": "The future state shows the script's own start but not what triggers it. The seam is seated so the interface set is complete; what drives it stays needs more information."
+    },
+    {
+      "id": "IR-1",
+      "kind": "read",
+      "direction": "read",
+      "label": "Salesforce pipeline influence report (read-only report call)",
+      "seated_in": "s-retrieve",
+      "at_step": "s-retrieve",
+      "evidence_state": "Observed",
+      "source": "../../agent-backbone/simple/build-spec.yaml integrations[0] (Salesforce, read) + ../../future-state/simple/future-state.json n-step-1-1-3",
+      "design_ref": null
+    },
+    {
+      "id": "IR-2",
+      "kind": "read",
+      "direction": "read",
+      "label": "Google Slides, Sheets and Drive: accepted templates and prior-period pack (read-only)",
+      "seated_in": "s-compute",
+      "at_step": "s-compute",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml integrations[1..3] + inputs (templates, prior-period pack)",
+      "design_ref": null
+    },
+    {
+      "id": "IH-1",
+      "kind": "handoff",
+      "direction": "outbound_handoff",
+      "label": "Review copies and run log (script to the owner's review process)",
+      "seated_in": "s-stage-1-recommend",
+      "at_step": "s-stage-1-recommend",
+      "lands_on": "rs-1",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml outputs[0..2] + end_to_end_loop.steps[6]",
+      "design_ref": null
+    },
+    {
+      "id": "IH-2",
+      "kind": "handoff",
+      "direction": "outbound_handoff",
+      "label": "Readiness escalation (script to the owner; unexplained discrepancies to the Performance Investigator)",
+      "seated_in": "s-stage-2-escalate",
+      "at_step": "s-stage-2-escalate",
+      "lands_on": "rs-2",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml outputs[3] + runbook.escalation_path",
+      "design_ref": null
+    },
+    {
+      "id": "IW-1",
+      "kind": "draft_surface",
+      "direction": "draft",
+      "label": "Run-created Sheet and Slides review copies and run log (never an original or live file)",
+      "seated_in": "s-stage-1-recommend",
+      "at_step": "s-stage-1-recommend",
+      "also_drafted_by": ["s-stage-2-escalate"],
+      "evidence_state": "Assumed",
+      "source": "../../transformation-plan/simple/transformation-map.md section 5 (writes only to the review copies it creates and its run log) + ../../agent-backbone/simple/build-spec.yaml outputs",
+      "design_ref": null
+    }
+  ],
+  "nodes": [
+    {
+      "id": "s-retrieve",
+      "type": "step",
+      "runs_on": "code",
+      "agent_op": "agent_read",
+      "title": "Retrieve the pipeline influence report",
+      "input": "The reporting period for the run (via IC-1).",
+      "rule_set_ref": null,
+      "output": "The report's exact values for the period, before rounding.",
+      "reads": ["IR-1"],
+      "entry_trigger": {
+        "type": "not yet known",
+        "label": "schedule or person (open)"
+      },
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[0] + ../../future-state/simple/future-state.json n-step-1-1-3",
+      "carries_open": ["report-mapping"]
+    },
+    {
+      "id": "s-compute",
+      "type": "step",
+      "runs_on": "code",
+      "agent_op": "compute",
+      "title": "Compute the three metrics",
+      "input": "The retrieved report values, the accepted templates and the prior-period pack (IR-2).",
+      "rule_set_ref": "rs-metrics-refresh",
+      "output": "Qualified Pipeline Generated, Pipeline Influenced and Closed-Won Influenced, with zero, unavailable and not-calculable kept apart.",
+      "reads": ["IR-2"],
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[1]",
+      "carries_open": ["report-mapping"]
+    },
+    {
+      "id": "eg-1",
+      "type": "escalation_gate",
+      "runs_on": "code",
+      "agent_op": "escalation_gate",
+      "title": "Ready to stage?",
+      "condition": "escalate when a required metric's report mapping is unresolved or a core input or template is missing; otherwise stage the review copies",
+      "rule_set_ref": "rs-metrics-refresh",
+      "output": "Routes the run to staging or to the escalation. It routes; it decides nothing for the owner.",
+      "reads": [],
+      "authoritative": false,
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[2] + runbook.escalation_path",
+      "carries_open": ["report-mapping", "discrepancy-threshold"]
+    },
+    {
+      "id": "s-stage-1-recommend",
+      "type": "step",
+      "runs_on": "code",
+      "agent_op": "agent_stage",
+      "title": "Write the Sheet and Slides review copies and the run log",
+      "input": "The computed metrics (staging path from eg-1).",
+      "rule_set_ref": null,
+      "output": "A Sheet review copy and a Slides review copy for the period with the computed values, plus the run log and reconciliation record beside them.",
+      "reads": [],
+      "drafts_into": "IW-1",
+      "emits_handoff": "IH-1",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[3..6] + ../../future-state/simple/future-state.json n-step-1-2-1, n-sheet-write, n-run-log",
+      "carries_open": []
+    },
+    {
+      "id": "s-stage-2-escalate",
+      "type": "step",
+      "runs_on": "code",
+      "agent_op": "agent_stage",
+      "title": "Record the stop and hand over the escalation",
+      "input": "The escalation path from eg-1.",
+      "rule_set_ref": null,
+      "output": "A run log entry naming what blocked the run and the evidence behind it; no cause is invented and no copy is staged.",
+      "reads": [],
+      "drafts_into": "IW-1",
+      "emits_handoff": "IH-2",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[2] + outputs[3]",
+      "carries_open": []
+    },
+    {
+      "id": "rs-1",
+      "sub_agent": "review-seam",
+      "type": "review_seam",
+      "agent_op": "review_seam",
+      "title": "Owner checks, promotes and distributes",
+      "input": "The review copies and run log via IH-1.",
+      "output": "The reporting owner checks values, exceptions and layout, then promotes the copies; people add the screenshot, copy the share link and distribute in Slack.",
+      "reads": [],
+      "authoritative": true,
+      "owner": "marketing reporting owner",
+      "evidence_state": "Observed",
+      "source": "../../transformation-plan/simple/transformation-map.md section 6 (retained controls for people) + ../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps[6]",
+      "carries_open": ["promotion-owner"]
+    },
+    {
+      "id": "rs-2",
+      "sub_agent": "review-seam",
+      "type": "review_seam",
+      "agent_op": "review_seam",
+      "title": "Owner resolves the blocker",
+      "input": "The escalation via IH-2.",
+      "output": "The owner corrects the source or mapping and asks for a new run; an unexplained discrepancy goes to the Performance Investigator. The script never self-corrects.",
+      "reads": [],
+      "authoritative": true,
+      "owner": "marketing reporting owner",
+      "evidence_state": "Assumed",
+      "source": "../../agent-backbone/simple/build-spec.yaml runbook.escalation_path + ../../transformation-plan/simple/transformation-map.md section 6",
+      "carries_open": []
+    }
+  ],
+  "edges": [
+    {"id": "e-1", "from": "s-retrieve", "to": "s-compute", "kind": "sequence", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps order"},
+    {"id": "e-2", "from": "s-compute", "to": "eg-1", "kind": "sequence", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.steps order"},
+    {"id": "e-3", "from": "eg-1", "to": "s-stage-1-recommend", "kind": "then", "condition": "every required input and mapping is present", "display_label": "ready", "evidence_state": "Assumed", "source": "proposed readiness policy, pending the deepen stage"},
+    {"id": "e-4", "from": "eg-1", "to": "s-stage-2-escalate", "kind": "else", "condition": "a required mapping or core input is missing", "display_label": "stop and escalate", "evidence_state": "Assumed", "source": "proposed readiness policy, pending the deepen stage"},
+    {"id": "e-5", "from": "s-stage-1-recommend", "to": "rs-1", "kind": "handoff", "interface": "IH-1", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.terminal"},
+    {"id": "e-6", "from": "s-stage-2-escalate", "to": "rs-2", "kind": "handoff", "interface": "IH-2", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml end_to_end_loop.terminal"},
+    {"id": "ra-1", "from": "s-retrieve", "to": "IR-1", "kind": "read_access", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml integrations[0] (read)"},
+    {"id": "ra-2", "from": "s-compute", "to": "IR-2", "kind": "read_access", "evidence_state": "Assumed", "source": "../../agent-backbone/simple/build-spec.yaml integrations[1..3] (read)"}
+  ],
+  "assumptions": [
+    {"surface": "IR-1", "label": "Salesforce pipeline influence report", "access_state": "Assumed", "basis": "report read access and tool coverage not yet confirmed; stamped Assumed until access verification"},
+    {"surface": "IR-2", "label": "Google Slides, Sheets and Drive templates and history", "access_state": "Assumed", "basis": "no live credentials yet; stamped Assumed until access verification"},
+    {"surface": "IW-1", "label": "Run-created review copies and run log", "access_state": "Assumed", "basis": "creating and writing copies in the owner's Drive is not yet granted; stamped Assumed until access verification"}
+  ],
+  "open_register": [
+    {"id": "report-mapping", "kind": "rule", "item": "Whether Qualified Pipeline Generated and Closed-Won Influenced come from the one observed pipeline report or need further reports.", "state": "needs_more_information", "bound_to": ["s-retrieve", "s-compute", "eg-1"], "closure": "document upload of the report list, or FDE Intake", "follow_on": "Deepen each sub-agent", "resolved": false},
+    {"id": "discrepancy-threshold", "kind": "rule", "item": "What makes a computed value an unexplained discrepancy that goes to the Performance Investigator.", "state": "needs_more_information", "bound_to": ["eg-1"], "closure": "FDE Intake with the reporting owner", "follow_on": "Deepen each sub-agent", "resolved": false},
+    {"id": "promotion-owner", "kind": "value", "item": "Who approves promotion or publication of the reviewed copies.", "state": "needs_more_information", "bound_to": ["rs-1"], "closure": "FDE Intake", "resolved": false}
+  ]
+}

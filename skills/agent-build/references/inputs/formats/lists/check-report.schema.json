@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/lists/check-report.schema.json",
+  "version": "agent-design.check-report/1",
+  "title": "check-report.schema.json",
+  "description": "Report every Agent Design check writes.",
+  "type": "object",
+  "required": [
+    "check",
+    "path",
+    "run",
+    "exit_code",
+    "result",
+    "problems",
+    "counts",
+    "agent_fallback"
+  ],
+  "properties": {
+    "check": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+      "description": "Repo-relative check file."
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+      "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash."
+    },
+    "exit_code": {
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "result": {
+      "enum": [
+        "pass",
+        "fail",
+        "error"
+      ]
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "defect",
+          "where",
+          "detail"
+        ],
+        "properties": {
+          "defect": {
+            "type": "string",
+            "minLength": 1
+          },
+          "where": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "agent_fallback": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "pass"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "fail"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "const": 1
+          },
+          "problems": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "result": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "exit_code": {
+            "const": 2
+          }
+        }
+      }
+    }
+  ]
+}

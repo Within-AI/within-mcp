@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot",
+  "intake": {
+    "path": "intake.json",
+    "sha256": "82baeac7f4b61691d5730ed89170fa027b65dcf70394e6f280a9b6b6d8418e84"
+  },
+  "steps": [
+    {
+      "id": "renewal-process:s01",
+      "source_id": "renewal-process",
+      "pointer": "/steps/0"
+    },
+    {
+      "id": "renewal-process:s02",
+      "source_id": "renewal-process",
+      "pointer": "/steps/1"
+    },
+    {
+      "id": "renewal-process:s03",
+      "source_id": "renewal-process",
+      "pointer": "/steps/2"
+    },
+    {
+      "id": "renewal-process:s04",
+      "source_id": "renewal-process",
+      "pointer": "/steps/3"
+    },
+    {
+      "id": "renewal-process:s05",
+      "source_id": "renewal-process",
+      "pointer": "/steps/4"
+    },
+    {
+      "id": "renewal-process:s06",
+      "source_id": "renewal-process",
+      "pointer": "/steps/5"
+    },
+    {
+      "id": "renewal-process:s07",
+      "source_id": "renewal-process",
+      "pointer": "/steps/6"
+    },
+    {
+      "id": "renewal-process:s08",
+      "source_id": "renewal-process",
+      "pointer": "/steps/7"
+    },
+    {
+      "id": "renewal-process:s09",
+      "source_id": "renewal-process",
+      "pointer": "/steps/8"
+    },
+    {
+      "id": "renewal-process:s10",
+      "source_id": "renewal-process",
+      "pointer": "/steps/9"
+    },
+    {
+      "id": "renewal-process:s11",
+      "source_id": "renewal-process",
+      "pointer": "/steps/10"
+    },
+    {
+      "id": "renewal-process:s12",
+      "source_id": "renewal-process",
+      "pointer": "/steps/11"
+    },
+    {
+      "id": "renewal-process:s13",
+      "source_id": "renewal-process",
+      "pointer": "/steps/12"
+    },
+    {
+      "id": "renewal-process:s14",
+      "source_id": "renewal-process",
+      "pointer": "/steps/13"
+    },
+    {
+      "id": "renewal-process:s15",
+      "source_id": "renewal-process",
+      "pointer": "/steps/14"
+    },
+    {
+      "id": "renewal-process:s16",
+      "source_id": "renewal-process",
+      "pointer": "/steps/15"
+    },
+    {
+      "id": "renewal-process:s17",
+      "source_id": "renewal-process",
+      "pointer": "/steps/16"
+    },
+    {
+      "id": "renewal-process:s18",
+      "source_id": "renewal-process",
+      "pointer": "/steps/17"
+    },
+    {
+      "id": "renewal-process:s19",
+      "source_id": "renewal-process",
+      "pointer": "/steps/18"
+    },
+    {
+      "id": "renewal-process:s20",
+      "source_id": "renewal-process",
+      "pointer": "/steps/19"
+    },
+    {
+      "id": "renewal-process:s21",
+      "source_id": "renewal-process",
+      "pointer": "/steps/20"
+    },
+    {
+      "id": "renewal-process:s22",
+      "source_id": "renewal-process",
+      "pointer": "/steps/21"
+    },
+    {
+      "id": "renewal-process:s23",
+      "source_id": "renewal-process",
+      "pointer": "/steps/22"
+    },
+    {
+      "id": "renewal-process:s24",
+      "source_id": "renewal-process",
+      "pointer": "/steps/23"
+    },
+    {
+      "id": "renewal-process:s25",
+      "source_id": "renewal-process",
+      "pointer": "/steps/24"
+    },
+    {
+      "id": "renewal-process:s26",
+      "source_id": "renewal-process",
+      "pointer": "/steps/25"
+    },
+    {
+      "id": "renewal-process:s27",
+      "source_id": "renewal-process",
+      "pointer": "/steps/26"
+    },
+    {
+      "id": "renewal-process:s28",
+      "source_id": "renewal-process",
+      "pointer": "/steps/27"
+    }
+  ],
+  "profiles": {
+    "renewal-process": {
+      "fields": [
+        "captured",
+        "process",
+        "sessions",
+        "steps"
+      ],
+      "field_types": {
+        "captured": "str",
+        "process": "dict",
+        "sessions": "dict",
+        "steps": "list"
+      },
+      "step_count": 28
+    },
+    "renewal-policy": {
+      "fields": [
+        "captured",
+        "process",
+        "sessions",
+        "steps"
+      ],
+      "field_types": {
+        "captured": "str",
+        "process": "dict",
+        "sessions": "dict",
+        "steps": "list"
+      },
+      "step_count": 0
+    }
+  },
+  "scope": {
+    "process_ids": [
+      "p-renewal-risk"
+    ],
+    "cutoff_at": "2026-09-02T00:00:00Z",
+    "limits": {
+      "max_nodes": 14
+    }
+  },
+  "required_source_ids": [
+    "renewal-process"
+  ],
+  "sources": [
+    {
+      "id": "renewal-process",
+      "process_id": "p-renewal-risk",
+      "status": "included",
+      "path": "raw/renewal-risk-review.json",
+      "sha256": "83ff3eaff13ef500cb8b9d3c08e05de3c8803d5c4fd66b3347b498d18b016fbd",
+      "mapping": {
+        "process_id": "/process/resource_key",
+        "steps": "/steps",
+        "step_id": "/code",
+        "items": "/sessions/items",
+        "total": "/sessions/total",
+        "next": "/sessions/next",
+        "timestamp": "/captured"
+      }
+    },
+    {
+      "id": "renewal-policy",
+      "process_id": "p-renewal-risk",
+      "status": "included",
+      "path": "raw/renewal-risk-review.json",
+      "sha256": "83ff3eaff13ef500cb8b9d3c08e05de3c8803d5c4fd66b3347b498d18b016fbd",
+      "mapping": {
+        "process_id": "/process/resource_key",
+        "timestamp": "/captured"
+      }
+    }
+  ],
+  "issues": []
+}

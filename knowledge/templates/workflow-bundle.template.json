@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "<current-state or future-state>",
+  "process": {"name": "<process name>", "process_ids": ["<same ids as the snapshot scope>"]},
+  "snapshot": {"path": "<validated snapshot path relative to this bundle>", "sha256": "<actual snapshot SHA-256>"},
+  "current_state": {"path": "<future-state: the current state this design transforms, relative to this bundle>", "sha256": "<its SHA-256>", "kind": "<workflow-bundle for a cleared current-state bundle; otherwise name the shape, e.g. document>", "carried_open_items": [{"id": "<id>", "text": "<open item as the current state states it>", "source_locator": "<where in that file>", "issue_id": "<open issue in graph.issues>"}]},
+  "presentation": "diagram",
+  "diagram": {"title": "<Current state or Future state - process name>", "subtitle": "<one sentence>", "notes": [], "band_labels": {}},
+  "graph": {"nodes": [], "edges": [], "workspaces": [], "decision_tables": [], "starts": [], "outcomes": [], "open_ends": [], "issues": []},
+  "coverage": [],
+  "systems_coverage": []
+}

@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/stages/page-prep/output.schema.json",
+  "version": "agent-design.page-prep/1",
+  "title": "output.schema.json",
+  "description": "RUN/stages/page-prep/page-prep.json: the plain-language text the page is built from. Keys of rules, frames and decisions are ids from the run's stage files; every string value is plain text a reader sees.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "rules",
+    "frames",
+    "decisions",
+    "interpretive_paragraph",
+    "guide"
+  ],
+  "properties": {
+    "rules": {
+      "type": "object",
+      "description": "One entry per rule in stages/rules/rules.json, keyed by rule id. A run with no rules writes an empty object. Preserve exact identity and citation lists; evidence states and source truth are not rewritten here.",
+      "additionalProperties": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "frames": {
+      "type": "object",
+      "description": "One frame per agent part in stages/architecture/agent.yaml (the orchestration layer and every sub-agent), keyed by part id.",
+      "additionalProperties": {
+        "$ref": "#/$defs/frame"
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "description": "Per decision in stages/rules/outcomes.json, keyed by decision id: its outcome labels.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "labels"
+        ],
+        "properties": {
+          "labels": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "interpretive_paragraph": {
+      "$ref": "#/$defs/text",
+      "description": "The lead: what this design means for the people who run the process. At most 60 words, no digits, no number words."
+    },
+    "guide": {
+      "$ref": "#/$defs/text",
+      "description": "A client-ready guide to reading the design."
+    },
+    "parts": {
+      "type": "object",
+      "description": "Optional: a plain title per agent part, keyed by part id, shown on the page in place of the part id.",
+      "additionalProperties": {
+        "$ref": "#/$defs/text"
+      }
+    },
+    "boundary": {
+      "type": "string"
+    },
+    "outcomes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "when": {
+            "type": "string"
+          },
+          "next": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Optional supported condition and next action keyed by exact outcome label; do not invent destinations."
+    },
+    "guardrails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "thresholds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "basis": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "not_applicable": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "not_applicable"
+      ],
+      "properties": {
+        "not_applicable": {
+          "const": true
+        },
+        "side_a": {
+          "$ref": "#/$defs/text"
+        },
+        "side_b": {
+          "$ref": "#/$defs/text"
+        },
+        "what": {
+          "type": "string"
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "observation_ids",
+        "when",
+        "then",
+        "missing",
+        "contradiction"
+      ],
+      "properties": {
+        "observation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Copied from the rule in stages/rules/rules.json; structure, not shown."
+        },
+        "when": {
+          "$ref": "#/$defs/text"
+        },
+        "then": {
+          "$ref": "#/$defs/text"
+        },
+        "example": {
+          "$ref": "#/$defs/text",
+          "description": "Supported worked example, explicitly illustrative proposal, or honest unavailable-detail wording. A citation alone does not prove an observed event."
+        },
+        "missing": {
+          "$ref": "#/$defs/text",
+          "description": "Specific unavailable support or unresolved question; distinguish proposals from observations and continue the draft. Say nothing is missing only when supported."
+        },
+        "contradiction": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "side_a",
+                "side_b"
+              ],
+              "properties": {
+                "side_a": {
+                  "$ref": "#/$defs/text"
+                },
+                "side_b": {
+                  "$ref": "#/$defs/text"
+                },
+                "not_applicable": {
+                  "const": false
+                },
+                "what": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/not_applicable"
+            }
+          ]
+        },
+        "why": {
+          "$ref": "#/$defs/text",
+          "description": "Optional for compatibility: author the specific supported reason for this rule, or state that the reason is unavailable; never reuse unrelated step prose."
+        },
+        "scenario": {
+          "type": "string",
+          "description": "Optional supported situation for this keyed rule, distinct where its evidence or boundary differs. Omit or state missing detail when unavailable; do not invent an observed event."
+        },
+        "boundary": {
+          "type": "string",
+          "description": "Optional supported scope, compound conditions and exceptions for this rule."
+        }
+      },
+      "if": {
+        "properties": {
+          "observation_ids": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "observation_ids"
+        ]
+      },
+      "then": {
+        "required": [
+          "example"
+        ]
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "input",
+        "output",
+        "surfaces_read",
+        "end_point",
+        "future_state_steps"
+      ],
+      "properties": {
+        "input": {
+          "$ref": "#/$defs/text"
+        },
+        "output": {
+          "$ref": "#/$defs/text"
+        },
+        "surfaces_read": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/text"
+          }
+        },
+        "end_point": {
+          "$ref": "#/$defs/text"
+        },
+        "future_state_steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Supported plain names from actual placements for this part; explicitly state when future-state position is not recorded. Never guess placement."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "version": "agent-design.examples/1",
+  "examples": [
+    {
+      "path": "reconciliation-single",
+      "shape": "single",
+      "processes": 1,
+      "summary": "one recommend-only agent, one part: a fixed script compares ledger and subledger balances (source gap, then tie, then residual)",
+      "source_client_sha256": "2bed2032ed3d8300b7714ff77101e6c43637597977337c699191dd844c86a72d"
+    },
+    {
+      "path": "routing-drafting-two-pass",
+      "shape": "single",
+      "processes": 1,
+      "summary": "one agent whose sub-agents run in two passes: summarise and route by a fixed check, then draft; zero writes",
+      "source_client_sha256": "7df0d0aa11547dd616788ea98885e3a024a8f84781f61ec998a01c74331ba801"
+    }
+  ]
+}

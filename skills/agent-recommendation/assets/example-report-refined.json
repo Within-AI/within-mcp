@@ -1,0 +1,405 @@
+{
+  "schema_version": "1.0",
+  "stage": "refined",
+  "title": "Post-call qualification — refined recommendations (constructed example)",
+  "headline": "A reviewable qualification draft is ready for agent design; the deal-review summary waits on one answer.",
+  "provenance_note": "Constructed example with synthetic process ids — not a production finding",
+  "source_labels": [
+    "Illustrative work notes",
+    "Illustrative rubric description"
+  ],
+  "objective": {
+    "description": "Explore whether post-call preparation could become easier while salespeople retain account judgment.",
+    "north_star": "Useful, source-supported qualification updates with less total preparation and review effort; baseline and target not established.",
+    "attributes": [
+      {
+        "label": "Technology landscape",
+        "value": "Illustrative constraint: Claude Code may be used with redacted files; Salesforce remains the system of record. Salesforce API access is neither tested nor granted; existing meeting-assistant features are unevaluated."
+      },
+      {
+        "label": "Acceptable assistance",
+        "value": "Explore a prompt, an assistant, or an existing feature. Do not assume an autonomous workflow is required."
+      },
+      {
+        "label": "Boundaries",
+        "value": "Salespeople own final account judgment and CRM changes. Do not upload customer information without the organization’s permission; use representative redacted examples for this illustration."
+      }
+    ]
+  },
+  "current_state": {
+    "description": "In this synthetic situation, a salesperson finishes a customer call, reopens the transcript and updates qualification fields. A manager later reviews those fields for deal preparation. The connection between those activities is a hypothesis until a linked example is supplied.",
+    "snapshot": "Synthetic demonstration created 2026-10-06; no Work Brain production evidence was fetched for this example.",
+    "details": [
+      "The salesperson reads the transcript and recalls account context.",
+      "The salesperson decides which MEDDPICC fields have new supported information.",
+      "The manager may use those fields for deal review; no observed handoff is claimed."
+    ],
+    "coverage": "Two illustrative notes describe the work. They are not measured observations, executions, exception rates or organizational cadence.",
+    "process_index": [
+      {
+        "id": "SYN-CALL",
+        "title": "Update qualification after a customer call",
+        "role": "Possible source of transcript-to-field work",
+        "url": ""
+      },
+      {
+        "id": "SYN-DEAL",
+        "title": "Prepare for a manager deal review",
+        "role": "Possible consumer of qualification updates",
+        "url": ""
+      }
+    ],
+    "relations": [
+      {
+        "id": "REL-1",
+        "type": "proposed_bridge",
+        "from_process": "SYN-CALL",
+        "to_process": "SYN-DEAL",
+        "rationale": "A linked deal example could establish whether the same field updates are used in manager review; this is not an observed handoff.",
+        "evidence_refs": [
+          "SYN-1",
+          "SYN-2"
+        ]
+      }
+    ]
+  },
+  "recommendations": {
+    "description": "Identify a plausible place to reduce repetitive preparation, then use concrete artifacts and user corrections to decide which assistance would help.",
+    "assumptions": [
+      "The described work exists as repeated work in the intended team; this example does not establish that fact."
+    ],
+    "ignore_if": [
+      "The salesperson’s main difficulty is deciding deal strategy rather than preparing evidence."
+    ]
+  },
+  "problems": [
+    {
+      "id": "QUAL",
+      "rank": 1,
+      "title": "After a customer call, the salesperson re-reads the transcript to update qualification fields",
+      "fit": "Verdicts reached",
+      "recover": "Potentially less repetitive preparation; value unmeasured",
+      "explore": "Linked transcript and CRM example",
+      "statement": "A salesperson has to decide what the call changes about qualification, then fill in MEDDPICC fields. Re-reading and evidence transfer may be repetitive, but account judgment stays with people.",
+      "recover_detail": "Understand the time spent preparing evidence and correcting drafts before estimating any saving.",
+      "owner": "Salesperson; sales manager confirms the quality standard",
+      "systems": [
+        "Call transcript",
+        "Salesforce"
+      ],
+      "source_summary": "SYN-1 and SYN-2 — synthetic notes only",
+      "note": "This is a work hypothesis, not an instruction to build an agent.",
+      "details": [
+        "Review the call transcript and any earlier account context.",
+        "Map supported evidence to the field definitions.",
+        "Leave unsupported fields unknown, record the update, and review with a manager when needed."
+      ],
+      "process_memberships": [
+        {
+          "process_id": "SYN-CALL",
+          "role": "Source of the transcript-to-field transformation"
+        },
+        {
+          "process_id": "SYN-DEAL",
+          "role": "Potential downstream consumer; linkage unconfirmed"
+        }
+      ],
+      "source_refs": [
+        "SYN-1",
+        "SYN-2"
+      ],
+      "relation_refs": [
+        "REL-1"
+      ],
+      "counts": {
+        "raw_observations": null,
+        "read_observations": null,
+        "distinct_events": null,
+        "exceptions": "Unknown; no measured exception sample",
+        "cadence": "Unknown; owner confirmation needed",
+        "window": "No production observation window",
+        "limitations": "Synthetic notes are not independent executions. Counts must not be used as a repetition or impact proxy."
+      },
+      "solutions": [
+        {
+          "id": "QUAL-A",
+          "name": "Draft cited qualification updates after a call",
+          "role": "Refined recommendation",
+          "what": "A reviewable assistant could turn one customer-call transcript into cited MEDDPICC field suggestions for the salesperson; the form remains provisional.",
+          "future": "After a call, the salesperson provides a transcript and the field rubric. The assistant proposes field updates with quotes and unknowns. The salesperson checks each suggestion before changing the CRM.",
+          "impact": "unknown",
+          "impact_reasoning": "Potential value is less re-reading and transcription. Net time and correction cost are unknown until we see linked examples and the current workflow. This is not measured ROI.",
+          "agent_does": "Assistant proposes cited field updates",
+          "people_keep": "Salesperson validates and updates the CRM",
+          "selection_summary": "Variable language may map to a stable rubric, and individual suggestions could be checked against quotes. A transcript search and checklist may already be enough.",
+          "assumptions": [
+            "Salespeople repeatedly translate transcripts into the same qualification fields."
+          ],
+          "counter_hypothesis": "The fields may depend on relationship judgment accumulated across many conversations, rather than information present in one transcript.",
+          "ignore_if": [
+            "An existing tool already produces trusted field suggestions with less review effort."
+          ],
+          "challenges": [
+            "Unsupported inferences about budget or authority could create misleading deal records."
+          ],
+          "form_factors": [
+            "A manually invoked prompt with the rubric and a transcript",
+            "An assistant that drafts a review table",
+            "Extend an existing CRM feature if it provides the same useful result"
+          ],
+          "selection_details": [
+            "Model fit: synthesis with a stable output schema; the transcript may not contain enough evidence.",
+            "Delegation fit: the salesperson retains account judgment and all CRM writes.",
+            "Simpler alternative: use transcript search and a field checklist.",
+            "Value: review burden, recurrence, and current assistance need owner confirmation."
+          ],
+          "decision_change": "If approved examples require extensive off-call context, narrow the output to evidence retrieval instead of field population.",
+          "source_refs": [
+            "SYN-1",
+            "SYN-2"
+          ],
+          "information_requests": [
+            {
+              "artifact": "A difficult or rejected example",
+              "contains": "An example where a suggestion was misleading or where several conversations were needed, plus the corrected outcome.",
+              "why": "This tests the counter-hypothesis instead of only confirming the happy path.",
+              "decision_change": "Set the scope boundary and determine when the assistant should abstain.",
+              "acceptable_substitute": "Describe a recent failure and the missing context; retain uncertainty until an example is available.",
+              "timing": "later"
+            }
+          ],
+          "continuation": {
+            "destination": "Claude Code",
+            "status": "permitted",
+            "feedback_request": "Does this describe your work, what already helps, and where is the main misunderstanding?"
+          },
+          "verdict": {
+            "kind": "ready_to_design",
+            "reason": "The rubric and linked example show a stable, checkable output; the salesperson keeps every CRM write.",
+            "readiness": {
+              "permissions": {
+                "status": "met",
+                "basis": "Sales owner confirmed read access to transcripts and the rubric; no CRM write access is needed."
+              },
+              "intent": {
+                "status": "met",
+                "basis": "Sales owner stated the outcome: fewer re-reads, with every field checked by the salesperson."
+              },
+              "context": {
+                "status": "met",
+                "basis": "The linked example and rubric cover the fields, unknowns and corrections."
+              },
+              "output_checks": {
+                "status": "met",
+                "basis": "Each suggestion carries a quote the salesperson can check against the rubric."
+              }
+            },
+            "design_brief": {
+              "objective": "Cut re-reading after customer calls while keeping field accuracy; judged by salesperson acceptance of suggestions; owner: sales operations lead.",
+              "processes": [
+                {
+                  "process_id": "SYN-CALL",
+                  "role": "Source of the transcript and the field updates",
+                  "lead": true
+                },
+                {
+                  "process_id": "SYN-DEAL",
+                  "role": "Consumer of the updated qualification fields",
+                  "lead": false
+                }
+              ],
+              "how_processes_connect": "The fields updated after a call are read in the next manager deal review.",
+              "future_state": "After a call, the agent drafts cited field suggestions from the transcript and rubric; the salesperson accepts, edits or rejects each one before updating the CRM.",
+              "limits_and_authority": {
+                "reads": [
+                  {
+                    "system": "Call recorder",
+                    "what": "Call transcript"
+                  },
+                  {
+                    "system": "Shared drive",
+                    "what": "Qualification rubric"
+                  }
+                ],
+                "writes": [
+                  {
+                    "system": "CRM",
+                    "what": "Qualification fields",
+                    "who": "person"
+                  },
+                  {
+                    "system": "Review table",
+                    "what": "Draft suggestions with quotes",
+                    "who": "agent"
+                  }
+                ],
+                "important_errors": [
+                  "A suggestion states budget or authority that the call did not establish",
+                  "A field marked known when the rubric requires unknown"
+                ],
+                "must_not": [
+                  "Write to the CRM",
+                  "Infer relationship history from outside the call"
+                ]
+              },
+              "still_need_to_know": [
+                "How often calls lack a usable transcript"
+              ]
+            }
+          }
+        },
+        {
+          "id": "QUAL-B",
+          "name": "Summarise qualification changes for the deal review",
+          "role": "Refined recommendation",
+          "what": "A short summary of which qualification fields changed since the last review, for the manager preparing the deal review.",
+          "future": "Before a deal review, the agent lists changed fields with their source quotes; the manager decides what to discuss.",
+          "impact": "unknown",
+          "impact_reasoning": "Potential value is less re-reading and transcription. Net time and correction cost are unknown until we see linked examples and the current workflow. This is not measured ROI.",
+          "agent_does": "Agent lists changed fields with quotes",
+          "people_keep": "Manager decides what to discuss",
+          "selection_summary": "Variable language may map to a stable rubric, and individual suggestions could be checked against quotes. A transcript search and checklist may already be enough.",
+          "assumptions": [
+            "Salespeople repeatedly translate transcripts into the same qualification fields."
+          ],
+          "counter_hypothesis": "The fields may depend on relationship judgment accumulated across many conversations, rather than information present in one transcript.",
+          "ignore_if": [
+            "An existing tool already produces trusted field suggestions with less review effort."
+          ],
+          "challenges": [
+            "Unsupported inferences about budget or authority could create misleading deal records."
+          ],
+          "form_factors": [
+            "A manually invoked prompt with the rubric and a transcript",
+            "An assistant that drafts a review table",
+            "Extend an existing CRM feature if it provides the same useful result"
+          ],
+          "selection_details": [
+            "Model fit: synthesis with a stable output schema; the transcript may not contain enough evidence.",
+            "Delegation fit: the salesperson retains account judgment and all CRM writes.",
+            "Simpler alternative: use transcript search and a field checklist.",
+            "Value: review burden, recurrence, and current assistance need owner confirmation."
+          ],
+          "decision_change": "If approved examples require extensive off-call context, narrow the output to evidence retrieval instead of field population.",
+          "source_refs": [
+            "SYN-1",
+            "SYN-2"
+          ],
+          "information_requests": [
+            {
+              "artifact": "The deal-review agenda template",
+              "contains": "The sections a manager fills before a review and which fields they read.",
+              "why": "Without it we cannot tell whether a change summary would be used.",
+              "decision_change": "Decide whether a summary fits the review or adds a step.",
+              "acceptable_substitute": "A walkthrough of one recent review by the manager.",
+              "timing": "later"
+            }
+          ],
+          "continuation": {
+            "destination": "Claude Code",
+            "status": "permitted",
+            "feedback_request": "Does this describe your work, what already helps, and where is the main misunderstanding?"
+          },
+          "verdict": {
+            "kind": "blocked",
+            "reason": "Whether managers would use a change summary depends on how the review is prepared today.",
+            "do_first": "QUAL-A",
+            "blocking_item": {
+              "question": "Which fields does a manager read when preparing a deal review?",
+              "owner": "Sales manager"
+            }
+          }
+        },
+        {
+          "id": "QUAL-C",
+          "name": "Remind salespeople to update fields after calls",
+          "role": "Refined recommendation",
+          "what": "A reminder after each call asking the salesperson to update qualification fields.",
+          "future": "After a call ends, the salesperson gets a reminder with a link to the fields to review.",
+          "impact": "unknown",
+          "impact_reasoning": "Potential value is less re-reading and transcription. Net time and correction cost are unknown until we see linked examples and the current workflow. This is not measured ROI.",
+          "agent_does": "No agent; a scheduled reminder",
+          "people_keep": "Salesperson updates every field",
+          "selection_summary": "Variable language may map to a stable rubric, and individual suggestions could be checked against quotes. A transcript search and checklist may already be enough.",
+          "assumptions": [
+            "Salespeople repeatedly translate transcripts into the same qualification fields."
+          ],
+          "counter_hypothesis": "The fields may depend on relationship judgment accumulated across many conversations, rather than information present in one transcript.",
+          "ignore_if": [
+            "An existing tool already produces trusted field suggestions with less review effort."
+          ],
+          "challenges": [
+            "Unsupported inferences about budget or authority could create misleading deal records."
+          ],
+          "form_factors": [
+            "A manually invoked prompt with the rubric and a transcript",
+            "An assistant that drafts a review table",
+            "Extend an existing CRM feature if it provides the same useful result"
+          ],
+          "selection_details": [
+            "Model fit: synthesis with a stable output schema; the transcript may not contain enough evidence.",
+            "Delegation fit: the salesperson retains account judgment and all CRM writes.",
+            "Simpler alternative: use transcript search and a field checklist.",
+            "Value: review burden, recurrence, and current assistance need owner confirmation."
+          ],
+          "decision_change": "If approved examples require extensive off-call context, narrow the output to evidence retrieval instead of field population.",
+          "source_refs": [
+            "SYN-1",
+            "SYN-2"
+          ],
+          "information_requests": [],
+          "continuation": {
+            "destination": "Claude Code",
+            "status": "permitted",
+            "feedback_request": "Does this describe your work, what already helps, and where is the main misunderstanding?"
+          },
+          "evidence_sufficiency": "The linked example shows updates are already made; the delay is drafting, not remembering.",
+          "verdict": {
+            "kind": "dont_pursue",
+            "reason": "An agent adds nothing here; if reminders are wanted, the CRM owner can switch on the built-in task reminder."
+          }
+        }
+      ],
+      "avoid": [
+        {
+          "id": "QUAL-X",
+          "name": "Unreviewed automatic CRM updates",
+          "reason": "The illustrative constraints retain salesperson judgment and do not establish permission for writes."
+        }
+      ]
+    }
+  ],
+  "guardrails": [
+    "No CRM write or implementation is authorized by selecting this recommendation.",
+    "Keep account judgment with the salesperson."
+  ],
+  "evidence": {
+    "scope_notes": "All examples are synthetic. The record preserves two process memberships and a proposed bridge for testing portable export, without claiming a production workflow.",
+    "sources": [
+      {
+        "id": "SYN-1",
+        "label": "Illustrative post-call work note",
+        "detail": "A fabricated description of a salesperson re-reading a transcript to prepare field updates.",
+        "url": ""
+      },
+      {
+        "id": "SYN-2",
+        "label": "Illustrative deal-review work note",
+        "detail": "A fabricated description of a manager consulting qualification fields; linkage to the first note is unconfirmed.",
+        "url": ""
+      }
+    ]
+  },
+  "empty_reason": "",
+  "feedback_summary": "The sales owner confirmed the call-to-CRM step and supplied the qualification rubric and one linked example.",
+  "artifact_changes": [
+    "The rubric showed which fields may stay unknown.",
+    "The linked example showed that most field updates come from the call itself."
+  ],
+  "stage1_recommendation_id": "QUAL-A",
+  "stage2_round": 1,
+  "our_recommendation": {
+    "solution_id": "QUAL-A",
+    "text": "Start the agent design for the qualification draft; it is ready and the deal-review summary depends on it."
+  }
+}

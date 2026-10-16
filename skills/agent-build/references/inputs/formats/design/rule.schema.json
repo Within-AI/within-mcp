@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/rule.schema.json",
+  "version": "agent-design.rule/1",
+  "title": "rule.schema.json",
+  "description": "One decision rule (the root). There is no limit on the number of rules. $defs.document describes the whole stages/rules/rules.json document the rules template shows: tokens, config and rules; formats/readers.py reads it.",
+  "type": "object",
+  "required": [
+    "id",
+    "decision",
+    "prose",
+    "expression",
+    "scope",
+    "observation_ids",
+    "config_values"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expression": {
+      "$ref": "../lists/expression.schema.json"
+    },
+    "scope": {
+      "enum": [
+        "run",
+        "item"
+      ]
+    },
+    "item_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^.*observation:.+$"
+      }
+    },
+    "config_values": {
+      "type": "array"
+    },
+    "policy_choice": {
+      "type": "boolean",
+      "default": false,
+      "description": "True marks a policy choice written as a rule; check_outcomes fails it as policy-as-rule."
+    },
+    "ratified_sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_state": {
+      "enum": [
+        "Observed",
+        "Assumed",
+        "Contradictory",
+        "needs_more_information"
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "scope": {
+        "const": "item"
+      }
+    },
+    "required": [
+      "scope"
+    ]
+  },
+  "then": {
+    "required": [
+      "item_key"
+    ]
+  },
+  "$defs": {
+    "document": {
+      "type": "object",
+      "required": [
+        "tokens",
+        "config",
+        "rules"
+      ],
+      "properties": {
+        "tokens": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "$ref": "#/$defs/token"
+              }
+            ]
+          }
+        },
+        "config": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/config_value"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#"
+          }
+        }
+      }
+    },
+    "token": {
+      "type": "object",
+      "required": [
+        "token"
+      ],
+      "description": "An operative token. A plain name string is read as {\"token\": name}. amount_direction is allowed only on an amount-bearing token (kind, type or unit amount, currency or money); its absence is accepted and never filled in.",
+      "properties": {
+        "token": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "kind": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "amount_direction": {
+          "enum": [
+            "credit",
+            "debit",
+            "needs_more_information"
+          ]
+        }
+      }
+    },
+    "config_value": {
+      "type": "object",
+      "required": [
+        "id",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

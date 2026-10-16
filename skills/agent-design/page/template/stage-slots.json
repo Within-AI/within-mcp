@@ -1,0 +1,99 @@
+{
+  "description": "Stage key to the slots its finish fills on the person's page. built: slots drawn by their own renderer at that boundary (a stage's raw output file never reaches the page); set_only: built only when the intake has more than one process; refresh_set_only: the set panel drawn again on a set. A slot no stage has reached reads \"Not reached yet\". final_gate: the stage that runs the final gate and publishes the final page. review-b redraws the sections its fixes may change (agent diagram, rules page, interface detail); register redraws the rules page with its questions.",
+  "stages": {
+    "intake": {
+      "built": [
+        "orientation",
+        "current",
+        "future"
+      ],
+      "set_only": [
+        "set-panel"
+      ]
+    },
+    "architecture": {
+      "built": [
+        "agent-diagram"
+      ]
+    },
+    "check-architecture": {},
+    "review-a": {},
+    "boundaries": {},
+    "rules": {},
+    "placement": {
+      "built": [
+        "rules-page"
+      ],
+      "refresh_set_only": [
+        "set-panel"
+      ]
+    },
+    "fields": {
+      "built": [
+        "appendix"
+      ]
+    },
+    "supply-check": {},
+    "review-b": {
+      "built": [
+        "agent-diagram",
+        "rules-page",
+        "appendix"
+      ],
+      "refresh_set_only": [
+        "set-panel"
+      ]
+    },
+    "test-suite": {
+      "built": [
+        "evaluation"
+      ],
+      "refresh_set_only": [
+        "set-panel"
+      ]
+    },
+    "expected-values": {
+      "built": [
+        "evaluation"
+      ]
+    },
+    "simulation": {
+      "built": [
+        "simulation"
+      ]
+    },
+    "coherence-gate": {},
+    "register": {
+      "built": [
+        "rules-page",
+        "questions"
+      ]
+    },
+    "page-prep": {
+      "built": [
+        "orientation",
+        "set-panel",
+        "current",
+        "future",
+        "agent-diagram",
+        "rules-page",
+        "evaluation",
+        "simulation",
+        "appendix",
+        "questions"
+      ]
+    },
+    "page": {
+      "refresh_set_only": [
+        "set-panel"
+      ],
+      "final_gate": true
+    },
+    "post-run": {},
+    "handoff": {}
+  },
+  "early_built": [
+    "current",
+    "future"
+  ]
+}

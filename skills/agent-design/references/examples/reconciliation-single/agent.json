@@ -1,0 +1,114 @@
+{
+  "header": {
+    "purpose": "compare the clearing account balance in the general ledger with the subledger balance for each ledger unit at month end and recommend reconciled or escalate, with the workings, for a ledger reviewer",
+    "metrics": [
+      "share of ledger units recommended reconciled and confirmed by the reviewer",
+      "escalations per month end, by reason"
+    ],
+    "authority": {
+      "default": "read-only and recommend-only"
+    },
+    "access": {
+      "evidence_state": "Assumed"
+    },
+    "proposed_writes": [],
+    "handovers": [
+      {
+        "from": "recon-agent",
+        "to": "person:ledger-reviewer",
+        "edge_refs": [
+          "recon:e5"
+        ],
+        "kind": "person_handover"
+      }
+    ],
+    "autonomy_ladder": {
+      "output_to_person": {
+        "entry_rung": "recommend only",
+        "next_rung": "act with person review",
+        "step_up_evidence": "four weeks of agreed recommendations"
+      },
+      "trigger": {
+        "entry_rung": "person starts each run",
+        "next_rung": "scheduled run",
+        "step_up_evidence": "ten runs with no missed input"
+      },
+      "drafting_boundary": {
+        "entry_rung": "no drafts: the recommendation and its workings only",
+        "next_rung": "send after person review",
+        "step_up_evidence": "no edits needed on most drafts"
+      },
+      "writes_to_systems_of_record": {
+        "entry_rung": "no writes",
+        "next_rung": "proposed writes under a grant",
+        "step_up_evidence": "grant ratified by the owner"
+      },
+      "handoff_writes": {
+        "entry_rung": "hand-off file only",
+        "next_rung": "hand-off file plus a queue note",
+        "step_up_evidence": "owner agreement"
+      },
+      "person_checkpoint": {
+        "entry_rung": "every item reviewed",
+        "next_rung": "only flagged items reviewed",
+        "step_up_evidence": "flag rate agreed with the owner"
+      },
+      "verification_without_write_authority": {
+        "entry_rung": "reads and compares only",
+        "next_rung": "reads, compares and drafts",
+        "step_up_evidence": "owner agreement"
+      },
+      "entry_rung_and_graduation_path": {
+        "entry_rung": "read-only and recommend-only",
+        "next_rung": "proposed writes",
+        "step_up_evidence": "every step above met"
+      }
+    }
+  },
+  "parts": [
+    {
+      "id": "recon-agent",
+      "role": "orchestration",
+      "owns_steps": [
+        "recon:n1",
+        "recon:n2",
+        "recon:n3",
+        "recon:n4",
+        "recon:n5"
+      ],
+      "grants": [],
+      "input": "the ledger balance report and the subledger balance report for one month end, and the in-transit list",
+      "output": "one recommendation per ledger unit (reconciled, escalate for a source gap, or escalate for a residual) with the workings",
+      "surfaces_read": [
+        "ledger balance report",
+        "subledger balance report",
+        "in-transit deposit list"
+      ],
+      "end_point": "recommendations and workings handed to the ledger reviewer; nothing is marked complete",
+      "routing": {
+        "kind": "code",
+        "marked": "agent",
+        "basis": "a fixed script decides every outcome; the model gathers the reports, runs it and explains its result"
+      }
+    }
+  ],
+  "single_part_reason": "one trigger, one set of reports and one reviewer: no split reason holds",
+  "shape": {
+    "evidence": [
+      "recon:observation:o1",
+      "recon:observation:o2",
+      "recon:observation:o3"
+    ]
+  },
+  "rejected_alternatives": [
+    {
+      "alternative": "the model decides the outcome from the reports",
+      "why": "every outcome is a fixed comparison of recorded balances; the model may add an escalation but never upgrade the script's result"
+    },
+    {
+      "alternative": "a separate checking part and a separate explaining part",
+      "why": "both read the same reports on the same trigger and hand to the same reviewer"
+    }
+  ],
+  "departures": []
+}

@@ -1,0 +1,10 @@
+{
+  "banned": [
+    {"name": "contract", "pattern": "contract"},
+    {"name": "human", "pattern": "humans?"},
+    {"name": "Company Brain", "pattern": "company[\\s_-]*brain"},
+    {"name": "Context Graph", "pattern": "context[\\s_-]*graph"},
+    {"name": "Process Index", "pattern": "process[\\s_-]*index"},
+    {"name": "Agent Audit", "pattern": "agent[\\s_-]*audit"}
+  ]
+}

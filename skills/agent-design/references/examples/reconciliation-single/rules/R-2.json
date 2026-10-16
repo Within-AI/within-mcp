@@ -1,0 +1,59 @@
+{
+  "id": "R-2",
+  "decision": "recon:n3",
+  "prose": "a ledger unit whose ledger and subledger balances differ by no more than the tie tolerance is reconciled",
+  "expression": {
+    "reads": [
+      "ledger.balance",
+      "subledger.balance"
+    ],
+    "test": {
+      "kind": "compare",
+      "op": "<=",
+      "left": {
+        "kind": "calc",
+        "step": "abs_variance",
+        "fn": "abs",
+        "args": [
+          {
+            "kind": "calc",
+            "step": "variance",
+            "fn": "subtract",
+            "args": [
+              {
+                "kind": "read",
+                "token": "ledger.balance"
+              },
+              {
+                "kind": "read",
+                "token": "subledger.balance"
+              }
+            ]
+          }
+        ]
+      },
+      "right": {
+        "kind": "literal",
+        "value": 0.42
+      }
+    },
+    "sets": {
+      "outcome": {
+        "kind": "literal",
+        "value": "reconciled"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "unit_id",
+  "observation_ids": [
+    "recon:observation:o2"
+  ],
+  "config_values": [
+    {
+      "name": "tie tolerance",
+      "value": 0.42,
+      "evidence_state": "Assumed"
+    }
+  ]
+}

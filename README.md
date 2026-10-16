@@ -26,6 +26,19 @@ include `search`, `fetch`, process-hierarchy navigation, evidence retrieval, and
 Context Graph traversal. The full skill prompt lives at
 [`skills/within-process-context-graph/SKILL.md`](./skills/within-process-context-graph/SKILL.md).
 
+## Agent Development Kit (ADK)
+
+The plugin also ships the Within Agent Development Kit: four skills that take your Work Brain to a designed, tested agent.
+
+| Skill | What it does |
+|---|---|
+| `within:agent-recommendation` | Finds where agents could help, grounded in Work Brain process evidence, and recommends what to build. |
+| `within:future-state-design` | Maps the Current state Workflow of one process or a set of related processes, how the work is reshaped, and the Future state Workflow. |
+| `within:agent-design` | Designs the agent from that future state: architecture, boundaries, decision rules, placement, fields, test suite and a simulation. |
+| `within:agent-build` | Builds the agent from the design in a sandbox you agree at planning, and checks it against frozen expected results. Claude Code only. |
+
+The skills run Python 3.9+ (standard library only) on your machine, write only to a run folder in your project, and read process evidence through the Within MCP. Shared reference material lives in `knowledge/`. Ask, for example, "recommend agents for our month-end close" to start.
+
 ## Install - Claude.ai
 
 Customize -> Connectors -> Search -> Within -> Connect

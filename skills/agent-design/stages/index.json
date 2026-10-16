@@ -1,0 +1,411 @@
+{
+  "schema": "agent-design.stage-index/0",
+  "note": "Stage order and wiring (pins-addendum F3). Paths in folder, command and checks are relative to the repository root; outputs are relative to the run folder. RUN in a command stands for the run folder. required_outputs lists the run-relative paths or globs a stage must write (each present, readable and newer than the stage start); every check names its owner (the stage whose output it judges; ad.py next reruns that owner when the check fails on a later stage) and its audience (plugin-ci, run-builder-log or run-customer-question).",
+  "stages": [
+    {
+      "key": "intake",
+      "kind": "script",
+      "folder": null,
+      "command": [
+        "skills/agent-design/scripts/intake.py --run RUN"
+      ],
+      "outputs": "stages/intake",
+      "required_outputs": [
+        "stages/intake/intake.json"
+      ],
+      "checks": [],
+      "target": "intake"
+    },
+    {
+      "key": "architecture",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/architecture",
+      "command": [],
+      "outputs": "stages/architecture",
+      "required_outputs": [
+        "stages/architecture/agent.yaml"
+      ],
+      "checks": [],
+      "target": "architecture"
+    },
+    {
+      "key": "check-architecture",
+      "kind": "script",
+      "folder": null,
+      "command": [],
+      "outputs": "stages/check-architecture",
+      "required_outputs": [],
+      "checks": [
+        {
+          "name": "check_architecture",
+          "path": "skills/agent-design/checks/check_architecture.py",
+          "args": [],
+          "fallback": "an architecture check agent reads available detail in stages/architecture/agent.yaml against the check's rules; the canonical graph is optional. Preserve the original check report and write a separate fallback report with check, revision, why and applied per-item verdicts; record unavailable detail as open",
+          "owner": "architecture",
+          "audience": "run-builder-log"
+        },
+        {
+          "name": "check_grants",
+          "path": "skills/agent-design/checks/check_grants.py",
+          "args": [],
+          "fallback": "a grants check agent compares the proposed writes with the upstream Write grants table; preserve the original check report and write a separate fallback report with check, revision, why and applied per-item verdicts",
+          "owner": "architecture",
+          "audience": "run-customer-question"
+        }
+      ],
+      "target": null
+    },
+    {
+      "key": "review-a",
+      "kind": "review",
+      "folder": "skills/agent-design/reviews/review-a",
+      "command": [
+        "skills/agent-design/reviews/review-a/route.py --run RUN"
+      ],
+      "outputs": "stages/review-a",
+      "required_outputs": [
+        "stages/review-a/verdict.json"
+      ],
+      "checks": [],
+      "target": "review-a",
+      "note": "route.py runs after the review, carried out in the session, writes stages/review-a/verdict.json"
+    },
+    {
+      "key": "boundaries",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/boundaries",
+      "command": [],
+      "outputs": "stages/boundaries",
+      "required_outputs": [
+        "stages/boundaries/boundaries.json"
+      ],
+      "checks": [
+        {
+          "name": "check_boundaries",
+          "path": "skills/agent-design/checks/check_boundaries.py",
+          "args": [],
+          "fallback": "a boundaries check agent derives the boundaries from the future state and compares them with stages/boundaries/boundaries.json",
+          "owner": "boundaries",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "boundaries"
+    },
+    {
+      "key": "rules",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/rules",
+      "command": [],
+      "outputs": "stages/rules",
+      "required_outputs": [
+        "stages/rules/rules.json",
+        "stages/rules/outcomes.json"
+      ],
+      "checks": [
+        {
+          "name": "check_rules",
+          "path": "skills/agent-design/checks/check_rules.py",
+          "args": [],
+          "fallback": "a rules check agent validates every rule in stages/rules/rules.json against the rule format and the declared tokens",
+          "owner": "rules",
+          "audience": "run-builder-log"
+        },
+        {
+          "name": "check_outcomes",
+          "path": "skills/agent-design/checks/check_outcomes.py",
+          "args": [],
+          "fallback": "an outcomes check agent looks for gaps and overlaps between the rules and stages/rules/outcomes.json",
+          "owner": "rules",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "rules"
+    },
+    {
+      "key": "placement",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/placement",
+      "command": [],
+      "outputs": "stages/placement",
+      "required_outputs": [
+        "stages/placement/placed-rules.json",
+        "stages/placement/declarations.json"
+      ],
+      "checks": [
+        {
+          "name": "check_placement",
+          "path": "skills/agent-design/checks/check_placement.py",
+          "args": [],
+          "fallback": "a placement check agent confirms every rule is placed on a future-state step and every stand-in is declared",
+          "owner": "placement",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "placement"
+    },
+    {
+      "key": "fields",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/fields",
+      "command": [],
+      "outputs": "stages/fields",
+      "required_outputs": [
+        "stages/fields/fields.json"
+      ],
+      "checks": [],
+      "target": "fields-and-supply-check"
+    },
+    {
+      "key": "supply-check",
+      "kind": "script",
+      "folder": null,
+      "command": [],
+      "outputs": "stages/supply-check",
+      "required_outputs": [],
+      "checks": [
+        {
+          "name": "supply_check",
+          "path": "skills/agent-design/checks/supply_check.py",
+          "args": [],
+          "fallback": "a supply check agent confirms every token a rule reads is supplied by a field or a declaration",
+          "owner": "fields",
+          "audience": "run-builder-log"
+        },
+        {
+          "name": "dropped-families",
+          "path": "skills/agent-design/checks/check_rules.py",
+          "args": [
+            "--families"
+          ],
+          "fallback": "a families check agent lists the failure-handling rule families the fields imply and the rules omit",
+          "owner": "rules",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": null
+    },
+    {
+      "key": "review-b",
+      "kind": "review",
+      "folder": "skills/agent-design/reviews/review-b",
+      "command": [
+        "skills/agent-design/reviews/review-b/fix_round.py plan --run RUN",
+        "skills/agent-design/reviews/review-b/fix_round.py apply-known --run RUN",
+        "skills/agent-design/reviews/review-b/fix_round.py settle --run RUN"
+      ],
+      "outputs": "stages/review-b",
+      "required_outputs": [
+        "stages/review-b/verdict.json",
+        "stages/review-b/fix-round.json"
+      ],
+      "checks": [],
+      "target": "review-b",
+      "note": "after the review, carried out in the session: plan, then apply-known, then the session carries out each stages/review-b/fix/<stage>.md in turn (each fix records itself in stages/review-b/fixes.json), then settle; when settle reports placement_pending (a kept rules fix added rules), carry out stages/review-b/fix/placement.md and run settle (line 3) once more, inside the same round"
+    },
+    {
+      "key": "test-suite",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/test-suite",
+      "command": [],
+      "outputs": "stages/test-suite",
+      "required_outputs": [
+        "stages/test-suite/test-suite.json"
+      ],
+      "checks": [
+        {
+          "name": "check_cases",
+          "path": "skills/agent-design/checks/check_cases.py",
+          "args": [],
+          "fallback": "a cases check agent validates stages/test-suite/test-suite.json against the suite and case formats and the rules it covers",
+          "owner": "test-suite",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "test-suite"
+    },
+    {
+      "key": "expected-values",
+      "kind": "script",
+      "folder": null,
+      "command": [
+        "skills/agent-design/scripts/compute_expected.py --run RUN",
+        "skills/agent-design/scripts/judge_questions.py --run RUN"
+      ],
+      "outputs": "stages/expected-values",
+      "required_outputs": [
+        "stages/expected-values/expected.json",
+        "stages/expected-values/judge-questions.json"
+      ],
+      "checks": [],
+      "target": null
+    },
+    {
+      "key": "simulation",
+      "kind": "agent",
+      "folder": "skills/agent-design/simulation/reads",
+      "before_dispatch": 4,
+      "command": [
+        "skills/agent-design/scripts/convert_cases.py --run RUN",
+        "skills/agent-design/simulation/walk/walk.py --run RUN",
+        "skills/agent-design/simulation/reads/interfaces.py --run RUN",
+        "skills/agent-design/simulation/reads/prepare_read.py --run RUN"
+      ],
+      "outputs": "simulation",
+      "required_outputs": [
+        "simulation/sim-input.json",
+        "simulation/walk.json"
+      ],
+      "checks": [
+        {
+          "name": "check_read",
+          "path": "skills/agent-design/simulation/reads/check_read.py",
+          "args": [],
+          "fallback": "a read check agent compares the dispatched read's verdict with the walk result and the frozen expected values",
+          "owner": "simulation",
+          "audience": "run-builder-log"
+        },
+        {
+          "name": "screen_judgments",
+          "path": "skills/agent-design/simulation/reads/screen_judgments.py",
+          "args": [],
+          "fallback": "a screening agent reads each frozen judgment answer in simulation/sim-input.json for invented values",
+          "blocking": false,
+          "blocking_note": "flags never stop the walk result being shown: a failing screen leaves the stage done and flagged, and the flags go to the register and the page",
+          "owner": "simulation",
+          "audience": "run-customer-question"
+        }
+      ],
+      "target": "simulation",
+      "note": "the commands run before the stage prompt is carried out; the read prompt is prompt.md in the folder"
+    },
+    {
+      "key": "coherence-gate",
+      "kind": "script",
+      "folder": null,
+      "command": [
+        "skills/agent-design/scripts/coherence_gate.py run --run RUN"
+      ],
+      "outputs": "stages/coherence-gate",
+      "required_outputs": [
+        "stages/coherence-gate/report.json"
+      ],
+      "checks": [
+        {
+          "name": "check_coherence_gate",
+          "path": "skills/agent-design/checks/check_coherence_gate.py",
+          "args": [],
+          "fallback": "a coherence check agent reads stages/coherence-gate/report.json, or runs each stage check by hand when the gate could not run, and lists every failing or unchecked item",
+          "owner": "coherence-gate",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": null
+    },
+    {
+      "key": "register",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/register",
+      "before_dispatch": 1,
+      "command": [
+        "skills/agent-design/scripts/register.py collect --run RUN",
+        "skills/agent-design/scripts/register.py views --run RUN"
+      ],
+      "outputs": "stages/register",
+      "required_outputs": [
+        "stages/register/register.json"
+      ],
+      "checks": [
+        {
+          "name": "register",
+          "path": "skills/agent-design/scripts/register.py",
+          "args": [
+            "check"
+          ],
+          "fallback": "a register check agent confirms every open item reached stages/register/register.json with its source",
+          "owner": "register",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "page-prep",
+      "note": "collect runs before the writer; after the writer the session carries out reader.md from the folder as a separate read, and when the reader reports findings the writer's repair step (the writer applies them, the reader reads once more); then views"
+    },
+    {
+      "key": "page-prep",
+      "kind": "agent",
+      "folder": "skills/agent-design/stages/page-prep",
+      "command": [],
+      "outputs": "stages/page-prep",
+      "required_outputs": [
+        "stages/page-prep/page-prep.json"
+      ],
+      "checks": [
+        {
+          "name": "plain_text",
+          "path": "skills/agent-design/checks/plain_text.py",
+          "args": [],
+          "fallback": "a plain-language check agent reads stages/page-prep/page-prep.json for banned words, raw ids and jargon",
+          "owner": "page-prep",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": "page-prep"
+    },
+    {
+      "key": "page",
+      "kind": "script",
+      "folder": null,
+      "command": [],
+      "outputs": "page",
+      "required_outputs": [
+        "page/page.html"
+      ],
+      "checks": [],
+      "target": "page-gate",
+      "note": "no command; finish calls fill_stage(run_dir, \"page\"), which runs the final gate"
+    },
+    {
+      "key": "post-run",
+      "kind": "script",
+      "folder": null,
+      "command": [],
+      "outputs": "stages/post-run",
+      "required_outputs": [],
+      "checks": [
+        {
+          "name": "postrun",
+          "path": "skills/agent-design/scripts/postrun.py",
+          "args": [],
+          "fallback": "a post-run check agent lists banned words, uncited Observed claims, ids and paths in the run's written files as builder-log notes; it never blocks and never asks",
+          "owner": "post-run",
+          "audience": "run-builder-log"
+        },
+        {
+          "name": "check_rules_page",
+          "path": "skills/agent-design/page/rules/check_rules_page.py",
+          "args": [
+            "--page",
+            "agent-design.html"
+          ],
+          "fallback": "a rules page check agent compares the rules on agent-design.html with stages/rules/rules.json",
+          "owner": "page",
+          "audience": "run-builder-log"
+        }
+      ],
+      "target": null
+    },
+    {
+      "key": "handoff",
+      "kind": "script",
+      "folder": null,
+      "command": [
+        "skills/agent-design/scripts/handoff.py --run RUN"
+      ],
+      "outputs": "outputs",
+      "required_outputs": [
+        "outputs/agent-build-inputs.json"
+      ],
+      "checks": [],
+      "target": null
+    }
+  ]
+}

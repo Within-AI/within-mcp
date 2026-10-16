@@ -1,0 +1,1445 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "current-state",
+  "process": {
+    "name": "Weekly Marketing Metrics Reporting",
+    "process_ids": [
+      "d42bcd549db7"
+    ]
+  },
+  "snapshot": {
+    "path": "../../snapshot/simple/snapshot.json",
+    "sha256": "44422c46241e537e81f71844e151f5ae812fb7f980d88f5d468bd33cb6fe5de9"
+  },
+  "systems_coverage": [
+    {
+      "system": "Google Slides",
+      "treatment": "mapped",
+      "rationale": "On the Google Slides rail (sys-google-slides): the metrics pack deck is opened, edited and its share link copied there."
+    },
+    {
+      "system": "Salesforce",
+      "treatment": "mapped",
+      "rationale": "On the Salesforce rail (sys-salesforce): the marketing and pipeline dashboards are read there."
+    },
+    {
+      "system": "Slack",
+      "treatment": "mapped",
+      "rationale": "On the Slack rail (sys-slack): the finished pack link is posted to the team channel there."
+    }
+  ],
+  "presentation": "diagram",
+  "diagram": {
+    "notes": []
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "n-step-1-1-1",
+        "type": "read_interaction",
+        "title": "Navigate to marketing dashboard",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Navigate to the Marketing Weekly Dashboard in Salesforce to review current brand awareness and engagement metrics.",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-step-1-1-2",
+        "type": "read_interaction",
+        "title": "Capture dashboard screenshot",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Capture a screenshot of key metrics from the Salesforce dashboard for inclusion in the presentation.",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-step-1-1-3",
+        "type": "read_interaction",
+        "title": "Navigate to pipeline dashboard",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Navigate to the Pipeline Influence dashboard in Salesforce to review pipeline contribution metrics.",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-step-1-2-1",
+        "type": "read_interaction",
+        "title": "Open Weekly Marketing Metrics presentation",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Open the Weekly Marketing Metrics presentation in Google Slides.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-1-2-2",
+        "type": "write_interaction",
+        "title": "Insert dashboard screenshot",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Insert the captured Salesforce dashboard screenshot into the appropriate slide.",
+        "annotation": "Contradictory evidence: see open items",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-1-2-3",
+        "type": "write_interaction",
+        "title": "Add metric placeholders",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Add and label placeholder shapes for additional metrics that will be populated separately.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-1",
+        "type": "read_interaction",
+        "title": "Select data visualizations",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Select multiple image elements containing pipeline visualization data.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-2",
+        "type": "write_interaction",
+        "title": "Apply horizontal distribution",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Use the 'Distribute Horizontally' arrangement function to evenly space the visualization images.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-3",
+        "type": "write_interaction",
+        "title": "Center elements on page",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Use the 'Center on page' function to align the visualizations properly.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-4",
+        "type": "write_interaction",
+        "title": "Create visualization labels",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Insert text boxes to label each visualization with its metric name.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-5",
+        "type": "write_interaction",
+        "title": "Format and duplicate labels",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Format the text boxes and duplicate them for consistency across all visualizations.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-6",
+        "type": "write_interaction",
+        "title": "Align labels with visualizations",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ],
+        "detail": "Perform final alignment to ensure labels are properly positioned above their corresponding visualizations.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-2-1-7",
+        "type": "read_interaction",
+        "title": "Copy presentation share link",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Click the 'Share' button and copy the presentation link for distribution.",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-3-1-1",
+        "type": "read_interaction",
+        "title": "Navigate to team channel",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Switch to Slack and navigate to the marketing team channel.",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-2",
+        "type": "write_interaction",
+        "title": "Compose distribution message",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Draft a comprehensive message explaining the purpose of the deck, listing the included metrics, and requesting feedback from the team.",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-3",
+        "type": "write_interaction",
+        "title": "Include presentation link",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Paste the presentation link into the message.",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-4",
+        "type": "write_interaction",
+        "title": "Send message to team",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Send the message to the marketing team channel.",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-5",
+        "type": "write_interaction",
+        "title": "Clean up message formatting",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ],
+        "detail": "Remove any auto-generated link previews for a cleaner presentation of the message.",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "sys-salesforce",
+        "type": "system_surface",
+        "title": "Salesforce",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ],
+        "short_label": "Salesforce",
+        "surface_kind": "system_of_record"
+      },
+      {
+        "id": "sys-google-slides",
+        "type": "system_surface",
+        "title": "Google Slides",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/5"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ],
+        "short_label": "Google Slides",
+        "surface_kind": "system_of_record"
+      },
+      {
+        "id": "sys-slack",
+        "type": "system_surface",
+        "title": "Slack",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ],
+        "short_label": "Slack",
+        "surface_kind": "channel"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-1",
+        "kind": "sequence",
+        "source": "n-step-1-1-1",
+        "target": "n-step-1-1-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-2",
+        "kind": "sequence",
+        "source": "n-step-1-1-2",
+        "target": "n-step-1-1-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-3",
+        "kind": "sequence",
+        "source": "n-step-1-1-3",
+        "target": "n-step-1-2-1",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-4",
+        "kind": "sequence",
+        "source": "n-step-1-2-1",
+        "target": "n-step-1-2-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-5",
+        "kind": "sequence",
+        "source": "n-step-1-2-2",
+        "target": "n-step-1-2-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-6",
+        "kind": "sequence",
+        "source": "n-step-1-2-3",
+        "target": "n-step-2-1-1",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-7",
+        "kind": "sequence",
+        "source": "n-step-2-1-1",
+        "target": "n-step-2-1-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-8",
+        "kind": "sequence",
+        "source": "n-step-2-1-2",
+        "target": "n-step-2-1-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-9",
+        "kind": "sequence",
+        "source": "n-step-2-1-3",
+        "target": "n-step-2-1-4",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "e-10",
+        "kind": "sequence",
+        "source": "n-step-2-1-4",
+        "target": "n-step-2-1-5",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "e-11",
+        "kind": "sequence",
+        "source": "n-step-2-1-5",
+        "target": "n-step-2-1-6",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "e-12",
+        "kind": "sequence",
+        "source": "n-step-2-1-6",
+        "target": "n-step-2-1-7",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/5"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "e-13",
+        "kind": "sequence",
+        "source": "n-step-2-1-7",
+        "target": "n-step-3-1-1",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-14",
+        "kind": "sequence",
+        "source": "n-step-3-1-1",
+        "target": "n-step-3-1-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-15",
+        "kind": "sequence",
+        "source": "n-step-3-1-2",
+        "target": "n-step-3-1-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-16",
+        "kind": "sequence",
+        "source": "n-step-3-1-3",
+        "target": "n-step-3-1-4",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "e-17",
+        "kind": "sequence",
+        "source": "n-step-3-1-4",
+        "target": "n-step-3-1-5",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-1-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-1",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-2-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-2",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-3-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-3",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-2-1-google-slides",
+        "kind": "read_access",
+        "source": "n-step-1-2-1",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-1-2-2-google-slides",
+        "kind": "write",
+        "source": "n-step-1-2-2",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-1-2-3-google-slides",
+        "kind": "write",
+        "source": "n-step-1-2-3",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-2-1-1-google-slides",
+        "kind": "read_access",
+        "source": "n-step-2-1-1",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-2-1-2-google-slides",
+        "kind": "write",
+        "source": "n-step-2-1-2",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-2-1-3-google-slides",
+        "kind": "write",
+        "source": "n-step-2-1-3",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-2-1-4-google-slides",
+        "kind": "write",
+        "source": "n-step-2-1-4",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-2-1-5-google-slides",
+        "kind": "write",
+        "source": "n-step-2-1-5",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-2-1-6-google-slides",
+        "kind": "write",
+        "source": "n-step-2-1-6",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-2-1-7-google-slides",
+        "kind": "read_access",
+        "source": "n-step-2-1-7",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-3-1-1-slack",
+        "kind": "read_access",
+        "source": "n-step-3-1-1",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-2-slack",
+        "kind": "write",
+        "source": "n-step-3-1-2",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-3-slack",
+        "kind": "write",
+        "source": "n-step-3-1-3",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-4-slack",
+        "kind": "write",
+        "source": "n-step-3-1-4",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-5-slack",
+        "kind": "write",
+        "source": "n-step-3-1-5",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          }
+        ]
+      }
+    ],
+    "workspaces": [],
+    "decision_tables": [],
+    "starts": [
+      "n-step-1-1-1"
+    ],
+    "outcomes": [
+      "n-step-3-1-5"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "ann-1",
+        "kind": "contradiction",
+        "status": "open",
+        "reason": "Negative deviation recorded on observation 4bf18e152981: \"User attempted to interact with static screenshot image after insertion, suggesting potential confusion about image vs. live data.\" Attached here (rather than on step-2-1-1) because this is the step where the screenshot is inserted into the slide and becomes a static artifact the user then treated as interactive; the friction observed contradicts a clean, linear-completion read of this step as a simple paste-and-move-on action.",
+        "source_ids": [
+          "process-details-steps-2-1",
+          "observations"
+        ],
+        "bound_to": [
+          "n-step-1-2-2"
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-2-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-2-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-2-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-4",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-4"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-5",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-5"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-6",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-6"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-7",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-7"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-4",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-4"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-5",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-5"
+      ]
+    }
+  ]
+}

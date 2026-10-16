@@ -1,0 +1,18 @@
+:root { --midnight:#0B1E2F; --coral:#F56740; --cream:#FBF6EF; --white:#FFFFFF; --grey:#5F6B76; --border:#E6DFD4;
+  --radius:12px; --radius-inner:8px; --shadow-card:0 1px 3px rgba(11,30,47,.08); }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--cream); color:var(--midnight); font-family:Inter, "Helvetica Neue", Arial, sans-serif; font-size:15px; line-height:1.5; }
+.pp-appbar { padding:12px 28px; background:var(--white); border-bottom:1px solid var(--border); }
+.pp-wordmark { font-size:1.1rem; font-weight:600; color:var(--coral); }
+/* tabs: one hidden radio per section, a label per section in the left column; the checked radio shows its panel (CSS only, no script) */
+.pp-tab-radio { position:fixed; top:0; left:0; width:1px; height:1px; margin:0; opacity:0; pointer-events:none; }
+.pp-shell { display:grid; grid-template-columns:220px minmax(0,1fr); gap:24px; padding:8px 28px 60px; align-items:start; }
+.pp-tabs { position:sticky; top:16px; display:flex; flex-direction:column; gap:4px; padding-top:16px; }
+.pp-tabs label { display:block; padding:10px 14px; border-radius:var(--radius-inner); font-size:.9rem; font-weight:500; color:var(--midnight); cursor:pointer; border-left:3px solid transparent; }
+.pp-tabs label:hover { background:var(--white); }
+.pp-panel { display:none; padding-top:16px; }
+.pp-panel h2 { margin:0 0 12px; font-size:1.2rem; }
+.pp-slot { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:16px; box-shadow:var(--shadow-card); }
+.pp-slot h3 { margin:0 0 8px; font-size:1rem; }
+.pp-pending, .pp-gap, .pp-note { color:var(--grey); font-style:italic; margin:0; }
+.pp-raw { background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-inner); padding:12px; overflow:auto; white-space:pre-wrap; font-size:.82rem; }

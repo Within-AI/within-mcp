@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/simulation.schema.json",
+  "version": "agent-design.simulation/1",
+  "title": "simulation.schema.json",
+  "description": "The simulation walk result at simulation/walk.json: run-level error, one entry per case and the summary. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "type": "object",
+  "required": [
+    "error",
+    "cases",
+    "summary"
+  ],
+  "properties": {
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "state",
+          "outcome_actual",
+          "outcome_expected",
+          "values",
+          "interfaces"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "enum": [
+              "matches",
+              "differs",
+              "execution_error",
+              "not_executed",
+              "needs_more_information"
+            ]
+          },
+          "drop_label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome_actual": {
+            "type": [
+              "string",
+              "number",
+              "null"
+            ],
+            "description": "Observed runtime result, or null when no outcome was produced (including an ending person decision). Expected decision labels remain strings."
+          },
+          "outcome_expected": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "token",
+                "actual",
+                "expected",
+                "match"
+              ],
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "actual": true,
+                "expected": true,
+                "match": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "interfaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "part",
+                "boundary_id",
+                "input",
+                "output"
+              ],
+              "properties": {
+                "part": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "boundary_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "input": true,
+                "output": true
+              }
+            }
+          }
+        },
+        "if": {
+          "properties": {
+            "state": {
+              "enum": [
+                "execution_error",
+                "not_executed",
+                "needs_more_information"
+              ]
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        "then": {
+          "required": [
+            "drop_label"
+          ]
+        },
+        "else": {
+          "properties": {
+            "interfaces": {
+              "minItems": 1
+            }
+          },
+          "if": {
+            "properties": {
+              "outcome_actual": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "values": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "cases_total",
+        "cases_walked",
+        "rules_total",
+        "rules_reached",
+        "rules_reached_share",
+        "rules_demonstrated"
+      ],
+      "properties": {
+        "cases_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cases_walked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rules_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rules_reached": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rules_reached_share": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          ]
+        },
+        "rules_demonstrated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rules_not_demonstrated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "rules_total": {
+            "const": 0
+          }
+        },
+        "required": [
+          "rules_total"
+        ]
+      },
+      "then": {
+        "properties": {
+          "rules_reached_share": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "rules_reached_share": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

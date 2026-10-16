@@ -1,0 +1,1028 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "future-state",
+  "process": {
+    "name": "Weekly Marketing Metrics Reporting",
+    "process_ids": [
+      "d42bcd549db7"
+    ]
+  },
+  "snapshot": {
+    "path": "../../snapshot/simple/snapshot.json",
+    "sha256": "44422c46241e537e81f71844e151f5ae812fb7f980d88f5d468bd33cb6fe5de9"
+  },
+  "prior_workflow": {
+    "path": "../../current-state/simple/current-state.json",
+    "sha256": "a3d80d65f056a5c616246b4749e9c176412a75120d08301a65800ef44510fe17"
+  },
+  "current_state": {
+    "path": "../../current-state/simple/current-state.json",
+    "sha256": "a3d80d65f056a5c616246b4749e9c176412a75120d08301a65800ef44510fe17",
+    "kind": "workflow-bundle"
+  },
+  "systems_coverage": [
+    {
+      "system": "Google Slides",
+      "treatment": "mapped",
+      "rationale": "Still used: the script creates the Slides review copy on the Google Slides rail, and people insert the screenshot and copy the share link there."
+    },
+    {
+      "system": "Salesforce",
+      "treatment": "mapped",
+      "rationale": "Still used: people capture the dashboard screenshot and the script retrieves the Pipeline Influence report on the Salesforce rail."
+    },
+    {
+      "system": "Slack",
+      "treatment": "mapped",
+      "rationale": "Unchanged: people still post the pack link to the team channel on the Slack rail; the script never distributes."
+    }
+  ],
+  "presentation": "diagram",
+  "diagram": {
+    "notes": [
+      "Per ratified evt-0032 (2026-09-17T20:00:36Z): no LLM/judgment step anywhere in this design; a pure deterministic pipeline performs the two agent-lane steps below plus the two new-scope additions. The agent writes only to the Sheet and Slides review/staging copies it creates for a run; it never writes to an original or live file, and it never publishes or distributes. Not live this session (no touchpoint below has live credentials wired).",
+      "Re-sequenced by the 2026-09-24 decision (option A)"
+    ],
+    "band_labels": {
+      "Agent": "Script"
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "n-step-1-1-1",
+        "type": "read_interaction",
+        "title": "Navigate to marketing dashboard",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          }
+        ],
+        "detail": "Navigate to the Marketing Weekly Dashboard in Salesforce to review current brand awareness and engagement metrics.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-step-1-1-2",
+        "type": "read_interaction",
+        "title": "Capture dashboard screenshot",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          }
+        ],
+        "detail": "Capture a screenshot of key metrics from the Salesforce dashboard for inclusion in the presentation.",
+        "annotation": "Needs more information: see open items",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-run-start",
+        "type": "trigger",
+        "title": "Run starts",
+        "lane": "Agent",
+        "performer": "Deterministic metrics script (versioned code)",
+        "evidence_state": "needs_more_information",
+        "source_refs": [],
+        "issue_id": "ann-open-start",
+        "detail": "The script's own start. What starts a run (a schedule or a person) is not in the evidence.",
+        "annotation": "Needs more information: see open items",
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-step-1-1-3",
+        "type": "agent_read",
+        "title": "Retrieve Pipeline Influence report",
+        "lane": "Agent",
+        "performer": "Deterministic marketing-metrics skill (versioned code)",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ],
+        "detail": "Deterministic retrieval of the Pipeline Influence report/dashboard via a Salesforce report-execution API call, read-only — source for the Pipeline Influenced metric, exact value before rounding.",
+        "annotation": "Needs more information: see open items",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-salesforce"
+        ]
+      },
+      {
+        "id": "n-step-1-2-1",
+        "type": "agent_stage",
+        "title": "Create Slides review copy and write computed metrics",
+        "lane": "Agent",
+        "performer": "Deterministic marketing-metrics skill (versioned code)",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ],
+        "detail": "Create a Drive copy of the accepted Weekly Marketing Metrics Slides template for the run/period, then write the exact computed metric values into that copy's pre-defined, accepted slide-object placeholders. This single node functionally replaces the retired manual placeholder-building and image-formatting work (step-1-2-3, step-2-1-1 through step-2-1-6).",
+        "annotation": "Needs more information: see open items",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-google-slides"
+        ],
+        "stages_to": "Slides review copy"
+      },
+      {
+        "id": "n-sheet-write",
+        "type": "agent_stage",
+        "title": "Create Google Sheet review copy and write computed metrics",
+        "lane": "Agent",
+        "performer": "Deterministic marketing-metrics skill (versioned code)",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "detail": "The versioned deterministic skill creates a Google Sheet fresh (review/staging copy only, never an original) and writes the computed metric values into it.",
+        "annotation": "Needs more information: see open items",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-google-sheets"
+        ],
+        "stages_to": "Sheet review copy"
+      },
+      {
+        "id": "n-step-1-2-2",
+        "type": "write_interaction",
+        "title": "Insert dashboard screenshot",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          }
+        ],
+        "detail": "Insert the captured Salesforce dashboard screenshot into the appropriate slide.",
+        "annotation": "Needs more information: see open items",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-run-log",
+        "type": "agent_stage",
+        "title": "Record run log and reconciliation record",
+        "lane": "Agent",
+        "performer": "Deterministic marketing-metrics skill (versioned code)",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "detail": "For each of the three metrics, the deterministic pipeline records its definition, period, source/run time, destination, and readback result, stored beside the Sheet/Slides review copies.",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-run-log"
+        ],
+        "stages_to": "run log"
+      },
+      {
+        "id": "n-step-2-1-7",
+        "type": "read_interaction",
+        "title": "Copy presentation share link",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ],
+        "detail": "Click the 'Share' button and copy the presentation link for distribution.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-google-slides"
+        ]
+      },
+      {
+        "id": "n-step-3-1-1",
+        "type": "read_interaction",
+        "title": "Navigate to team channel",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          }
+        ],
+        "detail": "Switch to Slack and navigate to the marketing team channel.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-2",
+        "type": "write_interaction",
+        "title": "Compose distribution message",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          }
+        ],
+        "detail": "Draft a comprehensive message explaining the purpose of the deck, listing the included metrics, and requesting feedback from the team.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-3",
+        "type": "write_interaction",
+        "title": "Include presentation link",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          }
+        ],
+        "detail": "Paste the presentation link into the message.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-4",
+        "type": "write_interaction",
+        "title": "Send message to team",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          }
+        ],
+        "detail": "Send the message to the marketing team channel.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "n-step-3-1-5",
+        "type": "write_interaction",
+        "title": "Clean up message formatting",
+        "lane": "Analyst",
+        "performer": "Marketing team member",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ],
+        "detail": "Remove any auto-generated link previews for a cleaner presentation of the message.",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-slack"
+        ]
+      },
+      {
+        "id": "sys-salesforce",
+        "type": "system_surface",
+        "title": "Salesforce",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ],
+        "short_label": "Salesforce",
+        "surface_kind": "system_of_record",
+        "access_state": "Observed"
+      },
+      {
+        "id": "sys-google-slides",
+        "type": "system_surface",
+        "title": "Google Slides",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ],
+        "short_label": "Google Slides",
+        "surface_kind": "system_of_record",
+        "access_state": "Observed"
+      },
+      {
+        "id": "sys-google-sheets",
+        "type": "system_surface",
+        "title": "Google Sheets",
+        "lane": "System",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "short_label": "Google Sheets",
+        "surface_kind": "system_of_record",
+        "access_state": "Observed"
+      },
+      {
+        "id": "sys-run-log",
+        "type": "system_surface",
+        "title": "Run log",
+        "lane": "System",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "short_label": "Run log",
+        "surface_kind": "system_of_record",
+        "access_state": "Observed"
+      },
+      {
+        "id": "sys-slack",
+        "type": "system_surface",
+        "title": "Slack",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ],
+        "short_label": "Slack",
+        "surface_kind": "channel",
+        "access_state": "Observed"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-1",
+        "kind": "sequence",
+        "source": "n-step-1-1-1",
+        "target": "n-step-1-1-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-start",
+        "kind": "sequence",
+        "source": "n-run-start",
+        "target": "n-step-1-1-3",
+        "evidence_state": "needs_more_information",
+        "source_refs": [],
+        "issue_id": "ann-open-start",
+        "label": "Re-sequenced by the 2026-09-24 decision (option A): the script starts on its own."
+      },
+      {
+        "id": "e-people",
+        "kind": "sequence",
+        "source": "n-step-1-1-2",
+        "target": "n-step-1-2-2",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Re-sequenced by the 2026-09-24 decision (option A): the people's sequence continues from capture to insertion."
+      },
+      {
+        "id": "e-3",
+        "kind": "sequence",
+        "source": "n-step-1-1-3",
+        "target": "n-sheet-write",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Sequencing choice made at this stage (not fixed by the transformation map): the Sheet write can proceed as soon as the pipeline metric is retrieved."
+      },
+      {
+        "id": "e-4",
+        "kind": "sequence",
+        "source": "n-sheet-write",
+        "target": "n-step-1-2-1",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Sequencing choice made at this stage (not fixed by the transformation map)."
+      },
+      {
+        "id": "e-5",
+        "kind": "sequence",
+        "source": "n-step-1-2-1",
+        "target": "n-run-log",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Sequencing choice made at this stage (not fixed by the transformation map): the run log's own description ('destination, and readback result') implies it records after both the Sheet and Slides writes complete."
+      },
+      {
+        "id": "e-6",
+        "kind": "handoff",
+        "source": "n-run-log",
+        "target": "n-step-1-2-2",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Re-sequenced by the 2026-09-24 decision (option A): the people's sequence picks up once the review copies exist."
+      },
+      {
+        "id": "e-7",
+        "kind": "sequence",
+        "source": "n-step-1-2-2",
+        "target": "n-step-2-1-7",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "e-8",
+        "kind": "sequence",
+        "source": "n-step-2-1-7",
+        "target": "n-step-3-1-1",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-9",
+        "kind": "sequence",
+        "source": "n-step-3-1-1",
+        "target": "n-step-3-1-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-10",
+        "kind": "sequence",
+        "source": "n-step-3-1-2",
+        "target": "n-step-3-1-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-11",
+        "kind": "sequence",
+        "source": "n-step-3-1-3",
+        "target": "n-step-3-1-4",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "e-12",
+        "kind": "sequence",
+        "source": "n-step-3-1-4",
+        "target": "n-step-3-1-5",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-1-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-1",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-2-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-2",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-1-3-salesforce",
+        "kind": "read_access",
+        "source": "n-step-1-1-3",
+        "target": "sys-salesforce",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-1-2-1-google-slides",
+        "kind": "read_access",
+        "source": "n-step-1-2-1",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-1-2-1-google-slides",
+        "kind": "write",
+        "source": "n-step-1-2-1",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-sheet-write-google-sheets",
+        "kind": "write",
+        "source": "n-sheet-write",
+        "target": "sys-google-sheets",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design"
+      },
+      {
+        "id": "w-n-step-1-2-2-google-slides",
+        "kind": "write",
+        "source": "n-step-1-2-2",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "w-n-run-log-run-log",
+        "kind": "write",
+        "source": "n-run-log",
+        "target": "sys-run-log",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design"
+      },
+      {
+        "id": "ra-n-step-2-1-7-google-slides",
+        "kind": "read_access",
+        "source": "n-step-2-1-7",
+        "target": "sys-google-slides",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-step-3-1-1-slack",
+        "kind": "read_access",
+        "source": "n-step-3-1-1",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-2-slack",
+        "kind": "write",
+        "source": "n-step-3-1-2",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-3-slack",
+        "kind": "write",
+        "source": "n-step-3-1-3",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-4-slack",
+        "kind": "write",
+        "source": "n-step-3-1-4",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "w-n-step-3-1-5-slack",
+        "kind": "write",
+        "source": "n-step-3-1-5",
+        "target": "sys-slack",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/4"
+          }
+        ]
+      }
+    ],
+    "workspaces": [],
+    "decision_tables": [],
+    "starts": [
+      "n-step-1-1-1",
+      "n-run-start"
+    ],
+    "outcomes": [
+      "n-step-3-1-5"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "ann-1",
+        "kind": "contradiction",
+        "status": "open",
+        "reason": "Negative deviation recorded on observation 4bf18e152981: \"User attempted to interact with static screenshot image after insertion, suggesting potential confusion about image vs. live data.\" Attached here (rather than on step-2-1-1) because this is the step where the screenshot is inserted into the slide and becomes a static artifact the user then treated as interactive; the friction observed contradicts a clean, linear-completion read of this step as a simple paste-and-move-on action.",
+        "source_ids": [
+          "process-details-steps-2-1",
+          "observations"
+        ],
+        "bound_to": [
+          "n-step-1-2-2"
+        ]
+      },
+      {
+        "id": "ann-open-1",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Screenshot-scope ambiguity (transformation-map.md §8(b)): whether this step's captured screenshot covers the brand-awareness dashboard only (this map's working reading, which is why the step is disposed 'unchanged') or also covers pipeline data. If it also or instead covers pipeline data, that portion would need to be re-disposed later — the 'unchanged' call on this step (and on step-1-2-2) could flip. Not resolved here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-step-1-1-2"
+        ]
+      },
+      {
+        "id": "ann-open-start",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "What starts the run, a schedule or a person, is not in the evidence. Needs more information; not invented here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-run-start"
+        ]
+      },
+      {
+        "id": "ann-open-2",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Report-identity gap (transformation-map.md §8(a)): whether Qualified Pipeline Generated and Closed-Won Influenced map onto this single observed Pipeline Influence dashboard/report, or require additional Salesforce report(s) not present anywhere in the current-state evidence (the target-spec references 'three report IDs' not named or visible in the current-state graph). Not resolved here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-step-1-1-3"
+        ]
+      },
+      {
+        "id": "ann-open-3a",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Template/ownership/scheduling detail (transformation-map.md §8(c)/(d)/(e)): exact Slides template ID, ranges, and slide-object bindings; who owns promotion/publish approval; validation-period scheduling. Not resolved here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-step-1-2-1"
+        ]
+      },
+      {
+        "id": "ann-open-3b",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Template/ownership/scheduling detail (transformation-map.md §8(c)/(d)/(e)): exact Sheet template ID, ranges, and cell/range bindings; who owns promotion/publish approval; validation-period scheduling — same unresolved gap attached to step-1-2-1 (both share the same template/ID/ownership open item). Not resolved here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-sheet-write"
+        ]
+      },
+      {
+        "id": "ann-open-1b",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Screenshot-scope ambiguity (transformation-map.md §8(b)), same open item as step-1-1-2: whether the screenshot inserted here covers brand-awareness only (this map's working reading, why this step is disposed 'unchanged') or also pipeline data. If resolved the other way later, it could flip the 'unchanged' call on both step-1-1-2 and this step. Not resolved here.",
+        "source_ids": [],
+        "bound_to": [
+          "n-step-1-2-2"
+        ]
+      },
+      {
+        "id": "introduced-by-design",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "No captured step: introduced by the future-state design (see the transformation map). Open until the design is ratified against evidence.",
+        "source_ids": [],
+        "bound_to": [
+          "n-sheet-write",
+          "n-run-log",
+          "sys-google-sheets",
+          "sys-run-log",
+          "e-people",
+          "e-3",
+          "e-4",
+          "e-5",
+          "e-6",
+          "w-n-sheet-write-google-sheets",
+          "w-n-run-log-run-log"
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:step-1-1-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-1-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-2-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-1-2-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:step-1-2-3",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-1",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-2",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-3",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-4",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-5",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-6",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    },
+    {
+      "step_id": "process-details-steps-2-2:step-2-1-7",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-2-1-7"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-1",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-2",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-2"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-3",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-3"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-4",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-4"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:step-3-1-5",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-step-3-1-5"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "OI-1",
+      "decision": "<process_id>:<node_id>",
+      "missing": "<the input no observation supplies>",
+      "evidence_state": "needs_more_information",
+      "kind": "missing_input"
+    },
+    {
+      "id": "OI-2",
+      "decision": "<process_id>:<node_id>",
+      "missing": "<the policy a person must choose>",
+      "evidence_state": "needs_more_information",
+      "kind": "policy_choice"
+    }
+  ]
+}

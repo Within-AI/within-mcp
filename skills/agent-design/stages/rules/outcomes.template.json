@@ -1,0 +1,26 @@
+{
+  "decisions": [
+    {
+      "id": "<process_id>:<node_id>",
+      "agent": "<agent name>",
+      "labels": [
+        "<typed_label>",
+        "<other_typed_label>"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "id": "<boundary id>",
+      "step": "<process_id>:<node_id>",
+      "labels": [
+        "<gate_label>",
+        "<other_gate_label>"
+      ]
+    }
+  ],
+  "primitive_form": {
+    "value": "<the agent's primitive form, e.g. one agent with two sub-agents>",
+    "decision_ref": "<process_id>:<node_id>"
+  }
+}

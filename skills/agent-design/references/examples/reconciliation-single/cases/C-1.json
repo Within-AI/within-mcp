@@ -1,0 +1,70 @@
+{
+  "id": "C-1",
+  "decision": "recon:n3",
+  "kind": "positive",
+  "layer": "part",
+  "critical": false,
+  "description": "balances inside the tie tolerance are reconciled",
+  "rows": [
+    {
+      "id": "ledger",
+      "values": {
+        "balance": {
+          "value": "48213.47",
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "subledger",
+      "values": {
+        "balance": {
+          "value": "48213.29",
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "transit",
+      "values": {
+        "amount": {
+          "value": "0.00",
+          "label": "synthetic"
+        }
+      }
+    }
+  ],
+  "holds": [],
+  "judgment_answers": [],
+  "expected": {
+    "label": "reconciled",
+    "values": {
+      "outcome": "reconciled"
+    },
+    "derivations": {
+      "abs_variance": {
+        "kind": "calc",
+        "step": "abs_variance",
+        "fn": "abs",
+        "args": [
+          {
+            "kind": "calc",
+            "step": "variance",
+            "fn": "subtract",
+            "args": [
+              {
+                "kind": "read",
+                "token": "ledger.balance"
+              },
+              {
+                "kind": "read",
+                "token": "subledger.balance"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "final_label": "reconciled"
+}

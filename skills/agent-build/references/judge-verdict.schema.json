@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "required": [
+    "scores",
+    "disposition",
+    "artifact_sha256"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "disposition": {
+      "enum": [
+        "agree",
+        "disagree",
+        "unsure"
+      ]
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

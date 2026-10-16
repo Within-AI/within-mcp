@@ -1,0 +1,255 @@
+# Build-spec spine: worked reference, simple level (a pure deterministic script, no model step).
+# Shape: templates/build-spec.template.yaml. Paths below are relative to this file and point at the
+# same level's references for the earlier stages (snapshot, transformation plan, future state).
+
+apiVersion: agent-builder/v1
+kind: build-spec
+
+meta:
+  agent_name: "Marketing metrics pack refresh"
+  agent_slug: "marketing-metrics-pack-refresh"
+  purpose: "Refresh the approved weekly marketing metrics pack (Qualified Pipeline Generated, Pipeline
+    Influenced, Closed-Won Influenced) into Sheet and Slides review copies that the run creates, with exact,
+    traceable figures and a run log, so the manual transfer, formatting and reconciliation work goes away.
+    The owner reviews and acts through the existing review process; the script never publishes or
+    distributes."
+  primary_objective:
+    value: "Exact, traceable values for the three approved metrics in run-created review copies, with every
+      omission visible; fixed reporting automation, not an analyst."
+    source: "authority envelope (Set the agent's authority boundary): primary objective"
+    evidence_state: Observed
+  source_snapshot:
+    snapshot_id: "d42bcd549db7"
+    snapshot_sha256: "44422c46241e537e81f71844e151f5ae812fb7f980d88f5d468bd33cb6fe5de9"
+    future_state_graph_sha256: "1e1539ec0101284bd86886b3098ac52d8032d32b44e30cc701e0113df459fb29"
+
+inputs:
+  - name: "Run trigger (what starts a run)"
+    type: signal
+    required: true
+    value: null
+    source: "../../future-state/simple/future-state.json n-run-start (issue ann-open-start)"
+    evidence_state: needs_more_information
+    needs: "whether a schedule or the owner's request starts a run; targeted enquiry with the business owner"
+
+  - name: "Reporting period and source cutoff"
+    type: string
+    required: true
+    source: "supplied per run; the weekly cadence is in ../../snapshot/simple/process-d42bcd549db7.json (process attributes)"
+    evidence_state: Assumed
+
+  - name: "Pipeline influence report data"
+    type: object
+    required: true
+    source: "../../future-state/simple/future-state.json n-step-1-1-3 (retrieve the report); current-state
+      precursor observed at ../../snapshot/simple/snapshot.json step step-1-1-3 (navigate to pipeline dashboard)"
+    evidence_state: Assumed
+
+  - name: "Accepted Slides template (id, ranges, placeholder bindings)"
+    type: object
+    required: true
+    value: null
+    source: "the reporting owner's accepted template; not established by the Company Brain Snapshot"
+    evidence_state: needs_more_information
+    needs: "the template id, ranges and placeholder bindings; FDE intake with the reporting owner (transformation map, what we still need to know (c))"
+
+  - name: "Accepted Sheet template (id, ranges, cell bindings)"
+    type: object
+    required: true
+    value: null
+    source: "the reporting owner's accepted template; not established by the Company Brain Snapshot"
+    evidence_state: needs_more_information
+    needs: "the template id, ranges and cell bindings; FDE intake with the reporting owner (transformation map, what we still need to know (c))"
+
+  - name: "Prior-period accepted pack (for period-over-period reconciliation)"
+    type: document
+    required: true
+    value: null
+    source: "the owner's last accepted pack, supplied through the existing review process"
+    evidence_state: needs_more_information
+    needs: "which prior pack to compare against; supplied by the owner (document upload)"
+
+outputs:
+  - name: "Slides review copy with the computed metrics"
+    type: object
+    consumer: "Marketing reporting owner, through the existing review process"
+    source: "../../future-state/simple/future-state.json n-step-1-2-1"
+    evidence_state: Assumed
+    note: "A copy the run creates. It is the script's handoff to the review path, not a write grant; must_not [all writes] stands."
+
+  - name: "Sheet review copy with the computed metrics"
+    type: object
+    consumer: "Marketing reporting owner, through the existing review process"
+    source: "../../future-state/simple/future-state.json n-sheet-write"
+    evidence_state: Assumed
+    note: "A copy the run creates; same handoff reading as the Slides copy."
+
+  - name: "Run log and reconciliation record"
+    type: object
+    consumer: "Marketing reporting owner; kept beside the review copies"
+    source: "../../future-state/simple/future-state.json n-run-log"
+    evidence_state: Assumed
+
+  - name: "Escalation when the run cannot compute a required metric"
+    type: escalation
+    consumer: "Marketing reporting owner (an unexplained discrepancy goes to the Performance Investigator)"
+    source: "authority envelope: exception handbacks (missing core inputs block the run; the script stops and does not guess)"
+    evidence_state: Observed
+
+integrations:
+  - name: "Salesforce pipeline influence report"
+    system: "Salesforce"
+    access_mode: read
+    source: "../../snapshot/simple/snapshot.json step step-1-1-3 (navigate to pipeline dashboard)"
+    evidence_state: Observed
+
+  - name: "Google Slides accepted template"
+    system: "Google Slides"
+    access_mode: read
+    source: "../../snapshot/simple/snapshot.json step step-1-2-1 (open the weekly metrics presentation)"
+    evidence_state: Observed
+
+  - name: "Google Sheets accepted template"
+    system: "Google Sheets"
+    access_mode: read
+    source: "../../future-state/simple/future-state.json n-sheet-write (introduced by design)"
+    evidence_state: Assumed
+
+  - name: "Google Drive prior-period history"
+    system: "Google Drive"
+    access_mode: read
+    source: "authority envelope: access feasibility (Google Sheets, Slides, Drive)"
+    evidence_state: Assumed
+
+tool_permission_inventory:
+  may_use:
+    - tool: "Salesforce report retrieval for the pipeline influence report (read-only; no report or record edits)"
+      scope: read
+      source: "../../future-state/simple/future-state.json n-step-1-1-3"
+      evidence_state: Assumed
+    - tool: "Google Drive, Sheets and Slides: read the accepted templates and the prior-period pack"
+      scope: read
+      source: "../../future-state/simple/future-state.json n-step-1-2-1, n-sheet-write"
+      evidence_state: Assumed
+  must_not:
+    - "all writes"
+    - "any write to an original or live file"
+    - "publish, share or distribute a review copy"
+    - "edit a Salesforce report definition or record"
+  must_not_source: "authority envelope (Set the agent's authority boundary); ../../transformation-plan/simple/transformation-map.md section 5"
+  must_not_evidence_state: Observed
+
+primitive_form:
+  value: "script"
+  source: "future-state-remit gate, ratified human.decision event (accepted as computed: ../../transformation-plan/simple/transformation-map.md places every agent-taken row script-eligible, so PLACEMENT is script)"
+  evidence_state: Observed
+
+sub_agent_surface:
+  declared: false
+  declared_source: "primitive_form.value (this file, above)"
+  decomposed_by: "Derive the agent's internal map (internal-dag)"
+  surface_note: "n/a: primitive_form is script; no coordination surface exists."
+  source: "../../transformation-plan/simple/transformation-map.md section 2 (no sub-agent groups); authority envelope"
+  evidence_state: Assumed
+
+decision_rules:
+  cap: "3-8"
+  status: room_left_for_deepen_stage
+  full_policy_carried_by: "Deepen each sub-agent — its inputs, decision rules, and outputs (deepen)"
+  source: "Agent Builder decision_rules cap (tool constraint)"
+  evidence_state: Observed
+  rules: []
+
+end_to_end_loop:
+  trigger: "A run starts for one reporting period. What starts it, a schedule or the owner's request, needs
+    more information (see the run-trigger input)."
+  steps:
+    - "Retrieve the pipeline influence report from Salesforce, read-only, for the requested period."
+    - "Compute the three metrics from the exact values before rounding, keeping zero, unavailable and
+      not-calculable apart."
+    - "Check readiness: when a required metric's report mapping is unresolved or a core input or template
+      is missing, stop and hand an escalation to the owner instead of guessing."
+    - "Create the Sheet review copy for the period and write the computed values into it."
+    - "Create the Slides review copy from the accepted template and write the computed values into its
+      placeholders."
+    - "Record the run log and reconciliation record (definition, period, source and run time, destination,
+      read-back result per value) beside the copies."
+    - "Hand the review copies and run log to the owner's existing review process; people keep the
+      screenshot, share-link and distribution steps."
+  terminal: "Review copies and a run log reach the owner's review process for approval and distribution, or
+    an escalation says what blocked the run. The script never invents a cause."
+  source: "../../future-state/simple/future-state.json (graph); ../../transformation-plan/simple/transformation-map.md"
+  evidence_state: Assumed
+
+monitoring:
+  signals:
+    - name: "Runs completed per reporting period"
+      value: null
+      source: "design-time observability plan; the target is set at or after the Sandbox"
+      evidence_state: needs_more_information
+      needs: "the run-count target; set at or after the Sandbox"
+    - name: "Escalation rate (runs stopped at the readiness check)"
+      value: null
+      source: "design-time observability plan; the target is set at or after the Sandbox"
+      evidence_state: needs_more_information
+      needs: "the escalation-rate threshold; set at or after the Sandbox"
+  source: "design-time; runtime observability is a post-Sandbox concern"
+
+runbook:
+  escalation_path:
+    value: "A run that cannot compute a required metric stops and hands an escalation to the reporting
+      owner; an unexplained discrepancy goes to the Performance Investigator."
+    source: "authority envelope (exception handbacks)"
+    evidence_state: Observed
+  ownership:
+    value: null
+    source: "operator-supplied at stage sign-off; not derivable from the Company Brain Snapshot"
+    evidence_state: needs_more_information
+    needs: "who approves promotion of the reviewed copies (a role); FDE intake (transformation map, what we still need to know (d))"
+
+scope:
+  in_scope: "The three approved metrics for one reporting period, refreshed into run-created Sheet and Slides
+    review copies with a run log and reconciliation record."
+  out_of_scope: "Publishing, sharing or distributing any copy; writing to an original or live file; editing
+    Salesforce reports; the brand-awareness dashboard and its screenshot; the Slack distribution steps people
+    keep; decision-rule authoring (deepen stage); the internal map (internal-map stage)."
+  source: "../../transformation-plan/simple/transformation-map.md sections 1, 5 and 6; authority envelope"
+  evidence_state: Observed
+
+assumptions:
+  - surface: "Salesforce (run and read the pipeline influence report)"
+    access_state: Assumed
+    basis: "authority envelope access feasibility: grants and tool coverage not yet confirmed; Assumed until verified"
+  - surface: "Google Sheets, Slides and Drive (read templates and history; create and write the run's own copies)"
+    access_state: Assumed
+    basis: "authority envelope access feasibility: no live credentials yet; Assumed until verified"
+
+open_register:
+  - id: "report-mapping"
+    kind: "rule"
+    residual: "Whether Qualified Pipeline Generated and Closed-Won Influenced come from the one observed
+      pipeline report or need further reports (transformation map, what we still need to know (a))."
+    evidence_state: needs_more_information
+    follow_on: "Deepen each sub-agent (earlier through document upload or FDE intake if the owner supplies the mapping)"
+    interim_default: none
+  - id: "screenshot-scope"
+    kind: "scope"
+    residual: "Whether the screenshot people keep covers brand-awareness data only or pipeline data too; the
+      second reading would move part of it into the script (transformation map, what we still need to know (b))."
+    evidence_state: needs_more_information
+    follow_on: "Derive the agent's internal map (internal-dag): re-confirm before decomposition; closure by targeted Companion capture"
+    interim_default: none
+  - id: "validation-schedule"
+    kind: "scope"
+    residual: "Which two reporting periods serve as the owner-reviewed validation, and the pass bar
+      (transformation map, what we still need to know (e))."
+    evidence_state: needs_more_information
+    follow_on: "Simulation, once templates and definitions are confirmed"
+    interim_default: none
+  - id: "discrepancy-threshold"
+    kind: "rule"
+    residual: "What makes a computed value an unexplained discrepancy that goes to the Performance
+      Investigator; the routing is ratified, its trigger is not."
+    evidence_state: needs_more_information
+    follow_on: "Deepen each sub-agent"
+    interim_default: none

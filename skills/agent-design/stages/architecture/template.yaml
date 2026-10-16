@@ -1,0 +1,117 @@
+{
+  "header": {
+    "purpose": "<<purpose>>",
+    "metrics": [
+      "<<metric>>"
+    ],
+    "authority": {
+      "default": "read-only and recommend-only",
+      "hand_back": "<<hand_back>>"
+    },
+    "access": {
+      "evidence_state": "Assumed"
+    },
+    "proposed_writes": [
+      {
+        "step": "<<qualified_step>>",
+        "system": "<<system>>",
+        "grant": "<<grant_id>>",
+        "status": "proposed for ratification"
+      }
+    ],
+    "handovers": [
+      {
+        "from": "<<part_id>>",
+        "to": "<<part_id_or_person_lane>>",
+        "edge_refs": [
+          "<<qualified_edge>>"
+        ],
+        "kind": "<<handover_kind>>"
+      }
+    ],
+    "autonomy_ladder": {
+      "output_to_person": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "trigger": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "drafting_boundary": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "writes_to_systems_of_record": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "handoff_writes": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "person_checkpoint": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "verification_without_write_authority": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      },
+      "entry_rung_and_graduation_path": {
+        "entry_rung": "<<entry_rung>>",
+        "next_rung": "<<next_rung>>",
+        "step_up_evidence": "<<step_up_evidence>>"
+      }
+    }
+  },
+  "parts": [
+    {
+      "id": "<<part_id>>",
+      "role": "<<part_role>>",
+      "owns_steps": [
+        "<<qualified_step>>"
+      ],
+      "grants": [],
+      "input": "<<input>>",
+      "output": "<<output>>",
+      "surfaces_read": [
+        "<<surface>>"
+      ],
+      "end_point": "<<end_point>>",
+      "routing": {
+        "kind": "<<routing_kind>>",
+        "marked": "<<upstream_mark>>",
+        "basis": "<<routing_basis>>"
+      }
+    }
+  ],
+  "shape": {
+    "name": "<<shape_name>>",
+    "evidence": []
+  },
+  "rejected_alternatives": [
+    {
+      "shape": "<<rejected_shape>>",
+      "why": "<<rejection_reason>>"
+    }
+  ],
+  "departures": [],
+  "single_part_reason": "<<single_part_reason>>",
+  "source_support": [
+    {
+      "element": "<<graph_element_or_qualified_step>>",
+      "kind": "<<support_kind>>",
+      "source": "<<run_relative_source_and_pointer>>",
+      "evidence_state": "<<evidence_state>>",
+      "detail": "<<what_source_supports_and_what_remains_unknown>>"
+    }
+  ]
+}

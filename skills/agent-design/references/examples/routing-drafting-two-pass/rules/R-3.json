@@ -1,0 +1,34 @@
+{
+  "id": "R-3",
+  "decision": "inbox:n5",
+  "prose": "a draft fix note goes to the coordinator only when the reviewer judgment says the evidence supports it; otherwise the case is escalated",
+  "expression": {
+    "reads": [
+      "judgment.evidence_supports_fix"
+    ],
+    "test": {
+      "kind": "compare",
+      "op": "==",
+      "left": {
+        "kind": "read",
+        "token": "judgment.evidence_supports_fix"
+      },
+      "right": {
+        "kind": "literal",
+        "value": "yes"
+      }
+    },
+    "sets": {
+      "outcome": {
+        "kind": "literal",
+        "value": "draft_for_review"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "report_id",
+  "observation_ids": [
+    "inbox:observation:o3"
+  ],
+  "config_values": []
+}

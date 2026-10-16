@@ -1,0 +1,5403 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "future-state",
+  "process": {
+    "name": "Enrich and Post Bank Remittance Transactions",
+    "process_ids": [
+      "5bbb985d60a7",
+      "a88919d7bd0c"
+    ]
+  },
+  "snapshot": {
+    "path": "../../snapshot/complex/snapshot.json",
+    "sha256": "bef7ef5888f73576c7278b09775e9d90f37f03b3214d8dbc9215a8681a21cb33"
+  },
+  "prior_workflow": {
+    "path": "../../current-state/complex/current-state.json",
+    "sha256": "50ad91525c7ba0af55f5294496aa781a790ecc2aad00588d72b64254d85a03a4"
+  },
+  "current_state": {
+    "path": "../../current-state/complex/current-state.json",
+    "sha256": "50ad91525c7ba0af55f5294496aa781a790ecc2aad00588d72b64254d85a03a4",
+    "kind": "workflow-bundle"
+  },
+  "presentation": "diagram",
+  "diagram": {
+    "notes": [
+      "Three performer bands: Analyst (top) - Agent (middle) - System (bottom). The Agent mediates. read_access edges flow down from System to Agent (and person-retained reads from System to Analyst); handoff edges flow up from Agent to Analyst carrying draft/recommendation output; every write edge originates in the Analyst lane and targets a System surface. Control-flow sequence/then/else/merge/loop/exception edges connect acts and may cross lanes; the directional constraint governs the access, handoff, and write edges, not control-flow sequence. The System lane holds passive system_surface nodes and preserved system_result nodes; it performs nothing.",
+      "recommend-then-review (decision log 0014, ratified). The agent assembles the permitted evidence, applies only explicitly approved matching logic, and returns an evidence-backed recommended assessment as a draft, or an Escalation. The analyst reviews, holds every authoritative decision (with authority to override), and performs every system action. No decision node is agent-taken.",
+      "Access to every surface is an Assumed design condition for this exercise (decision log 0014, evt-0085), not a verified client entitlement. Availability is not an access grant. Each of the named surfaces carries an access disposition of More information required in the access-feasibility register; this graph upgrades none of them. Assumed access must never be represented as client-verified or production-ready.",
+      "The agent never clears, writes, saves, completes, applies, uploads, assigns, classifies, sends, performs outreach, or executes an operational Escalation in any system. No write edge originates from an Agent-lane node; the agent writes to nothing it does not own. Its only output leaves the lane via handoff to the agent review surface / Excel draft columns. Every write edge originates in the Analyst lane and targets a System surface (or, for the Excel classification and the Bank->CSV export, an Analyst-lane workspace with no System write edge). A single agent-originated write, or an agent-owned authoritative decision, is a critical violation.",
+      "The required threshold that separates a recommendation from an Escalation, and the ranking-calibration method for below-threshold possibilities, are deferred design inputs (decision log 0014, open items) and are More information required. They are not defined here. Where either would be outcome-determinative, the agent emits the evidence packet, the reason, and an Escalation rather than a recommendation; any ranked possibilities are explicitly labelled non-recommendatory."
+    ]
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "sys-bank",
+        "type": "system_surface",
+        "title": "Bank portal",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          }
+        ],
+        "detail": "The remittance system of record. Read via read_access (agent transaction-detail read; person queue/verification reads; agent/person grid reads); written via write edges (ASSIGN, upload load, invoice-row entry, grid correction, Save, Mark Complete, workflow-status writes) that all originate in the Analyst lane.",
+        "treatment": "system-surface",
+        "short_label": "Bank portal",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-invoicing-app",
+        "type": "system_surface",
+        "title": "Invoicing app",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ],
+        "detail": "Invoice-identity confirmation source (New Search by Customer ID or Invoice#). Read-only in the future state.",
+        "treatment": "system-surface",
+        "short_label": "Invoicing app",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-company-records-app",
+        "type": "system_surface",
+        "title": "Company records app",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ],
+        "detail": "Payer-alias resolution source on a validation error. Read-only.",
+        "treatment": "system-surface",
+        "short_label": "Company records…",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-collections-workbench",
+        "type": "system_surface",
+        "title": "Collections workbench",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Alternative payer-alias resolution surface on a validation error. Read-only.",
+        "treatment": "system-surface",
+        "short_label": "Collections…",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-erp",
+        "type": "system_surface",
+        "title": "ERP (receipts) - production instance",
+        "lane": "System",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_id": "wwsntk-1",
+        "detail": "ERP receipt validation read only (Receipt Method, amount, State Cleared, applied invoice/amount lines). The consultation trigger and the role of the ERP (receipts) receipt view are More information required (wwsntk-1). No ERP (receipts) write or persistence is inferred; read-only.",
+        "treatment": "system-surface",
+        "short_label": "ERP - production…",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-erp-receipts",
+        "type": "system_surface",
+        "title": "ERP (receipts)",
+        "lane": "System",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_id": "wwsntk-1",
+        "detail": "ERP receipt validation read only (Receipt Method, amount, State Cleared, applied invoice/amount lines). The consultation trigger and the role of the ERP (receipts) receipt view are More information required (wwsntk-1). No ERP (receipts) write or persistence is inferred; read-only.",
+        "treatment": "system-surface",
+        "short_label": "ERP (receipts)",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-bank-statement-report",
+        "type": "system_surface",
+        "title": "Bank statement report - Summary and Detail",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ],
+        "detail": "Highlighted credit-line confirmation source. Read-only.",
+        "treatment": "system-surface",
+        "short_label": "Bank statement…",
+        "surface_kind": "channel",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-outlook",
+        "type": "system_surface",
+        "title": "Microsoft Outlook",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ],
+        "detail": "Payment-advice emails/PDFs are read as supporting evidence. The customer Accounts Payable mailbox (internal Payments in Cc) is the outbound target for the analyst-drafted remittance inquiry; that send is left unsent / out of scope, so no write edge into this channel is asserted (the outbound transfer mode is unknown / More information required).",
+        "treatment": "system-surface",
+        "short_label": "Microsoft…",
+        "surface_kind": "channel",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-uipath",
+        "type": "system_surface",
+        "title": "UiPath Action Center",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Bot-generated bank-statement output / remittance tasks consulted as supporting evidence only; not a system of record for the invoice split. Read-only, adjacent.",
+        "treatment": "system-surface",
+        "short_label": "UiPath Action…",
+        "surface_kind": "channel",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "n-001",
+        "type": "read_interaction",
+        "title": "Open Assigned Transaction Queue",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Unchanged current-state context. Queue setup and oversight remain at the analyst desk; the agent does not own queue management.",
+        "facts": [
+          {
+            "label": "Retrieves",
+            "text": "Transaction History / 'Transactions Assigned To Me' filtered by Transaction Value Date and Workflow Status; the 'Maximum result size of 5000 exceeded' warning handled by narrowing to a single day."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-002",
+        "type": "analyst_reconciliation",
+        "title": "Reconcile Against Assignment Workbook",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Unchanged current-state context. The analyst establishes the working set. The Excel workbook is the Analyst-lane workspace the interface reads context from; the Bank read is a person-retained read (read_access). Depth-capped.",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "assignment workbook / SummaryReport (Excel, Analyst-lane workspace) · sys-bank (live queue)"
+          },
+          {
+            "label": "Compares",
+            "text": "Align highlighted workbook rows against the live Bank queue; review rows marked Unprocessed for follow-up; reformat Payment / Serial Number from scientific notation to Number."
+          },
+          {
+            "label": "Finding",
+            "text": "The working set of rows to handle."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "ws-microsoft-excel",
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-003",
+        "type": "read_interaction",
+        "title": "Select Working Row Block",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. The analyst selects the row/block - this is the interface input under decision log 0014 (analyst-selected row + designated context is what the agent receives).",
+        "facts": [
+          {
+            "label": "Retrieves",
+            "text": "Transaction History filtered by Entity Name; the contiguous block of related entity rows (watching the VIEW/ASSIGN/WORKFLOW/EXPORT footer counters)."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-004",
+        "type": "write_interaction",
+        "title": "Assign Batch To Processor",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. The ASSIGN write to Bank originates in the Analyst lane (write edge to sys-bank). The subsequent Bank->offline-CSV export is a retained analyst transfer to an Analyst-lane workspace (offline CSV), not a System surface, so it draws no write edge; the agent never assigns or exports.",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Select a user, filter, select the current user, click ASSIGN so the selected rows route to the processor's workflow; confirm the 'N transactions were successfully assigned' toast."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank",
+          "ws-assigned-queue-csv-export"
+        ]
+      },
+      {
+        "id": "n-005",
+        "type": "agent_read",
+        "title": "Read Transaction Details (evidence)",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Agent evidence/reasoning contribution. Read-only (read_access to sys-bank). Agent participation is a future-state overlay under Assumed access; the underlying transaction-detail read is Observed in current state.",
+        "facts": [
+          {
+            "label": "Retrieves",
+            "text": "Transaction Details for the analyst-selected record: Payment Amount, Invoice Allocation, Difference, Status Enrichment Required, and the lower wire fields (Originator to Beneficiary, Wire Type, Beneficiary, Method of Payment)."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-006"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-006",
+        "type": "agent_reconciliation",
+        "title": "Assemble Invoice Identity (Acme / ERP)",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Agent evidence/reasoning contribution; core cross-source identity assembly. Depth-capped: the graph records that approved matching logic is applied and a recommendation produced, not the rules. Read-only across all four surfaces (read_access). The ERP (receipts) consultation trigger (wwsntk-1), source-precedence on conflict (wwsntk-2), and cross-surface correlation/identity field (wwsntk-3) are More information required; where any would decide the outcome the agent Escalates rather than recommending. Agent participation is a future-state overlay under Assumed access.",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "n-005 · sys-invoicing-app · sys-company-records-app · sys-collections-workbench · sys-erp"
+          },
+          {
+            "label": "Compares",
+            "text": "Confirm the matching invoice identity for the payment across Invoicing app (Customer ID / Invoice#), resolving payer aliases via Company records app or Collections workbench on a validation error, and, where an ERP receipt check is needed, verifying the matching ERP (receipts) Receipts record as a validation read only."
+          },
+          {
+            "label": "Cited evidence",
+            "text": "The confirmed / candidate invoice row(s), the resolved payer identity, and any ERP (receipts) receipt corroboration, cited per source."
+          },
+          {
+            "label": "Recommends",
+            "text": "A proposed invoice identity for the payment (a recommendation, never the authoritative decision)."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-007"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-invoicing-app",
+          "sys-company-records-app",
+          "sys-collections-workbench",
+          "sys-erp",
+          "sys-erp-receipts"
+        ],
+        "decision_table": "dm-source-state-invoice-identity"
+      },
+      {
+        "id": "n-007",
+        "type": "agent_reconciliation",
+        "title": "Corroborate Supporting Evidence",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Agent evidence/reasoning contribution. read_access to sys-bank-statement-report, sys-outlook, sys-uipath (System channels). The Excel Dashboard/workbook and the Foxit payment-advice PDF are Analyst-lane workspace reads passed as designated context through the Excel interface, not System reads, so they draw no read_access edge and are not written. Source-precedence (wwsntk-2) and cross-surface correlation (wwsntk-3) are More information required; where they would decide the outcome the agent Escalates. Depth-capped. Future-state overlay under Assumed access.",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "n-006 · sys-bank-statement-report · sys-outlook · sys-uipath · per-customer Dashboard / assignment workbook (Excel, Analyst-lane workspace, designated context) · payment-advice PDF (Foxit, Analyst-lane workspace, designated context)"
+          },
+          {
+            "label": "Compares",
+            "text": "Confirm the payment against the Bank statement report highlighted credit line, Outlook payment-advice emails/PDFs, and - where the invoice split is not directly stated - the per-customer Dashboard / assignment workbook; bot-generated bank-statement output and UiPath remittance tasks are supporting evidence only."
+          },
+          {
+            "label": "Cited evidence",
+            "text": "The corroborating credit line, advice, and invoice-split evidence, cited per source."
+          },
+          {
+            "label": "Recommends",
+            "text": "A corroborated supporting-evidence basis feeding the recommended reconciliation packet (a recommendation input, never the authoritative decision)."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-agent-stage-1"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-bank-statement-report",
+          "sys-outlook",
+          "sys-uipath",
+          "ws-microsoft-excel",
+          "ws-foxit-pdf-editor"
+        ],
+        "decision_table": "dm-source-state-supporting-evidence"
+      },
+      {
+        "id": "n-agent-stage-1",
+        "type": "agent_stage",
+        "title": "Stage Recommended Reconciliation Packet",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+          }
+        ],
+        "detail": "The clean placeholder for where judgment occurs -> person reviews. Output-only: the agent writes only to its own review surface / dedicated Excel draft columns (never a system of record, never a protected Excel field). Leaves the Agent lane by exactly one handoff edge to n-008. The concrete handoff-surface mechanism (a separate agent surface vs a designated Excel staging region) is a deferred Interface design decision. Proposed matching policy, pending Acme validation: exact 1:1 -> High recommendation; exact 2:1 / 3:1 -> Low recommendation; every other shape or ambiguity -> Escalation with evidence package. Recommended shapes identify analyst-owned manual entry; an Escalation carries no agent-selected method.",
+        "facts": [
+          {
+            "label": "Stages",
+            "text": "A draft review packet: the proposed invoice identity, the corroborated supporting evidence summary, a proposed allocation path including the recommended allocation method (UploadTemplate upload vs manual invoice-row entry), and the threshold state (met / not met); or, where the required threshold is not reached, an Escalation with the evidence packet, the reason, and only explicitly non-recommendatory ranked possibilities."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-008"
+          }
+        ],
+        "treatment": "split",
+        "systems": [
+          "ws-agent-review-surface-excel-draft-columns"
+        ],
+        "stages_to": "agent review surface"
+      },
+      {
+        "id": "n-008",
+        "type": "decision",
+        "title": "Check Bulk Upload Needed",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Shared review seam. The analyst reviews the staged packet and decides upload vs manual (authoritative decision, never agent-taken; authority to override). Branches preserved: then -> n-009 (upload), else -> n-011 (manual). Under the proposed matching policy pending Acme validation, recommended exact 1:1 / 2:1 / 3:1 shapes identify manual entry; every other shape or ambiguity arrives as an Escalation with evidence package and no agent-selected method.",
+        "treatment": "person-kept",
+        "decision_table": "dm-allocation-method",
+        "condition": "Is a one-to-many UploadTemplate upload the appropriate method?",
+        "reviews": "n-agent-stage-1"
+      },
+      {
+        "id": "n-009",
+        "type": "write_interaction",
+        "title": "Upload Remittance Template",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. The agent may draft the staged UploadTemplate rows into its review surface / Excel draft columns, but never loads them; the analyst performs the upload write to Bank (write edge to sys-bank).",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Load the staged invoice rows (staged in the prepared UploadTemplate file, preserving full invoice numbers) into the Bank remittance editor; confirm the 'N record(s) successfully uploaded. You must click the Save button to retain uploaded data' toast."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "ws-microsoft-excel",
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-agent-balance",
+        "type": "agent_stage",
+        "title": "Stage Draft Balance Assessment",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Agent evidence/reasoning contribution, output-only. The agent reports whether its proposed allocation balances; the analyst at n-010 holds the authoritative balance decision (with authority to override) and performs every consequential action (Save, further correction). Output-only: the agent writes only to its own review surface / dedicated Excel draft columns, never a system of record, never a protected Excel field. No new agent system read is created to support this seam (invariant): the assessment is over the agent's own proposed allocation, carried forward from n-agent-stage-1 through the upload, not a read of the posted Bank Difference; the person-retained Difference read at n-010 is unchanged. Leaves the Agent lane by exactly one handoff edge (e-bal-hand) to n-010. Future-state overlay under Assumed access.",
+        "facts": [
+          {
+            "label": "Stages",
+            "text": "A draft-only balance assessment: whether the agent's own proposed allocation balances (nets to zero Difference against the Payment Amount) or does not, with the supporting figures already assembled in the recommended reconciliation packet. This is an assessment of the agent's proposed allocation, not a fresh read of the posted Bank Difference."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-010"
+          },
+          {
+            "label": "Assesses",
+            "text": "the agent's proposed allocation carried forward from n-agent-stage-1 through the upload"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "ws-agent-review-surface-excel-draft-columns"
+        ],
+        "stages_to": "agent review surface"
+      },
+      {
+        "id": "n-010",
+        "type": "decision",
+        "title": "Check Allocation Balanced",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Shared review seam. Legible binary on the Bank Difference value. The analyst reviews the agent's draft-only balance assessment (n-agent-balance, arriving via handoff e-bal-hand) and holds the authoritative balance decision (with authority to override); the person-retained Bank Difference read and any action stay with the analyst. No agent system read is created for this seam: the agent's assessment is over its own proposed allocation, not the posted Bank Difference. Branches preserved: then -> n-013 (balanced; agent reports balanced, analyst saves); else -> n-012-agent (unbalanced; routes into reconciliation).",
+        "treatment": "person-kept",
+        "decision_table": "dt-n-010",
+        "condition": "Does the uploaded remittance balance to zero difference?",
+        "reviews": "n-agent-balance"
+      },
+      {
+        "id": "n-011",
+        "type": "write_interaction",
+        "title": "Enter Invoice Rows",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. Grid writes are retained (write edge to sys-bank); the agent may draft the rows for analyst entry but never writes the grid.",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "In the Bank remittance editor (New Rows / ADD / DELETE / DISASSOCIATE ADVICES) enter each confirmed invoice number and amount, building one-to-one, one-to-many, or many-to-one allocations until Invoice Allocation approaches the Payment Amount."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-012-agent",
+        "type": "agent_reconciliation",
+        "title": "Propose Remaining-Difference Reconciliation",
+        "lane": "Agent",
+        "performer": "Bank remittance agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Escalation/uncertainty seam (agent side); also the re-proposal target on re-entry (e-023) when the analyst intends a re-proposal, returning via e-hand-012 (F4). Read-only across sys-bank (grid state), sys-invoicing-app, sys-bank-statement-report, sys-outlook, sys-company-records-app (read_access); re-entry reuses these existing reads and creates no new agent system read/write. The agent never edits the grid, adds a Finance charge line, sets Reviewed status, or drafts the customer inquiry - all analyst retained actions. The confidence/stop threshold (wwsntk-4), eligibility boundary (wwsntk-5), completion-without-zero rule (wwsntk-6, Contradictory), and finance-charge/write-off tolerance (wwsntk-7) are unestablished; where any would decide the outcome the agent Escalates rather than recommending. It never silently converts an Escalation into a recommendation. Depth-capped. Future-state overlay under Assumed access.",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "sys-bank (current grid / Difference) · sys-invoicing-app · sys-bank-statement-report · sys-outlook · sys-company-records-app"
+          },
+          {
+            "label": "Compares",
+            "text": "Examine the complete permitted evidence and, where the evidence and explicitly approved matching logic support it, propose the evidence-supported path to reconciliation for the remaining Difference (not only a one-to-one match)."
+          },
+          {
+            "label": "Cited evidence",
+            "text": "The assembled evidence packet with per-source citations and the resulting Difference position."
+          },
+          {
+            "label": "Recommends",
+            "text": "A proposed reconciliation path / disposition and its threshold state, or - where the required threshold is not reached - an Escalation (evidence packet, reason, and only explicitly non-recommendatory ranked possibilities)."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-012-analyst"
+          }
+        ],
+        "treatment": "split",
+        "systems": [
+          "sys-bank",
+          "sys-invoicing-app",
+          "sys-bank-statement-report",
+          "sys-outlook",
+          "sys-company-records-app"
+        ],
+        "decision_table": "dm-correction-unresolved"
+      },
+      {
+        "id": "n-012-analyst",
+        "type": "analyst_reconciliation",
+        "title": "Reconcile Remaining Difference (review, correct, disposition)",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Escalation/uncertainty seam (analyst side) and the actor for every system action here. The analyst performs all Bank grid writes (add/adjust/remove rows, Finance charge line, Reviewed status) - write edge to sys-bank - and drafts the customer-facing remittance inquiry from the Notepad template with a Snipping Tool credit-line capture (an analyst retained action; Snipping Tool and Notepad are Analyst-lane workspace tools). The person-retained grid read is a read_access to sys-bank; the analyst reviews the agent's cited evidence packet rather than re-reading every source. The self-loop e-022 is analyst-performed iterative correction; where re-proposal is intended the agent is re-invoked via the explicit re-entry edge e-023 (n-012-analyst -> n-012-agent) and re-proposes back through the existing Agent->Analyst review handoff e-hand-012 (F4). Every system correction and loop action remains analyst-performed. The outbound remittance inquiry is addressed to the customer Accounts Payable mailbox (internal Payments in Cc) via Outlook; its send is left unsent / out of scope, so no write edge into a channel is asserted. Threshold, eligibility boundary, and disposition-selection rule are More information required (wwsntk-4, wwsntk-5); the completion-without-zero rule is Contradictory (wwsntk-6, preserved not resolved).",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "n-012-agent (proposed path or Escalation) · sys-bank (grid)"
+          },
+          {
+            "label": "Compares",
+            "text": "Review the agent's proposed reconciliation path (or Escalation) and iteratively add, adjust, or remove invoice rows in the Bank grid until Difference reaches 0.00, adding a Finance charge line where a small bank-charge residual must be absorbed or resetting an over-applied allocation, then select the disposition."
+          },
+          {
+            "label": "Finding",
+            "text": "One of several materially distinct dispositions, each an explicit route out of this node."
+          }
+        ],
+        "treatment": "split",
+        "systems": [
+          "sys-bank",
+          "ws-snipping-tool",
+          "ws-notepad",
+          "ws-microsoft-outlook"
+        ],
+        "decision_table": "dm-correction-unresolved"
+      },
+      {
+        "id": "n-013",
+        "type": "write_interaction",
+        "title": "Save Remittance Update",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. Save originates in the Analyst lane (write edge to sys-bank).",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Click Save; confirm the 'Save Successful / Reference items were successfully updated' toast and the status change to Enrichment Complete."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-014",
+        "type": "write_interaction",
+        "title": "Confirm Mark Complete",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. Complete originates in the Analyst lane (write edge to sys-bank).",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Click MARK COMPLETE, confirm YES in the modal, wait for the record to reload in Enrichment Complete status with 0 open advices."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-015",
+        "type": "system_result",
+        "title": "Record Enrichment Complete (0 open advices)",
+        "lane": "System",
+        "performer": "Bank portal",
+        "evidence_state": "Contradictory",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_id": "contradiction-n-015",
+        "detail": "Unchanged current-state context; system-produced terminal state, preserved not inferred. Contradictory: records reach this completion state without full invoice backing or with an unresolved / documented residual, conflicting with the stated 'Difference 0.00 / invoice-backed / 0 open advices' success criterion. The completion-without-zero condition feeds the Escalation/uncertainty seam via wwsntk-6; it is preserved, never converted into a completion rule.",
+        "treatment": "system-surface",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-016",
+        "type": "write_interaction",
+        "title": "Verify Completed Record & Set Workflow Status",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action. Both Bank workflow writes (assign-to-processor; Update Workflow Statuses to Reviewed) originate in the Analyst lane (two write edges to sys-bank). The verification read is a person-retained read_access to sys-bank; the agent may contribute the verification read as evidence, but that contribution is not asserted as a separate node here.",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Confirm Enrichment Complete and invoice-backed rows in Transaction History (read); assign the completed record to the responsible processor (Workflow & Notes > Select a user); batch-set completed rows to Reviewed via WORKFLOW > Update Workflow Statuses; review Receivables > Reports > Assigned-to Summary for queue oversight."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-017",
+        "type": "write_interaction",
+        "title": "Classify Assignment Tracker Row",
+        "lane": "Analyst",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Analyst retained action targeting the Analyst-lane Excel workspace, so it draws no System write edge. The classification column is a protected operational-status field: the agent must not write it. The agent may draft-propose a class into a dedicated draft column only, but the tracker-classification taxonomy authority and class-selection rule are More information required (gap #9), so where they would decide the class the agent Escalates rather than recommending.",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Mark the matching workbook row 'completed' and set the payment-type classification in the column U/V/W dropdown (Data Validation list sourced from Sheet1); correct entries that trigger the data-validation restriction error; align rows against the exported CSV."
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "ws-microsoft-excel"
+        ]
+      },
+      {
+        "id": "n-019",
+        "type": "system_result",
+        "title": "Item Left In Reviewed / Unidentified Status",
+        "lane": "System",
+        "performer": "Bank portal",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Escalation/uncertainty seam. Off-spine disposition, preserved not inferred: an unidentified item is moved to Reviewed status and left, rather than proceeding to Enrichment Complete. Closure, eligibility boundary, confidence threshold, and any Bank->MOA hand-off are More information required (wwsntk-5, wwsntk-4, gap #10). No onward edge is asserted.",
+        "treatment": "system-surface",
+        "systems": [
+          "sys-bank"
+        ]
+      },
+      {
+        "id": "n-020",
+        "type": "system_result",
+        "title": "Remittance Inquiry Drafted (Reviewed / On account / Sent email)",
+        "lane": "System",
+        "performer": "Cash Applications Specialist",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "detail": "Escalation/uncertainty seam. Off-spine disposition, preserved not inferred: where no invoice match can be confirmed a customer-facing remittance inquiry is drafted and the item is left Reviewed / On account / Sent email. The outbound email and outreach are analyst retained actions; the send is left unsent / out of scope. Closure, eligibility boundary, and any Bank->MOA hand-off are More information required (wwsntk-5, gap #10). No onward edge is asserted.",
+        "treatment": "system-surface",
+        "systems": [
+          "sys-bank"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-001",
+        "kind": "sequence",
+        "source": "n-001",
+        "target": "n-002",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-002",
+        "kind": "sequence",
+        "source": "n-002",
+        "target": "n-003",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-003",
+        "kind": "sequence",
+        "source": "n-003",
+        "target": "n-004",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "e-004",
+        "kind": "sequence",
+        "source": "n-004",
+        "target": "n-005",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/3"
+          }
+        ],
+        "label": "agent begins evidence assembly on the analyst-selected row (interface input from n-003)"
+      },
+      {
+        "id": "e-005",
+        "kind": "sequence",
+        "source": "n-005",
+        "target": "n-006",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-006",
+        "kind": "sequence",
+        "source": "n-006",
+        "target": "n-007",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-stage",
+        "kind": "sequence",
+        "source": "n-007",
+        "target": "n-agent-stage-1",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design"
+      },
+      {
+        "id": "e-007",
+        "kind": "handoff",
+        "source": "n-agent-stage-1",
+        "target": "n-008",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          }
+        ],
+        "label": "recommended reconciliation packet (identity + supporting evidence + proposed allocation path + method recommendation + threshold state) or Escalation; the Agent->Analyst interface boundary"
+      },
+      {
+        "id": "e-008",
+        "kind": "then",
+        "source": "n-008",
+        "target": "n-009",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+          }
+        ],
+        "condition": "Is a one-to-many UploadTemplate upload the appropriate method?",
+        "label": "shared review seam - analyst decides and acts; an Escalation carries no agent-selected method",
+        "display_label": "Is a one-to-many UploadTemplate "
+      },
+      {
+        "id": "e-009",
+        "kind": "else",
+        "source": "n-008",
+        "target": "n-011",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+          }
+        ],
+        "condition": "Is a one-to-many UploadTemplate upload the appropriate method?",
+        "label": "shared review seam - recommended exact 1:1 / 2:1 / 3:1 shapes identify manual entry; analyst decides and acts",
+        "display_label": "Is a one-to-many UploadTemplate "
+      },
+      {
+        "id": "e-010",
+        "kind": "sequence",
+        "source": "n-009",
+        "target": "n-agent-balance",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          }
+        ],
+        "label": "F2 remediation: e-010 retargeted from n-010 to n-agent-balance so the agent assesses the uploaded proposed allocation's balance before the analyst decision; control-flow sequence crossing Analyst->Agent, not a data read"
+      },
+      {
+        "id": "e-bal-hand",
+        "kind": "handoff",
+        "source": "n-agent-balance",
+        "target": "n-010",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "draft-only balance assessment (proposed allocation balances / does not); the Agent->Analyst interface boundary; the analyst holds the authoritative balance decision"
+      },
+      {
+        "id": "e-011",
+        "kind": "then",
+        "source": "n-010",
+        "target": "n-013",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          }
+        ],
+        "condition": "Does the uploaded remittance balance to zero difference?",
+        "label": "shared review seam - agent reports balanced, analyst saves",
+        "display_label": "Does the uploaded remittance bal"
+      },
+      {
+        "id": "e-012",
+        "kind": "else",
+        "source": "n-010",
+        "target": "n-012-agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          }
+        ],
+        "condition": "Does the uploaded remittance balance to zero difference?",
+        "label": "unbalanced - routes into reconciliation (inbound edge lands on the first future node of the n-012 expansion)",
+        "display_label": "Does the uploaded remittance bal"
+      },
+      {
+        "id": "e-013",
+        "kind": "sequence",
+        "source": "n-011",
+        "target": "n-012-agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          }
+        ],
+        "label": "inbound edge lands on the first future node of the n-012 expansion"
+      },
+      {
+        "id": "e-hand-012",
+        "kind": "handoff",
+        "source": "n-012-agent",
+        "target": "n-012-analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "proposed reconciliation path + evidence packet + threshold state, or Escalation; this same Agent->Analyst review handoff carries the re-proposal back to the analyst correction seam on re-entry via e-023 (F4)"
+      },
+      {
+        "id": "e-014",
+        "kind": "then",
+        "source": "n-012-analyst",
+        "target": "n-013",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          }
+        ],
+        "branch": "resolved_to_zero",
+        "label": "shared review seam - correction reconciles to Difference 0.00, analyst saves; confidence threshold More information required (wwsntk-4), below which this Escalates",
+        "display_label": "resolved to zero"
+      },
+      {
+        "id": "e-019",
+        "kind": "then",
+        "source": "n-012-analyst",
+        "target": "n-013",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "branch": "partial_residual_documented",
+        "label": "Escalation/uncertainty seam - completion-with-residual; eligibility and completion-without-zero rule More information required / Contradictory (wwsntk-5, wwsntk-6); the agent may not silently convert this into a recommendation",
+        "display_label": "partial residual documented"
+      },
+      {
+        "id": "e-020",
+        "kind": "exception",
+        "source": "n-012-analyst",
+        "target": "n-019",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "branch": "unidentified_reviewed",
+        "label": "Escalation/uncertainty seam - eligibility boundary and closure More information required (wwsntk-5)",
+        "display_label": "unidentified reviewed"
+      },
+      {
+        "id": "e-021",
+        "kind": "exception",
+        "source": "n-012-analyst",
+        "target": "n-020",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "branch": "drafted_inquiry_on_account",
+        "label": "Escalation/uncertainty seam - eligibility and closure More information required (wwsntk-5); outbound send is an analyst retained action, left unsent / out of scope",
+        "display_label": "drafted inquiry on account"
+      },
+      {
+        "id": "e-022",
+        "kind": "loop",
+        "source": "n-012-analyst",
+        "target": "n-012-analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "branch": "iterative_correction",
+        "label": "analyst-performed iterative correction; the stop threshold that ends the loop is More information required (wwsntk-4); where re-proposal is intended the agent is re-invoked via e-023 rather than by this analyst self-loop",
+        "display_label": "iterative correction"
+      },
+      {
+        "id": "e-023",
+        "kind": "loop",
+        "source": "n-012-analyst",
+        "target": "n-012-agent",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "branch": "reproposal_reentry",
+        "label": "re-entry to agent reasoning when re-proposal is intended; control-flow loop edge only (no agent system read/write created); every system correction and loop action remains analyst-performed (e-022, w-012-bank)",
+        "display_label": "reproposal reentry"
+      },
+      {
+        "id": "e-015",
+        "kind": "sequence",
+        "source": "n-013",
+        "target": "n-014",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-016",
+        "kind": "sequence",
+        "source": "n-014",
+        "target": "n-015",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "e-017",
+        "kind": "sequence",
+        "source": "n-015",
+        "target": "n-016",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "e-018",
+        "kind": "sequence",
+        "source": "n-016",
+        "target": "n-017",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "ra-005-bank",
+        "kind": "read_access",
+        "source": "n-005",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-006-invoicing",
+        "kind": "read_access",
+        "source": "n-006",
+        "target": "sys-invoicing-app",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-006-records",
+        "kind": "read_access",
+        "source": "n-006",
+        "target": "sys-company-records-app",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-006-workbench",
+        "kind": "read_access",
+        "source": "n-006",
+        "target": "sys-collections-workbench",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-006-erp",
+        "kind": "read_access",
+        "source": "n-006",
+        "target": "sys-erp",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_id": "wwsntk-1",
+        "label": "ERP receipt validation read; consultation trigger More information required (wwsntk-1)"
+      },
+      {
+        "id": "ra-006-erp-receipts",
+        "kind": "read_access",
+        "source": "n-006",
+        "target": "sys-erp-receipts",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_id": "wwsntk-1",
+        "label": "ERP receipt validation read; consultation trigger More information required (wwsntk-1)"
+      },
+      {
+        "id": "ra-007-balrpt",
+        "kind": "read_access",
+        "source": "n-007",
+        "target": "sys-bank-statement-report",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-007-outlook",
+        "kind": "read_access",
+        "source": "n-007",
+        "target": "sys-outlook",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-007-uipath",
+        "kind": "read_access",
+        "source": "n-007",
+        "target": "sys-uipath",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-012a-bank",
+        "kind": "read_access",
+        "source": "n-012-agent",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-012a-invoicing",
+        "kind": "read_access",
+        "source": "n-012-agent",
+        "target": "sys-invoicing-app",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-012a-balrpt",
+        "kind": "read_access",
+        "source": "n-012-agent",
+        "target": "sys-bank-statement-report",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-012a-outlook",
+        "kind": "read_access",
+        "source": "n-012-agent",
+        "target": "sys-outlook",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-012a-records",
+        "kind": "read_access",
+        "source": "n-012-agent",
+        "target": "sys-company-records-app",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "ra-001-bank",
+        "kind": "read_access",
+        "source": "n-001",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "person-retained read"
+      },
+      {
+        "id": "ra-002-bank",
+        "kind": "read_access",
+        "source": "n-002",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "person-retained read"
+      },
+      {
+        "id": "ra-003-bank",
+        "kind": "read_access",
+        "source": "n-003",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "person-retained read (row selection)"
+      },
+      {
+        "id": "ra-012h-bank",
+        "kind": "read_access",
+        "source": "n-012-analyst",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "person-retained grid read"
+      },
+      {
+        "id": "ra-016-bank",
+        "kind": "read_access",
+        "source": "n-016",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "person-retained verification read"
+      },
+      {
+        "id": "w-004-bank",
+        "kind": "write",
+        "source": "n-004",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-009-bank",
+        "kind": "write",
+        "source": "n-009",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-011-bank",
+        "kind": "write",
+        "source": "n-011",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-012-bank",
+        "kind": "write",
+        "source": "n-012-analyst",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-013-bank",
+        "kind": "write",
+        "source": "n-013",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-014-bank",
+        "kind": "write",
+        "source": "n-014",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-016a-bank",
+        "kind": "write",
+        "source": "n-016",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      },
+      {
+        "id": "w-016b-bank",
+        "kind": "write",
+        "source": "n-016",
+        "target": "sys-bank",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ]
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "ws-microsoft-excel",
+        "name": "Microsoft Excel",
+        "short_label": "Microsoft Excel"
+      },
+      {
+        "id": "ws-assigned-queue-csv-export",
+        "name": "Assigned-queue CSV export (offline)",
+        "short_label": "Assigned-queue…"
+      },
+      {
+        "id": "ws-foxit-pdf-editor",
+        "name": "Foxit PDF Editor",
+        "short_label": "Foxit PDF Editor"
+      },
+      {
+        "id": "ws-agent-review-surface-excel-draft-columns",
+        "name": "agent review surface / Excel draft columns",
+        "short_label": "agent review…"
+      },
+      {
+        "id": "ws-snipping-tool",
+        "name": "Snipping Tool",
+        "short_label": "Snipping Tool"
+      },
+      {
+        "id": "ws-notepad",
+        "name": "Notepad",
+        "short_label": "Notepad"
+      },
+      {
+        "id": "ws-microsoft-outlook",
+        "name": "Microsoft Outlook (Customer Accounts Payable mailbox, Payments in Cc)",
+        "short_label": "Microsoft…"
+      }
+    ],
+    "decision_tables": [
+      {
+        "id": "dm-source-state-invoice-identity",
+        "owner": "n-006",
+        "kind": "consultation",
+        "purpose": "Factual expansion of the conditional Acme/ERP consultation the Cash Applications Specialist runs at n-006 (Confirm Invoice In Acme) to confirm the invoice identity for the payment across Acme and, where an ERP receipt check is needed, ERP (receipts). The onward edge from n-006 is the unconditional sequential edge e-006 to n-007; this matrix exposes only the hidden per-surface consultation, not a new branch.",
+        "columns": [
+          "applicable",
+          "no-match",
+          "missing-fields",
+          "unavailable",
+          "not-applicable"
+        ],
+        "rows": [
+          {
+            "id": "src-invoicing-app",
+            "label": "Invoicing app",
+            "attributes": {
+              "source_class": "system_of_record",
+              "consult_trigger": "Run New Search by Customer ID or Invoice# to confirm the matching invoice row.",
+              "identity_or_fields_required": "Customer ID or Invoice#."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-company-records-app",
+            "label": "Company records app",
+            "attributes": {
+              "source_class": "system_of_record",
+              "consult_trigger": "Resolve payer aliases when a validation error occurs during invoice confirmation.",
+              "identity_or_fields_required": "Payer alias / company identity."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-collections-work-bench",
+            "label": "Collections workbench",
+            "attributes": {
+              "source_class": "system_of_record",
+              "consult_trigger": "Resolve payer aliases when a validation error occurs during invoice confirmation.",
+              "identity_or_fields_required": "More information required"
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-erp-receipts",
+            "label": "ERP (receipts) - production instance / ERP (receipts)",
+            "attributes": {
+              "source_class": "system_of_record",
+              "consult_trigger": "Consulted as a validation read where an ERP receipt check is needed; the exact consultation trigger and the role of the ERP (receipts) receipt view are not established (More information required).",
+              "identity_or_fields_required": "Receipt Method, amount, State Cleared, and the applied invoice/amount lines (validation read only)."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-1",
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          }
+        ],
+        "cells": [
+          {
+            "row_id": "src-invoicing-app",
+            "column": "applicable",
+            "outcome": "Confirm the matching invoice row; identity confirmed, node continues to n-007 (e-006).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-invoicing-app",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-invoicing-app",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-invoicing-app",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-invoicing-app",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-company-records-app",
+            "column": "applicable",
+            "outcome": "Resolve the payer alias so invoice confirmation can proceed; node continues to n-007 (e-006).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-company-records-app",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-company-records-app",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-company-records-app",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-company-records-app",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-collections-work-bench",
+            "column": "applicable",
+            "outcome": "Resolve the payer alias so invoice confirmation can proceed; node continues to n-007 (e-006).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-collections-work-bench",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-collections-work-bench",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-collections-work-bench",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-collections-work-bench",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-erp-receipts",
+            "column": "applicable",
+            "outcome": "Verify the matching ERP (receipts) Receipts record (Receipt Method, amount, State Cleared, applied invoice/amount lines) as a validation read; the trigger that makes this check applicable is not established.",
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-1"
+            ]
+          },
+          {
+            "row_id": "src-erp-receipts",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-1",
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-erp-receipts",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-erp-receipts",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-1",
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-erp-receipts",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-1"
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "prec-invoice-identity-source-precedence",
+            "text": "Source-precedence rule when Acme, Collections workbench, and ERP (receipts) evidence conflict is not established.",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_ids": [
+          "wwsntk-1",
+          "wwsntk-2",
+          "wwsntk-3"
+        ],
+        "treatment_note": "The agent assembles the cross-source invoice identity (read_access to sys-invoicing-app, sys-company-records-app, sys-collections-workbench, sys-erp) and recommends a proposed identity for analyst review. Escalation: Where the ERP (receipts) consultation trigger, source-precedence on conflict, or cross-surface correlation would decide the outcome, the agent Escalates rather than recommending."
+      },
+      {
+        "id": "dm-source-state-supporting-evidence",
+        "owner": "n-007",
+        "kind": "consultation",
+        "purpose": "Factual expansion of the conditional supporting-evidence cross-check at n-007 (Cross-Check Supporting Evidence), consulted where the invoice split is not directly stated. The onward edge from n-007 is the unconditional sequential edge e-007 to n-008; this matrix exposes only the hidden per-surface consultation, not a new branch.",
+        "columns": [
+          "applicable",
+          "no-match",
+          "missing-fields",
+          "unavailable",
+          "not-applicable"
+        ],
+        "rows": [
+          {
+            "id": "src-balance-transaction-report",
+            "label": "Bank statement report - Summary and Detail",
+            "attributes": {
+              "source_class": "channel",
+              "consult_trigger": "Confirm the payment against the highlighted credit line.",
+              "identity_or_fields_required": "Highlighted credit line."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-outlook-payment-advice",
+            "label": "Microsoft Outlook",
+            "attributes": {
+              "source_class": "channel",
+              "consult_trigger": "Confirm the payment against Outlook payment-advice emails and PDFs.",
+              "identity_or_fields_required": "More information required"
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-excel-dashboard-workbook",
+            "label": "Microsoft Excel (per-customer Dashboard / assignment workbook)",
+            "attributes": {
+              "source_class": "analyst_workspace",
+              "consult_trigger": "Consult the per-customer Dashboard / assignment workbook where the invoice split is not directly stated.",
+              "identity_or_fields_required": "Per-customer invoice split."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-foxit-pdf",
+            "label": "Foxit PDF Editor",
+            "attributes": {
+              "source_class": "analyst_workspace",
+              "consult_trigger": "Review payment-advice PDFs.",
+              "identity_or_fields_required": "More information required"
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "src-uipath-action-center",
+            "label": "UiPath Action Center (bot-generated bank-statement output / remittance tasks)",
+            "attributes": {
+              "source_class": "channel",
+              "consult_trigger": "Consulted as supporting evidence only.",
+              "identity_or_fields_required": "More information required"
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [
+          {
+            "row_id": "src-balance-transaction-report",
+            "column": "applicable",
+            "outcome": "Confirm the payment against the highlighted credit line; node continues to n-008 (e-007).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-balance-transaction-report",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-balance-transaction-report",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-balance-transaction-report",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-balance-transaction-report",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-outlook-payment-advice",
+            "column": "applicable",
+            "outcome": "Confirm the payment against Outlook payment-advice emails / PDFs; node continues to n-008 (e-007).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-outlook-payment-advice",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-outlook-payment-advice",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-outlook-payment-advice",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-outlook-payment-advice",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-excel-dashboard-workbook",
+            "column": "applicable",
+            "outcome": "Read the per-customer invoice split from the Dashboard / assignment workbook where it is not directly stated elsewhere; node continues to n-008 (e-007).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-excel-dashboard-workbook",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-excel-dashboard-workbook",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-excel-dashboard-workbook",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-excel-dashboard-workbook",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-foxit-pdf",
+            "column": "applicable",
+            "outcome": "Review the payment-advice PDF to confirm the payment; node continues to n-008 (e-007).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-foxit-pdf",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-foxit-pdf",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-foxit-pdf",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-foxit-pdf",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-uipath-action-center",
+            "column": "applicable",
+            "outcome": "Use the bot-generated bank-statement output / UiPath remittance task as supporting evidence only; node continues to n-008 (e-007).",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "row_id": "src-uipath-action-center",
+            "column": "no-match",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-uipath-action-center",
+            "column": "missing-fields",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-3"
+            ]
+          },
+          {
+            "row_id": "src-uipath-action-center",
+            "column": "unavailable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          },
+          {
+            "row_id": "src-uipath-action-center",
+            "column": "not-applicable",
+            "outcome": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2"
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "id": "prec-supporting-evidence-source-precedence",
+            "text": "Source-precedence rule when Bank statement report, Outlook advice, Dashboard workbook, and bot output conflict is not established.",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-2",
+              "wwsntk-3"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_ids": [
+          "wwsntk-2",
+          "wwsntk-3"
+        ],
+        "treatment_note": "The agent corroborates supporting evidence (read_access to sys-bank-statement-report, sys-outlook, sys-uipath; Excel Dashboard and Foxit PDF as Analyst-lane designated context) into the recommended packet. Escalation: Where source-precedence or correlation would decide the outcome, the agent Escalates."
+      },
+      {
+        "id": "dm-allocation-method",
+        "owner": "n-008",
+        "kind": "selection",
+        "purpose": "Factual expansion of the method choice at n-008 (Check Bulk Upload Needed): whether the payment is populated via the prepared UploadTemplate upload or via manual invoice-row entry. The two candidate methods correspond to the existing Layer-1 conditional edges out of n-008; this matrix does not create a branch.",
+        "columns": [
+          "observed_condition",
+          "candidate_method"
+        ],
+        "rows": [
+          {
+            "id": "method-template-upload",
+            "label": "UploadTemplate upload (stage invoice rows in the prepared UploadTemplate file, then load into the Bank remittance editor).",
+            "attributes": {
+              "observed_condition": "The payment is a one-to-many remittance best populated via the prepared UploadTemplate upload file.",
+              "candidate_method": "UploadTemplate upload (stage invoice rows in the prepared UploadTemplate file, then load into the Bank remittance editor)."
+            },
+            "next_node": "n-009",
+            "next_edge": "e-008",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "method-manual-entry",
+            "label": "Manual invoice-row entry in the Bank remittance editor.",
+            "attributes": {
+              "observed_condition": "Otherwise, the payment is populated by manual invoice-row entry.",
+              "candidate_method": "Manual invoice-row entry in the Bank remittance editor."
+            },
+            "next_node": "n-011",
+            "next_edge": "e-009",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-1",
+                "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "sel-allocation-method",
+            "text": "The rule that selects UploadTemplate upload versus manual invoice-row entry is not established.",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-8"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_ids": [
+          "wwsntk-8"
+        ],
+        "treatment_note": "The two Observed candidate methods map to the preserved conditional edges (UploadTemplate upload -> n-009 via e-008; manual entry -> n-011 via e-009). The agent proposes the method where evidence supports; the analyst decides and acts. Escalation: Proposed policy, pending Acme validation: exact 1:1 -> High recommendation; exact 2:1 / 3:1 -> Low recommendation; every other shape or ambiguity -> Escalation with evidence package and no agent-selected method."
+      },
+      {
+        "id": "dm-correction-unresolved",
+        "owner": [
+          "n-012-agent",
+          "n-012-analyst"
+        ],
+        "kind": "selection",
+        "purpose": "Factual expansion of the correction and disposition work at n-012 (Reconcile Remaining Difference): the iterative correction, the finance-charge absorption, and the four materially distinct dispositions out of the node. Each disposition corresponds to an existing Layer-1 edge; this matrix does not create, remove, or conceal a route. Which disposition applies, and the thresholds that govern it, are not established.",
+        "columns": [
+          "observed_condition",
+          "correction_or_disposition",
+          "notes"
+        ],
+        "rows": [
+          {
+            "id": "corr-iterative-loop",
+            "label": "Iteratively add, adjust, or remove invoice rows in the Bank grid and re-check Difference.",
+            "attributes": {
+              "observed_condition": "The uploaded/entered allocation over- or under-allocates; Difference is not yet 0.00.",
+              "correction_or_disposition": "Iteratively add, adjust, or remove invoice rows in the Bank grid and re-check Difference.",
+              "notes": "Self-loop. The stop threshold that ends the iteration (accept, complete, or route to a disposition) is a confidence threshold that is not established."
+            },
+            "next_node": "n-012-analyst",
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-4"
+            ]
+          },
+          {
+            "id": "corr-finance-charge-line",
+            "label": "Add a Finance charge line to absorb the residual.",
+            "attributes": {
+              "observed_condition": "A small bank-charge residual must be absorbed.",
+              "correction_or_disposition": "Add a Finance charge line to absorb the residual.",
+              "notes": "The add-finance-charge action is Observed; the finance-charge / write-off tolerance that governs when a residual may be absorbed is not established, and the resulting next node is therefore More information required (in practice it feeds resolved-to-zero toward Save, but no rule fixes this)."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-7"
+            ]
+          },
+          {
+            "id": "disp-resolved-to-zero",
+            "label": "Proceed to Save.",
+            "attributes": {
+              "observed_condition": "The correction reconciles the remainder to Difference 0.00.",
+              "correction_or_disposition": "Proceed to Save.",
+              "notes": "The threshold that judges the allocation confident enough to complete is not established."
+            },
+            "next_node": "n-013",
+            "next_edge": "e-014",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-4"
+            ]
+          },
+          {
+            "id": "disp-partial-residual-documented",
+            "label": "Complete with the residual documented, then proceed to Save / Mark Complete.",
+            "attributes": {
+              "observed_condition": "Partial match: the matchable portion is allocated and the residual difference is documented.",
+              "correction_or_disposition": "Complete with the residual documented, then proceed to Save / Mark Complete.",
+              "notes": "This is the completion-with-residual path underlying the Contradictory terminal state n-015; the residual is not resolved to zero. Whether a residual may be completed, and how it is dispositioned, is not established."
+            },
+            "next_node": "n-013",
+            "next_edge": "e-019",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-5",
+              "wwsntk-6"
+            ]
+          },
+          {
+            "id": "disp-unidentified-reviewed",
+            "label": "Move the item to Reviewed workflow status and leave it off the zero-difference spine.",
+            "attributes": {
+              "observed_condition": "An item cannot be identified.",
+              "correction_or_disposition": "Move the item to Reviewed workflow status and leave it off the zero-difference spine.",
+              "notes": "Exception route. Closure and the eligibility boundary that sends an item here rather than to completion are not established."
+            },
+            "next_node": "n-019",
+            "next_edge": "e-020",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-5"
+            ]
+          },
+          {
+            "id": "disp-drafted-inquiry-on-account",
+            "label": "Draft a customer-facing remittance inquiry from the Notepad template with a Snipping Tool credit-line capture, addressed to the customer Accounts Payable mailbox with the internal Payments mailbox in Cc; leave the item Reviewed / On account / Sent email. The outbound email is drafted; its send is left unsent / out of scope.",
+            "attributes": {
+              "observed_condition": "No confirmable invoice match can be found.",
+              "correction_or_disposition": "Draft a customer-facing remittance inquiry from the Notepad template with a Snipping Tool credit-line capture, addressed to the customer Accounts Payable mailbox with the internal Payments mailbox in Cc; leave the item Reviewed / On account / Sent email. The outbound email is drafted; its send is left unsent / out of scope.",
+              "notes": "Exception route. The send is left unsent / out of scope; closure and the eligibility boundary are not established."
+            },
+            "next_node": "n-020",
+            "next_edge": "e-021",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-5"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "sel-disposition",
+            "text": "The rule that selects which disposition applies (resolved-to-zero, partial-residual-documented, unidentified-reviewed, or drafted-inquiry-on-account) is not established.",
+            "evidence_state": "needs_more_information",
+            "source_refs": [],
+            "issue_ids": [
+              "wwsntk-4",
+              "wwsntk-5"
+            ]
+          },
+          {
+            "id": "sel-completion-without-zero",
+            "text": "The rule permitting completion without Difference 0.00 (the Contradictory completion evidence anchored on n-015) is not established and is preserved, not resolved.",
+            "evidence_state": "Contradictory",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+              },
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "wwsntk-6"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_ids": [
+          "wwsntk-4",
+          "wwsntk-5",
+          "wwsntk-6",
+          "wwsntk-7"
+        ],
+        "treatment_note": "The agent proposes a reconciliation path only where evidence and approved logic permit; otherwise it Escalates with an evidence packet and reason. Every disposition (e-014, e-019, e-020, e-021) and the self-loop (e-022) is analyst-performed. Where the analyst intends a re-proposal, re-entry to the agent is the explicit control-flow edge e-023 (n-012-analyst -> n-012-agent), returning via the existing Agent->Analyst review handoff e-hand-012; re-entry creates no new agent system read/write (F4). The six correction/disposition rows map to the preserved Layer-1 edges out of n-012; no route is created or concealed. Escalation: Threshold, eligibility boundary, disposition-selection rule, and finance-charge tolerance are unestablished; the completion-without-zero rule is Contradictory (preserved). The agent never silently converts an Escalation into a recommendation."
+      },
+      {
+        "id": "dt-n-010",
+        "owner": "n-010",
+        "kind": "selection",
+        "purpose": "Branches of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-010-e-011",
+            "label": "yes",
+            "attributes": {
+              "condition": "Does the uploaded remittance balance to zero difference?",
+              "leads_to": "Save Remittance Update"
+            },
+            "next_node": "n-013",
+            "next_edge": "e-011",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-010-e-012",
+            "label": "no",
+            "attributes": {
+              "condition": "Does the uploaded remittance balance to zero difference?",
+              "leads_to": "Reconcile Remaining Difference"
+            },
+            "next_node": "n-012-agent",
+            "next_edge": "e-012",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-010-rule",
+            "text": "Does the uploaded remittance balance to zero difference?",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "issue_ids": []
+      }
+    ],
+    "starts": [
+      "n-001"
+    ],
+    "outcomes": [
+      "n-017"
+    ],
+    "open_ends": [
+      "n-019",
+      "n-020"
+    ],
+    "issues": [
+      {
+        "id": "wwsntk-1",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "ERP (receipts) consultation trigger and the exact role of the ERP (receipts) receipt view.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-source-state-invoice-identity"
+        ]
+      },
+      {
+        "id": "wwsntk-2",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Source-precedence rule when Bank, Acme, bank-report, email, workbook, or ERP (receipts) evidence conflicts.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-source-state-invoice-identity",
+          "dm-source-state-supporting-evidence"
+        ]
+      },
+      {
+        "id": "wwsntk-3",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Correlation or identity field used to join evidence across surfaces.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-source-state-invoice-identity",
+          "dm-source-state-supporting-evidence"
+        ]
+      },
+      {
+        "id": "wwsntk-4",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Confidence threshold for accepting a proposed invoice allocation or escalating it (also the loop stop threshold).",
+        "source_ids": [],
+        "bound_to": [
+          "dm-correction-unresolved"
+        ]
+      },
+      {
+        "id": "wwsntk-5",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Eligibility boundary for completion, partial allocation, money-on-account handling, and drafted-inquiry disposition.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-correction-unresolved"
+        ]
+      },
+      {
+        "id": "wwsntk-6",
+        "kind": "contradiction",
+        "status": "open",
+        "reason": "Completion-without-zero-difference rule (Contradictory, anchored on n-015).",
+        "source_ids": [
+          "process-details-steps-2-2",
+          "process-details",
+          "observations"
+        ],
+        "bound_to": [
+          "dm-correction-unresolved"
+        ]
+      },
+      {
+        "id": "wwsntk-7",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Finance-charge / write-off tolerance.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-correction-unresolved"
+        ]
+      },
+      {
+        "id": "wwsntk-8",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Method-selection rule (upload vs manual).",
+        "source_ids": [],
+        "bound_to": [
+          "dm-allocation-method"
+        ]
+      },
+      {
+        "id": "contradiction-n-015",
+        "kind": "contradiction",
+        "status": "open",
+        "reason": "The captured evidence for this step conflicts: Record Enrichment Complete (0 open advices)",
+        "source_ids": [
+          "process-details-steps-3-1",
+          "process-details",
+          "observations"
+        ],
+        "bound_to": [
+          "n-015"
+        ]
+      },
+      {
+        "id": "gap-9-tracker-classification",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Assignment-tracker classification taxonomy authority and class-selection rule.",
+        "source_ids": [],
+        "bound_to": [
+          "n-017"
+        ]
+      },
+      {
+        "id": "gap-10-bank-moa-handoff",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Bank -> MOA hand-off trigger and correlation key (adjacency only, outside the Bank spine).",
+        "source_ids": [],
+        "bound_to": [
+          "n-019",
+          "n-020"
+        ]
+      },
+      {
+        "id": "gap-11-volume-cycle-time",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Volume / cycle-time / pain-point attribute.",
+        "source_ids": []
+      },
+      {
+        "id": "design-access-verification",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Access verification with Acme and every per-surface access parameter.",
+        "source_ids": []
+      },
+      {
+        "id": "design-people-remit-decision",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "The full future-state remit decision for people recorded as open in decision log 0014.",
+        "source_ids": []
+      },
+      {
+        "id": "introduced-by-design",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "No captured step: introduced by the future-state design (see the transformation map). Open until the design is ratified against evidence.",
+        "source_ids": [],
+        "bound_to": [
+          "e-stage",
+          "e-023"
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details-steps-1-1:st-001",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-001"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-002",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-002"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-003",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-003"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-004",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-004"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-005",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-005"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-006",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-006"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-007",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-007",
+        "n-agent-stage-1"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-008",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-agent-stage-1",
+        "n-008"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-009",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-009"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-010",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-agent-balance",
+        "n-010"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-011",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-011"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-012",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-012-agent",
+        "n-012-analyst",
+        "n-019",
+        "n-020"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-013",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-013",
+        "n-015"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-014",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-014",
+        "n-015"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-015",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-016"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-016",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-017"
+      ]
+    }
+  ],
+  "systems_coverage": [
+    {
+      "system": "Bank portal",
+      "treatment": "mapped",
+      "rationale": "Bank portal rail: the agent reads the transaction details (n-005); the analyst still opens, assigns, uploads, saves and completes."
+    },
+    {
+      "system": "Bank statement report - Summary and Detail",
+      "treatment": "mapped",
+      "rationale": "Bank statement report - Summary and Detail rail: the agent reads it as supporting evidence at n-007 and n-012-agent."
+    },
+    {
+      "system": "Collections workbench",
+      "treatment": "mapped",
+      "rationale": "Collections workbench rail: the agent reads it at n-006 to resolve payer aliases."
+    },
+    {
+      "system": "Company records app",
+      "treatment": "mapped",
+      "rationale": "Company records app rail: the agent reads it at n-006 and n-012-agent to resolve payer identity."
+    },
+    {
+      "system": "ERP (receipts)",
+      "treatment": "mapped",
+      "rationale": "ERP (receipts) rail: the agent reads it at n-006 for the receipt check, an Assumed access. Its own rail because the evidence names it separately from the production instance."
+    },
+    {
+      "system": "ERP (receipts) - production instance",
+      "treatment": "mapped",
+      "rationale": "ERP (receipts) - production instance rail: the agent reads it at n-006 for the receipt check, an Assumed access."
+    },
+    {
+      "system": "Foxit PDF Editor",
+      "treatment": "mapped",
+      "rationale": "Foxit PDF Editor workspace: payment-advice PDFs the agent corroborates against at n-007."
+    },
+    {
+      "system": "Invoicing app",
+      "treatment": "mapped",
+      "rationale": "Invoicing app rail: the agent reads it at n-006 and n-012-agent to assemble the invoice identity."
+    },
+    {
+      "system": "Microsoft Excel",
+      "treatment": "mapped",
+      "rationale": "Microsoft Excel workspace: the assignment workbook (n-002), the upload template (n-009) and the tracker row (n-017); the agent draft columns sit beside it."
+    },
+    {
+      "system": "Microsoft Outlook",
+      "treatment": "mapped",
+      "rationale": "Microsoft Outlook rail: the agent reads payment-advice emails at n-007 and n-012-agent; the analyst drafts the inquiry from the Outlook workspace at n-012-analyst."
+    },
+    {
+      "system": "Notepad",
+      "treatment": "mapped",
+      "rationale": "Notepad workspace: the inquiry email template the analyst uses at n-012-analyst."
+    },
+    {
+      "system": "Snipping Tool",
+      "treatment": "mapped",
+      "rationale": "Snipping Tool workspace: the credit-line capture the analyst attaches at n-012-analyst."
+    },
+    {
+      "system": "UiPath Action Center",
+      "treatment": "mapped",
+      "rationale": "UiPath Action Center rail: the agent consults the remittance tasks as supporting evidence at n-007."
+    }
+  ]
+}

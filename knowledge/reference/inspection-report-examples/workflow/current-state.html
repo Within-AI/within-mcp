@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Current state - Renewal Risk Review</title><style>
+
+:root{--ink:#0B1E2F;--muted:#4A5560;--faint:#A79E92;--coral:#F56740;--coral-ink:#B23A1E;--access:#2E6E86;
+--cream:#FBF6EF;--sky:#CFF3FE;--sun:#FFF5D2;--rose:#FFE0D8;--line:#E7DFD3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.55}
+.wrap{max-width:1900px;margin:0 auto;padding:28px 24px 64px}
+h1{font-size:26px;font-weight:600;letter-spacing:-0.02em;margin:0 0 6px}
+.sub{color:var(--muted);font-size:15px;margin:0 0 18px;max-width:90ch}
+h2{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin:30px 0 10px;display:flex;align-items:center;gap:9px}
+h2::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral)}
+h3{font-size:14px;font-weight:600;margin:14px 0 6px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--muted);margin:0 0 12px;padding:0;list-style:none}
+.legend li{display:inline-flex;align-items:center;gap:7px}
+.sw{display:inline-block;width:24px;height:12px;border-radius:3px;border:1px solid rgba(11,30,47,.15)}
+.ln{display:inline-block;width:28px;height:0;border-top:2px solid var(--ink)}
+.stage-fit{margin:0 6px 8px 0;vertical-align:middle;accent-color:var(--coral)}
+.size-toggle{display:inline-flex;align-items:center;gap:7px;font:600 12px Inter,sans-serif;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin:0 0 8px;cursor:pointer}
+.stage{width:100%;max-height:78vh;min-height:320px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:auto}
+.stage svg{display:block;max-width:none;height:auto}
+.stage-fit:checked ~ .stage svg{width:100%}
+.stage svg [data-graph-node-id],.stage svg [data-graph-edge-id]{cursor:help}
+.hint{font-size:12px;color:var(--muted);margin:8px 2px 0}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 10px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--ink);font-size:11.5px}
+td{color:var(--muted)}
+code{font-family:Inter,sans-serif;font-size:.9em;background:rgba(11,30,47,.05);padding:1px 5px;border-radius:3px;color:var(--ink)}
+ul.plain{margin:6px 0 0;padding-left:18px}
+ul.plain li{margin:3px 0;color:var(--muted)}
+.muted{color:var(--muted)}
+@media print{.size-toggle,.hint{display:none}.stage{max-height:none;min-height:0;overflow:visible}.stage svg{width:100%}}
+
+</style></head><body><main class="wrap">
+<h1>Current state - Renewal Risk Review</h1><p class="sub">How a Renewal Ops Analyst reviews renewing accounts and escalates the at-risk ones today.</p>
+<section class="card"><ul class="legend"><li><span class="sw" style="background:var(--cream)"></span>Analyst band</li><li><span class="sw" style="background:#fff"></span>System band</li><li><span class="ln" style="border-top:2px solid var(--ink)"></span>sequence</li><li><span class="ln" style="border-top:2px solid var(--ink)"></span>decision branch</li><li><span class="ln" style="border-top:2px dashed var(--muted)"></span>loop back</li><li><span class="ln" style="border-top:2px dashed var(--access)"></span>read from a system</li><li><span class="ln" style="border-top:2px solid var(--ink)"></span>write to a system (dark coral when the agent writes)</li><li>≠ marks a Contradictory step</li><li><span class="sw" style="background:var(--sky)"></span>system of record chip</li><li><span class="sw" style="background:var(--rose)"></span>channel chip</li><li><span class="sw" style="background:var(--sun)"></span>workspace chip</li></ul><input type="checkbox" class="stage-fit" id="stage-fit"><label class="size-toggle" for="stage-fit">Fit to width</label><div class="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3899 838" width="3899" height="838" data-renderer="factory-workflow-bands-v3" font-family="Inter, -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, Helvetica, Arial, sans-serif">
+<defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0B1E2F"/></marker><marker id="arw-coral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#F56740"/></marker><marker id="arw-access" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2E6E86"/></marker><marker id="arw-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#0B1E2F" stroke-width="1.4"/></marker><marker id="arw-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#B23A1E"/></marker></defs>
+<g data-decoration="background"><rect x="0" y="0" width="3899" height="838" fill="#FFFFFF"/></g>
+<g data-decoration="bands">
+<rect x="96" y="54" width="3779" height="688" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/>
+<rect x="96" y="54" width="3779" height="296" fill="#FBF6EF" fill-opacity="1" stroke="#0B1E2F" stroke-width="1"/>
+<rect x="96" y="54" width="36" height="296" fill="#0B1E2F"/><text x="114" y="207" fill="#FFFFFF" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="0.1em" transform="rotate(-90 114 207)">ANALYST</text>
+<rect x="96" y="454" width="3779" height="288" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1"/>
+<rect x="96" y="454" width="36" height="288" fill="#0B1E2F"/><text x="114" y="603" fill="#FFFFFF" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="0.1em" transform="rotate(-90 114 603)">SYSTEM</text>
+</g>
+<g id="edge-r01" data-graph-edge-id="r01" data-kind="read_access" data-source="c01" data-target="sys-crm" data-route="drop" data-points="190,263 190,580 196,580"><title>read access | read access | evidence: Observed
+Link: r01 · read access</title><polyline points="190,263 190,580 196,580" fill="none" stroke="#0B1E2F" stroke-width="1.25" stroke-dasharray="5 3" marker-end="url(#arw-open)"/></g>
+<g id="edge-r02" data-graph-edge-id="r02" data-kind="read_access" data-source="c02" data-target="sys-usage" data-route="drop" data-points="480,263 480,613 486,613"><title>read access | read access | evidence: Observed
+Link: r02 · read access</title><polyline points="480,263 480,613 486,613" fill="none" stroke="#0B1E2F" stroke-width="1.25" stroke-dasharray="5 3" marker-end="url(#arw-open)"/></g>
+<g id="edge-r03" data-graph-edge-id="r03" data-kind="read_access" data-source="c03" data-target="sys-tickets" data-route="drop" data-points="770,263 770,646 776,646"><title>read access | read access | evidence: Observed
+Link: r03 · read access</title><polyline points="770,263 770,646 776,646" fill="none" stroke="#0B1E2F" stroke-width="1.25" stroke-dasharray="5 3" marker-end="url(#arw-open)"/></g>
+<g id="edge-r04" data-graph-edge-id="r04" data-kind="read_access" data-source="c04" data-target="sys-billing" data-route="drop" data-points="1060,263 1060,679 1066,679"><title>read access | read access | evidence: Observed
+Link: r04 · read access</title><polyline points="1060,263 1060,679 1066,679" fill="none" stroke="#0B1E2F" stroke-width="1.25" stroke-dasharray="5 3" marker-end="url(#arw-open)"/></g>
+<g id="edge-r05" data-graph-edge-id="r05" data-kind="read_access" data-source="c06" data-target="sys-chat" data-route="drop" data-points="1640,263 1640,712 1646,712"><title>read access | read access | evidence: Observed
+Link: r05 · read access</title><polyline points="1640,263 1640,712 1646,712" fill="none" stroke="#0B1E2F" stroke-width="1.25" stroke-dasharray="5 3" marker-end="url(#arw-open)"/></g>
+<g id="edge-w01" data-graph-edge-id="w01" data-kind="write" data-source="c09" data-target="sys-crm" data-route="drop" data-points="2582,263 2582,580 2576,580"><title>write | write | evidence: Observed
+Link: w01 · write</title><polyline points="2582,263 2582,580 2576,580" fill="none" stroke="#0B1E2F" stroke-width="1.4" marker-end="url(#arw)"/></g>
+<g id="edge-w02" data-graph-edge-id="w02" data-kind="write" data-source="c11" data-target="sys-chat" data-route="drop" data-points="3162,263 3162,712 3156,712"><title>write | write | evidence: Observed
+Link: w02 · write</title><polyline points="3162,263 3162,712 3156,712" fill="none" stroke="#0B1E2F" stroke-width="1.4" marker-end="url(#arw)"/></g>
+<g id="edge-w03" data-graph-edge-id="w03" data-kind="write" data-source="c12" data-target="sys-crm" data-route="drop" data-points="3452,263 3452,580 3446,580"><title>write | write | evidence: Observed
+Link: w03 · write</title><polyline points="3452,263 3452,580 3446,580" fill="none" stroke="#0B1E2F" stroke-width="1.4" marker-end="url(#arw)"/></g>
+<g id="node-sys-crm" data-graph-node-id="sys-crm" data-lane="System" data-node-type="system_surface" data-systems="[]" data-bounds="140 568 111 24" data-rail-y="580" data-rail-x0="140" data-rail-x1="3871"><title>Meridian CRM | System rail | evidence: Observed | kind: system of record
+Step: sys-crm · system surface
+Band: System
+Evidence: Observed</title><line x1="140" y1="580" x2="3871" y2="580" stroke="#0B1E2F" stroke-width="1.1" stroke-opacity="0.45"/><rect x="140" y="568" width="111" height="24" rx="7" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="1"/><rect x="147" y="574" width="9" height="10" fill="none" stroke="#0B1E2F" stroke-width="1.2"/><text x="162" y="584" fill="#0B1E2F" font-size="11.5" font-weight="600">Meridian CRM</text></g>
+<g id="node-sys-usage" data-graph-node-id="sys-usage" data-lane="System" data-node-type="system_surface" data-systems="[]" data-bounds="140 601 78 24" data-rail-y="613" data-rail-x0="140" data-rail-x1="3871"><title>Pulse usage dashboard | System rail | evidence: Observed | kind: system of record
+Step: sys-usage · system surface
+Band: System
+Evidence: Observed</title><line x1="140" y1="613" x2="3871" y2="613" stroke="#0B1E2F" stroke-width="1.1" stroke-opacity="0.45"/><rect x="140" y="601" width="78" height="24" rx="7" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="1"/><rect x="147" y="607" width="9" height="10" fill="none" stroke="#0B1E2F" stroke-width="1.2"/><text x="162" y="617" fill="#0B1E2F" font-size="11.5" font-weight="600">Pulse</text></g>
+<g id="node-sys-tickets" data-graph-node-id="sys-tickets" data-lane="System" data-node-type="system_surface" data-systems="[]" data-bounds="140 634 82 24" data-rail-y="646" data-rail-x0="140" data-rail-x1="3871"><title>Deskline ticketing | System rail | evidence: Observed | kind: system of record
+Step: sys-tickets · system surface
+Band: System
+Evidence: Observed</title><line x1="140" y1="646" x2="3871" y2="646" stroke="#0B1E2F" stroke-width="1.1" stroke-opacity="0.45"/><rect x="140" y="634" width="82" height="24" rx="7" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="1"/><rect x="147" y="640" width="9" height="10" fill="none" stroke="#0B1E2F" stroke-width="1.2"/><text x="162" y="650" fill="#0B1E2F" font-size="11.5" font-weight="600">Deskline</text></g>
+<g id="node-sys-billing" data-graph-node-id="sys-billing" data-lane="System" data-node-type="system_surface" data-systems="[]" data-bounds="140 667 82 24" data-rail-y="679" data-rail-x0="140" data-rail-x1="3871"><title>Ledgerly billing | System rail | evidence: Observed | kind: system of record
+Step: sys-billing · system surface
+Band: System
+Evidence: Observed</title><line x1="140" y1="679" x2="3871" y2="679" stroke="#0B1E2F" stroke-width="1.1" stroke-opacity="0.45"/><rect x="140" y="667" width="82" height="24" rx="7" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="1"/><rect x="147" y="673" width="9" height="10" fill="none" stroke="#0B1E2F" stroke-width="1.2"/><text x="162" y="683" fill="#0B1E2F" font-size="11.5" font-weight="600">Ledgerly</text></g>
+<g id="node-sys-chat" data-graph-node-id="sys-chat" data-lane="System" data-node-type="system_surface" data-systems="[]" data-bounds="140 700 78 24" data-rail-y="712" data-rail-x0="140" data-rail-x1="3871"><title>Slack | System rail | evidence: Observed | kind: channel
+Step: sys-chat · system surface
+Band: System
+Evidence: Observed</title><line x1="140" y1="712" x2="3871" y2="712" stroke="#0B1E2F" stroke-width="1.1" stroke-opacity="0.45"/><rect x="140" y="700" width="78" height="24" rx="7" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="1"/><rect x="147" y="706" width="9" height="10" fill="none" stroke="#0B1E2F" stroke-width="1.2"/><text x="162" y="716" fill="#0B1E2F" font-size="11.5" font-weight="600">Slack</text></g>
+<g id="edge-e01" data-graph-edge-id="e01" data-kind="sequence" data-source="c01" data-target="c02" data-route="step" data-points="323,202 427,202"><title>sequence | sequence | evidence: Observed
+Link: e01 · sequence</title><polyline points="323,202 427,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e02" data-graph-edge-id="e02" data-kind="sequence" data-source="c02" data-target="c03" data-route="step" data-points="613,202 717,202"><title>sequence | sequence | evidence: Observed
+Link: e02 · sequence</title><polyline points="613,202 717,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e03" data-graph-edge-id="e03" data-kind="sequence" data-source="c03" data-target="c04" data-route="step" data-points="903,202 1007,202"><title>sequence | sequence | evidence: Observed
+Link: e03 · sequence</title><polyline points="903,202 1007,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e04" data-graph-edge-id="e04" data-kind="sequence" data-source="c04" data-target="c05" data-route="step" data-points="1193,202 1336,202"><title>sequence | sequence | evidence: Observed
+Link: e04 · sequence</title><polyline points="1193,202 1336,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e05" data-graph-edge-id="e05" data-kind="then" data-source="c05" data-target="c07" data-route="step" data-points="1390,156 1390,36 1970,36 1970,141"><title>yes | then | evidence: Observed
+Link: e05 · then</title><polyline points="1390,156 1390,36 1970,36 1970,141" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e06" data-graph-edge-id="e06" data-kind="else" data-source="c05" data-target="c06" data-route="step" data-points="1444,202 1587,202"><title>legacy metering | else | evidence: Observed
+Link: e06 · else</title><polyline points="1444,202 1587,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e07" data-graph-edge-id="e07" data-kind="sequence" data-source="c06" data-target="c07" data-route="step" data-points="1773,202 1877,202"><title>sequence | sequence | evidence: Observed
+Link: e07 · sequence</title><polyline points="1773,202 1877,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e08" data-graph-edge-id="e08" data-kind="sequence" data-source="c07" data-target="c08" data-route="step" data-points="2063,202 2206,202"><title>sequence | sequence | evidence: Observed
+Link: e08 · sequence</title><polyline points="2063,202 2206,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e09" data-graph-edge-id="e09" data-kind="then" data-source="c08" data-target="c09" data-route="step" data-points="2314,202 2457,202"><title>escalate | then | evidence: Observed
+Link: e09 · then</title><polyline points="2314,202 2457,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e10" data-graph-edge-id="e10" data-kind="else" data-source="c08" data-target="c13" data-route="step" data-points="2260,248 2260,382 3710,382 3710,473"><title>no escalation | else | evidence: Observed
+Link: e10 · else</title><polyline points="2260,248 2260,382 3710,382 3710,473" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e11" data-graph-edge-id="e11" data-kind="sequence" data-source="c09" data-target="c10" data-route="step" data-points="2643,202 2747,202"><title>sequence | sequence | evidence: Observed
+Link: e11 · sequence</title><polyline points="2643,202 2747,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e12" data-graph-edge-id="e12" data-kind="loop" data-source="c10" data-target="c09" data-route="return" data-points="2776,263 2776,422 2596,422 2596,263"><title>memo revision | loop | evidence: Observed
+Link: e12 · loop</title><polyline points="2776,263 2776,422 2596,422 2596,263" fill="none" stroke="#0B1E2F" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arw)"/></g>
+<g id="edge-e13" data-graph-edge-id="e13" data-kind="sequence" data-source="c10" data-target="c11" data-route="step" data-points="2933,202 3037,202"><title>sequence | sequence | evidence: Observed
+Link: e13 · sequence</title><polyline points="2933,202 3037,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e14" data-graph-edge-id="e14" data-kind="sequence" data-source="c11" data-target="c12" data-route="step" data-points="3223,202 3327,202"><title>sequence | sequence | evidence: Observed
+Link: e14 · sequence</title><polyline points="3223,202 3327,202" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="edge-e15" data-graph-edge-id="e15" data-kind="sequence" data-source="c12" data-target="c13" data-route="step" data-points="3420,263 3420,422 3710,422 3710,473"><title>sequence | sequence | evidence: Observed
+Link: e15 · sequence</title><polyline points="3420,263 3420,422 3710,422 3710,473" fill="none" stroke="#0B1E2F" stroke-width="1.5" marker-end="url(#arw)"/></g>
+<g id="node-c01" data-graph-node-id="c01" data-lane="Analyst" data-node-type="read_interaction" data-systems="[&quot;sys-crm&quot;, &quot;ws-sheets&quot;]" data-bounds="137 141 186 122"><title>Build weekly renewal cohort | Analyst band | evidence: Observed
+Step: c01 · read interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Meridian CRM · Google Sheets</title><rect x="137" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M138.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="158" cy="155" r="3.4" fill="#F56740"/><path d="M152 166 Q158 160 164 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="171" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">READ</text><text x="315" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c01</text><text x="230" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Build weekly renewal</text><text x="230" y="193.5" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">cohort</text><rect x="167.7" y="240" width="77.4" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="206.4" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Meridian CRM</text><rect x="249.1" y="240" width="43.2" height="15" rx="7.5" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="270.7" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Sheets</text></g>
+<g id="node-c02" data-graph-node-id="c02" data-lane="Analyst" data-node-type="read_interaction" data-systems="[&quot;sys-usage&quot;, &quot;ws-sheets&quot;]" data-bounds="427 141 186 122"><title>Export usage signal | Analyst band | evidence: Contradictory | issue: usage-export-conflict
+Step: c02 · read interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Contradictory
+Systems: Pulse usage dashboard · Google Sheets</title><rect x="427" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M428.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="448" cy="155" r="3.4" fill="#F56740"/><path d="M442 166 Q448 160 454 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="461" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">READ</text><text x="605" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c02</text><text x="520" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Export usage signal</text><text x="520" y="204.5" fill="#B23A1E" font-size="9.4" font-weight="600" text-anchor="middle">[Contradictory]</text><circle cx="609" cy="259" r="8.5" fill="#B23A1E"/><text x="609" y="262.6" fill="#FFFFFF" font-size="11" font-weight="700" text-anchor="middle">≠</text><rect x="477.65" y="240" width="37.5" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="496.4" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Pulse</text><rect x="519.15" y="240" width="43.2" height="15" rx="7.5" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="540.75" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Sheets</text></g>
+<g id="node-c03" data-graph-node-id="c03" data-lane="Analyst" data-node-type="read_interaction" data-systems="[&quot;sys-tickets&quot;]" data-bounds="717 141 186 122"><title>Export support ticket history | Analyst band | evidence: Observed
+Step: c03 · read interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Deskline ticketing</title><rect x="717" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M718.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="738" cy="155" r="3.4" fill="#F56740"/><path d="M732 166 Q738 160 744 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="751" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">READ</text><text x="895" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c03</text><text x="810" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Export support ticket</text><text x="810" y="193.5" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">history</text><rect x="782.7" y="240" width="54.6" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="810" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Deskline</text></g>
+<g id="node-c04" data-graph-node-id="c04" data-lane="Analyst" data-node-type="read_interaction" data-systems="[&quot;sys-billing&quot;]" data-bounds="1007 141 186 122"><title>Check contract value and billing | Analyst band | evidence: Observed
+Step: c04 · read interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Ledgerly billing</title><rect x="1007" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M1008.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="1028" cy="155" r="3.4" fill="#F56740"/><path d="M1022 166 Q1028 160 1034 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="1041" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">READ</text><text x="1185" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c04</text><text x="1100" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Check contract value</text><text x="1100" y="193.5" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">and billing</text><rect x="1072.7" y="240" width="54.6" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="1100" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Ledgerly</text></g>
+<g id="node-c05" data-graph-node-id="c05" data-lane="Analyst" data-node-type="decision" data-systems="[]" data-bounds="1336 156 108 92"><title>Usage data on file? | Analyst band | evidence: Observed
+Step: c05 · decision
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Condition: Is Pulse usage data available for this account?
+Decision table: dt-usage-data</title><polygon points="1390,156 1444,202 1390,248 1336,202" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="1.5"/><path d="M1381 193 L1399 211 M1381 211 L1399 193" stroke="#0B1E2F" stroke-width="1.6" fill="none"/><text x="1382" y="261" fill="#0B1E2F" font-size="11.5" font-weight="600" text-anchor="end">Usage data on</text><text x="1382" y="274.5" fill="#0B1E2F" font-size="11.5" font-weight="600" text-anchor="end">file?</text><text x="1382" y="288" fill="#A79E92" font-size="8.5" letter-spacing="0.06em" text-anchor="end">c05</text></g>
+<g id="node-c06" data-graph-node-id="c06" data-lane="Analyst" data-node-type="analyst_reconciliation" data-systems="[&quot;sys-chat&quot;]" data-bounds="1587 141 186 122"><title>Ask CSM for a usage read | Analyst band | evidence: Observed | issue: legacy-handback
+Step: c06 · analyst reconciliation
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Slack</title><rect x="1587" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M1588.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="1608" cy="155" r="3.4" fill="#F56740"/><path d="M1602 166 Q1608 160 1614 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="1621" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">RECONCILE</text><text x="1765" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c06</text><text x="1680" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Ask CSM for a usage</text><text x="1680" y="193.5" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">read</text><rect x="1661.25" y="240" width="37.5" height="15" rx="7.5" fill="#FFE0D8" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="1680" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Slack</text></g>
+<g id="node-c07" data-graph-node-id="c07" data-lane="Analyst" data-node-type="analyst_reconciliation" data-systems="[&quot;ws-sheets&quot;]" data-bounds="1877 141 186 122"><title>Score renewal risk | Analyst band | evidence: Observed
+Step: c07 · analyst reconciliation
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Google Sheets</title><rect x="1877" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M1878.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="1898" cy="155" r="3.4" fill="#F56740"/><path d="M1892 166 Q1898 160 1904 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="1911" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">RECONCILE</text><text x="2055" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c07</text><text x="1970" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Score renewal risk</text><rect x="1948.4" y="240" width="43.2" height="15" rx="7.5" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="1970" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Sheets</text></g>
+<g id="node-c08" data-graph-node-id="c08" data-lane="Analyst" data-node-type="decision" data-systems="[]" data-bounds="2206 156 108 92"><title>Escalate this account? | Analyst band | evidence: Observed
+Step: c08 · decision
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Condition: Does the risk score or contract value call for escalation?
+Decision table: dt-escalation</title><polygon points="2260,156 2314,202 2260,248 2206,202" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="1.5"/><path d="M2251 193 L2269 211 M2251 211 L2269 193" stroke="#0B1E2F" stroke-width="1.6" fill="none"/><text x="2252" y="261" fill="#0B1E2F" font-size="11.5" font-weight="600" text-anchor="end">Escalate this</text><text x="2252" y="274.5" fill="#0B1E2F" font-size="11.5" font-weight="600" text-anchor="end">account?</text><text x="2252" y="288" fill="#A79E92" font-size="8.5" letter-spacing="0.06em" text-anchor="end">c08</text></g>
+<g id="node-c09" data-graph-node-id="c09" data-lane="Analyst" data-node-type="write_interaction" data-systems="[&quot;ws-sheets&quot;, &quot;sys-crm&quot;]" data-bounds="2457 141 186 122"><title>Draft risk memo | Analyst band | evidence: Observed
+Step: c09 · write interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Google Sheets · Meridian CRM</title><rect x="2457" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M2458.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="2478" cy="155" r="3.4" fill="#F56740"/><path d="M2472 166 Q2478 160 2484 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="2491" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">WRITE</text><text x="2635" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c09</text><text x="2550" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Draft risk memo</text><rect x="2487.7" y="240" width="43.2" height="15" rx="7.5" fill="#FFF5D2" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="2509.3" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Sheets</text><rect x="2534.9" y="240" width="77.4" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="2573.6" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Meridian CRM</text></g>
+<g id="node-c10" data-graph-node-id="c10" data-lane="Analyst" data-node-type="analyst_reconciliation" data-systems="[]" data-bounds="2747 141 186 122"><title>Review memo with AE | Analyst band | evidence: Observed
+Step: c10 · analyst reconciliation
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed</title><rect x="2747" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M2748.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="2768" cy="155" r="3.4" fill="#F56740"/><path d="M2762 166 Q2768 160 2774 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="2781" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">RECONCILE</text><text x="2925" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c10</text><text x="2840" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Review memo with AE</text></g>
+<g id="node-c11" data-graph-node-id="c11" data-lane="Analyst" data-node-type="write_interaction" data-systems="[&quot;sys-chat&quot;]" data-bounds="3037 141 186 122"><title>Escalate to AE manager | Analyst band | evidence: Observed
+Step: c11 · write interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Slack</title><rect x="3037" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M3038.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="3058" cy="155" r="3.4" fill="#F56740"/><path d="M3052 166 Q3058 160 3064 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="3071" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">WRITE</text><text x="3215" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c11</text><text x="3130" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Escalate to AE manager</text><rect x="3111.25" y="240" width="37.5" height="15" rx="7.5" fill="#FFE0D8" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="3130" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Slack</text></g>
+<g id="node-c12" data-graph-node-id="c12" data-lane="Analyst" data-node-type="write_interaction" data-systems="[&quot;sys-crm&quot;]" data-bounds="3327 141 186 122"><title>Log outcome in CRM | Analyst band | evidence: Observed
+Step: c12 · write interaction
+Band: Analyst
+Performer: Renewal Ops Analyst
+Evidence: Observed
+Systems: Meridian CRM</title><rect x="3327" y="141" width="186" height="122" rx="9" ry="9" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="1.5"/><path d="M3328.2 150 q0 -8 8 -8 v120 q-8 0 -8 -8 z" fill="#F56740"/><circle cx="3348" cy="155" r="3.4" fill="#F56740"/><path d="M3342 166 Q3348 160 3354 166" stroke="#F56740" stroke-width="1.5" fill="none"/><text x="3361" y="158" fill="#B23A1E" font-size="8.5" font-weight="700" letter-spacing="0.06em">WRITE</text><text x="3505" y="156" fill="#A79E92" font-size="8.5" text-anchor="end">c12</text><text x="3420" y="179" fill="#0B1E2F" font-size="12.3" font-weight="500" text-anchor="middle">Log outcome in CRM</text><rect x="3381.3" y="240" width="77.4" height="15" rx="7.5" fill="#CFF3FE" stroke="#0B1E2F" stroke-width="0.6" stroke-opacity="0.5"/><text x="3420" y="250.4" fill="#0B1E2F" font-size="9" text-anchor="middle">Meridian CRM</text></g>
+<g id="node-c13" data-graph-node-id="c13" data-lane="System" data-node-type="system_result" data-systems="[&quot;sys-crm&quot;]" data-bounds="3622 473 176 54"><title>Account marked reviewed | System band | evidence: Observed
+Step: c13 · system result
+Band: System
+Evidence: Observed
+Systems: Meridian CRM</title><rect x="3622" y="473" width="176" height="54" rx="8" fill="#F4F1EC" stroke="#0B1E2F" stroke-width="1.4" stroke-dasharray="5 3"/><text x="3634" y="489" fill="#4A5560" font-size="8.4" font-weight="700" letter-spacing="0.06em">SYSTEM RESULT</text><text x="3790" y="488" fill="#A79E92" font-size="8.2" text-anchor="end">c13</text><text x="3710" y="506" fill="#0B1E2F" font-size="11" font-weight="500" text-anchor="middle">Account marked reviewed</text></g>
+<g id="table-dt-usage-data" data-graph-table-id="dt-usage-data" data-owner="c05"><title>Route the account by whether Pulse usage data is on file. | decision table dt-usage-data</title><text x="1382" y="301.5" fill="#4A5560" font-size="8.5" font-weight="600" text-anchor="end">table · dt-usage-data</text></g>
+<g id="table-dt-escalation" data-graph-table-id="dt-escalation" data-owner="c08"><title>Decide whether the account is escalated to the AE. | decision table dt-escalation</title><text x="2252" y="301.5" fill="#4A5560" font-size="8.5" font-weight="600" text-anchor="end">table · dt-escalation</text></g>
+<g data-decoration="edge-labels">
+<g data-label-for="e05"><rect data-label-for="e05" x="1665.6" y="27.5" width="28.8" height="17" rx="4" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="0.5" opacity="0.97"/><text x="1680" y="39.2" fill="#0B1E2F" font-size="10.4" font-weight="600" text-anchor="middle">yes</text></g>
+<g data-label-for="e06"><rect data-label-for="e06" x="1467.5" y="193.5" width="96" height="17" rx="4" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="0.5" opacity="0.97"/><text x="1515.5" y="205.2" fill="#0B1E2F" font-size="10.4" font-weight="600" text-anchor="middle">legacy metering</text></g>
+<g data-label-for="e09"><rect data-label-for="e09" x="2357.1" y="193.5" width="56.8" height="17" rx="4" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="0.5" opacity="0.97"/><text x="2385.5" y="205.2" fill="#0B1E2F" font-size="10.4" font-weight="600" text-anchor="middle">escalate</text></g>
+<g data-label-for="e10"><rect data-label-for="e10" x="2942.6" y="373.5" width="84.8" height="17" rx="4" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="0.5" opacity="0.97"/><text x="2985" y="385.2" fill="#0B1E2F" font-size="10.4" font-weight="600" text-anchor="middle">no escalation</text></g>
+<g data-label-for="e12"><rect data-label-for="e12" x="2643.6" y="413.5" width="84.8" height="17" rx="4" fill="#FFFFFF" stroke="#0B1E2F" stroke-width="0.5" opacity="0.97"/><text x="2686" y="425.2" fill="#0B1E2F" font-size="10.4" font-weight="600" text-anchor="middle">memo revision</text></g>
+</g>
+</svg></div><p class="hint">Scroll inside the frame to move around · hover a step or link for its detail · tick Fit to width to see the whole map</p></section>
+<section><h2>How to read this</h2><div class="card"><ul class="plain">
+<li>Bands show who does the work. Left to right is the order of the work; systems are rails at the bottom that steps read from and write to.</li>
+<li>Every step, decision and system comes from the frozen record of nine sessions.</li><li>The usage export is Contradictory: described as automatic, performed by hand in every session.</li></ul></div></section>
+<h2>Decision tables</h2><div class="card"><h3><code>dt-usage-data</code> · selection</h3><p class="muted">Route the account by whether Pulse usage data is on file. Owner: <code>c05</code> Usage data on file?. Evidence: Observed.</p><table><thead><tr><th>Row</th><th>condition</th><th>Leads to</th><th>Evidence</th><th>Open items</th></tr></thead><tbody><tr><td><code>dt-usage-data.on-file</code> Usage data on file</td><td>Pulse export present</td><td><code>c07</code> Score renewal risk</td><td>Observed</td><td></td></tr><tr><td><code>dt-usage-data.legacy</code> Legacy metering, no usage data</td><td>Legacy metering flag set</td><td><code>c06</code> Ask CSM for a usage read</td><td>Observed</td><td>legacy-handback</td></tr></tbody></table><h3><code>dt-escalation</code> · selection</h3><p class="muted">Decide whether the account is escalated to the AE. Owner: <code>c08</code> Escalate this account?. Evidence: Observed.</p><table><thead><tr><th>Row</th><th>condition</th><th>Leads to</th><th>Evidence</th><th>Open items</th></tr></thead><tbody><tr><td><code>dt-escalation.over-threshold</code> Score at or above threshold</td><td>Risk score meets the escalation threshold</td><td><code>c09</code> Draft risk memo</td><td>Observed</td><td></td></tr><tr><td><code>dt-escalation.under-threshold</code> Score below threshold</td><td>Risk score under the threshold</td><td><code>c13</code> Account marked reviewed</td><td>Observed</td><td></td></tr><tr><td><code>dt-escalation.override</code> Contract value over override</td><td>Contract value above an unwritten override amount</td><td>needs more information</td><td>needs more information</td><td>whale-override</td></tr></tbody></table><ul class="plain"><li><code>dt-escalation.rule-1</code> The score threshold applies unless the override is met. <span class="muted">(Observed)</span></li></ul></div><h2>Open items</h2><div class="card"><h3>What we still need to know</h3><table><thead><tr><th>Item</th><th>Reason</th><th>Bound to</th><th>Sources</th></tr></thead><tbody><tr><td><code>legacy-handback</code></td><td>When Pulse usage data is missing, no written rule says what happens to the risk score; the analyst messages the account&#x27;s CSM and waits.</td><td></td><td></td></tr><tr><td><code>whale-override</code></td><td>An account was escalated below the scoring threshold because its contract value exceeded $250K; no written rule states the override or its threshold.</td><td></td><td></td></tr><tr><td><code>playbook-exists</code></td><td>Whether a renewal playbook mapping risk tiers to AE talk tracks exists is unconfirmed.</td><td></td><td></td></tr><tr><td><code>memo-template</code></td><td>Which risk memo template is the real one, and whether the Finance review route for large contracts exists, could not be found in the record.</td><td></td><td></td></tr><tr><td><code>ae-sync-unmeasured</code></td><td>The AE review shows no recorded problems in any of the nine sessions; that silence is unmeasured, not evidence the step is trouble-free.</td><td></td><td></td></tr></tbody></table><h3>Contradiction</h3><table><thead><tr><th>Item</th><th>Reason</th><th>Bound to</th><th>Sources</th></tr></thead><tbody><tr><td><code>usage-export-conflict</code></td><td>The process description says usage arrives automatically through the API; every recorded session shows a manual Pulse export.</td><td></td><td>renewal-process, renewal-policy</td></tr></tbody></table></div><h2>Coverage</h2><div class="card"><table><thead><tr><th>Part</th><th>Count</th></tr></thead><tbody><tr><td>Analyst</td><td>read interaction 4, decision 2, analyst reconciliation 3, write interaction 3</td></tr><tr><td>System</td><td>system result 1, system surface 5</td></tr><tr><td>Links</td><td>sequence 10, then 2, else 2, loop 1, read access 5, write 3</td></tr><tr><td>Decision tables</td><td>2</td></tr><tr><td>Captured steps</td><td>mapped 28</td></tr></tbody></table></div>
+</main>
+</body></html>

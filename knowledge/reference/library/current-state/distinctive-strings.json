@@ -1,0 +1,2498 @@
+{
+  "schema_version": 1,
+  "stage": "current-state",
+  "generated_from": {
+    "current-state.simple": {
+      "reference/library/current-state/simple/README.md": "04da1ff6576ea2750d650f7a555e493e86c5aff9b3cdf177cdaefcc3e8913daf",
+      "reference/library/current-state/simple/current-state.json": "a3d80d65f056a5c616246b4749e9c176412a75120d08301a65800ef44510fe17",
+      "reference/library/current-state/simple/current-state.svg": "ae60cc1bec8a8cb4980e389a7fc38e6091166df134fca22e923c405e239a4a0b",
+      "reference/library/current-state/simple/current-state.html": "5a6b012cc91c9234031ec4ee307e18ef1172bea87463498307f22a15fdf97077",
+      "reference/library/current-state/simple/current-state.input.json": "a04a6bb71a7cd81d81e25a5ff433cc617a32c55fea178afcb28f8d0d396ed42a"
+    },
+    "current-state.middle": {
+      "reference/library/current-state/middle/README.md": "72fa297cceb04071f958017515a09d41ecef17d911e1d97bc318051ca1e6a64b",
+      "reference/library/current-state/middle/current-state.json": "bbd4e479a13b3e1901bb5c25ca54d36d5ac57ca912afffafcb8b25459e697b0a",
+      "reference/library/current-state/middle/current-state.svg": "7524ad4a152c02bf7b3e5fae88b79d9e76e4581104486653f49162739485ee11",
+      "reference/library/current-state/middle/current-state.html": "89ed676217391162256a1d32ab205e288d4eb74178185e5a4f54099910cf43e3",
+      "reference/library/current-state/middle/current-state.input.json": "df9fdae4034bac6544920e3a8fd09530429cf26d7c249775cf4db79628597d72"
+    },
+    "current-state.complex": {
+      "reference/library/current-state/complex/README.md": "a30780608cf43926ea41dc70467121a6083ecaff99092480ae27a11466118032",
+      "reference/library/current-state/complex/current-state.json": "50ad91525c7ba0af55f5294496aa781a790ecc2aad00588d72b64254d85a03a4",
+      "reference/library/current-state/complex/current-state.svg": "beadd69cf6c6983854e70b0fddf13784c74653070c6d4d675753033214e2de57",
+      "reference/library/current-state/complex/current-state.html": "8b576c495d833e083709667b45b4151238db2e555b69ce0c36ad83b57197f427",
+      "reference/library/current-state/complex/current-state.input.json": "6f7d6d3f6ffe1457e6164ed12047df7700156c07705fa075f90e75cc9d408d8f"
+    }
+  },
+  "strings": [
+    {
+      "text": "AC01",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "AC04",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "AC15",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "AC15-AC24",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "AC24",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-1",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-2",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-3",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-4",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-5",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "CP-6",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "GL_CLR_VAR",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "PV01",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "PV02",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "REGION-C",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-1",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-2",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-3",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-4",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-5",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-6",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-7",
+      "kind": "id",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "1,688.33",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1,906.00",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "1052.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1058.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "1064.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1086.95",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "12,846.39",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1348.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "1354.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1638.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple",
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1887.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "190,245",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "190,352",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "190,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "190,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1908.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1920.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "1928.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "194.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "196,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "196,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1985.05",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "1986.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2007.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2019.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2212.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "2218.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "2406.85",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2409.65",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2421.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2502.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2508.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "2514.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "2798.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "3068.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3086.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3088.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "3167.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3167.85",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3179.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "323,184",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "323,291",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "323,309",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "3378.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "3384.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "34,149.00",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3668.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "3674.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "3696.95",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "3981.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "4213.45",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4254.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "427,184",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "427,291",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "427,309",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4271.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "4323.35",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4344.95",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4532.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "4561.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "472.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "480,245",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "480,352",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "480,370",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "480,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "480,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "480,838",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4820.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "484.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "4851.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "486,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "486,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "486,838",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "4885.05",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "506.95",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "5112.75",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "5141.25",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "52,144.36",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "612.40",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "613,184",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "613,291",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "613,309",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "717,184",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "717,291",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "717,309",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "770,245",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "770,352",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "770,370",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "770,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "770,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "770,838",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "774.15",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "776,402",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "776,822",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "776,838",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "796.95",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "8,395.01",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "824.00",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "856,370",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "856,680",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "903,184",
+      "kind": "amount",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "903,291",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "903,309",
+      "kind": "amount",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "918.60",
+      "kind": "amount",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "1315944635",
+      "kind": "number",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "152981",
+      "kind": "number",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "7598175128",
+      "kind": "number",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Acme",
+      "kind": "name",
+      "sources": [
+        "current-state.simple",
+        "current-state.middle",
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Additional Log",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Assign Batch To",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Assign Batch To Processor",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Assignment Workbook",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Auto Clearing",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Automatic Clearing",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Bank Difference",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Cash Applications Specialist",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Check Allocation Balanced",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Check Bulk",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Check Bulk Upload Needed",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Classify Assignment",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Classify Assignment Tracker Row",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Clear Open Items",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Clearing Date",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Confirm Invoice In",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm Invoice In Acme",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm Mark Complete",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Convert Text",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Cross-Check Supporting",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Cross-Check Supporting Evidence",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Distribute Horizontally",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Enter Invoice Rows",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Filter Transaction History",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "In Bank",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Invoice Allocation",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Item Left In Reviewed",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Item Text",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Larkspur Holdings",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Mark Complete",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Marketing Weekly Dashboard",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "New Rows",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Additional Log",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Open Advices",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Assigned",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Assigned Transaction Queue",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Automatic",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Open Automatic Clearing",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Open Transaction",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Transaction Details",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Open Weekly Marketing",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Open Weekly Marketing Metrics",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Osprey Holdings",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Pipeline Influence",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Post Bank Remittance Transactions",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Receipt Method",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Against",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Against Assignment Workbook",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining Difference",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Record Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Remittance Inquiry Drafted",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Review Receivables",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Run New Search",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Save Remittance Update",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Select Working Row",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Select Working Row Block",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Short Payments",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "State Cleared",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Status Enrichment Required",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Summarized Invoice",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Summarized Invoices",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Tracker Row",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction History",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction Queue",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction Value Date",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Transactions Assigned To Me",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Unidentified Status",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Update Workflow Statuses",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Needed",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Remittance",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Remittance Template",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed Record",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Weekly Marketing Metrics",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Weekly Marketing Metrics Reporting",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Wire Type",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Workflow Status",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "A small bank-charge residual must be absorbed.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Add a Finance charge line to absorb the residual.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Add metric placeholders",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Additional Log message taxonomy and its actionable-versus-informational boundary. Named at: n-confirm-cleared.",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Align labels with visualizations",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "An item cannot be identified.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Analyze/filter export to isolate paired positive/negative amounts sharing an assignment",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Apply horizontal distribution",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Assigned-queue CSV export (offline)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Bank statement report - Summary and Detail",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Batch update submitted; 'Items changed' toast and refreshed Item Text returned",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Billing reversal report archive",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Capture dashboard screenshot",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Center elements on page",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Clean up message formatting",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Clear Open Items via Automatic Clearing",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Click the 'Share' button and copy the presentation link for distribution.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Collections workbench rail: read at n-006 to resolve payer aliases.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Company records app",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Complete with the residual documented, then proceed to Save / Mark Complete.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Completion-without-zero-difference rule (Contradictory, anchored on n-015).",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Compose distribution message",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Confirm the matching invoice row; identity confirmed, node continues to n-007 (e-006).",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm the payment against Outlook payment-advice emails and PDFs.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm the payment against the highlighted credit line.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Consulted as supporting evidence only.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Contradictory evidence: see open items",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Copy presentation share link",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Correlation or identity field used to join evidence across surfaces.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Create visualization labels",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Customer ID or Invoice#.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Daily cash-application clearing due (upstream bank-statement items posted)",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Did this run resolve a credit-note / allocation request requiring stakeholder confirmation?",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Does the uploaded remittance balance to zero difference?",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "ERP (clearing) web client",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "ERP (receipts) - production instance",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "ERP (receipts) - production instance / ERP (receipts)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "ERP - production…",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "ERP line-item app",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Eligibility boundary for completion, partial allocation, money-on-account handling, and drafted-inquiry disposition.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Enrich and Post Bank Remittance Transactions",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Escalate unresolved closed-period blocker to a colleague (Teams, shared ERP (clearing) screenshot)",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Execute test run: detail list of open/cleared items + posting-period warnings returned",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Finance-charge / write-off tolerance.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Format and duplicate labels",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Format the text boxes and duplicate them for consistency across all visualizations.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Foxit PDF Editor",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Foxit PDF Editor workspace: payment-advice PDFs read as supporting evidence at n-007.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Highlighted credit line.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Include presentation link",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Insert dashboard screenshot",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Insert text boxes to label each visualization with its metric name.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Insert the captured Salesforce dashboard screenshot into the appropriate slide.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Is a one-to-many UploadTemplate upload the appropriate method?",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Item Left In Reviewed / Unidentified Status",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Local client-entity GL note",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Manual invoice-row entry in the Bank remittance editor.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Method-selection rule (upload vs manual).",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Microsoft Excel (per-customer Dashboard / assignment workbook)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Microsoft Excel workspace: the assignment workbook (n-002) and the upload template (n-009).",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "More in-scope company codes / variants to process this run?",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Navigate to marketing dashboard",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Navigate to pipeline dashboard",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Navigate to team channel",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "No confirmable invoice match can be found.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Notepad workspace: the inquiry email template used at n-012.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Obs4: Chrome pop-up blocker interrupted first export; popup settings adjusted and re-exported.",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Open Automatic Clearing (ERP clearing program) from ERP (clearing) home",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Open Weekly Marketing Metrics presentation",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Open the Weekly Marketing Metrics presentation in Google Slides.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Otherwise, the payment is populated by manual invoice-row entry.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Paste the presentation link into the message.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Payer alias / company identity.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Per-customer invoice split.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Proceed to Save.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Rail for the analyst's allocation-confirmation reply.",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Record Enrichment Complete (0 open advices)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Remittance Inquiry Drafted (Reviewed / On account / Sent email)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Remove any auto-generated link previews for a cleaner presentation of the message.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Resolve payer aliases when a validation error occurs during invoice confirmation.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Review payment-advice PDFs.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Select all matching rows; open Edit N Line Items batch dialog",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Select and apply the standard Item Text label for the assignment group",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Select data visualizations",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Select multiple image elements containing pipeline visualization data.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Send message to team",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Send the message to the marketing team channel.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Set posting parameters: Clearing Date, company-code range, G/L accounts, Test Run checked",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Snipping Tool workspace: the credit-line capture attached to the inquiry at n-012.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Switch to Slack and navigate to the marketing team channel.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "The correction reconciles the remainder to Difference 0.00.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "The uploaded/entered allocation over- or under-allocates; Difference is not yet 0.00.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "UiPath Action Center",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "UiPath Action Center (bot-generated bank-statement output / remittance tasks)",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "UiPath Action Center rail: remittance tasks consulted as supporting evidence at n-007.",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "Update-run output + Additional Log: posting confirmations (or 'no documents selected')",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Use the 'Center on page' function to align the visualizations properly.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Use the 'Distribute Horizontally' arrangement function to evenly space the visualization images.",
+      "kind": "label",
+      "sources": [
+        "current-state.simple"
+      ]
+    },
+    {
+      "text": "Validate postings; archive clearing-report PDF and cross-check outside ERP (clearing)",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Verify customer line item; draft Outlook reply confirming allocation; run spelling check",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Workspace holding the analyst's standard Item Text label list.",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "Workspace where the analyst views the clearing-report PDF in the validate-and-cross-check step.",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "all in-scope processed",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "batch dialog open",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "clearable matched pairs present",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "detail list + warnings returned",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "drafted inquiry on account",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "exception rows present",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "handed off, continue",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "label entered, submit",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "more company codes / variants -> next",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "next clearing pass",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "no allocation request",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "pairs clearable, period open",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "parameters set, Test Run",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "partial residual documented",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "re-run clearing for next pass",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "resolved to zero",
+      "kind": "label",
+      "sources": [
+        "current-state.complex"
+      ]
+    },
+    {
+      "text": "row fixable by text standardization",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "unresolved closed-period blocker requiring colleague",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    },
+    {
+      "text": "update run executed",
+      "kind": "label",
+      "sources": [
+        "current-state.middle"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "text": "Accounts Payable",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Action Center",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Adobe Acrobat",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Adobe Acrobat Reader",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Click Save",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Data Validation",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Entity Name",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Google Slides",
+      "kind": "name",
+      "sources": [
+        "current-state.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Line Items",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Microsoft Excel",
+      "kind": "name",
+      "sources": [
+        "current-state.middle",
+        "current-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Microsoft Outlook",
+      "kind": "name",
+      "sources": [
+        "current-state.middle",
+        "current-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Microsoft Teams",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Paste Special",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Payment Amount",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Save Successful",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Save-As",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Serial Number",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Snipping Tool",
+      "kind": "name",
+      "sources": [
+        "current-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Sticky Notes",
+      "kind": "name",
+      "sources": [
+        "current-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    }
+  ]
+}

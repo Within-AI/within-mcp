@@ -1,0 +1,37 @@
+{
+  "id": "R-2",
+  "decision": "inbox:n3",
+  "prose": "a summary that does not quote the fault text goes back to the coordinator and no draft is written",
+  "expression": {
+    "reads": [
+      "summary.quotes_fault"
+    ],
+    "test": {
+      "kind": "not",
+      "arg": {
+        "kind": "compare",
+        "op": "==",
+        "left": {
+          "kind": "read",
+          "token": "summary.quotes_fault"
+        },
+        "right": {
+          "kind": "literal",
+          "value": "yes"
+        }
+      }
+    },
+    "sets": {
+      "route": {
+        "kind": "literal",
+        "value": "coordinator"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "report_id",
+  "observation_ids": [
+    "inbox:observation:o2"
+  ],
+  "config_values": []
+}

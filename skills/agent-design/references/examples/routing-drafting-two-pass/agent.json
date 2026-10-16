@@ -1,0 +1,182 @@
+{
+  "header": {
+    "purpose": "when a service coordinator hands over a customer's fault report, summarise it in a first pass, route the checked summary on by a fixed check, then draft a proposed fix note in a second pass for the coordinator to decide and send",
+    "metrics": [
+      "share of summaries passed on by the check",
+      "share of drafts the coordinator sends with light edits"
+    ],
+    "authority": {
+      "default": "read-only and recommend-only"
+    },
+    "access": {
+      "evidence_state": "Assumed"
+    },
+    "proposed_writes": [],
+    "handovers": [
+      {
+        "from": "coordinator",
+        "to": "summariser",
+        "edge_refs": [
+          "inbox:e1"
+        ],
+        "kind": "dispatch"
+      },
+      {
+        "from": "summariser",
+        "to": "drafter",
+        "edge_refs": [
+          "inbox:e4"
+        ],
+        "kind": "dispatch"
+      },
+      {
+        "from": "summariser",
+        "to": "person:service-coordinator",
+        "edge_refs": [
+          "inbox:e5"
+        ],
+        "kind": "person_handover"
+      },
+      {
+        "from": "drafter",
+        "to": "person:service-coordinator",
+        "edge_refs": [
+          "inbox:e8"
+        ],
+        "kind": "person_handover"
+      }
+    ],
+    "autonomy_ladder": {
+      "output_to_person": {
+        "entry_rung": "recommend only",
+        "next_rung": "act with person review",
+        "step_up_evidence": "four weeks of agreed recommendations"
+      },
+      "trigger": {
+        "entry_rung": "person starts each run",
+        "next_rung": "scheduled run",
+        "step_up_evidence": "ten runs with no missed input"
+      },
+      "drafting_boundary": {
+        "entry_rung": "drafts the fix note; the coordinator decides and sends every one",
+        "next_rung": "send after person review",
+        "step_up_evidence": "no edits needed on most drafts"
+      },
+      "writes_to_systems_of_record": {
+        "entry_rung": "no writes",
+        "next_rung": "proposed writes under a grant",
+        "step_up_evidence": "grant ratified by the owner"
+      },
+      "handoff_writes": {
+        "entry_rung": "hand-off file only",
+        "next_rung": "hand-off file plus a queue note",
+        "step_up_evidence": "owner agreement"
+      },
+      "person_checkpoint": {
+        "entry_rung": "every item reviewed",
+        "next_rung": "only flagged items reviewed",
+        "step_up_evidence": "flag rate agreed with the owner"
+      },
+      "verification_without_write_authority": {
+        "entry_rung": "reads and compares only",
+        "next_rung": "reads, compares and drafts",
+        "step_up_evidence": "owner agreement"
+      },
+      "entry_rung_and_graduation_path": {
+        "entry_rung": "read-only and recommend-only",
+        "next_rung": "proposed writes",
+        "step_up_evidence": "every step above met"
+      }
+    }
+  },
+  "parts": [
+    {
+      "id": "coordinator",
+      "role": "orchestration",
+      "owns_steps": [
+        "inbox:n1"
+      ],
+      "grants": [],
+      "input": "the coordinator's hand-over of one fault report",
+      "output": "the fault report passed to the first pass",
+      "surfaces_read": [
+        "service desk queue"
+      ],
+      "end_point": "the report dispatched to the summariser",
+      "routing": {
+        "kind": "code",
+        "marked": "agent",
+        "basis": "a fixed trigger: the hand-over itself starts the flow, so no route is inferred"
+      }
+    },
+    {
+      "id": "summariser",
+      "role": "sub-agent",
+      "owns_steps": [
+        "inbox:n2",
+        "inbox:n3"
+      ],
+      "grants": [],
+      "input": "one fault report with the product setup it names",
+      "output": "a checked summary, routed to the second pass or back to the coordinator",
+      "surfaces_read": [
+        "service desk queue",
+        "product setup catalogue"
+      ],
+      "end_point": "the check passes the summary to the drafter, or returns it to the coordinator",
+      "routing": {
+        "kind": "code",
+        "marked": "agent",
+        "basis": "the summary is written by the model but routed only by a fixed check; no model reads another model's output directly"
+      },
+      "split_reason": "distinct gates",
+      "split_evidence": [
+        "inbox:observation:o2"
+      ]
+    },
+    {
+      "id": "drafter",
+      "role": "sub-agent",
+      "owns_steps": [
+        "inbox:n4",
+        "inbox:n5",
+        "inbox:n6"
+      ],
+      "grants": [],
+      "input": "the checked summary and the fix options for the product",
+      "output": "a draft fix note, or an escalation when the evidence does not support one",
+      "surfaces_read": [
+        "product setup catalogue",
+        "fix note library"
+      ],
+      "end_point": "one case with the summary and the draft or the escalation, handed to the coordinator; nothing is sent",
+      "routing": {
+        "kind": "model",
+        "marked": "agent",
+        "basis": "the fix note is written text, behind a fixed gate"
+      },
+      "split_reason": "distinct gates",
+      "split_evidence": [
+        "inbox:observation:o3"
+      ]
+    }
+  ],
+  "shape": {
+    "evidence": [
+      "inbox:observation:o1",
+      "inbox:observation:o2",
+      "inbox:observation:o3"
+    ]
+  },
+  "rejected_alternatives": [
+    {
+      "alternative": "a model router that picks the next part before any pass starts",
+      "why": "the start is a fixed event and the only chain is summary to draft through a fixed check, so nothing needs inferring"
+    },
+    {
+      "alternative": "one part that summarises and drafts in a single pass",
+      "why": "the summary is checked on its own before any draft is written"
+    }
+  ],
+  "departures": []
+}

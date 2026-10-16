@@ -1,0 +1,36 @@
+{
+  "id": "R-1",
+  "decision": "recon:n2",
+  "prose": "a ledger unit with no ledger balance or no subledger balance is escalated as a source gap; the missing balance is never read as zero and nothing is classified",
+  "expression": {
+    "reads": [
+      "ledger.balance",
+      "subledger.balance"
+    ],
+    "test": {
+      "kind": "or",
+      "args": [
+        {
+          "kind": "is_null",
+          "token": "ledger.balance"
+        },
+        {
+          "kind": "is_null",
+          "token": "subledger.balance"
+        }
+      ]
+    },
+    "sets": {
+      "outcome": {
+        "kind": "literal",
+        "value": "escalate_source_gap"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "unit_id",
+  "observation_ids": [
+    "recon:observation:o1"
+  ],
+  "config_values": []
+}

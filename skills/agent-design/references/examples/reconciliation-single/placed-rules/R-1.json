@@ -1,0 +1,17 @@
+{
+  "rule_id": "R-1",
+  "process_id": "recon",
+  "future_state_step": "n2",
+  "decision": "recon:n2",
+  "scenario": "the subledger report for Acme Corp's ledger unit has no row for the month",
+  "why": "a gap is checked first: with a balance missing there is nothing to compare",
+  "observation_ids": [
+    "recon:observation:o1"
+  ],
+  "text_sha256": "058d3de52fb59d8e8c17a56c29be00a97aa69cfdd97dbeca53200a71cf8fcc04",
+  "mechanism": {
+    "kind": "cascade",
+    "order": 1,
+    "status": "proposed"
+  }
+}

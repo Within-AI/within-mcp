@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/placed-rule.schema.json",
+  "version": "agent-design.placed-rule/1",
+  "title": "placed-rule.schema.json",
+  "description": "A rule placed on one future-state step (0425/0444 rules-page fields).",
+  "type": "object",
+  "required": [
+    "rule_id",
+    "process_id",
+    "future_state_step",
+    "decision",
+    "scenario",
+    "why",
+    "observation_ids",
+    "text_sha256"
+  ],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "process_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "future_state_step": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One future-state node id; with process_id it forms <process_id>:<node_id>."
+    },
+    "decision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "order",
+        "status"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "cascade",
+            "bands",
+            "shared_destination"
+          ]
+        },
+        "order": {
+          "type": [
+            "integer",
+            "array",
+            "string"
+          ]
+        },
+        "status": {
+          "const": "proposed"
+        }
+      }
+    },
+    "scenario": {
+      "type": "string",
+      "minLength": 1
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observation_ids": {
+      "type": "array",
+      "description": "Ids in the form the snapshot intake lists (<prefix>observation:<resource_key>). Empty is allowed when the rule's evidence state (rules.json) is Assumed, Contradictory or needs_more_information; an Observed rule needs at least one id that resolves.",
+      "items": {
+        "type": "string",
+        "pattern": "^.*observation:.+$"
+      }
+    },
+    "text_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

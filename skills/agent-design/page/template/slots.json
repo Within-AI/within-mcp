@@ -1,0 +1,65 @@
+{
+  "description": "The Agent Design page: eight sections in this order, each slot in list order; build.py numbers the tabs, and the last is What we still need to know.",
+  "sections": [
+    "Orientation",
+    "Current",
+    "Future",
+    "Agent diagram",
+    "Decision rules",
+    "Evaluation",
+    "Appendix",
+    "What we still need to know"
+  ],
+  "slots": [
+    {
+      "id": "orientation",
+      "section": "Orientation",
+      "title": "Where this run stands"
+    },
+    {
+      "id": "set-panel",
+      "section": "Orientation",
+      "title": "Processes in this set"
+    },
+    {
+      "id": "current",
+      "section": "Current",
+      "title": "How the work runs today"
+    },
+    {
+      "id": "future",
+      "section": "Future",
+      "title": "How the work will run"
+    },
+    {
+      "id": "agent-diagram",
+      "section": "Agent diagram",
+      "title": "The agents and their handovers"
+    },
+    {
+      "id": "rules-page",
+      "section": "Decision rules",
+      "title": "The decision rules"
+    },
+    {
+      "id": "evaluation",
+      "section": "Evaluation",
+      "title": "How the design was tested"
+    },
+    {
+      "id": "simulation",
+      "section": "Evaluation",
+      "title": "Simulation"
+    },
+    {
+      "id": "appendix",
+      "section": "Appendix",
+      "title": "Interface detail"
+    },
+    {
+      "id": "questions",
+      "section": "What we still need to know",
+      "title": "Open business questions"
+    }
+  ]
+}

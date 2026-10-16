@@ -1,0 +1,72 @@
+# RENDERED from internal-dag.graph.json by render_internal_dag.py. Do NOT hand-edit - re-run the renderer.
+# The graph object is the source of truth; this file, the diagram, and the coverage manifest are all renders of it.
+agent:
+  rec_id: "marketing-metrics-pack-refresh"
+  spec_id: "marketing-metrics-pack-refresh"
+  primitive_form: "script"
+  judgment_model: "none: deterministic script"
+  zero_agent_action_boundary: true   # computed from the graph: no write edge or interface and no agent-held decision
+entry_triggers:
+  - node: "s-retrieve"
+    type: "not yet known"
+    label: "schedule or person (open)"
+steps:
+  - id: "s-retrieve"
+    type: "step"
+    title: "Retrieve the pipeline influence report"
+    runs_on: "code"
+    input: "The reporting period for the run (via IC-1)."
+    output: "The report's exact values for the period, before rounding."
+    reads: ["IR-1"]
+    drafts_into: null
+  - id: "s-compute"
+    type: "step"
+    title: "Compute the three metrics"
+    runs_on: "code"
+    input: "The retrieved report values, the accepted templates and the prior-period pack (IR-2)."
+    output: "Qualified Pipeline Generated, Pipeline Influenced and Closed-Won Influenced, with zero, unavailable and not-calculable kept apart."
+    reads: ["IR-2"]
+    drafts_into: null
+  - id: "eg-1"
+    type: "escalation_gate"
+    title: "Ready to stage?"
+    runs_on: "code"
+    input: ""
+    output: "Routes the run to staging or to the escalation. It routes; it decides nothing for the owner."
+    reads: []
+    drafts_into: null
+  - id: "s-stage-1-recommend"
+    type: "step"
+    title: "Write the Sheet and Slides review copies and the run log"
+    runs_on: "code"
+    input: "The computed metrics (staging path from eg-1)."
+    output: "A Sheet review copy and a Slides review copy for the period with the computed values, plus the run log and reconciliation record beside them."
+    reads: []
+    drafts_into: "IW-1"
+  - id: "s-stage-2-escalate"
+    type: "step"
+    title: "Record the stop and hand over the escalation"
+    runs_on: "code"
+    input: "The escalation path from eg-1."
+    output: "A run log entry naming what blocked the run and the evidence behind it; no cause is invented and no copy is staged."
+    reads: []
+    drafts_into: "IW-1"
+interfaces:
+  - id: "IC-1"
+    kind: "control"
+    direction: "inbound_control"
+  - id: "IR-1"
+    kind: "read"
+    direction: "read"
+  - id: "IR-2"
+    kind: "read"
+    direction: "read"
+  - id: "IH-1"
+    kind: "handoff"
+    direction: "outbound_handoff"
+  - id: "IH-2"
+    kind: "handoff"
+    direction: "outbound_handoff"
+  - id: "IW-1"
+    kind: "draft_surface"
+    direction: "draft"

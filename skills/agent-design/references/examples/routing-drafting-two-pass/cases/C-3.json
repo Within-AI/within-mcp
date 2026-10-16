@@ -1,0 +1,40 @@
+{
+  "id": "C-3",
+  "decision": "inbox:n5",
+  "kind": "boundary",
+  "layer": "end_to_end",
+  "critical": false,
+  "description": "the summary passes the check but the evidence does not support a fix, so the case goes back to the coordinator without a draft",
+  "rows": [
+    {
+      "id": "summary",
+      "values": {
+        "quotes_fault": {
+          "value": "yes",
+          "label": "synthetic"
+        },
+        "setup_named": {
+          "value": "yes",
+          "label": "synthetic"
+        }
+      }
+    }
+  ],
+  "holds": [],
+  "judgment_answers": [
+    {
+      "rule_id": "R-3",
+      "item_key": "report_id",
+      "answer": "no"
+    }
+  ],
+  "expected": {
+    "label": "returned_without_draft",
+    "values": {
+      "route": "drafting",
+      "outcome": null
+    },
+    "derivations": {}
+  },
+  "final_label": "returned_without_draft"
+}

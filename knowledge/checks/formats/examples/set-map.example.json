@@ -1,0 +1,361 @@
+{
+ "set_map_version": "0.1",
+ "set_id": "northwind-repairs",
+ "title": "Northwind Lettings repairs: two ways in, one work order, a repair firm, a visit reminder",
+ "read_at": "2026-01-15",
+ "evidence_cutoff": "2026-01-14",
+ "snapshot_cutoff": "2026-01-14",
+ "process_versions": [
+  {
+   "process_id": "aaaa11112222",
+   "version_no": 4,
+   "created_at": "2026-01-10"
+  },
+  {
+   "process_id": "bbbb33334444",
+   "version_no": 7,
+   "created_at": "2026-01-11"
+  },
+  {
+   "process_id": "cccc55556666",
+   "version_no": 12,
+   "created_at": "2026-01-12"
+  },
+  {
+   "process_id": "eeee99990000",
+   "version_no": 2,
+   "created_at": "2026-01-09"
+  }
+ ],
+ "lead_process": "cccc55556666",
+ "processes": [
+  {
+   "process_id": "aaaa11112222",
+   "title": "Log a repair from the tenant portal",
+   "role": "entry_variant",
+   "lead": false,
+   "key_control": false,
+   "trigger": "Tenant submits the portal form",
+   "end": "Work order logged",
+   "reads_states": [],
+   "writes_states": [
+    "os-logged"
+   ]
+  },
+  {
+   "process_id": "bbbb33334444",
+   "title": "Log a repair from a phone call",
+   "role": "entry_variant",
+   "lead": false,
+   "key_control": false,
+   "trigger": "Tenant calls the help line",
+   "end": "Work order logged",
+   "reads_states": [],
+   "writes_states": [
+    "os-logged"
+   ]
+  },
+  {
+   "process_id": "cccc55556666",
+   "title": "Schedule and complete the repair",
+   "role": "main_step",
+   "lead": true,
+   "key_control": true,
+   "trigger": "A work order is logged",
+   "end": "Work order closed, or no repair firm accepts",
+   "reads_states": [
+    "os-logged"
+   ],
+   "writes_states": [
+    "os-waiting",
+    "os-booked",
+    "os-closed"
+   ]
+  },
+  {
+   "process_id": "eeee99990000",
+   "title": "Remind the tenant of the booked visit",
+   "role": "other",
+   "role_text": "Tenant liaison, runs beside the main step",
+   "lead": false,
+   "key_control": false,
+   "trigger": "A visit is booked",
+   "end": "Reminder sent",
+   "reads_states": [
+    "os-booked"
+   ],
+   "writes_states": []
+  }
+ ],
+ "actors": [
+  {
+   "id": "act-firm",
+   "name": "Repair firm",
+   "kind": "external_party",
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "st-006",
+     "read_at": "2026-01-15"
+    }
+   ]
+  }
+ ],
+ "work_objects": [
+  {
+   "id": "wo-order",
+   "name": "Work order",
+   "system_of_record": "Fixit maintenance system",
+   "id_pattern": "WO-nnnnn",
+   "relations": []
+  }
+ ],
+ "object_states": [
+  {
+   "id": "os-logged",
+   "object": "wo-order",
+   "name": "Logged",
+   "order": 1,
+   "moved_in_by": [
+    "aaaa11112222",
+    "bbbb33334444"
+   ],
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "aaaa11112222:process-details",
+     "locator": "end",
+     "read_at": "2026-01-15"
+    },
+    {
+     "source_id": "bbbb33334444:process-details",
+     "locator": "end",
+     "read_at": "2026-01-15"
+    }
+   ]
+  },
+  {
+   "id": "os-waiting",
+   "object": "wo-order",
+   "name": "Waiting on repair firm",
+   "order": 2,
+   "waiting_on": "Repair firm",
+   "moved_in_by": [
+    "cccc55556666"
+   ],
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "st-005",
+     "read_at": "2026-01-15"
+    }
+   ]
+  },
+  {
+   "id": "os-booked",
+   "object": "wo-order",
+   "name": "Visit booked",
+   "order": 3,
+   "moved_in_by": [
+    "cccc55556666"
+   ],
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "st-010",
+     "read_at": "2026-01-15"
+    }
+   ]
+  },
+  {
+   "id": "os-closed",
+   "object": "wo-order",
+   "name": "Closed",
+   "order": 4,
+   "terminal": true,
+   "moved_in_by": [
+    "cccc55556666"
+   ],
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "st-014",
+     "read_at": "2026-01-15"
+    }
+   ]
+  }
+ ],
+ "links": [
+  {
+   "id": "lk-variants",
+   "kind": "variant_entry",
+   "flow": true,
+   "from": [
+    "aaaa11112222",
+    "bbbb33334444"
+   ],
+   "to": [
+    "cccc55556666"
+   ],
+   "object": "wo-order",
+   "state": "os-logged",
+   "evidence_level": "trigger_end_text",
+   "evidence_state": "Observed",
+   "routing_rule": null,
+   "open_point_ids": [
+    "op-channel"
+   ],
+   "evidence_refs": [
+    {
+     "source_id": "aaaa11112222:process-details",
+     "locator": "end",
+     "read_at": "2026-01-15"
+    },
+    {
+     "source_id": "bbbb33334444:process-details",
+     "locator": "end",
+     "read_at": "2026-01-15"
+    }
+   ],
+   "rationale": "Both entry processes end with a logged work order in the same queue; the tenant's channel decides which runs."
+  },
+  {
+   "id": "lk-handoff-1",
+   "kind": "handoff",
+   "flow": true,
+   "from": [
+    "aaaa11112222"
+   ],
+   "to": [
+    "cccc55556666"
+   ],
+   "object": "wo-order",
+   "state": "os-logged",
+   "evidence_level": "shared_instances",
+   "shared_instance_count": 3,
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "aaaa11112222:observations",
+     "locator": "obs-04, obs-09, obs-11",
+     "read_at": "2026-01-15"
+    }
+   ],
+   "rationale": "Three work-order numbers appear in both processes' observations."
+  },
+  {
+   "id": "lk-handoff-2",
+   "kind": "handoff",
+   "flow": true,
+   "from": [
+    "bbbb33334444"
+   ],
+   "to": [
+    "cccc55556666"
+   ],
+   "object": "wo-order",
+   "state": "os-logged",
+   "evidence_level": "trigger_end_text",
+   "evidence_state": "Assumed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "trigger",
+     "read_at": "2026-01-15"
+    }
+   ],
+   "rationale": "The main step's trigger names a logged work order; no shared work-order number was observed for the phone path."
+  },
+  {
+   "id": "lk-reminder",
+   "kind": "lifecycle_continuation",
+   "flow": true,
+   "from": [
+    "cccc55556666"
+   ],
+   "to": [
+    "eeee99990000"
+   ],
+   "object": "wo-order",
+   "state": "os-booked",
+   "evidence_level": "step_state",
+   "evidence_state": "Observed",
+   "evidence_refs": [
+    {
+     "source_id": "eeee99990000:process-details",
+     "locator": "st-001",
+     "read_at": "2026-01-15"
+    }
+   ],
+   "rationale": "The reminder's first step reads the booked visit date from the work order."
+  },
+  {
+   "id": "lk-continuation",
+   "kind": "lifecycle_continuation",
+   "flow": true,
+   "from": [
+    "cccc55556666"
+   ],
+   "to": [
+    "dddd77778888"
+   ],
+   "object": "wo-order",
+   "state": "os-closed",
+   "evidence_level": "hierarchy_scope",
+   "evidence_state": "Assumed",
+   "evidence_refs": [
+    {
+     "source_id": "cccc55556666:process-details",
+     "locator": "scope: out of scope",
+     "read_at": "2026-01-15"
+    }
+   ],
+   "rationale": "The main step's scope note leaves paying the repair firm to a sibling process."
+  }
+ ],
+ "context_neighbours": [
+  {
+   "id": "cn-invoice",
+   "process_id": "dddd77778888",
+   "title": "Pay the repair firm's invoice",
+   "touches": "continuation",
+   "attach_to": [
+    "os-closed"
+   ],
+   "performer": "Payables desk",
+   "found_by": "hierarchy_scope",
+   "evidence_state": "Assumed"
+  }
+ ],
+ "open_points": [
+  {
+   "id": "op-channel",
+   "text": "What decides whether a repair is logged through the portal or by phone is not recorded.",
+   "client_text": "How a tenant chooses between the portal and the phone line.",
+   "evidence_state": "needs_more_information",
+   "about": [
+    "lk-variants"
+   ]
+  }
+ ],
+ "checks": [
+  {
+   "check": "each in-set process has a flow link",
+   "result": "pass"
+  },
+  {
+   "check": "each state has one mover",
+   "result": "pass",
+   "detail": "Logged has two movers, which is the variant entry"
+  },
+  {
+   "check": "variants share a start and a decision",
+   "result": "open",
+   "detail": "op-channel"
+  }
+ ]
+}

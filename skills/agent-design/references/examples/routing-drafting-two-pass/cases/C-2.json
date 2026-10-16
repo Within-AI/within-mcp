@@ -1,0 +1,33 @@
+{
+  "id": "C-2",
+  "decision": "inbox:n3",
+  "kind": "must_escalate",
+  "layer": "part",
+  "critical": true,
+  "description": "a summary that does not quote the fault goes back to the coordinator",
+  "rows": [
+    {
+      "id": "summary",
+      "values": {
+        "quotes_fault": {
+          "value": "no",
+          "label": "synthetic"
+        },
+        "setup_named": {
+          "value": "yes",
+          "label": "synthetic"
+        }
+      }
+    }
+  ],
+  "holds": [],
+  "judgment_answers": [],
+  "expected": {
+    "label": "returned_to_coordinator",
+    "values": {
+      "route": "coordinator"
+    },
+    "derivations": {}
+  },
+  "final_label": "returned_to_coordinator"
+}

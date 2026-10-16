@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/handoff.schema.json",
+  "version": "agent-design.handoff/1",
+  "title": "handoff.schema.json",
+  "description": "The Agent Build hand-off at outputs/agent-build-inputs.json, with each part's capability needs and portable fallbacks. Always written: a complete hand-off carries every field below; one marked status: incomplete carries what was available plus status_reasons. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "type": "object",
+  "required": [
+    "stage_input_hashes",
+    "outputs",
+    "bundle",
+    "platform_question"
+  ],
+  "properties": {
+    "open_items": {
+      "type": "array",
+      "items": {
+        "$ref": "register.schema.json#/$defs/item"
+      }
+    },
+    "access_assumptions": {
+      "type": "array",
+      "items": {
+        "$ref": "register.schema.json#/$defs/access_item"
+      }
+    },
+    "stand_ins": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "rules_needing_ratification": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "critical_cases_failed_or_open": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "primitive_form": {
+      "type": "object",
+      "required": [
+        "value",
+        "decision_ref"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "identity_runtime_opens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adjudicator": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "description": "An identity or runtime open. adjudicator names who decides; absent when not yet named (then recorded in missing_information)."
+      }
+    },
+    "evidence_strength": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "process"
+        ],
+        "properties": {
+          "process": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "upstream_failing_checks": {
+      "type": "array"
+    },
+    "capability_needs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "part",
+          "needs"
+        ],
+        "properties": {
+          "part": {
+            "type": "string",
+            "minLength": 1
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "need",
+                "portable_fallback"
+              ],
+              "properties": {
+                "need": {
+                  "enum": [
+                    "pause for a person and resume",
+                    "calculation tool",
+                    "code routing",
+                    "system reads"
+                  ]
+                },
+                "portable_fallback": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "stage_input_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "origin",
+          "version"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash."
+          },
+          "origin": {
+            "enum": [
+              "inherited",
+              "regenerated"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "bundle": {
+      "type": "object",
+      "required": [
+        "shareable",
+        "internal_trace"
+      ],
+      "properties": {
+        "shareable": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash."
+          }
+        },
+        "internal_trace": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash."
+          }
+        },
+        "design_files": {
+          "type": "object",
+          "description": "The design copy published beside the hand-off: architecture (agent.yaml), architecture_files (every architecture file) and test_suite.",
+          "properties": {
+            "architecture": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+              "description": "Relative to the hand-off file's own folder: no leading / or ~, no drive letter, no .. segment, no backslash."
+            },
+            "test_suite": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+              "description": "Relative to the hand-off file's own folder: no leading / or ~, no drive letter, no .. segment, no backslash."
+            },
+            "architecture_files": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+                "description": "Relative to the hand-off file's own folder: no leading / or ~, no drive letter, no .. segment, no backslash."
+              }
+            }
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+                "description": "Relative to the hand-off file's own folder: no leading / or ~, no drive letter, no .. segment, no backslash."
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+                  "description": "Relative to the hand-off file's own folder: no leading / or ~, no drive letter, no .. segment, no backslash."
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "platform_question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "complete",
+        "incomplete"
+      ]
+    },
+    "status_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "readings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "what",
+          "reading"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "reading": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "missing_information": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "part",
+          "reason"
+        ],
+        "properties": {
+          "part": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "written_as": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "required": [
+      "status"
+    ],
+    "properties": {
+      "status": {
+        "const": "incomplete"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "status_reasons"
+    ],
+    "properties": {
+      "status_reasons": {
+        "minItems": 1
+      }
+    }
+  },
+  "else": {
+    "required": [
+      "open_items",
+      "access_assumptions",
+      "stand_ins",
+      "rules_needing_ratification",
+      "critical_cases_failed_or_open",
+      "primitive_form",
+      "identity_runtime_opens",
+      "evidence_strength",
+      "upstream_failing_checks",
+      "capability_needs",
+      "stage_input_hashes",
+      "outputs",
+      "bundle",
+      "platform_question"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+/* Scoped to the rules fragment; source order and native disclosure stay intact. */
+.rp{font:15px/1.5 system-ui,sans-serif;color:#0b1e2f;max-width:72rem;min-width:0;overflow-wrap:anywhere}
+.rp *{box-sizing:border-box}
+.rp a{color:#215879;text-underline-offset:.15em}
+.rp a:focus-visible,.rp summary:focus-visible,.rp input:focus-visible{outline:3px solid #b64b2a;outline-offset:3px}
+.rp h2{font-size:1.35rem;margin:2rem 0 .75rem}.rp h3{font-size:1.1rem;margin:1.5rem 0 .5rem}
+.rp p{margin:.5rem 0}.rp ul,.rp ol{padding-left:1.5rem}
+.rp .toc ol{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;padding-left:1.2rem}
+.rp .lead{font-size:1.15rem;font-weight:600}
+.rp .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(11rem,100%),1fr));gap:.5rem}
+.rp .tile{display:block;border:1px solid #d8d3cb;background:#fff;border-radius:8px;padding:.65rem;cursor:pointer}
+.rp .tile .t{display:block;font-weight:600}.rp .tile .d{display:block;font-size:.85rem;color:#4a5562}
+.rp .num,.rp .n{font-variant-numeric:tabular-nums;font-weight:700}
+/* The table is its own scroll region: keep natural column alignment, never clip cells.
+   No fixed page width or hidden overflow is used to conceal a wide comparison. */
+.rp table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;margin:.75rem 0;background:#fff}
+.rp th,.rp td{border-bottom:1px solid #e4ded4;padding:.45rem .65rem;text-align:left;vertical-align:top;min-width:5rem}
+.rp thead th{background:#f7f3ec;line-height:1.35}
+.rp td,.rp th.n,.rp td.n{text-align:right;font-variant-numeric:tabular-nums}
+.rp .dxo td{text-align:right}.rp .dxo th,.rp .dxo td{min-width:9rem;max-width:24rem}
+.rp .bd th{min-width:10rem}.rp .bd td{min-width:6rem}
+.rp .oc th{min-width:9rem}.rp .oc td{min-width:5rem}
+.rp .flow li{margin:.4rem 0}.rp .lane{display:inline-block;min-width:8rem;font-size:.85rem;color:#4a5562}
+.rp .cross{margin-left:.5rem;color:#8a3b12;font-size:.85rem}.rp .here{display:block;font-size:.85rem;margin-left:8rem}
+.rp .step:target,.rp details.rule:target,.rp .item:target,.rp .decgrp:target,.rp .shared-rule-note:target{outline:2px solid #2f6fb5;outline-offset:3px}
+.rp .controls{margin:1rem 0}.rp .flt{display:inline-block;max-width:100%;min-width:0;border:1px solid #d8d3cb;border-radius:6px;margin:.25rem 0;padding:.5rem .65rem}
+.rp .flt legend{font-weight:600}.rp .flt label{display:inline-block;margin:.2rem .6rem .2rem .15rem;cursor:pointer}
+.rp input[type=radio]{accent-color:#215879}
+.rp .part{margin:1.5rem 0}.rp .part>h3{padding:.65rem .8rem;background:#0b1e2f;color:#fff;border-radius:8px}
+.rp .frame{padding:.75rem;border:1px solid #e4ded4;border-radius:8px;background:#fbf6ef}
+.rp dl{margin:.5rem 0}.rp dt{font-weight:600}.rp dd{margin:0 0 .6rem}
+.rp .stepgrp{margin:1.25rem 0;padding-left:.75rem;border-left:3px solid #e4ded4}
+.rp .q{font-weight:600}.rp .tostep{font-weight:400;font-size:.85rem}
+.rp details.rule{border:1px solid #d8d3cb;border-radius:8px;margin:.5rem 0;background:#fff}
+.rp details.rule[open]{border-color:#a39b8e}
+/* Renderer separators are punctuation text nodes, not content fields. The fields
+   remain in DOM order; do not reserve an empty scenario column when absent. */
+.rp details.rule>summary{cursor:pointer;padding:.75rem;font-size:0;line-height:1.5}
+.rp details.rule>summary::marker{font-size:14px;color:#4a5562}
+.rp details.rule>summary>span,.rp details.rule>summary>a{font-size:14px;display:block;margin:.25rem 0}
+.rp details.rule>summary>.rn,.rp details.rule>summary>.ms,.rp details.rule>summary>.chip-ev{display:inline-block;margin-right:.6rem}
+.rp .rn{font-weight:700}.rp .f-scenario{font-weight:600}.rp .f-when,.rp .f-then{line-height:1.6}
+.rp .chip-ev{border-radius:9px;padding:.1rem .5rem;background:#eef2f6}
+.rp .f-basis,.rp .f-missing,.rp .f-gaps,.rp .ptag{display:block;color:#4a5562}
+.rp .f-example{display:block;margin-top:.25rem}
+.rp .more{padding:.25rem .75rem .75rem;border-top:1px solid #e4ded4}
+.rp .more p,.rp .more li{max-width:80ch}.rp .source-origin{font-size:.85rem;color:#4a5562}
+.rp .dis{padding:.65rem;border:1px solid #e7c4b8;border-radius:6px;background:#fff9f6}
+.rp .side{display:block;margin-top:.5rem;padding:.5rem;background:#fff;border:1px solid #e4ded4;border-radius:4px}
+.rp .mech{border-left:3px solid #c9d1da;padding-left:.6rem}.rp .mk{font-weight:600}
+.rp .shared-rule-notes,.rp .item{padding:.75rem;border:1px solid #e4ded4;border-radius:8px;margin:.75rem 0}
+.rp .note-rules{display:block;font-size:.85rem}.rp .rule-sources li{margin:.6rem 0}
+@media (max-width:40rem){.rp .here{margin-left:0}.rp .stepgrp{padding-left:.4rem}.rp .mech{padding-left:.4rem}.rp details.rule>summary{padding:.6rem}.rp .more{padding:.25rem .6rem .6rem}.rp .flt{display:block}.rp th,.rp td{padding:.4rem .5rem}}
+@media print{.rp details.rule>.more{display:block}.rp table{display:table;width:100%;overflow:visible}.rp th,.rp td{min-width:0}.rp .controls{display:none}}

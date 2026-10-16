@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/outcomes.schema.json",
+  "version": "agent-design.outcomes/1",
+  "title": "outcomes.schema.json",
+  "description": "Outcome labels per decision and per gate. No label equals a retired end-state word (lists/retired-end-states.json) except needs_more_information. A gate's id is the boundary id it guards; its optional step is the qualified step <process_id>:<node_id> the gate sits at, owned by a part. primitive_form is the agent's primitive form (for example one agent with two sub-agents), taken from the architecture stage's agent shape, with decision_ref the id of a decision listed here that it rests on. This schema is the whole stages/rules/outcomes.json document the outcomes template shows; formats/readers.py reads it.",
+  "type": "object",
+  "required": [
+    "decisions",
+    "gates",
+    "primitive_form"
+  ],
+  "properties": {
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "labels"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "not": {
+                "enum": [
+                  "escalated",
+                  "recommended",
+                  "staged",
+                  "routed",
+                  "no-route",
+                  "written",
+                  "handed_off"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "labels"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "step": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "not": {
+                "enum": [
+                  "escalated",
+                  "recommended",
+                  "staged",
+                  "routed",
+                  "no-route",
+                  "written",
+                  "handed_off"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "primitive_form": {
+      "type": "object",
+      "required": [
+        "value",
+        "decision_ref"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

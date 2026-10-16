@@ -1,0 +1,17 @@
+{
+  "rule_id": "R-2",
+  "process_id": "recon",
+  "future_state_step": "n3",
+  "decision": "recon:n3",
+  "scenario": "Example Co's ledger unit shows the same balance on both reports",
+  "why": "a tie is checked before any category is looked at",
+  "observation_ids": [
+    "recon:observation:o2"
+  ],
+  "text_sha256": "be5b1e2f415f9869a514c4ff3005244ee1824a5a072848b7ea3a43c73cb11c5e",
+  "mechanism": {
+    "kind": "cascade",
+    "order": 2,
+    "status": "proposed"
+  }
+}

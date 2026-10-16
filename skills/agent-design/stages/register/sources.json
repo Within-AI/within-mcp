@@ -1,0 +1,23 @@
+{
+  "schema": "agent-design.register-sources/2",
+  "description": "Every residual-bearing file the register collects; register.py reads residuals only from these. Paths are relative to the run folder; a path may be a glob. items_key names the list the residuals sit in; kind names the category; shape names the reader register.py applies; stage names the stage that writes the file. schema, when present, is the pinned format (relative to skills/agent-design) each entry (schema_each) or the whole file is validated against. A file whose stage has not finished (or that names no stage, such as the builder log before anything is recorded) is skipped and counted. A file that is missing after its stage finished, will not parse, or holds an entry of the wrong shape becomes a recorded register item and a builder-log note; collection always continues. exclude lists files a glob entry leaves to their own entry.",
+  "sources": [
+    {"key": "rules-open-items", "path": "stages/rules/open-items.json", "items_key": "items", "kind": "open_items", "stage": "rules", "shape": "open_items"},
+    {"key": "fields-open-items", "path": "stages/fields/open-items.json", "items_key": "items", "kind": "open_items", "stage": "fields", "shape": "open_items"},
+    {"key": "placement-open-items", "path": "stages/placement/open-items.json", "items_key": "items", "kind": "open_items", "stage": "placement", "shape": "open_items"},
+    {"key": "review-a-findings", "path": "stages/review-a/findings.json", "items_key": "items", "kind": "findings", "stage": "review-a", "shape": "verdict_findings"},
+    {"key": "gate-findings", "path": "stages/coherence-gate/report.json", "items_key": "problems", "kind": "findings", "stage": "coherence-gate", "shape": "problems"},
+    {"key": "gate-residuals", "path": "stages/coherence-gate/open-items.json", "items_key": "items", "kind": "open_items", "stage": "coherence-gate", "shape": "open_items", "schema": "formats/run/register.schema.json#/$defs/item", "schema_each": "items"},
+    {"key": "fix-leftovers", "path": "stages/review-b/open-items.json", "items_key": "items", "kind": "open_items", "stage": "review-b", "shape": "open_items", "schema": "formats/run/register.schema.json#/$defs/item", "schema_each": "items"},
+    {"key": "simulation-walk", "path": "simulation/walk.json", "items_key": "cases", "kind": "findings", "stage": "simulation", "shape": "walk", "schema": "formats/run/simulation.schema.json"},
+    {"key": "simulation-read", "path": "checks/check_read.json", "items_key": "residuals", "kind": "findings", "stage": "simulation", "shape": "report", "schema": "formats/lists/check-report.schema.json"},
+    {"key": "simulation-judgment-screen", "path": "checks/screen_judgments.json", "items_key": "problems", "kind": "findings", "stage": "simulation", "shape": "screen", "schema": "formats/lists/check-report.schema.json"},
+    {"key": "grants", "path": "checks/check_grants.json", "items_key": "upstream_unresolved", "kind": "check_report", "stage": "check-architecture", "shape": "grants"},
+    {"key": "check-reports", "path": "checks/*.json", "items_key": "problems", "kind": "check_report", "shape": "problems", "exclude": ["checks/check_read.json", "checks/screen_judgments.json", "checks/register.json"]},
+    {"key": "builder-problems", "path": "builder/problems.jsonl", "items_key": "lines", "kind": "recorded_problems", "shape": "jsonl"},
+    {"key": "architecture", "path": "stages/architecture/agent.yaml", "items_key": "departures", "kind": "design", "stage": "architecture", "shape": "agent"},
+    {"key": "intake", "path": "stages/intake/intake.json", "items_key": "upstream_failing_checks", "kind": "upstream", "stage": "intake", "shape": "intake", "schema": "formats/design/intake.schema.json"},
+    {"key": "rules", "path": "stages/rules/rules.json", "items_key": "rules", "kind": "design", "stage": "rules", "shape": "rules", "schema": "formats/design/rule.schema.json", "schema_each": "rules"},
+    {"key": "placement-declarations", "path": "stages/placement/declarations.json", "items_key": "stand_ins", "kind": "design", "stage": "placement", "shape": "declarations"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "status": "embedded",
+  "template": "assets/recommendation-report-template.html",
+  "renderer": "scripts/render_report.py",
+  "data_model": "references/html-data-model.md",
+  "report_spec": "references/report-spec.md",
+  "source_filename": "Close-the-books AI recommendations – Recommendations.html",
+  "source_sha256": "244a3937841675be6dcfa687669b0bd68676e0bc4c79a13d1c29f6334ebb43e3",
+  "instruction": "Populate the bundled template with report JSON; reuse its shell, styling and interactions. Do not rebuild HTML for each recommendation report. Original example claims are not reusable findings."
+}

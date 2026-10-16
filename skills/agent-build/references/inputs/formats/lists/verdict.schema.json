@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/lists/verdict.schema.json",
+  "version": "agent-design.verdict/1",
+  "title": "verdict.schema.json",
+  "description": "Verdict file of a dispatched review or read.",
+  "type": "object",
+  "required": [
+    "kind",
+    "read",
+    "items"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "read": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+        "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash."
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "subject",
+          "verdict",
+          "evidence",
+          "detail",
+          "route_to"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "enum": [
+              "ok",
+              "finding",
+              "cannot_judge"
+            ]
+          },
+          "evidence": {
+            "type": "array"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "route_to": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "family": {
+            "type": "string"
+          },
+          "known_value": {
+            "type": "object",
+            "required": [
+              "target",
+              "value",
+              "source"
+            ]
+          }
+        },
+        "if": {
+          "properties": {
+            "verdict": {
+              "const": "finding"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "evidence": {
+              "minItems": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

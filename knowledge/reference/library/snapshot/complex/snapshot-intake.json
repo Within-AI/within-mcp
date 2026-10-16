@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot-intake",
+  "scope": {
+    "process_ids": [
+      "5bbb985d60a7",
+      "a88919d7bd0c"
+    ],
+    "cutoff_at": "2026-09-23T18:10:13+05:30"
+  },
+  "required_source_ids": [
+    "process-details",
+    "process-details-steps-1-1",
+    "process-details-steps-2-1",
+    "process-details-steps-2-2",
+    "process-details-steps-3-1",
+    "process-details-steps-3-2",
+    "observations",
+    "dependencies"
+  ],
+  "sources": [
+    {
+      "id": "process-details",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    },
+    {
+      "id": "process-details-steps-1-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/0/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-2",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-2",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "observations",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_observations-5bbb985d60a7-full.json",
+      "sha256": "2bebd25c352c75d0c584c0a86bc04f123edd3d99bc0251be3c61bba2ea097f3c",
+      "collection_kind": "observations",
+      "mapping": {
+        "items": "/items",
+        "total": "/total",
+        "item_id": "/resource_key",
+        "observed_at": "/timestamp"
+      }
+    },
+    {
+      "id": "dependencies",
+      "process_id": "a88919d7bd0c",
+      "status": "included",
+      "path": "get_process_details-a88919d7bd0c-dependencies.json",
+      "sha256": "16b32b4e97ca8d945d8f3f3d19c05fc6b286ed4779f130c9735539aeb136472b",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    }
+  ],
+  "issues": []
+}

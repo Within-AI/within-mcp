@@ -1,0 +1,681 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/agent.schema.json",
+  "version": "agent-design.agent/1",
+  "title": "agent.schema.json",
+  "description": "The agent design (stages/architecture/agent.yaml, JSON syntax, read with json.load): header and parts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "header",
+    "parts",
+    "shape",
+    "rejected_alternatives",
+    "departures"
+  ],
+  "properties": {
+    "header": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "metrics",
+        "authority",
+        "access",
+        "proposed_writes",
+        "handovers",
+        "autonomy_ladder"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ]
+          }
+        },
+        "authority": {
+          "type": "object",
+          "required": [
+            "default"
+          ],
+          "properties": {
+            "default": {
+              "const": "read-only and recommend-only"
+            }
+          }
+        },
+        "access": {
+          "type": "object",
+          "required": [
+            "evidence_state"
+          ],
+          "properties": {
+            "evidence_state": {
+              "const": "Assumed"
+            }
+          }
+        },
+        "proposed_writes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "step",
+              "system",
+              "grant",
+              "status"
+            ],
+            "properties": {
+              "step": {
+                "type": "string",
+                "pattern": "^[^:\\s]+:[^:\\s]+$",
+                "description": "Qualified reference <process_id>:<id>: exactly one colon, non-empty text on both sides."
+              },
+              "system": {
+                "type": "string",
+                "minLength": 1
+              },
+              "grant": {
+                "type": "string",
+                "pattern": "^WG-[0-9]+$"
+              },
+              "status": {
+                "const": "proposed for ratification"
+              }
+            }
+          }
+        },
+        "handovers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "from",
+              "to",
+              "edge_refs",
+              "kind"
+            ],
+            "properties": {
+              "from": {
+                "type": "string",
+                "pattern": "^([^:\\s]+|person:[^:\\s]+|[^:\\s]+:[^:\\s]+)$",
+                "description": "A part id, person:<lane_id>, or, for a person handover into another process, a qualified step <process_id>:<node_id> (from the agent step, to the person step)."
+              },
+              "to": {
+                "type": "string",
+                "pattern": "^([^:\\s]+|person:[^:\\s]+|[^:\\s]+:[^:\\s]+)$",
+                "description": "A part id, person:<lane_id>, or, for a person handover into another process, a qualified step <process_id>:<node_id> (from the agent step, to the person step)."
+              },
+              "edge_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[^:\\s]+:[^:\\s]+$",
+                  "description": "Qualified reference <process_id>:<id>: exactly one colon, non-empty text on both sides."
+                }
+              },
+              "kind": {
+                "enum": [
+                  "dispatch",
+                  "person_handover"
+                ]
+              }
+            }
+          }
+        },
+        "autonomy_ladder": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "output_to_person",
+            "trigger",
+            "drafting_boundary",
+            "writes_to_systems_of_record",
+            "handoff_writes",
+            "person_checkpoint",
+            "verification_without_write_authority",
+            "entry_rung_and_graduation_path"
+          ],
+          "properties": {
+            "output_to_person": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "trigger": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "drafting_boundary": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "writes_to_systems_of_record": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "handoff_writes": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "person_checkpoint": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "verification_without_write_authority": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            },
+            "entry_rung_and_graduation_path": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "entry_rung",
+                "next_rung",
+                "step_up_evidence"
+              ],
+              "properties": {
+                "entry_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "next_rung": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "step_up_evidence": {
+                  "type": [
+                    "string",
+                    "array"
+                  ]
+                }
+              }
+            }
+          },
+          "description": "Exactly the eight dimensions of dossier section 3.1."
+        }
+      }
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "owns_steps",
+          "grants",
+          "input",
+          "output",
+          "surfaces_read",
+          "end_point",
+          "routing"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[^:\\s]+$"
+          },
+          "role": {
+            "enum": [
+              "orchestration",
+              "sub-agent"
+            ]
+          },
+          "owns_steps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[^:\\s]+:[^:\\s]+$",
+              "description": "Qualified reference <process_id>:<id>: exactly one colon, non-empty text on both sides."
+            }
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^WG-[0-9]+$"
+            }
+          },
+          "input": {
+            "type": "string",
+            "minLength": 1
+          },
+          "output": {
+            "type": "string",
+            "minLength": 1
+          },
+          "surfaces_read": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "end_point": {
+            "type": "string",
+            "minLength": 1
+          },
+          "routing": {
+            "type": "object",
+            "required": [
+              "kind",
+              "marked",
+              "basis"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "code",
+                  "model",
+                  "person"
+                ]
+              },
+              "marked": {
+                "type": "string",
+                "description": "The mark recorded upstream for these steps."
+              },
+              "basis": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "split_reason": {
+            "enum": [
+              "independently triggered",
+              "different surfaces read",
+              "distinct gates",
+              "different authority",
+              "different owner"
+            ]
+          },
+          "split_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "if": {
+          "properties": {
+            "role": {
+              "const": "sub-agent"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        },
+        "then": {
+          "required": [
+            "split_reason",
+            "split_evidence"
+          ]
+        }
+      }
+    },
+    "single_part_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shape": {
+      "type": "object",
+      "required": [
+        "evidence"
+      ],
+      "properties": {
+        "evidence": {
+          "type": "array"
+        }
+      }
+    },
+    "rejected_alternatives": {
+      "type": "array"
+    },
+    "departures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence",
+          "change"
+        ],
+        "properties": {
+          "evidence": {
+            "type": "array",
+            "minItems": 1
+          },
+          "change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sign_off": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing_future_state_step": {
+            "type": "boolean"
+          },
+          "routed_to": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "change": {
+                  "enum": [
+                    "role",
+                    "authority",
+                    "person_step"
+                  ]
+                }
+              },
+              "required": [
+                "change"
+              ]
+            },
+            "then": {
+              "required": [
+                "sign_off"
+              ],
+              "properties": {
+                "sign_off": {
+                  "const": "pending business-owner sign-off"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "missing_future_state_step": {
+                  "const": true
+                }
+              },
+              "required": [
+                "missing_future_state_step"
+              ]
+            },
+            "then": {
+              "required": [
+                "routed_to"
+              ],
+              "properties": {
+                "routed_to": {
+                  "const": "future-state-design"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "set_steps": {
+      "type": "array",
+      "description": "Set runs only: the set-level agent steps (future-state process_id \"set\"), each listed once as set:<node_id>. Required when the design has set-level agent steps; the architecture check records any it misses.",
+      "items": {
+        "type": "string",
+        "pattern": "^set:[^:\\s]+$"
+      }
+    },
+    "set_summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Set runs only: the set write-up in plain prose: what the agent does across the processes, which steps span processes (each listed once in owns_steps) and which steps are set-level. Required when set_steps is not empty."
+    },
+    "upstream_readings": {
+      "type": "array",
+      "description": "The reading this stage took of an upstream write-grant problem it was handed (the intake's write-grants entries): one object per grant and Write grants column. Fields as in KNOWLEDGE_ROOT/checks/_write_grants.py. A reading with a reason records the problem instead of failing; status unresolved keeps it in What we still need to know.",
+      "items": {
+        "type": "object",
+        "required": [
+          "grant",
+          "column",
+          "reason"
+        ],
+        "properties": {
+          "grant": {
+            "type": "string",
+            "pattern": "^WG-[1-9][0-9]*$"
+          },
+          "column": {
+            "type": "string",
+            "minLength": 1
+          },
+          "table_says": {
+            "type": "string"
+          },
+          "read_as": {
+            "type": [
+              "array",
+              "string"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "resolved",
+              "unresolved"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "parts": {
+            "contains": {
+              "properties": {
+                "role": {
+                  "const": "sub-agent"
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "single_part_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "set_steps"
+        ],
+        "properties": {
+          "set_steps": {
+            "minItems": 1
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "set_summary"
+        ]
+      }
+    }
+  ]
+}

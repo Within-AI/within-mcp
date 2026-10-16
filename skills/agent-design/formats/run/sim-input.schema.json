@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/sim-input.schema.json",
+  "version": "agent-design.sim-input/1",
+  "title": "sim-input.schema.json",
+  "description": "The converter's output at simulation/sim-input.json: rules, converted cases and what could not be converted. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "type": "object",
+  "required": [
+    "rules",
+    "cases",
+    "unconvertible"
+  ],
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "scope",
+          "expression"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "scope": {
+            "enum": [
+              "case",
+              "item"
+            ]
+          },
+          "item_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expression": {
+            "$ref": "../lists/expression.schema.json"
+          }
+        },
+        "if": {
+          "properties": {
+            "scope": {
+              "const": "item"
+            }
+          },
+          "required": [
+            "scope"
+          ]
+        },
+        "then": {
+          "required": [
+            "item_key"
+          ]
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "items",
+          "holds",
+          "judgments",
+          "final_label"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "item_key",
+                "values"
+              ],
+              "properties": {
+                "item_key": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": [
+                          "string",
+                          "number",
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "not_applicable"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "not_applicable": {
+                            "const": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "holds": {
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^[^|]+\\|[^|]+$"
+            },
+            "additionalProperties": {
+              "enum": [
+                true,
+                false,
+                "needs_more_information",
+                "not_applicable"
+              ]
+            }
+          },
+          "judgments": {
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^[^|]+\\|[^|]+$"
+            },
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ],
+              "description": "A judgment answer keeps the type the test suite gave it: text, a number, true or false, or null (missing)."
+            }
+          },
+          "final_label": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "unconvertible": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "item",
+          "reason"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "item": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

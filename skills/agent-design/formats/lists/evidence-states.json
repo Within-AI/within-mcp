@@ -1,0 +1,10 @@
+{
+  "schema": "agent-design.evidence-states/1",
+  "description": "Evidence states a claim, boundary or field may carry.",
+  "states": [
+    "Observed",
+    "Assumed",
+    "Contradictory",
+    "needs_more_information"
+  ]
+}

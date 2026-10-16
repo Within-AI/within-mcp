@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot-intake",
+  "scope": {
+    "process_ids": [
+      "d42bcd549db7"
+    ],
+    "cutoff_at": "2026-09-18T00:00:00Z"
+  },
+  "required_source_ids": [
+    "process-details",
+    "process-details-steps-1-1",
+    "process-details-steps-2-1",
+    "process-details-steps-2-2",
+    "process-details-steps-3-1",
+    "observations"
+  ],
+  "sources": [
+    {
+      "id": "process-details",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at"
+      }
+    },
+    {
+      "id": "process-details-steps-1-1",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at",
+        "steps": "/current_version/tasks/0/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-1",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at",
+        "steps": "/current_version/tasks/1/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-2",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at",
+        "steps": "/current_version/tasks/1/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-1",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at",
+        "steps": "/current_version/tasks/2/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "observations",
+      "process_id": "d42bcd549db7",
+      "status": "included",
+      "path": "process-d42bcd549db7.json",
+      "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f",
+      "collection_kind": "observations",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "timestamp": "/pulled_at",
+        "items": "/observations/items",
+        "total": "/observations/total",
+        "item_id": "/resource_key",
+        "observed_at": "/timestamp"
+      }
+    }
+  ],
+  "issues": []
+}

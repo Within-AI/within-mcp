@@ -1,0 +1,3542 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "current-state",
+  "process": {
+    "name": "Clear Open Items via Automatic Clearing",
+    "process_ids": [
+      "ac4ea12e7a66",
+      "c0a6b3a6d555"
+    ]
+  },
+  "snapshot": {
+    "path": "../../snapshot/middle/snapshot.json",
+    "sha256": "a5bba9fa12fdbd292628917c412929b7d9a2837435ba8f27d3cdb91cec124fde"
+  },
+  "presentation": "diagram",
+  "diagram": {
+    "notes": [
+      "ERP clearing program test, detail-list export, analyst text standardization, update validation, and observed exception handling only."
+    ]
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "n-start",
+        "type": "start_event",
+        "title": "Daily cash-application clearing due (upstream bank-statement items posted)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/11"
+          }
+        ]
+      },
+      {
+        "id": "n-open-clearing",
+        "type": "read_interaction",
+        "title": "Open Automatic Clearing (ERP clearing program) from ERP (clearing) home",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-load-variant",
+        "type": "read_interaction",
+        "title": "Load saved clearing variant; confirm company code (e.g. GL CLEARING / CUSTOMER / REGION-C CUSTOMER, AC04)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Variant naming overlaps and varies (GL CLEARING / GL CLR / GL_CLR_VAR). Definitive variant configuration is unresolved (WWSNTK-5).",
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-set-params",
+        "type": "write_interaction",
+        "title": "Set posting parameters: Clearing Date, company-code range, G/L accounts, Test Run checked",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-exec-test",
+        "type": "system_result",
+        "title": "Execute test run: detail list of open/cleared items + posting-period warnings returned",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-dec-period",
+        "type": "decision",
+        "title": "Detail list review: are matched pairs clearable and is the posting period open?",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "detail": "Recurring blocker is closed posting period 007 2026 (ledger 0L, variants PV01/PV02, Island group A AC15-AC24), handled by deferral/skip, never a corrected in-run posting (CP-2).",
+        "systems": [
+          "sys-erp"
+        ],
+        "decision_table": "dt-n-dec-period"
+      },
+      {
+        "id": "n-export-list",
+        "type": "write_interaction",
+        "title": "Export detail list to Excel (List > Save/Send > Save list in file, *.xlsx)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Obs4: Chrome pop-up blocker interrupted first export; popup settings adjusted and re-exported.",
+        "systems": [
+          "sys-erp",
+          "ws-microsoft-excel"
+        ]
+      },
+      {
+        "id": "n-filter-pairs",
+        "type": "analyst_reconciliation",
+        "title": "Analyze/filter export to isolate paired positive/negative amounts sharing an assignment",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "ws-microsoft-excel"
+        ]
+      },
+      {
+        "id": "n-load-line-items",
+        "type": "read_interaction",
+        "title": "Load matching line items in ERP line-item app (paste filtered Assignment values, Go)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          }
+        ],
+        "systems": [
+          "sys-erp-line-item-app"
+        ]
+      },
+      {
+        "id": "n-open-batch-edit",
+        "type": "write_interaction",
+        "title": "Select all matching rows; open Edit N Line Items batch dialog",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "systems": [
+          "sys-erp-line-item-app"
+        ]
+      },
+      {
+        "id": "n-apply-label",
+        "type": "decision",
+        "title": "Select and apply the standard Item Text label for the assignment group",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "People's-judgment core (CP-3). Observed labels include CANCELLATION (dominant), BANK CHARGES, PAYMENT RECEIVED, AE - SAL, SAL JUNE 2026. Authoritative closed label vocabulary and assignment-group->label mapping are unresolved (WWSNTK-1); expanded at Layer 2 via dm-signal-label.",
+        "systems": [
+          "sys-erp",
+          "ws-sticky-notes"
+        ],
+        "decision_table": "dm-signal-label"
+      },
+      {
+        "id": "n-confirm-changed",
+        "type": "system_result",
+        "title": "Batch update submitted; 'Items changed' toast and refreshed Item Text returned",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-rerun-update",
+        "type": "write_interaction",
+        "title": "Return to Automatic Clearing; uncheck Test Run; execute update run for the company code",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-confirm-cleared",
+        "type": "system_result",
+        "title": "Update-run output + Additional Log: posting confirmations (or 'no documents selected')",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Obs2: empty update-run selection produced no posting this pass. Additional Log taxonomy (posting-period, withholding-tax, no-select) is unresolved (WWSNTK-4).",
+        "systems": [
+          "sys-erp"
+        ]
+      },
+      {
+        "id": "n-validate-crosscheck",
+        "type": "analyst_reconciliation",
+        "title": "Validate postings; archive clearing-report PDF and cross-check outside ERP (clearing)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "detail": "CP-5: cross-checks against the billing-reversal archive (Obs6) and local client-entity 'Auto Clearing GL' note (Obs1, Island group A). Obs7: PDF Save-As location browsed but a completed save was not observed (Contradictory). client entity authority is unresolved (WWSNTK-2).",
+        "systems": [
+          "ws-adobe-acrobat-reader",
+          "ws-billing-reversal-report-archive",
+          "ws-local-client-entity-gl-note"
+        ]
+      },
+      {
+        "id": "n-dec-exceptions",
+        "type": "decision",
+        "title": "Do remaining exception rows persist (closed period / withholding-tax / failed to clear)?",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ],
+        "decision_table": "dt-n-dec-exceptions"
+      },
+      {
+        "id": "n-review-log",
+        "type": "analyst_reconciliation",
+        "title": "Open Additional Log; review exception messages; export log to Excel; filter to failed rows",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "systems": [
+          "sys-erp",
+          "ws-microsoft-excel"
+        ]
+      },
+      {
+        "id": "n-update-exceptions",
+        "type": "write_interaction",
+        "title": "Load exception assignments; Edit N Line Items; apply correct standard Text label for next pass",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp-line-item-app",
+          "ws-sticky-notes"
+        ]
+      },
+      {
+        "id": "n-teams-followup",
+        "type": "analyst_transfer",
+        "title": "Escalate unresolved closed-period blocker to a colleague (Teams, shared ERP (clearing) screenshot)",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "detail": "Obs3: AC01 closed-period blocker recurred across passes and was handed off via Teams. Posting/escalation authority boundary is unresolved (WWSNTK-6).",
+        "systems": [
+          "sys-microsoft-teams"
+        ]
+      },
+      {
+        "id": "n-dec-allocation",
+        "type": "decision",
+        "title": "Did this run resolve a credit-note / allocation request requiring stakeholder confirmation?",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "systems": [
+          "sys-erp",
+          "sys-microsoft-outlook"
+        ],
+        "decision_table": "dt-n-dec-allocation"
+      },
+      {
+        "id": "n-confirm-allocation",
+        "type": "write_interaction",
+        "title": "Verify customer line item; draft Outlook reply confirming allocation; run spelling check",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "detail": "Observed closing allocation-confirmation phase (Obs7: Assignment 1315944635, JE 7598175128, 1,906.00 GBP). Terminal step (next: null) for allocation-driven runs.",
+        "systems": [
+          "sys-erp-line-item-app",
+          "sys-microsoft-outlook"
+        ]
+      },
+      {
+        "id": "n-dec-more-scope",
+        "type": "decision",
+        "title": "More in-scope company codes / variants to process this run?",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "systems": [
+          "sys-erp"
+        ],
+        "decision_table": "dt-n-dec-more-scope"
+      },
+      {
+        "id": "n-end",
+        "type": "end_event",
+        "title": "Update run posted for matched pairs; residual exception rows updated or documented for next pass",
+        "lane": "Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "sys-erp",
+        "type": "system_surface",
+        "title": "ERP (clearing)",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "short_label": "ERP",
+        "surface_kind": "system_of_record"
+      },
+      {
+        "id": "sys-erp-line-item-app",
+        "type": "system_surface",
+        "title": "ERP line-item app",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          }
+        ],
+        "short_label": "ERP line-item…",
+        "surface_kind": "system_of_record"
+      },
+      {
+        "id": "sys-microsoft-teams",
+        "type": "system_surface",
+        "title": "Microsoft Teams",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "short_label": "Microsoft Teams",
+        "surface_kind": "channel"
+      },
+      {
+        "id": "sys-microsoft-outlook",
+        "type": "system_surface",
+        "title": "Microsoft Outlook",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "short_label": "Microsoft…",
+        "surface_kind": "channel"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-01",
+        "kind": "sequence",
+        "source": "n-start",
+        "target": "n-open-clearing",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/11"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "label": "clearing due"
+      },
+      {
+        "id": "e-02",
+        "kind": "sequence",
+        "source": "n-open-clearing",
+        "target": "n-load-variant",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "label": "program open"
+      },
+      {
+        "id": "e-03",
+        "kind": "sequence",
+        "source": "n-load-variant",
+        "target": "n-set-params",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "label": "variant loaded"
+      },
+      {
+        "id": "e-04",
+        "kind": "sequence",
+        "source": "n-set-params",
+        "target": "n-exec-test",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "label": "parameters set, Test Run"
+      },
+      {
+        "id": "e-05",
+        "kind": "sequence",
+        "source": "n-exec-test",
+        "target": "n-dec-period",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "label": "detail list + warnings returned"
+      },
+      {
+        "id": "e-06",
+        "kind": "then",
+        "source": "n-dec-period",
+        "target": "n-export-list",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "condition": "pairs clearable, period open",
+        "label": "clearable matched pairs present",
+        "display_label": "pairs clearable, period open"
+      },
+      {
+        "id": "e-07",
+        "kind": "loop",
+        "source": "n-dec-period",
+        "target": "n-set-params",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "condition": "empty/wrong selection",
+        "label": "no documents selected / wrong G/L criteria -> adjust and rerun test (trial-and-error)",
+        "display_label": "empty/wrong selection"
+      },
+      {
+        "id": "e-08",
+        "kind": "else",
+        "source": "n-dec-period",
+        "target": "n-dec-more-scope",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "condition": "closed period",
+        "label": "posting period closed / review-only -> defer rows, avoid posting into closed period",
+        "display_label": "closed period"
+      },
+      {
+        "id": "e-09",
+        "kind": "sequence",
+        "source": "n-export-list",
+        "target": "n-filter-pairs",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          }
+        ],
+        "label": "export saved"
+      },
+      {
+        "id": "e-10",
+        "kind": "sequence",
+        "source": "n-filter-pairs",
+        "target": "n-load-line-items",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          }
+        ],
+        "label": "pairs isolated"
+      },
+      {
+        "id": "e-11",
+        "kind": "sequence",
+        "source": "n-load-line-items",
+        "target": "n-open-batch-edit",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "label": "rows loaded"
+      },
+      {
+        "id": "e-12",
+        "kind": "sequence",
+        "source": "n-open-batch-edit",
+        "target": "n-apply-label",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "label": "batch dialog open"
+      },
+      {
+        "id": "e-13",
+        "kind": "then",
+        "source": "n-apply-label",
+        "target": "n-confirm-changed",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "label": "label entered, submit",
+        "display_label": "label entered, submit"
+      },
+      {
+        "id": "e-14",
+        "kind": "sequence",
+        "source": "n-confirm-changed",
+        "target": "n-rerun-update",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "label": "text standardized"
+      },
+      {
+        "id": "e-15",
+        "kind": "sequence",
+        "source": "n-rerun-update",
+        "target": "n-confirm-cleared",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          }
+        ],
+        "label": "update run executed"
+      },
+      {
+        "id": "e-16",
+        "kind": "sequence",
+        "source": "n-confirm-cleared",
+        "target": "n-validate-crosscheck",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "label": "postings/log returned"
+      },
+      {
+        "id": "e-17",
+        "kind": "sequence",
+        "source": "n-validate-crosscheck",
+        "target": "n-dec-exceptions",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "label": "validated"
+      },
+      {
+        "id": "e-18",
+        "kind": "then",
+        "source": "n-dec-exceptions",
+        "target": "n-review-log",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "condition": "exception rows present",
+        "label": "exceptions remain",
+        "display_label": "exception rows present"
+      },
+      {
+        "id": "e-19",
+        "kind": "else",
+        "source": "n-dec-exceptions",
+        "target": "n-dec-allocation",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "condition": "all cleared",
+        "label": "no exceptions",
+        "display_label": "all cleared"
+      },
+      {
+        "id": "e-20",
+        "kind": "sequence",
+        "source": "n-review-log",
+        "target": "n-update-exceptions",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          }
+        ],
+        "condition": "fixable",
+        "label": "row fixable by text standardization"
+      },
+      {
+        "id": "e-21",
+        "kind": "sequence",
+        "source": "n-review-log",
+        "target": "n-teams-followup",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "condition": "unresolved blocker",
+        "label": "unresolved closed-period blocker requiring colleague"
+      },
+      {
+        "id": "e-22",
+        "kind": "loop",
+        "source": "n-update-exceptions",
+        "target": "n-rerun-update",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "condition": "next clearing pass",
+        "label": "re-run clearing for next pass"
+      },
+      {
+        "id": "e-23",
+        "kind": "sequence",
+        "source": "n-teams-followup",
+        "target": "n-dec-allocation",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "label": "handed off, continue"
+      },
+      {
+        "id": "e-24",
+        "kind": "then",
+        "source": "n-dec-allocation",
+        "target": "n-confirm-allocation",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "condition": "credit-note/allocation request",
+        "label": "allocation-driven run",
+        "display_label": "credit-note/allocation request"
+      },
+      {
+        "id": "e-25",
+        "kind": "else",
+        "source": "n-dec-allocation",
+        "target": "n-dec-more-scope",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "condition": "no allocation request",
+        "label": "not allocation-driven",
+        "display_label": "no allocation request"
+      },
+      {
+        "id": "e-26",
+        "kind": "sequence",
+        "source": "n-confirm-allocation",
+        "target": "n-dec-more-scope",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "label": "confirmation drafted"
+      },
+      {
+        "id": "e-27",
+        "kind": "loop",
+        "source": "n-dec-more-scope",
+        "target": "n-load-variant",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "evidence-CP-4",
+        "condition": "more scope",
+        "label": "more company codes / variants -> next",
+        "display_label": "more scope"
+      },
+      {
+        "id": "e-28",
+        "kind": "then",
+        "source": "n-dec-more-scope",
+        "target": "n-end",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          }
+        ],
+        "condition": "scope complete",
+        "label": "all in-scope processed",
+        "display_label": "scope complete"
+      },
+      {
+        "id": "ra-n-open-clearing-erp",
+        "kind": "read_access",
+        "source": "n-open-clearing",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-load-variant-erp",
+        "kind": "read_access",
+        "source": "n-load-variant",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "w-n-set-params-erp",
+        "kind": "write",
+        "source": "n-set-params",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-dec-period-erp",
+        "kind": "read_access",
+        "source": "n-dec-period",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-export-list-erp",
+        "kind": "read_access",
+        "source": "n-export-list",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-load-line-items-erp-line-item-app",
+        "kind": "read_access",
+        "source": "n-load-line-items",
+        "target": "sys-erp-line-item-app",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          }
+        ]
+      },
+      {
+        "id": "w-n-open-batch-edit-erp-line-item-app",
+        "kind": "write",
+        "source": "n-open-batch-edit",
+        "target": "sys-erp-line-item-app",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ]
+      },
+      {
+        "id": "w-n-apply-label-erp",
+        "kind": "write",
+        "source": "n-apply-label",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "w-n-rerun-update-erp",
+        "kind": "write",
+        "source": "n-rerun-update",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-dec-exceptions-erp",
+        "kind": "read_access",
+        "source": "n-dec-exceptions",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-review-log-erp",
+        "kind": "read_access",
+        "source": "n-review-log",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ]
+      },
+      {
+        "id": "w-n-update-exceptions-erp-line-item-app",
+        "kind": "write",
+        "source": "n-update-exceptions",
+        "target": "sys-erp-line-item-app",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      },
+      {
+        "id": "w-n-teams-followup-microsoft-teams",
+        "kind": "write",
+        "source": "n-teams-followup",
+        "target": "sys-microsoft-teams",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-dec-allocation-erp",
+        "kind": "read_access",
+        "source": "n-dec-allocation",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-dec-allocation-microsoft-outlook",
+        "kind": "read_access",
+        "source": "n-dec-allocation",
+        "target": "sys-microsoft-outlook",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-confirm-allocation-erp-line-item-app",
+        "kind": "read_access",
+        "source": "n-confirm-allocation",
+        "target": "sys-erp-line-item-app",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ]
+      },
+      {
+        "id": "w-n-confirm-allocation-microsoft-outlook",
+        "kind": "write",
+        "source": "n-confirm-allocation",
+        "target": "sys-microsoft-outlook",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ]
+      },
+      {
+        "id": "ra-n-dec-more-scope-erp",
+        "kind": "read_access",
+        "source": "n-dec-more-scope",
+        "target": "sys-erp",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ]
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "ws-microsoft-excel",
+        "name": "Microsoft Excel",
+        "short_label": "Microsoft Excel"
+      },
+      {
+        "id": "ws-sticky-notes",
+        "name": "Sticky Notes",
+        "short_label": "Sticky Notes"
+      },
+      {
+        "id": "ws-adobe-acrobat-reader",
+        "name": "Adobe Acrobat Reader",
+        "short_label": "Adobe Acrobat…"
+      },
+      {
+        "id": "ws-billing-reversal-report-archive",
+        "name": "Billing reversal report archive",
+        "short_label": "Billing reversal…"
+      },
+      {
+        "id": "ws-local-client-entity-gl-note",
+        "name": "Local client-entity GL note",
+        "short_label": "Local…"
+      }
+    ],
+    "decision_tables": [
+      {
+        "id": "dm-signal-label",
+        "owner": "n-apply-label",
+        "kind": "signal_label",
+        "purpose": "Factual current-state expansion of the analyst's Item Text label-selection judgment for an Assignment group.",
+        "columns": [
+          "recommended_item_text_label",
+          "confidence_tier",
+          "evidence_state",
+          "ambiguity_or_tie_break_handling",
+          "analyst_handback"
+        ],
+        "rows": [
+          {
+            "id": "sig-standardize-item-text",
+            "label": "A matched Assignment group (paired positive/negative line items) requires a standardized Item Text before auto-clearing; the analyst references the standard Item Text label list (Sticky Notes) and enters the correct value for the group.",
+            "attributes": {
+              "recommended_item_text_label": "Observed applied labels, recorded as observed applications and NOT a closed or authoritative vocabulary: CANCELLATION, BANK CHARGES, PAYMENT RECEIVED, AE - SAL, SAL JUNE 2026. The condition that selects a specific label for a given Assignment group is not established (WWSNTK-1).",
+              "confidence_tier": "More information required",
+              "evidence_state": "Observed",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "Label selection is the analyst's judgment (people's-judgment core, CP-3); the analyst references the standard label list and applies the correct value, and hands back any Assignment group whose correct label is not established."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/7"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1",
+              "WWSNTK-3"
+            ]
+          },
+          {
+            "id": "sig-label-vocabulary-mapping",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "The analyst determines the correct label; the complete authoritative Item Text label vocabulary and the assignment-group -> label mapping are not established and hand back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1"
+            ]
+          },
+          {
+            "id": "sig-tie-break-overlap",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "When more than one condition, variant, or candidate label could apply, the analyst resolves it; no precedence order is established and it hands back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-3"
+            ]
+          },
+          {
+            "id": "sig-exception-relabel-taxonomy",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "On the exception-reclean pass (n-update-exceptions / loop L2), the analyst applies the correct standard Text label for the next pass; the Additional Log taxonomy that determines which exception rows are actionable versus informational is not established and hands back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-4"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "prec-multi-condition",
+            "text": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1",
+              "WWSNTK-3",
+              "WWSNTK-4"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          }
+        ],
+        "issue_ids": [
+          "WWSNTK-1",
+          "WWSNTK-3",
+          "WWSNTK-4"
+        ]
+      },
+      {
+        "id": "dt-n-dec-period",
+        "owner": "n-dec-period",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-dec-period-e-06",
+            "label": "pairs clearable, period open",
+            "attributes": {
+              "condition": "pairs clearable, period open",
+              "leads_to": "Export detail list to Excel (List > Save/Send > Save list in file, *.xlsx)"
+            },
+            "next_node": "n-export-list",
+            "next_edge": "e-06",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-1-2",
+                "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/8"
+              },
+              {
+                "source_id": "process-details-steps-1-2",
+                "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-dec-period-e-07",
+            "label": "empty/wrong selection",
+            "attributes": {
+              "condition": "empty/wrong selection",
+              "leads_to": "Set posting parameters: Clearing Date, company-code range, G/L accounts, Test Run checked"
+            },
+            "next_node": "n-set-params",
+            "next_edge": "e-07",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-dec-period-e-08",
+            "label": "closed period",
+            "attributes": {
+              "condition": "closed period",
+              "leads_to": "More in-scope company codes / variants to process this run?"
+            },
+            "next_node": "n-dec-more-scope",
+            "next_edge": "e-08",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/8"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-dec-period-rule",
+            "text": "Detail list review: are matched pairs clearable and is the posting period open?",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-1-2",
+                "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/8"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "issue_ids": []
+      },
+      {
+        "id": "dt-n-dec-exceptions",
+        "owner": "n-dec-exceptions",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-dec-exceptions-e-18",
+            "label": "exception rows present",
+            "attributes": {
+              "condition": "exception rows present",
+              "leads_to": "Open Additional Log; review exception messages; export log to Excel; filter to failed rows"
+            },
+            "next_node": "n-review-log",
+            "next_edge": "e-18",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/0"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-dec-exceptions-e-19",
+            "label": "all cleared",
+            "attributes": {
+              "condition": "all cleared",
+              "leads_to": "Did this run resolve a credit-note / allocation request requiring stakeholder confirmation?"
+            },
+            "next_node": "n-dec-allocation",
+            "next_edge": "e-19",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/6"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-dec-exceptions-rule",
+            "text": "Do remaining exception rows persist (closed period / withholding-tax / failed to clear)?",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+              },
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "issue_ids": []
+      },
+      {
+        "id": "dt-n-dec-allocation",
+        "owner": "n-dec-allocation",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-dec-allocation-e-24",
+            "label": "credit-note/allocation request",
+            "attributes": {
+              "condition": "credit-note/allocation request",
+              "leads_to": "Verify customer line item; draft Outlook reply confirming allocation; run spelling check"
+            },
+            "next_node": "n-confirm-allocation",
+            "next_edge": "e-24",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/6"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-dec-allocation-e-25",
+            "label": "no allocation request",
+            "attributes": {
+              "condition": "no allocation request",
+              "leads_to": "More in-scope company codes / variants to process this run?"
+            },
+            "next_node": "n-dec-more-scope",
+            "next_edge": "e-25",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/6"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/5"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-dec-allocation-rule",
+            "text": "Did this run resolve a credit-note / allocation request requiring stakeholder confirmation?",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/6"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "issue_ids": []
+      },
+      {
+        "id": "dt-n-dec-more-scope",
+        "owner": "n-dec-more-scope",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-dec-more-scope-e-27",
+            "label": "more scope",
+            "attributes": {
+              "condition": "more scope",
+              "leads_to": "Load saved clearing variant; confirm company code (e.g. GL CLEARING / CUSTOMER / REGION-C CUSTOMER, AC04)"
+            },
+            "next_node": "n-load-variant",
+            "next_edge": "e-27",
+            "evidence_state": "Assumed",
+            "source_refs": [],
+            "issue_ids": [
+              "evidence-CP-4"
+            ]
+          },
+          {
+            "id": "dt-n-dec-more-scope-e-28",
+            "label": "scope complete",
+            "attributes": {
+              "condition": "scope complete",
+              "leads_to": "Update run posted for matched pairs; residual exception rows updated or documented for next pass"
+            },
+            "next_node": "n-end",
+            "next_edge": "e-28",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "observations",
+                "pointer": "/items/5"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/attributes/12"
+              },
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/2"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-dec-more-scope-rule",
+            "text": "More in-scope company codes / variants to process this run?",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "observations",
+                "pointer": "/items/5"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "issue_ids": []
+      }
+    ],
+    "starts": [
+      "n-start"
+    ],
+    "outcomes": [
+      "n-end"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "WWSNTK-1",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Authoritative, complete Item Text label vocabulary and the assignment-group to label mapping; only CANCELLATION is broadly observed applied. Named at: n-apply-label.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-2",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Client-entity semantics (an entity, a bank or a naming convention?) and the authority of its local GL note for the island-group clearing scope. Named at: n-validate-crosscheck.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-3",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Tie-break or precedence order when several variants or G/L ranges could apply; the record shows trial and error, not a stated rule.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-4",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Additional Log message taxonomy and its actionable-versus-informational boundary. Named at: n-confirm-cleared.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-5",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Variant configuration: the definitive saved-variant list, company-code scope and currency specification (variant names overlap). Named at: n-load-variant.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-6",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Posting and escalation authority boundaries: where the analyst may post an update run and where they must defer or escalate. Named at: n-teams-followup.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-7",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Read-path and integration feasibility: programmatic read of the ERP clearing program's selection screen, detail list and Additional Log, and action on the ERP line-item app.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-1",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-1 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-apply-label, sig-standardize-item-text, sig-label-vocabulary-mapping.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-2",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-2 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-period, n-dec-exceptions, n-teams-followup, e-08.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-3",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-3 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-filter-pairs, n-apply-label, sig-standardize-item-text, sig-tie-break-overlap, prec-multi-condition, dm-signal-label.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-4",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-4 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-more-scope, e-27.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-5",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-5 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-validate-crosscheck.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-6",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-6 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-allocation, n-confirm-allocation.",
+        "source_ids": []
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details-steps-1-1:st-001",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-open-clearing"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-002",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-load-variant"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-003",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-set-params"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-2:st-004",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-exec-test",
+        "n-dec-period"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-2:st-005",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-export-list"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-006",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-filter-pairs"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-007",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-load-line-items"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-008",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-open-batch-edit"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-009",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-apply-label"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-010",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-confirm-changed"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-011",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-rerun-update"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-012",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-confirm-cleared",
+        "n-validate-crosscheck",
+        "n-dec-exceptions"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-013",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-dec-exceptions",
+        "n-review-log"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-014",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-update-exceptions"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-015",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-dec-allocation",
+        "n-confirm-allocation",
+        "n-end"
+      ]
+    }
+  ],
+  "systems_coverage": [
+    {
+      "system": "Adobe Acrobat Reader",
+      "treatment": "mapped",
+      "rationale": "Workspace where the analyst views the clearing-report PDF in the validate-and-cross-check step."
+    },
+    {
+      "system": "ERP (clearing)",
+      "treatment": "mapped",
+      "rationale": "The system of record: the ERP (clearing) rail carries every clearing-program read, test run and update run."
+    },
+    {
+      "system": "ERP (clearing) web client",
+      "treatment": "cut",
+      "rationale": "Listed only on the variant-loading step (st-002), as the browser front end to the same ERP (clearing) that the graph already draws as one rail. The graph does not separate the front end from the system, so this row names it and the ERP (clearing) rail carries its access."
+    },
+    {
+      "system": "Microsoft Excel",
+      "treatment": "mapped",
+      "rationale": "Workspace where the analyst filters the exported detail list and the exception log."
+    },
+    {
+      "system": "Microsoft Outlook",
+      "treatment": "mapped",
+      "rationale": "Rail for the analyst's allocation-confirmation reply."
+    },
+    {
+      "system": "Sticky Notes",
+      "treatment": "mapped",
+      "rationale": "Workspace holding the analyst's standard Item Text label list."
+    }
+  ],
+  "prior_workflow": {
+    "path": "current-state.input.json",
+    "sha256": "df9fdae4034bac6544920e3a8fd09530429cf26d7c249775cf4db79628597d72"
+  },
+  "render": {
+    "path": "current-state.svg",
+    "sha256": "7524ad4a152c02bf7b3e5fae88b79d9e76e4581104486653f49162739485ee11"
+  },
+  "render_html": {
+    "path": "current-state.html",
+    "sha256": "89ed676217391162256a1d32ab205e288d4eb74178185e5a4f54099910cf43e3"
+  },
+  "render_coverage": [
+    {
+      "graph_id": "n-start",
+      "render_id": "node-n-start"
+    },
+    {
+      "graph_id": "n-open-clearing",
+      "render_id": "node-n-open-clearing"
+    },
+    {
+      "graph_id": "n-load-variant",
+      "render_id": "node-n-load-variant"
+    },
+    {
+      "graph_id": "n-set-params",
+      "render_id": "node-n-set-params"
+    },
+    {
+      "graph_id": "n-exec-test",
+      "render_id": "node-n-exec-test"
+    },
+    {
+      "graph_id": "n-dec-period",
+      "render_id": "node-n-dec-period"
+    },
+    {
+      "graph_id": "n-export-list",
+      "render_id": "node-n-export-list"
+    },
+    {
+      "graph_id": "n-filter-pairs",
+      "render_id": "node-n-filter-pairs"
+    },
+    {
+      "graph_id": "n-load-line-items",
+      "render_id": "node-n-load-line-items"
+    },
+    {
+      "graph_id": "n-open-batch-edit",
+      "render_id": "node-n-open-batch-edit"
+    },
+    {
+      "graph_id": "n-apply-label",
+      "render_id": "node-n-apply-label"
+    },
+    {
+      "graph_id": "n-confirm-changed",
+      "render_id": "node-n-confirm-changed"
+    },
+    {
+      "graph_id": "n-rerun-update",
+      "render_id": "node-n-rerun-update"
+    },
+    {
+      "graph_id": "n-confirm-cleared",
+      "render_id": "node-n-confirm-cleared"
+    },
+    {
+      "graph_id": "n-validate-crosscheck",
+      "render_id": "node-n-validate-crosscheck"
+    },
+    {
+      "graph_id": "n-dec-exceptions",
+      "render_id": "node-n-dec-exceptions"
+    },
+    {
+      "graph_id": "n-review-log",
+      "render_id": "node-n-review-log"
+    },
+    {
+      "graph_id": "n-update-exceptions",
+      "render_id": "node-n-update-exceptions"
+    },
+    {
+      "graph_id": "n-teams-followup",
+      "render_id": "node-n-teams-followup"
+    },
+    {
+      "graph_id": "n-dec-allocation",
+      "render_id": "node-n-dec-allocation"
+    },
+    {
+      "graph_id": "n-confirm-allocation",
+      "render_id": "node-n-confirm-allocation"
+    },
+    {
+      "graph_id": "n-dec-more-scope",
+      "render_id": "node-n-dec-more-scope"
+    },
+    {
+      "graph_id": "n-end",
+      "render_id": "node-n-end"
+    },
+    {
+      "graph_id": "sys-erp",
+      "render_id": "node-sys-erp"
+    },
+    {
+      "graph_id": "sys-erp-line-item-app",
+      "render_id": "node-sys-erp-line-item-app"
+    },
+    {
+      "graph_id": "sys-microsoft-teams",
+      "render_id": "node-sys-microsoft-teams"
+    },
+    {
+      "graph_id": "sys-microsoft-outlook",
+      "render_id": "node-sys-microsoft-outlook"
+    },
+    {
+      "graph_id": "e-01",
+      "render_id": "edge-e-01"
+    },
+    {
+      "graph_id": "e-02",
+      "render_id": "edge-e-02"
+    },
+    {
+      "graph_id": "e-03",
+      "render_id": "edge-e-03"
+    },
+    {
+      "graph_id": "e-04",
+      "render_id": "edge-e-04"
+    },
+    {
+      "graph_id": "e-05",
+      "render_id": "edge-e-05"
+    },
+    {
+      "graph_id": "e-06",
+      "render_id": "edge-e-06"
+    },
+    {
+      "graph_id": "e-07",
+      "render_id": "edge-e-07"
+    },
+    {
+      "graph_id": "e-08",
+      "render_id": "edge-e-08"
+    },
+    {
+      "graph_id": "e-09",
+      "render_id": "edge-e-09"
+    },
+    {
+      "graph_id": "e-10",
+      "render_id": "edge-e-10"
+    },
+    {
+      "graph_id": "e-11",
+      "render_id": "edge-e-11"
+    },
+    {
+      "graph_id": "e-12",
+      "render_id": "edge-e-12"
+    },
+    {
+      "graph_id": "e-13",
+      "render_id": "edge-e-13"
+    },
+    {
+      "graph_id": "e-14",
+      "render_id": "edge-e-14"
+    },
+    {
+      "graph_id": "e-15",
+      "render_id": "edge-e-15"
+    },
+    {
+      "graph_id": "e-16",
+      "render_id": "edge-e-16"
+    },
+    {
+      "graph_id": "e-17",
+      "render_id": "edge-e-17"
+    },
+    {
+      "graph_id": "e-18",
+      "render_id": "edge-e-18"
+    },
+    {
+      "graph_id": "e-19",
+      "render_id": "edge-e-19"
+    },
+    {
+      "graph_id": "e-20",
+      "render_id": "edge-e-20"
+    },
+    {
+      "graph_id": "e-21",
+      "render_id": "edge-e-21"
+    },
+    {
+      "graph_id": "e-22",
+      "render_id": "edge-e-22"
+    },
+    {
+      "graph_id": "e-23",
+      "render_id": "edge-e-23"
+    },
+    {
+      "graph_id": "e-24",
+      "render_id": "edge-e-24"
+    },
+    {
+      "graph_id": "e-25",
+      "render_id": "edge-e-25"
+    },
+    {
+      "graph_id": "e-26",
+      "render_id": "edge-e-26"
+    },
+    {
+      "graph_id": "e-27",
+      "render_id": "edge-e-27"
+    },
+    {
+      "graph_id": "e-28",
+      "render_id": "edge-e-28"
+    },
+    {
+      "graph_id": "ra-n-open-clearing-erp",
+      "render_id": "edge-ra-n-open-clearing-erp"
+    },
+    {
+      "graph_id": "ra-n-load-variant-erp",
+      "render_id": "edge-ra-n-load-variant-erp"
+    },
+    {
+      "graph_id": "w-n-set-params-erp",
+      "render_id": "edge-w-n-set-params-erp"
+    },
+    {
+      "graph_id": "ra-n-dec-period-erp",
+      "render_id": "edge-ra-n-dec-period-erp"
+    },
+    {
+      "graph_id": "ra-n-export-list-erp",
+      "render_id": "edge-ra-n-export-list-erp"
+    },
+    {
+      "graph_id": "ra-n-load-line-items-erp-line-item-app",
+      "render_id": "edge-ra-n-load-line-items-erp-line-item-app"
+    },
+    {
+      "graph_id": "w-n-open-batch-edit-erp-line-item-app",
+      "render_id": "edge-w-n-open-batch-edit-erp-line-item-app"
+    },
+    {
+      "graph_id": "w-n-apply-label-erp",
+      "render_id": "edge-w-n-apply-label-erp"
+    },
+    {
+      "graph_id": "w-n-rerun-update-erp",
+      "render_id": "edge-w-n-rerun-update-erp"
+    },
+    {
+      "graph_id": "ra-n-dec-exceptions-erp",
+      "render_id": "edge-ra-n-dec-exceptions-erp"
+    },
+    {
+      "graph_id": "ra-n-review-log-erp",
+      "render_id": "edge-ra-n-review-log-erp"
+    },
+    {
+      "graph_id": "w-n-update-exceptions-erp-line-item-app",
+      "render_id": "edge-w-n-update-exceptions-erp-line-item-app"
+    },
+    {
+      "graph_id": "w-n-teams-followup-microsoft-teams",
+      "render_id": "edge-w-n-teams-followup-microsoft-teams"
+    },
+    {
+      "graph_id": "ra-n-dec-allocation-erp",
+      "render_id": "edge-ra-n-dec-allocation-erp"
+    },
+    {
+      "graph_id": "ra-n-dec-allocation-microsoft-outlook",
+      "render_id": "edge-ra-n-dec-allocation-microsoft-outlook"
+    },
+    {
+      "graph_id": "ra-n-confirm-allocation-erp-line-item-app",
+      "render_id": "edge-ra-n-confirm-allocation-erp-line-item-app"
+    },
+    {
+      "graph_id": "w-n-confirm-allocation-microsoft-outlook",
+      "render_id": "edge-w-n-confirm-allocation-microsoft-outlook"
+    },
+    {
+      "graph_id": "ra-n-dec-more-scope-erp",
+      "render_id": "edge-ra-n-dec-more-scope-erp"
+    },
+    {
+      "graph_id": "dm-signal-label",
+      "render_id": "table-dm-signal-label"
+    },
+    {
+      "graph_id": "dt-n-dec-period",
+      "render_id": "table-dt-n-dec-period"
+    },
+    {
+      "graph_id": "dt-n-dec-exceptions",
+      "render_id": "table-dt-n-dec-exceptions"
+    },
+    {
+      "graph_id": "dt-n-dec-allocation",
+      "render_id": "table-dt-n-dec-allocation"
+    },
+    {
+      "graph_id": "dt-n-dec-more-scope",
+      "render_id": "table-dt-n-dec-more-scope"
+    }
+  ]
+}

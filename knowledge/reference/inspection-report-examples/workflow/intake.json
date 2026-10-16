@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot-intake",
+  "scope": {
+    "process_ids": [
+      "p-renewal-risk"
+    ],
+    "cutoff_at": "2026-09-02T00:00:00Z",
+    "limits": {
+      "max_nodes": 14
+    }
+  },
+  "required_source_ids": [
+    "renewal-process"
+  ],
+  "sources": [
+    {
+      "id": "renewal-process",
+      "process_id": "p-renewal-risk",
+      "status": "included",
+      "path": "raw/renewal-risk-review.json",
+      "sha256": "83ff3eaff13ef500cb8b9d3c08e05de3c8803d5c4fd66b3347b498d18b016fbd",
+      "mapping": {
+        "process_id": "/process/resource_key",
+        "steps": "/steps",
+        "step_id": "/code",
+        "items": "/sessions/items",
+        "total": "/sessions/total",
+        "next": "/sessions/next",
+        "timestamp": "/captured"
+      }
+    },
+    {
+      "id": "renewal-policy",
+      "process_id": "p-renewal-risk",
+      "status": "included",
+      "path": "raw/renewal-risk-review.json",
+      "sha256": "83ff3eaff13ef500cb8b9d3c08e05de3c8803d5c4fd66b3347b498d18b016fbd",
+      "mapping": {
+        "process_id": "/process/resource_key",
+        "timestamp": "/captured"
+      }
+    }
+  ],
+  "issues": []
+}

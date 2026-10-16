@@ -1,0 +1,36 @@
+{
+  "schema": "agent-design.vocabulary/1",
+  "description": "Banned and retired terms. Each pattern is matched ignoring case. Covers the brief's criterion 29, the standard scope criterion and the fast-mode post-run banned list. Approved replacements: people, agents, Work Brain, interface design.",
+  "banned": [
+    {
+      "name": "contract",
+      "pattern": "contract"
+    },
+    {
+      "name": "Company Brain",
+      "pattern": "company[\\s_-]*brain"
+    },
+    {
+      "name": "human",
+      "pattern": "(?<![A-Za-z])humans?(?![A-Za-z])"
+    },
+    {
+      "name": "Context Graph",
+      "pattern": "context[\\s_-]*graph"
+    },
+    {
+      "name": "Process Index",
+      "pattern": "process[\\s_-]*index"
+    },
+    {
+      "name": "Agent Audit",
+      "pattern": "agent[\\s_-]*audit"
+    }
+  ],
+  "retired": [
+    {
+      "name": "live-company-brain",
+      "pattern": "live[\\s_-]*company[\\s_-]*brain"
+    }
+  ]
+}

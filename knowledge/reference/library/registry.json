@@ -1,0 +1,1388 @@
+{
+  "schema_version": 1,
+  "library_root": "reference/library",
+  "levels": [
+    "simple",
+    "middle",
+    "complex"
+  ],
+  "stages": {
+    "snapshot": {
+      "state": "available",
+      "channel": {
+        "kind": "prepare-stage-briefs"
+      },
+      "record_encoding": "json-key",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "snapshot.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/snapshot/simple/README.md",
+            "sha256": "8a32bf112d5311e6bfdd036560946ca9ff36728b5bb231ca0d82ef186f76e6d7"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/snapshot/simple/snapshot-intake.json",
+              "sha256": "16a4d963bbeba9ed32d84bf40f75bb363483d2d72a4e385585c1de34d971174a"
+            },
+            {
+              "role": "frozen-snapshot",
+              "path": "reference/library/snapshot/simple/snapshot.json",
+              "sha256": "44422c46241e537e81f71844e151f5ae812fb7f980d88f5d468bd33cb6fe5de9"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/simple/process-d42bcd549db7.json",
+              "sha256": "5eb6cd680e4fdbcf228cd00cab1b87b6844e8b951d8bff9e7f4ff9307d17de2f"
+            }
+          ]
+        },
+        {
+          "id": "snapshot.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/snapshot/middle/README.md",
+            "sha256": "b12c0c827a650caab1549695318d75f1aa81bfdc825db52914e03d053c2624c2"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/snapshot/middle/snapshot-intake.json",
+              "sha256": "36736f4685ea22bb1f209f36faa32b0cfbf8c8d4ac0b59ee412544bef015412e"
+            },
+            {
+              "role": "frozen-snapshot",
+              "path": "reference/library/snapshot/middle/snapshot.json",
+              "sha256": "a5bba9fa12fdbd292628917c412929b7d9a2837435ba8f27d3cdb91cec124fde"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/middle/get_process_details-ac4ea12e7a66-recipe-scopes.json",
+              "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/middle/get_process_details-c0a6b3a6d555-dependencies.json",
+              "sha256": "6deae96db66b27ef9adfd4921b6aa644a1e534b15e980247fa107e214b4b3853"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/middle/get_process_observations-ac4ea12e7a66-full.json",
+              "sha256": "20b8f4dc19bcb8bfd00a9330a6b4b7554d34207d3c311bc3e3f4bfcbf431a4ad"
+            }
+          ]
+        },
+        {
+          "id": "snapshot.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/snapshot/complex/README.md",
+            "sha256": "50de67b95558b40bab60afbc3ffbf82de5723ed889d279caf9ad442ee31714cb"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/snapshot/complex/snapshot-intake.json",
+              "sha256": "2aa0311916637963fc7f546e8c65703b657a63b06823892ebf8501f1c340d1af"
+            },
+            {
+              "role": "frozen-snapshot",
+              "path": "reference/library/snapshot/complex/snapshot.json",
+              "sha256": "bef7ef5888f73576c7278b09775e9d90f37f03b3214d8dbc9215a8681a21cb33"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/complex/get_process_details-5bbb985d60a7-recipe-scopes.json",
+              "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/complex/get_process_details-a88919d7bd0c-dependencies.json",
+              "sha256": "16b32b4e97ca8d945d8f3f3d19c05fc6b286ed4779f130c9735539aeb136472b"
+            },
+            {
+              "role": "raw-pull",
+              "path": "reference/library/snapshot/complex/get_process_observations-5bbb985d60a7-full.json",
+              "sha256": "2bebd25c352c75d0c584c0a86bc04f123edd3d99bc0251be3c61bba2ea097f3c"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/snapshot/distinctive-strings.json",
+        "sha256": "cfb297428636c04c9609da11f5467186f44f8cf5d288eed211bf829d2c82a7ea"
+      }
+    },
+    "current-state": {
+      "state": "available",
+      "channel": {
+        "kind": "prepare-stage-briefs"
+      },
+      "record_encoding": "json-key",
+      "required_roles": [
+        "primary",
+        "render-svg",
+        "render-html"
+      ],
+      "references": [
+        {
+          "id": "current-state.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/current-state/simple/README.md",
+            "sha256": "04da1ff6576ea2750d650f7a555e493e86c5aff9b3cdf177cdaefcc3e8913daf"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/current-state/simple/current-state.json",
+              "sha256": "a3d80d65f056a5c616246b4749e9c176412a75120d08301a65800ef44510fe17"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/current-state/simple/current-state.svg",
+              "sha256": "ae60cc1bec8a8cb4980e389a7fc38e6091166df134fca22e923c405e239a4a0b"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/current-state/simple/current-state.html",
+              "sha256": "5a6b012cc91c9234031ec4ee307e18ef1172bea87463498307f22a15fdf97077"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/current-state/simple/current-state.input.json",
+              "sha256": "a04a6bb71a7cd81d81e25a5ff433cc617a32c55fea178afcb28f8d0d396ed42a"
+            }
+          ]
+        },
+        {
+          "id": "current-state.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/current-state/middle/README.md",
+            "sha256": "72fa297cceb04071f958017515a09d41ecef17d911e1d97bc318051ca1e6a64b"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/current-state/middle/current-state.json",
+              "sha256": "bbd4e479a13b3e1901bb5c25ca54d36d5ac57ca912afffafcb8b25459e697b0a"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/current-state/middle/current-state.svg",
+              "sha256": "7524ad4a152c02bf7b3e5fae88b79d9e76e4581104486653f49162739485ee11"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/current-state/middle/current-state.html",
+              "sha256": "89ed676217391162256a1d32ab205e288d4eb74178185e5a4f54099910cf43e3"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/current-state/middle/current-state.input.json",
+              "sha256": "df9fdae4034bac6544920e3a8fd09530429cf26d7c249775cf4db79628597d72"
+            }
+          ]
+        },
+        {
+          "id": "current-state.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/current-state/complex/README.md",
+            "sha256": "a30780608cf43926ea41dc70467121a6083ecaff99092480ae27a11466118032"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/current-state/complex/current-state.json",
+              "sha256": "50ad91525c7ba0af55f5294496aa781a790ecc2aad00588d72b64254d85a03a4"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/current-state/complex/current-state.svg",
+              "sha256": "beadd69cf6c6983854e70b0fddf13784c74653070c6d4d675753033214e2de57"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/current-state/complex/current-state.html",
+              "sha256": "8b576c495d833e083709667b45b4151238db2e555b69ce0c36ad83b57197f427"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/current-state/complex/current-state.input.json",
+              "sha256": "6f7d6d3f6ffe1457e6164ed12047df7700156c07705fa075f90e75cc9d408d8f"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/current-state/distinctive-strings.json",
+        "sha256": "96d26e44dc39832127909c904dde60f8d618c2e500de42c7a1b3ae18e5b7fca4"
+      }
+    },
+    "transformation-plan": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/transformation-map-brief.template.md"
+      },
+      "record_encoding": "md-comment",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "transformation-plan.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/transformation-plan/simple/README.md",
+            "sha256": "e461cbc8e373908d247011bedd62637aeaf9ab417043f397ec34481c9760a872"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/transformation-plan/simple/transformation-map.md",
+              "sha256": "77c06bc13943f33ecbfc8e69954cf8229d236b105445b3e5f47c74b863f138c9"
+            }
+          ]
+        },
+        {
+          "id": "transformation-plan.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/transformation-plan/middle/README.md",
+            "sha256": "b83f8ba0fe66cce3aa417c6af636ed98ce620dd1d2d4db7492366165acbdbc99"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/transformation-plan/middle/transformation-map.md",
+              "sha256": "02b83ddb418b9a942f845e351cb164932424ea93cb678b79d2c1ab8dd40c71c3"
+            }
+          ]
+        },
+        {
+          "id": "transformation-plan.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/transformation-plan/complex/README.md",
+            "sha256": "750c42ad6e2bd9f63d3cbc4a3700116892bd8640e888e57eb5a794fd59597114"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/transformation-plan/complex/transformation-map.md",
+              "sha256": "3cb38127c5e1dfae9b2b0982b15183b874966500c4748e5aa63b667f992fb53a"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/transformation-plan/distinctive-strings.json",
+        "sha256": "416dff02dd78119a2f0be92622347b6e93a6f41c93b3e6872167e3a68e47b707"
+      }
+    },
+    "future-state": {
+      "state": "available",
+      "channel": {
+        "kind": "prepare-stage-briefs"
+      },
+      "record_encoding": "json-key",
+      "required_roles": [
+        "primary",
+        "render-svg",
+        "render-html"
+      ],
+      "references": [
+        {
+          "id": "future-state.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/future-state/simple/README.md",
+            "sha256": "fce2238661771e5b83458736db893bbd1aad656f51df8a89bf1d3837028f63b7"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/future-state/simple/future-state.json",
+              "sha256": "1e1539ec0101284bd86886b3098ac52d8032d32b44e30cc701e0113df459fb29"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/future-state/simple/future-state.svg",
+              "sha256": "4e1f95348a4d98d92bf84af9c3b031001a2eb6d7321ed21b37bc7c4f6dc912a8"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/future-state/simple/future-state.html",
+              "sha256": "cebe6c3e57e4b76eaf1bb7d7b2af32d23a1da295e35265d993e57fe40b3b7f10"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/future-state/simple/future-state.input.json",
+              "sha256": "171329335e473964a7bb748f0f876b959cf93b593548ff65a61a5a0f95efc2a0"
+            }
+          ]
+        },
+        {
+          "id": "future-state.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/future-state/middle/README.md",
+            "sha256": "bd35dd342434736e532f65666968347a552bd9c5a6ee8d44fa9fd34fe3051215"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/future-state/middle/future-state.json",
+              "sha256": "d6c9373b256cc15e53e5041aeb38f4433b10a53997161dca4d2609d1267eace2"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/future-state/middle/future-state.svg",
+              "sha256": "ec92528cf556b57a23bc26a36a2fee2eaf967c69184ec1e1a2ad92557ebca432"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/future-state/middle/future-state.html",
+              "sha256": "ac14c751ac98297b105401a0cb0ebf593b06121bb30eb546e852f28556b39d97"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/future-state/middle/future-state.input.json",
+              "sha256": "ecc1806047f90cee82f167e24f83f72a080dfa054561d152ac20125deaa09402"
+            }
+          ]
+        },
+        {
+          "id": "future-state.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/future-state/complex/README.md",
+            "sha256": "044df3b501a2a8a9bb9af58b9f3349b9e45075b98610b6abdac0f89b4e497e4a"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/future-state/complex/future-state.json",
+              "sha256": "11a30552ef8d373fa14f65de73b07272ba78a08c7a1aa0207714757e9ff2efb3"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/future-state/complex/future-state.svg",
+              "sha256": "e327013b855d32e107e240d36950c060b93d5a0edab02d375307067126be1337"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/future-state/complex/future-state.html",
+              "sha256": "3cff2e04bdbe799b598126e64f7b89e7d0aa7a96d07afdcd721c8e2add387d47"
+            },
+            {
+              "role": "renderer-input",
+              "path": "reference/library/future-state/complex/future-state.input.json",
+              "sha256": "9dd1148fefc63ff969ed01e8106f43de73f24616862291a258f74eb56cd7319e"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/future-state/distinctive-strings.json",
+        "sha256": "6987008bfbccf88282ffc1cf5d44344155e4ac56011f288d32283dfd719bb22a"
+      }
+    },
+    "internal-handoff": {
+      "state": "none-by-design",
+      "reason": "Its shape is shown inside the future-state reference, whose README ends with the internal-handoff record.",
+      "channel": null,
+      "record_encoding": null,
+      "required_roles": [],
+      "references": [],
+      "distinctive_strings": null
+    },
+    "agent-backbone": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/agent-backbone-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "agent-backbone.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/agent-backbone/simple/README.md",
+            "sha256": "3091a0ec36f4d9c5dd72b28d7ebfc69130319f859745ad87fca7f514f1b9bd1e"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-backbone/simple/build-spec.yaml",
+              "sha256": "b5303114b1b84db520edf6be9e7beb8543556b00ea16780e41d5a33b3a8c3667"
+            },
+            {
+              "role": "thin-index",
+              "path": "reference/library/agent-backbone/simple/AGENTS.md",
+              "sha256": "cdab0f2b8254af5f19b5fd7141d84137ac376a01445fb59249ffee94944fe574"
+            }
+          ]
+        },
+        {
+          "id": "agent-backbone.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/agent-backbone/middle/README.md",
+            "sha256": "f4eb5ba7eb9bfae9acaf6e1462779052c221520779998e29982b84e9ea5f0cf5"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-backbone/middle/build-spec.yaml",
+              "sha256": "1529a96004866c86a5a3da84e8f7f3711be851013033beaafa7aefaca8ae424b"
+            },
+            {
+              "role": "thin-index",
+              "path": "reference/library/agent-backbone/middle/AGENTS.md",
+              "sha256": "665cfbc875a5750db1bea98b74a8f5d305226b8aa7ff870c2b016fd4ccbb2e28"
+            }
+          ]
+        },
+        {
+          "id": "agent-backbone.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/agent-backbone/complex/README.md",
+            "sha256": "0e8158596e7845e3b7d24b5367a3e1891f88ad227ebdf6d23e32ae6e76dee6ee"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-backbone/complex/build-spec.yaml",
+              "sha256": "f846223c9ff9694f0f8f34f5b38449e1fac54a5642c92d10d82fd7cf90de3fac"
+            },
+            {
+              "role": "thin-index",
+              "path": "reference/library/agent-backbone/complex/AGENTS.md",
+              "sha256": "cd7be490758c30efd7523bb069051e2fd34faacafe1848bd718671af0a3fcae6"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/agent-backbone/distinctive-strings.json",
+        "sha256": "44a42209d0f2566ee2064080a232513e6d05fea8155eb2595d0404ad43d08e29"
+      }
+    },
+    "agent-build": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/agent-build-brief.template.md"
+      },
+      "record_encoding": "json-key",
+      "required_roles": [
+        "primary",
+        "render-html"
+      ],
+      "references": [
+        {
+          "id": "agent-build.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/agent-build/simple/README.md",
+            "sha256": "302828f517215bab2888e94471f9338b908d38656bc89d4466299e9c8d83d3f3"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-build/simple/internal-dag.graph.json",
+              "sha256": "70ae864860649f7c9226a73692897c324b79c8dff19f5faba56415d3155093de"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/agent-build/simple/internal-dag-diagram.svg",
+              "sha256": "80039ba411af5cf6685ed5de78bdd7134de190857c1861e3cb8ad408d8510b46"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/agent-build/simple/internal-dag-diagram.html",
+              "sha256": "e68972ff345708fe0db7e3055542b30bb76586b7ddc04993beee4910dde33330"
+            },
+            {
+              "role": "agents-map",
+              "path": "reference/library/agent-build/simple/agents.yaml",
+              "sha256": "015fc3816ed21985f6d53783291ec121da32fb4fc4337e728f6afe658c2e25cd"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/agent-build/simple/dag-coverage-manifest.md",
+              "sha256": "f1ab0ff7fc681f70b703a3a2929d51a0f622c422dff81ff073066fd929088146"
+            }
+          ]
+        },
+        {
+          "id": "agent-build.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/agent-build/middle/README.md",
+            "sha256": "1520a658c679099c74930cfe8a92f9c1ff0998550030f70d35c945bf7cf505ca"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-build/middle/internal-dag.graph.json",
+              "sha256": "f60f83438721ef8180db7bae7615982d295d6fb5ea53eae7f8fc9dba80674504"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/agent-build/middle/internal-dag-diagram.svg",
+              "sha256": "e2c7fc5bf39487a32ac4878c5086040a7e2fb00e25a58c43f7e0f0e6f8637c30"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/agent-build/middle/internal-dag-diagram.html",
+              "sha256": "52a9f96f6404bc8aa495dac7502523ee66980bddaee09cac5d1322d9b7936feb"
+            },
+            {
+              "role": "agents-map",
+              "path": "reference/library/agent-build/middle/agents.yaml",
+              "sha256": "bf4da1702c7df46917bccf79c70d9cece913755cb5aa713ba21e0800ad2b70d5"
+            },
+            {
+              "role": "sub-agent-config",
+              "path": "reference/library/agent-build/middle/agents/sa-clearing-briefing.yaml",
+              "sha256": "d9e305718082db4ba2c85b5ab58a7a3bb072809b4617a46f2f895b1966d7e621"
+            },
+            {
+              "role": "sub-agent-config",
+              "path": "reference/library/agent-build/middle/agents/sa-exception-triage.yaml",
+              "sha256": "51d39a9252ad988801331a52a485a39bb0e3e381504292fb7df728280c79f148"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/agent-build/middle/dag-coverage-manifest.md",
+              "sha256": "53df06dc388849b07d97d48672708dab5b1ea81ada73249b07633803db86cd69"
+            }
+          ]
+        },
+        {
+          "id": "agent-build.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/agent-build/complex/README.md",
+            "sha256": "9e785385575c4a54a6cd7787992e635dc8e4db73f718267726a544dfe9bdc4b1"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/agent-build/complex/internal-dag.graph.json",
+              "sha256": "aec43e0f981ea98b7ff184ff0323b6e163ccdacc9d111dc8d7661b8cf3ba8957"
+            },
+            {
+              "role": "render-svg",
+              "path": "reference/library/agent-build/complex/internal-dag-diagram.svg",
+              "sha256": "2336efc0587f5972bf2a7e71dfbb3b0604bab8a6a7eac99668d8e8f8add6a330"
+            },
+            {
+              "role": "render-html",
+              "path": "reference/library/agent-build/complex/internal-dag-diagram.html",
+              "sha256": "44cdc5c14625abb0c2fa0364ee7b50cedb7aca5fa987acca7f81f79052e426ed"
+            },
+            {
+              "role": "agents-map",
+              "path": "reference/library/agent-build/complex/agents.yaml",
+              "sha256": "02862d43634d6f501248ac0fd76b4478e15ffed965af8eac69f8dfb5d9f961bf"
+            },
+            {
+              "role": "sub-agent-config",
+              "path": "reference/library/agent-build/complex/agents/sa-balance.yaml",
+              "sha256": "5ae365a705f5105a620470d2a3b56ae85449b00da3dfd152fc781fe51a914c1a"
+            },
+            {
+              "role": "sub-agent-config",
+              "path": "reference/library/agent-build/complex/agents/sa-evidence-recommend.yaml",
+              "sha256": "c95516bbaa1dbe38352682e7b8fd311b793ddab79c4e6e90dca5b44f2240c87d"
+            },
+            {
+              "role": "sub-agent-config",
+              "path": "reference/library/agent-build/complex/agents/sa-remaining-difference.yaml",
+              "sha256": "17c31aff672e39dc700f6cfe183af3fba2e023f7b5591fd9978e578ae98a6202"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/agent-build/complex/dag-coverage-manifest.md",
+              "sha256": "a91a343e47127ea9ed39da071c295e7cf567afb85bf6c76a578fba919d6d80c5"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/agent-build/distinctive-strings.json",
+        "sha256": "3265ece1fa45fe8e68257c281bdc44d97dad8f47879d54bbcde234cdb3e6e899"
+      }
+    },
+    "deepen-interface-design": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/interface-design-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "deepen-interface-design.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/deepen-interface-design/simple/README.md",
+            "sha256": "18c02ed0bd1235a426559532daea0c9ac88b22ecbc4859e333f16b2319cce973"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-interface-design/simple/IH-1.interface-design.yaml",
+              "sha256": "bbf59908a0a950a91d42a28893554f489412acf5e9c049eb63fea0deeab37a25"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/simple/IC-1.interface-design.yaml",
+              "sha256": "c35073323580364dd505e87262b547c5e14d980ac42409e9153305f4aadc96bd"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/simple/IH-2.interface-design.yaml",
+              "sha256": "d02815640f0fbb68ddc6fba7e4b786536e2c484dda8ace6fd4edfda63f4e8114"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/simple/IR-1.interface-design.yaml",
+              "sha256": "e4d2079c226536667a5ad0b70b8a17d416fb8148ceeee13148947ba38b01e656"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/simple/IR-2.interface-design.yaml",
+              "sha256": "6a823041abacfd7d13861bd7c30e10b3c9f9d390df329adc3f753ff37a7ef6f2"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/simple/IW-1.interface-design.yaml",
+              "sha256": "e2232068aecbeeaafb0b483d47adf406c262056b4a814ba86815ba998e2a8a4f"
+            },
+            {
+              "role": "token-index",
+              "path": "reference/library/deepen-interface-design/simple/interface-token-index.yaml",
+              "sha256": "9caaaf889f1b01cc2af757582fce99d34d27b88e0b800d1653360ae2bf387a36"
+            },
+            {
+              "role": "coverage-object",
+              "path": "reference/library/deepen-interface-design/simple/interface-coverage-object.json",
+              "sha256": "a0ac6882dc5d26a719259f29e53fd953fe53064d80e4995a736c4f680e4dec3a"
+            }
+          ]
+        },
+        {
+          "id": "deepen-interface-design.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/deepen-interface-design/middle/README.md",
+            "sha256": "017cf4baeb8e0833772e285953b045a819c1b1b8cc49fea1dc3828908067cc51"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-interface-design/middle/IH-ERP-3.interface-design.yaml",
+              "sha256": "eef81c8f3acf6e349534ab6c4cdb515615b2cf0d972d406d7720f227185f2e61"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/middle/IC-ERP-2.interface-design.yaml",
+              "sha256": "51a96a50670b62d8d466ee99ed77e27e0630febb2e84efe851b9b6f623fb21da"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/middle/IR-ERP-1.interface-design.yaml",
+              "sha256": "889ca7b0af08ba8834b79d5ffc454bd5fd15104aae85bbcdf1dfd9085461adcf"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/middle/IR-ERP-2.interface-design.yaml",
+              "sha256": "4fb5751056f07a195ccc53a3e5ee61e0da46ca4d7e0c163bcd4688421a1c300b"
+            },
+            {
+              "role": "token-index",
+              "path": "reference/library/deepen-interface-design/middle/interface-token-index.yaml",
+              "sha256": "5d448c3ee4592ee63ad861dfcd13f6fe928ad8ea88451ef361482ddee858a14b"
+            },
+            {
+              "role": "coverage-object",
+              "path": "reference/library/deepen-interface-design/middle/interface-coverage-object.json",
+              "sha256": "07b892beb5a3ed342376e6f771b2ca46a733682b683a653b58fa22ed66a2c7a6"
+            }
+          ]
+        },
+        {
+          "id": "deepen-interface-design.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/deepen-interface-design/complex/README.md",
+            "sha256": "4ad9b3a96d4db3219baba1a5c308fa1137cfcd26a7c32802e58eedea2f88e378"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-interface-design/complex/IH-1.interface-design.yaml",
+              "sha256": "5af5a896f90c76471aa6b4720eb53058d96af32013bf400b59352ef81f284f70"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IC-1.interface-design.yaml",
+              "sha256": "c2e76a465ab40991357d4bd1670c0d7a5df15e5d08fbd5090ea905c8d31961dd"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IH-2.interface-design.yaml",
+              "sha256": "8c32c4c42dbfcfbcb19b48201b04d714738feb52ccafe55fe74ded4608591f6f"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IH-3.interface-design.yaml",
+              "sha256": "fdb9e6624b1d79e73508061bc131d29da17dad161872890e214573112e8a9773"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-1.interface-design.yaml",
+              "sha256": "f53bf19d1aee51409186681b8443879b5371b86495047fff40a719bfdfb12486"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-2.interface-design.yaml",
+              "sha256": "db5fc735220587a80d367cf769318957ed0dcbf7312dc81c3608e4c339cc8e91"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-3.interface-design.yaml",
+              "sha256": "251bc42ec85a10909e9cc4f7ceb662f27db48cb6edeefebd2d96f588a26079d3"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-4.interface-design.yaml",
+              "sha256": "c4a7a51ca0acfc38e5161a93bb2379d1268b3cbafbce787fce3cf7857edf0aad"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-5.interface-design.yaml",
+              "sha256": "f9b3607ef235138357637a1651a257ed01b58017c0556af5bd897b63e2f4e6db"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-6.interface-design.yaml",
+              "sha256": "438879bc76ef561601a8847e3d66853d115086b46c81203df11c014c2696fd62"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-7.interface-design.yaml",
+              "sha256": "2813351774a26e8dbc611781083d83001d3c707e9af63696a7f5b1a1cc64a4ec"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IR-8.interface-design.yaml",
+              "sha256": "7e90e7e624b609598c8e4ea03a05aaf40ecfcee236de201e8c050046f361ade7"
+            },
+            {
+              "role": "interface-design",
+              "path": "reference/library/deepen-interface-design/complex/IW-2-3.interface-design.yaml",
+              "sha256": "fec115c5b581e615a524fd9adfbb223eae1a367778aec35f2c057c95a65c5607"
+            },
+            {
+              "role": "token-index",
+              "path": "reference/library/deepen-interface-design/complex/interface-token-index.yaml",
+              "sha256": "3d57cb7c5d1f02d8dd62a44c6fccbce81a2730901fe2f46b63898a5771475a24"
+            },
+            {
+              "role": "coverage-object",
+              "path": "reference/library/deepen-interface-design/complex/interface-coverage-object.json",
+              "sha256": "29a905f3f73194728bc5f11008f5e2ed3f2fe5fd276502ab26a157043a8f0ad6"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/deepen-interface-design/distinctive-strings.json",
+        "sha256": "7bf457a802f526a6b478a55fdd9ef7f5ccd7e8bac177cf7b3850d755f09c1583"
+      }
+    },
+    "deepen-decision-rules": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/decision-policy-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary",
+        "binding-manifest"
+      ],
+      "references": [
+        {
+          "id": "deepen-decision-rules.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/deepen-decision-rules/simple/README.md",
+            "sha256": "9303edf762a0430f53d3f75642c21fe40aef95a125d11fb2168345c109980d0b"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-decision-rules/simple/decision-policy.yaml",
+              "sha256": "0c5f13cc0d36c4fd135ec5f78b5fac2eb51a82ec7c92946c141150b2261b43fa"
+            },
+            {
+              "role": "binding-manifest",
+              "path": "reference/library/deepen-decision-rules/simple/binding-manifest.txt",
+              "sha256": "d31b0a6494cea6b5fcb478b14c9231f4f0c0c3d7f990e3d0e16f11dc006c4e61"
+            }
+          ]
+        },
+        {
+          "id": "deepen-decision-rules.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/deepen-decision-rules/middle/README.md",
+            "sha256": "df848e0d0520ee9a9b0429951f586543f91ed23938db8f1b762cf6d8d00f5aa2"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-decision-rules/middle/decision-policy.yaml",
+              "sha256": "5965d478865fb03fc22187b96acd1921dcb6229aefca915c3948552482e003c7"
+            },
+            {
+              "role": "binding-manifest",
+              "path": "reference/library/deepen-decision-rules/middle/binding-manifest.txt",
+              "sha256": "56ceb4fe1262533b6e4da45c019d06ed703a05b0afe693a0d4e0b9f2321fe6e4"
+            }
+          ]
+        },
+        {
+          "id": "deepen-decision-rules.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/deepen-decision-rules/complex/README.md",
+            "sha256": "3a17f0047ed2ef49c96a0ec9f372952f684b6871f99bbfd73ff3ef07e06a1b7a"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/deepen-decision-rules/complex/decision-policy.yaml",
+              "sha256": "ac362585d27c82c90e5df4831e4f551a7fac627527f93acabced333533149a12"
+            },
+            {
+              "role": "binding-manifest",
+              "path": "reference/library/deepen-decision-rules/complex/binding-manifest.txt",
+              "sha256": "fb33ff4e672830d63fc9b992ce61d3c2a364b9a61d0163f935657e46573dd045"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/deepen-decision-rules/distinctive-strings.json",
+        "sha256": "d89406f65334068022b6e8b3cbd84282705bd6fc430671c73557e85e9bfa2200"
+      }
+    },
+    "eval": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "eval-stage/templates/eval-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "eval.simple",
+          "level": "simple",
+          "readme": {
+            "path": "reference/library/eval/simple/README.md",
+            "sha256": "28ca4b6a6cec1139c67cef50242917974e35d3feb79597d284cbcb72a16eef97"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/eval/simple/eval-set.yaml",
+              "sha256": "37fa4a9391332cf3daa019a36eba52f198d3581a6bda6669de13fb6457997d18"
+            },
+            {
+              "role": "judge-rubrics",
+              "path": "reference/library/eval/simple/judge-rubrics.yaml",
+              "sha256": "5b0adcae46ff519c301e77531058edc3b729ba5ece3ed7b2fb14f39679767745"
+            },
+            {
+              "role": "calibration-set",
+              "path": "reference/library/eval/simple/calibration-set.yaml",
+              "sha256": "6fe262c8e4481186312a2032ff07448f14f696295aebf7974c7fa48f41ef3926"
+            },
+            {
+              "role": "verdict-schema",
+              "path": "reference/library/eval/simple/verdict-schema.json",
+              "sha256": "84ebaae8b9990f2a1d8e72e5b0e18afbcb81989aef2121e9aa6bd57b849f78c1"
+            },
+            {
+              "role": "dispatch-rules",
+              "path": "reference/library/eval/simple/dispatch-rules.yaml",
+              "sha256": "9658fc1394b8ba4a540833234262329d41b1c9343a3ffb27e0062a7f48deb90a"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/eval/simple/eval-set-coverage-manifest.md",
+              "sha256": "cf4713545c08ca2b041d9250fbbc659cf352ff244638df276a57c7e88b16cb30"
+            }
+          ]
+        },
+        {
+          "id": "eval.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/eval/middle/README.md",
+            "sha256": "a10e8d7424455e784d921a1debf7fe17754ea0b7b4e18dfe38de479c7f82ae23"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/eval/middle/eval-set.yaml",
+              "sha256": "ce9a18a7ff996308625a9db65750fd218076983efad381c389d1f466973dde18"
+            },
+            {
+              "role": "judge-rubrics",
+              "path": "reference/library/eval/middle/judge-rubrics.yaml",
+              "sha256": "6011b970f145aade4b7a8530e880403d756e8ece47a23a96bcba50b18091eae0"
+            },
+            {
+              "role": "calibration-set",
+              "path": "reference/library/eval/middle/calibration-set.yaml",
+              "sha256": "c7c3e40600e32ae966a3ad8662d92a385fa4cf594e0a2f84cb8ce51edba6e95d"
+            },
+            {
+              "role": "verdict-schema",
+              "path": "reference/library/eval/middle/verdict-schema.json",
+              "sha256": "537fe1d39a03eb6ad5e9bfeb8bec4a650f5fb8e8850c935d4f092156696a8460"
+            },
+            {
+              "role": "fixture",
+              "path": "reference/library/eval/middle/fixture-synthetic-item-list.json",
+              "sha256": "5c8f6c54550d977d3670261323506853ac0b93861a57091c4035f4d864b568f0"
+            },
+            {
+              "role": "fixture",
+              "path": "reference/library/eval/middle/fixture-synthetic-messages.json",
+              "sha256": "c43e78eec72a603a82a1954382a9d5f68e9bb66ec108267062ca8b1a46979007"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/eval/middle/eval-set-coverage-manifest.md",
+              "sha256": "2305311c7a31488c992dc19e9a23594647c95e78998fc4e5c0e7bcd8c4f13bf4"
+            }
+          ]
+        },
+        {
+          "id": "eval.complex",
+          "level": "complex",
+          "readme": {
+            "path": "reference/library/eval/complex/README.md",
+            "sha256": "1b620845cbbaf780cb0f1904651f708debe9cd1e0a22a51bb29075d616d11066"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/eval/complex/eval-set.yaml",
+              "sha256": "f00691fc213a98d64b658b030ea479e5a887516fe1ca22ce25b2d1268666d8ec"
+            },
+            {
+              "role": "judge-rubrics",
+              "path": "reference/library/eval/complex/judge-rubrics.yaml",
+              "sha256": "c833fcae6d5eb9aa54745e475e396dd5110ac413d038ef43e9a239fe8ab0d970"
+            },
+            {
+              "role": "calibration-set",
+              "path": "reference/library/eval/complex/calibration-set.yaml",
+              "sha256": "4082ae6871cfc64e4f16294acf1633dbff0fa9cbb5f108401b63b5a9b562d77f"
+            },
+            {
+              "role": "verdict-schema",
+              "path": "reference/library/eval/complex/verdict-schema.json",
+              "sha256": "8604619acf4b5f38e822116e978e2b7d4daca91d235466035a5299c86a0af854"
+            },
+            {
+              "role": "dispatch-rules",
+              "path": "reference/library/eval/complex/dispatch-rules.yaml",
+              "sha256": "a5693bfde6a528223e8e1e129364d602a590a34937e09484862e4bb1dc0576bc"
+            },
+            {
+              "role": "fixture",
+              "path": "reference/library/eval/complex/fixture-observed-anchors.json",
+              "sha256": "1121bb57e25ecbec586d6cc381853d2179f0b8e3f48aea74e8e3ad23ecd678d9"
+            },
+            {
+              "role": "fixture",
+              "path": "reference/library/eval/complex/fixture-synthetic-faithful.json",
+              "sha256": "dd52e4c6354f98b5a73b3f0e0b0c6f12a97c68c639c61f0290593b6ae2c93e3d"
+            },
+            {
+              "role": "coverage-manifest",
+              "path": "reference/library/eval/complex/eval-set-coverage-manifest.md",
+              "sha256": "4365d0ae2cc368df1f9d615e8193ff96576305a85c8a129a8e1d56e152b2e961"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/eval/distinctive-strings.json",
+        "sha256": "d106c418e4ef9acf9ecd15b9dac7caa4eb5e1053d79146813ee53358485d8d3d"
+      }
+    },
+    "pre-build-simulation": {
+      "state": "not-built-yet",
+      "channel": {
+        "kind": "template",
+        "template": "templates/pre-build-simulation-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [],
+      "distinctive_strings": null
+    },
+    "sandbox-ship": {
+      "state": "available",
+      "channel": {
+        "kind": "template",
+        "template": "templates/sandbox-ship-brief.template.md"
+      },
+      "record_encoding": "yaml-line",
+      "required_roles": [
+        "primary"
+      ],
+      "references": [
+        {
+          "id": "sandbox-ship.middle",
+          "level": "middle",
+          "readme": {
+            "path": "reference/library/sandbox-ship/middle/README.md",
+            "sha256": "77183e228e8cfb669bc4d37070d1d72840d37ae09ea7448dd48ef83d9ba060e9"
+          },
+          "artifacts": [
+            {
+              "role": "primary",
+              "path": "reference/library/sandbox-ship/middle/spec.yaml",
+              "sha256": "4405e1ad70926bf0e6b56580b8069f57bf0ed7b6b6cf141eb17d6df2dfba78f6"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/compose.yaml",
+              "sha256": "f74bc18d5106a39e2f9435f75a92d72d16fe79c556f955609bb6362490ad7e02"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/app.Dockerfile",
+              "sha256": "4327d7593b4d20633a70d0962ddc20b0b4307c6e26322e62b2127d9ddb6a56e7"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/proxy.Dockerfile",
+              "sha256": "9f8a56ab936bcd9ef66a3208a38de829534172178853273bff8c597f7c2523c1"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/app.Dockerfile.dockerignore.txt",
+              "sha256": "41628f0a6aad566463616bced6e2f6bf4ec8bbce1d2f620d8025202f250995f8"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/proxy.Dockerfile.dockerignore.txt",
+              "sha256": "dc11ae8e8fcc63666afc7f39afec47452b7a879e9013a4c136cb0d663ea139e9"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/package-root.dockerignore.txt",
+              "sha256": "1bb2ad96c772003f645a93cbf0320b5e14220bad91d379f71f912d4953ea674f"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/package.lock.json",
+              "sha256": "4a95478acd8c0b89c27583c77aaeee3a7dba90249b2ee9bca51270f720fa4055"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/nginx.conf",
+              "sha256": "50c3ef2579396281212c75c6f24090695586ee4e868e8701fb8f1b38b14642b9"
+            },
+            {
+              "role": "package-build",
+              "path": "reference/library/sandbox-ship/middle/app-entrypoint.sh",
+              "sha256": "1e7df33bd58f565c3825b83c544673de35a69babb04f3e7f23c60e7532210fb3"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/sandbox-run-config.yaml",
+              "sha256": "bf0d198b934814599771cb8e6a14a52aa5e2b8ac92cc1df72507fbadcb914220"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/api-keys.example.yaml",
+              "sha256": "47c959c8bb18667ff706458cea39aea92b419cc2f1987dca8c3a200ff8b941f6"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/package-README.md",
+              "sha256": "808a3697bd0de8f5035afbc43d7b787da469c067b50d98a76c5fa5fc8b06f627"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/prompt-root.md",
+              "sha256": "4d6fc74bb188608592a4eca7d15aa053800058be474252bfea797ccaef20204f"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/prompt-sa-clearing-briefing.md",
+              "sha256": "436857fca69ffb8388e2a420a472167e82b7e1d79155d5ccdebd827667c9b411"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/IR-ERP-3-analyst-briefing-case-handoff-v1.yaml",
+              "sha256": "c710fd77fb78b3e474e088fe8cce925835668dec08f686636b9819de2c42f2cc"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/judge-rubrics.yaml",
+              "sha256": "5a44fb8e76a752e6cbc4f94355b1fcb7a2822bd62f4adfa9b50e2bd49d6b6548"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/judge-verdict-schema.json",
+              "sha256": "6ff087826b0fbd90233b5d3800a8bbf6d9c94a48e75d360178ee4427520a42f4"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/case-id-registry.yaml",
+              "sha256": "a8bbf3f366449708975dccd43effcd8a4a83fc4cbbfbaa5b2956f72621707f40"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/assignment-case-map.json",
+              "sha256": "5f3cf36fba8412034c2de5dad3daea507a23fcf7b18620f407b7e0be027f8edc"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/input-corpus-c0001.json",
+              "sha256": "21994c2397945f5eaeeb347e705940d8c26b7339aa3614ccd2cd66a72121c3a5"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/input-corpus-c0013.json",
+              "sha256": "9f09f13a8cfdc5f59a0aa0ad0ae055ee810770d0c357b772ca7884bf2012cb58"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/fixture-EXPORT_gapfilled_additional-log.json",
+              "sha256": "e071c5581fb40e8811df3ed59cf36b5f9e51868727eec715846e2ef315ca9387"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/analyst-interface-package.json",
+              "sha256": "a80d4c7ae0ea538d2b3bf93f19ec2dcaadb3cd71c81957d8ddbe6bb6dc4a1de5"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/vite.config.js",
+              "sha256": "25168b9c9f7da4507a695865eccb153a35c98431595cc5657d7826cad24c20b6"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/framework-requirements-runtime.txt",
+              "sha256": "2140b9e3b91967fdf451d71fb7a6e2d44300c80fd9ddfb1caba21c9bbcd17f97"
+            },
+            {
+              "role": "package-config",
+              "path": "reference/library/sandbox-ship/middle/analyst-interface-index.html",
+              "sha256": "96ddb06dacbae983d961f90e84cd96688d6bde6d7e45d79450dab6a0caccef5f"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/live_provider.py",
+              "sha256": "ec5c7b7506e75cf5182a890137326e004d880da877b1bf6ad26aad5650e145e9"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/spawn-fence.mjs",
+              "sha256": "b052a83442286071875d38cc84915fbe5f29f39b7460cc0cda31d1e5ef9846f1"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/eval-exit-rules.mjs",
+              "sha256": "9b92fae5881170c3b2217316e95d267ca6da127d314bef4efbdff1d7e8e6b80e"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/run-judge.py",
+              "sha256": "5d9d0630f67c1b942ab186395dc3abcbafc914817ef5030f4a663137f9808a88"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/build_real_cases.py",
+              "sha256": "e3cee3a60797e0394d63a1b2c1e2346c8f4b1f70b0f180469add878e4fd278d7"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/agent_output_matrix.py",
+              "sha256": "9290cc5bb520dd33bb74467aa27c1dc32af5678ba661b465c038c41d74557ce8"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/capability_aggregate.py",
+              "sha256": "7db6dcceb553da0f6831ce160352963a13fc690011f4c7c645eaf9345c3ae136"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/real_output_flags.py",
+              "sha256": "8504a3b16806b46dba065b975bb53d0f7d079a5a8e8dc2dcd7eac59c6eff06ba"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/run_acceptance_check.py",
+              "sha256": "0cce6f5da44babc0a29384deef264ded4d6ee55dfd6752239304f7fc8272993d"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/offline_policy_provider.py",
+              "sha256": "9f749b66fd77fd1717a5e2f05884e468fb9d54def3b5821ee5c0b67c724c4d8b"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/phoenix-run_experiment.py",
+              "sha256": "bc756794c272948db62444839122d65e3d72a072d40e24161edef229cfa65e31"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/phoenix-evaluator.py",
+              "sha256": "b03c0454bfa4065103096323915aabfd929a54af37ea1c1c65a87e9f6d874c72"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/framework-sandbox-init.py",
+              "sha256": "1583e6c02149b05efdd70c29d2bab761d0ae7985cd9a8dbc685e4983f7c93b0f"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/lifecycle-identity.mjs",
+              "sha256": "547bfe3be8185dd27ca98307144ee88e8ff26b87ceab35b2f7e9728319f50c35"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/phoenix-common.py",
+              "sha256": "80f7e69fb15942a949c3f249a79715995877bed2baba2d623b28a01a897f64da"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/phoenix-build_dataset.py",
+              "sha256": "89eff882ec04278bdf799c8fc4fc825e39303ae0f2190531d74e1c6fd03b1779"
+            },
+            {
+              "role": "package-code",
+              "path": "reference/library/sandbox-ship/middle/phoenix-verdict_cache.py",
+              "sha256": "605d5f223f6fef7ef3455efdba0a112e73538fda92f44671cdbe056f0f3f73c9"
+            },
+            {
+              "role": "leak-resolution",
+              "path": "reference/library/sandbox-ship/middle/leak-resolution.yaml",
+              "sha256": "ec657da177b8ad3be3c53a778426a5487ec3260ee27b9c6118bcd183cf7a0268"
+            },
+            {
+              "role": "live-evidence",
+              "path": "reference/library/sandbox-ship/middle/live-evidence.json",
+              "sha256": "319f4b95674eb1755c09c3729d5b2eb65cc2c16f486d4e73e807f8b80e63e968"
+            }
+          ]
+        }
+      ],
+      "distinctive_strings": {
+        "path": "reference/library/sandbox-ship/distinctive-strings.json",
+        "sha256": "1c5d3e3c04c30b1b5090ed75ba91f6caa5f7d08203affc8f460895107cc69b5c"
+      }
+    }
+  },
+  "worked_references": {
+    "two-agent": {
+      "id": "two-agent",
+      "level": "complex",
+      "readme": {
+        "path": "reference/library/two-agent/README.md",
+        "sha256": "34f517dfe588f010a6f3d80eb2cb4e5a88ac36202bd3b5438a21a7d8110d8ec5"
+      },
+      "artifacts": [
+        {
+          "role": "primary",
+          "path": "reference/library/two-agent/stages/transformation-plan/transformation-map.md",
+          "sha256": "06d09d024319ff268f433d1cb0b4e415751783234be126f579d1bc663dc536f0"
+        },
+        {
+          "role": "current-state",
+          "path": "reference/library/two-agent/stages/current-state/current-state.json",
+          "sha256": "e13b1375e8f7cdfb96d7ba5ada3a74f38209bfce7c3d3a5302ce758371325c1b"
+        },
+        {
+          "role": "future-state",
+          "path": "reference/library/two-agent/stages/future-state/future-state.json",
+          "sha256": "14803736210d6aa30edd66b72beb4c67b544344187e22b5ef493dc72b62a8982"
+        },
+        {
+          "role": "coverage-manifest",
+          "path": "reference/library/two-agent/stages/future-state/future-state-coverage-manifest.json",
+          "sha256": "96d69b4dd47d5d0dcaa30fcb989647e27fa71b73287738c0e4bd31e183bb761d"
+        },
+        {
+          "role": "internal-map",
+          "path": "reference/library/two-agent/stages/agent-build/internal-dag.graph.json",
+          "sha256": "9105e0385d2211e405ddce8bff4bc8484e8259cdddcc009ce36a50ac0ff415c3"
+        },
+        {
+          "role": "interface-design-dispatch",
+          "path": "reference/library/two-agent/stages/interface-design/ID-1.interface-design.yaml",
+          "sha256": "7ef14eefc0373f2c736054f39ee0b36da38948b3611cc338340e80afa2a8192a"
+        },
+        {
+          "role": "interface-design-write",
+          "path": "reference/library/two-agent/stages/interface-design/IW-1.interface-design.yaml",
+          "sha256": "edb771d51c983951013d5d4d1105ad4284614df8c489c588cc4f715e154f18fc"
+        },
+        {
+          "role": "frozen-snapshot",
+          "path": "reference/library/two-agent/inputs/snapshot.json",
+          "sha256": "b44adb35b46b0ef32584ad0cc26664fc4da77e7b9f9b81e91b652e2f46da8740"
+        },
+        {
+          "role": "snapshot-intake",
+          "path": "reference/library/two-agent/inputs/snapshot-intake.json",
+          "sha256": "8caf13dc724d85d01c722198fd2187ad98dab4c61df0d030a73eaeb170bfd017"
+        },
+        {
+          "role": "raw-pull",
+          "path": "reference/library/two-agent/inputs/process-intake-review.json",
+          "sha256": "7f5b26f29241c5b33a0d28d149c584bcaa0dab178604f1cd9a27683c234af1b4"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": "C-3",
+  "decision": "recon:n4",
+  "kind": "boundary",
+  "layer": "part",
+  "critical": false,
+  "description": "the in-transit deposit leaves a residual just above the tie tolerance",
+  "rows": [
+    {
+      "id": "ledger",
+      "values": {
+        "balance": {
+          "value": "9132.66",
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "subledger",
+      "values": {
+        "balance": {
+          "value": "8955.41",
+          "label": "synthetic"
+        }
+      }
+    },
+    {
+      "id": "transit",
+      "values": {
+        "amount": {
+          "value": "176.62",
+          "label": "synthetic"
+        }
+      }
+    }
+  ],
+  "holds": [],
+  "judgment_answers": [],
+  "expected": {
+    "label": "escalate_residual",
+    "values": {
+      "outcome": "escalate_residual"
+    },
+    "derivations": {
+      "abs_residual": {
+        "kind": "calc",
+        "step": "abs_residual",
+        "fn": "abs",
+        "args": [
+          {
+            "kind": "calc",
+            "step": "residual",
+            "fn": "subtract",
+            "args": [
+              {
+                "kind": "calc",
+                "step": "variance",
+                "fn": "subtract",
+                "args": [
+                  {
+                    "kind": "read",
+                    "token": "ledger.balance"
+                  },
+                  {
+                    "kind": "read",
+                    "token": "subledger.balance"
+                  }
+                ]
+              },
+              {
+                "kind": "read",
+                "token": "transit.amount"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "final_label": "escalate_residual"
+}

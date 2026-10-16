@@ -1,0 +1,12 @@
+{
+  "rule_id": "R-3",
+  "process_id": "inbox",
+  "future_state_step": "n5",
+  "decision": "inbox:n5",
+  "scenario": "a draft fix note is ready for the coordinator",
+  "why": "the coordinator decides and sends; weak evidence is escalated, not drafted",
+  "observation_ids": [
+    "inbox:observation:o3"
+  ],
+  "text_sha256": "136be8d2dcaf7947a7d2a6526641d895b66ed5b7c99d5b20efcf9772ad901832"
+}

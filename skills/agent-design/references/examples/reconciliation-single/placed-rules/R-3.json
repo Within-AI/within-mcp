@@ -1,0 +1,17 @@
+{
+  "rule_id": "R-3",
+  "process_id": "recon",
+  "future_state_step": "n4",
+  "decision": "recon:n4",
+  "scenario": "a deposit in transit explains most but not all of a variance",
+  "why": "whatever the categories leave over goes to the reviewer with the full workings",
+  "observation_ids": [
+    "recon:observation:o3"
+  ],
+  "text_sha256": "8ee66ab0b865cd2bb849c360ce3fc91840a120268a7893d65d6cb522dcd72093",
+  "mechanism": {
+    "kind": "cascade",
+    "order": 3,
+    "status": "proposed"
+  }
+}

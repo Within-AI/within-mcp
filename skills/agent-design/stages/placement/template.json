@@ -1,0 +1,18 @@
+{
+  "rule_id": "R-1",
+  "process_id": "example-process",
+  "future_state_step": "n1",
+  "decision": "example-process:n1",
+  "prose": "Copied byte-identical from stages/rules/rules.json.",
+  "expression": {
+    "reads": ["item.amount"],
+    "test": {"kind": "compare", "op": ">", "left": {"kind": "read", "token": "item.amount"}, "right": {"kind": "literal", "value": 0}},
+    "sets": {"outcome": {"kind": "literal", "value": "accepted"}}
+  },
+  "scope": "run",
+  "mechanism": {"kind": "cascade", "order": 1, "status": "proposed"},
+  "scenario": "When the rule applies, in plain words.",
+  "why": "Why the rule sits at this step.",
+  "observation_ids": ["ex-observation:res-001"],
+  "text_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

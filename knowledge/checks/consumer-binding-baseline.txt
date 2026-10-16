@@ -1,0 +1,27 @@
+# Frozen consumer-binding baseline (plan §7 rollout, N1 execute-phase capture).
+#
+# One-time capture, not a recurring task. Each line is the id (basename of the COVERAGE_OBJECT path)
+# of a coverage object that passed gates (a)/(b)/(c) under the PRE-PATCH check-interface-seating-
+# directions.sh, at the moment gate (d) CONSUMER-BINDING COVERAGE landed. Gate (d) is not evaluated at
+# all for an object whose id is on this list, until that object is next re-touched (re-graded), per §7.
+#
+# Captured 2026-09-17 by running the pre-patch check against every already-cleared ATD coverage object
+# findable under the client build repo and within-fde/ (control/ excluded). No coverage object in the exact
+# check-consumed shape (top-level closed_interface_set / designs / stamped_opens) was found under
+# the client build repo — that repo's coverage-manifest.md files are rendered outputs, not the raw object this
+# check parses. The only objects in the check-consumed shape are the check's own dry-run fixtures under
+# within-fde/framework/harness/factory-plugin-atd-run/output/R4-interface-design/checks/fixtures/. Of
+# those 11 fixtures carrying `closed_interface_set`, exactly 3 passed gates (a)/(b)/(c) pre-patch (the
+# other 8 are intentional C1 negative fixtures and correctly failed then and now):
+#
+# FORMAT (cycle-2 fix, 2026-09-17): each real entry below is now TWO whitespace-separated tokens,
+# `<basename> <sha256 fingerprint>`, not just the basename. The fingerprint is sha256 of a canonical
+# (sort_keys) JSON dump of that object's `designs[]` content AT THE MOMENT OF THIS CAPTURE (see
+# `_designs_fingerprint` in check-interface-seating-directions.sh). `_on_baseline` exempts an object
+# from gate (d) only while its CURRENT designs[] still fingerprint-matches this captured value — this
+# is what implements plan §7's "the exemption is removed the moment a baseline-listed object's
+# designs[] content changes and it is re-graded": a basename match with a changed fingerprint is a
+# retouch, and gate (d) applies to it in full from then on, exactly like a newly created object.
+interface-seating.pass.yaml efeb6d075192e4a18c9b933348b5ebec9e53bbee80c21d4c8a25743eae77aa15
+interface-seating-multi-samedir.pass.yaml f189da421222dc7ee9c15d12cc7b2f20c405c82fdddd471c8d8a5fb9a047d8c4
+interface-design.pass.yaml 1de16fbb0c6f562b446c2c42b3f57d82f64b830dd6b35e86dc3e402bd37c5b05

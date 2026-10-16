@@ -1,0 +1,1325 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "current-state",
+  "process": {
+    "name": "Renewal Risk Review",
+    "process_ids": [
+      "p-renewal-risk"
+    ]
+  },
+  "snapshot": {
+    "path": "snapshot.json",
+    "sha256": "d0acd0b3b319ce4b6c512fefae21ce7c69d5b97e73a322b41234f0b377fb910b"
+  },
+  "presentation": "diagram",
+  "diagram": {
+    "title": "Current state - Renewal Risk Review",
+    "subtitle": "How a Renewal Ops Analyst reviews renewing accounts and escalates the at-risk ones today.",
+    "notes": [
+      "Every step, decision and system comes from the frozen record of nine sessions.",
+      "The usage export is Contradictory: described as automatic, performed by hand in every session."
+    ],
+    "band_labels": {}
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "c01",
+        "type": "read_interaction",
+        "lane": "Analyst",
+        "title": "Build weekly renewal cohort",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-crm",
+          "ws-sheets"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/0"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/1"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "c02",
+        "type": "read_interaction",
+        "lane": "Analyst",
+        "title": "Export usage signal",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-usage",
+          "ws-sheets"
+        ],
+        "issue_id": "usage-export-conflict",
+        "evidence_state": "Contradictory",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/3"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "c03",
+        "type": "read_interaction",
+        "lane": "Analyst",
+        "title": "Export support ticket history",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-tickets"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/6"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/7"
+          }
+        ]
+      },
+      {
+        "id": "c04",
+        "type": "read_interaction",
+        "lane": "Analyst",
+        "title": "Check contract value and billing",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-billing"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/8"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/9"
+          }
+        ]
+      },
+      {
+        "id": "c05",
+        "type": "decision",
+        "lane": "Analyst",
+        "title": "Usage data on file?",
+        "performer": "Renewal Ops Analyst",
+        "decision_table": "dt-usage-data",
+        "condition": "Is Pulse usage data available for this account?",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "c06",
+        "type": "analyst_reconciliation",
+        "lane": "Analyst",
+        "title": "Ask CSM for a usage read",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-chat"
+        ],
+        "issue_id": "legacy-handback",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/10"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/11"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/12"
+          }
+        ]
+      },
+      {
+        "id": "c07",
+        "type": "analyst_reconciliation",
+        "lane": "Analyst",
+        "title": "Score renewal risk",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "ws-sheets"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/13"
+          }
+        ]
+      },
+      {
+        "id": "c08",
+        "type": "decision",
+        "lane": "Analyst",
+        "title": "Escalate this account?",
+        "performer": "Renewal Ops Analyst",
+        "decision_table": "dt-escalation",
+        "condition": "Does the risk score or contract value call for escalation?",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/14"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/15"
+          }
+        ]
+      },
+      {
+        "id": "c09",
+        "type": "write_interaction",
+        "lane": "Analyst",
+        "title": "Draft risk memo",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "ws-sheets",
+          "sys-crm"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/16"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/17"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/18"
+          }
+        ]
+      },
+      {
+        "id": "c10",
+        "type": "analyst_reconciliation",
+        "lane": "Analyst",
+        "title": "Review memo with AE",
+        "performer": "Renewal Ops Analyst",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/19"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/20"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/21"
+          }
+        ]
+      },
+      {
+        "id": "c11",
+        "type": "write_interaction",
+        "lane": "Analyst",
+        "title": "Escalate to AE manager",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-chat"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/22"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/23"
+          }
+        ]
+      },
+      {
+        "id": "c12",
+        "type": "write_interaction",
+        "lane": "Analyst",
+        "title": "Log outcome in CRM",
+        "performer": "Renewal Ops Analyst",
+        "systems": [
+          "sys-crm"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/24"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/25"
+          }
+        ]
+      },
+      {
+        "id": "c13",
+        "type": "system_result",
+        "lane": "System",
+        "title": "Account marked reviewed",
+        "systems": [
+          "sys-crm"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/26"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/27"
+          }
+        ]
+      },
+      {
+        "id": "sys-crm",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Meridian CRM",
+        "short_label": "Meridian CRM",
+        "surface_kind": "system_of_record",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "sys-usage",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Pulse usage dashboard",
+        "short_label": "Pulse",
+        "surface_kind": "system_of_record",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "sys-tickets",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Deskline ticketing",
+        "short_label": "Deskline",
+        "surface_kind": "system_of_record",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "sys-billing",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Ledgerly billing",
+        "short_label": "Ledgerly",
+        "surface_kind": "system_of_record",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/8"
+          }
+        ]
+      },
+      {
+        "id": "sys-chat",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Slack",
+        "short_label": "Slack",
+        "surface_kind": "channel",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/10"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "e01",
+        "source": "c01",
+        "target": "c02",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/3"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "e02",
+        "source": "c02",
+        "target": "c03",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/6"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/7"
+          }
+        ]
+      },
+      {
+        "id": "e03",
+        "source": "c03",
+        "target": "c04",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/8"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/9"
+          }
+        ]
+      },
+      {
+        "id": "e04",
+        "source": "c04",
+        "target": "c05",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "e05",
+        "source": "c05",
+        "target": "c07",
+        "kind": "then",
+        "branch": "usage_on_file",
+        "display_label": "yes",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "e06",
+        "source": "c05",
+        "target": "c06",
+        "kind": "else",
+        "branch": "legacy_metering",
+        "display_label": "legacy metering",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "e07",
+        "source": "c06",
+        "target": "c07",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/13"
+          }
+        ]
+      },
+      {
+        "id": "e08",
+        "source": "c07",
+        "target": "c08",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/14"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/15"
+          }
+        ]
+      },
+      {
+        "id": "e09",
+        "source": "c08",
+        "target": "c09",
+        "kind": "then",
+        "branch": "escalate",
+        "display_label": "escalate",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/14"
+          }
+        ]
+      },
+      {
+        "id": "e10",
+        "source": "c08",
+        "target": "c13",
+        "kind": "else",
+        "branch": "no_escalation",
+        "display_label": "no escalation",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/14"
+          }
+        ]
+      },
+      {
+        "id": "e11",
+        "source": "c09",
+        "target": "c10",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/19"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/20"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/21"
+          }
+        ]
+      },
+      {
+        "id": "e12",
+        "source": "c10",
+        "target": "c09",
+        "kind": "loop",
+        "branch": "memo_revision",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/20"
+          }
+        ]
+      },
+      {
+        "id": "e13",
+        "source": "c10",
+        "target": "c11",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/22"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/23"
+          }
+        ]
+      },
+      {
+        "id": "e14",
+        "source": "c11",
+        "target": "c12",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/24"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/25"
+          }
+        ]
+      },
+      {
+        "id": "e15",
+        "source": "c12",
+        "target": "c13",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/26"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/27"
+          }
+        ]
+      },
+      {
+        "id": "r01",
+        "source": "c01",
+        "target": "sys-crm",
+        "kind": "read_access",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/0"
+          }
+        ]
+      },
+      {
+        "id": "r02",
+        "source": "c02",
+        "target": "sys-usage",
+        "kind": "read_access",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "r03",
+        "source": "c03",
+        "target": "sys-tickets",
+        "kind": "read_access",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "r04",
+        "source": "c04",
+        "target": "sys-billing",
+        "kind": "read_access",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/8"
+          }
+        ]
+      },
+      {
+        "id": "r05",
+        "source": "c06",
+        "target": "sys-chat",
+        "kind": "read_access",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/10"
+          }
+        ]
+      },
+      {
+        "id": "w01",
+        "source": "c09",
+        "target": "sys-crm",
+        "kind": "write",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/18"
+          }
+        ]
+      },
+      {
+        "id": "w02",
+        "source": "c11",
+        "target": "sys-chat",
+        "kind": "write",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/22"
+          }
+        ]
+      },
+      {
+        "id": "w03",
+        "source": "c12",
+        "target": "sys-crm",
+        "kind": "write",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/24"
+          }
+        ]
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "ws-sheets",
+        "name": "Google Sheets",
+        "short_label": "Sheets"
+      }
+    ],
+    "decision_tables": [
+      {
+        "id": "dt-usage-data",
+        "owner": "c05",
+        "kind": "selection",
+        "purpose": "Route the account by whether Pulse usage data is on file.",
+        "columns": [
+          "condition"
+        ],
+        "rows": [
+          {
+            "id": "dt-usage-data.on-file",
+            "label": "Usage data on file",
+            "attributes": {
+              "condition": "Pulse export present"
+            },
+            "next_node": "c07",
+            "next_edge": "e05",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/5"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-usage-data.legacy",
+            "label": "Legacy metering, no usage data",
+            "attributes": {
+              "condition": "Legacy metering flag set"
+            },
+            "next_node": "c06",
+            "next_edge": "e06",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/5"
+              }
+            ],
+            "issue_ids": [
+              "legacy-handback"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/5"
+          }
+        ],
+        "issue_ids": []
+      },
+      {
+        "id": "dt-escalation",
+        "owner": "c08",
+        "kind": "selection",
+        "purpose": "Decide whether the account is escalated to the AE.",
+        "columns": [
+          "condition"
+        ],
+        "rows": [
+          {
+            "id": "dt-escalation.over-threshold",
+            "label": "Score at or above threshold",
+            "attributes": {
+              "condition": "Risk score meets the escalation threshold"
+            },
+            "next_node": "c09",
+            "next_edge": "e09",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/14"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-escalation.under-threshold",
+            "label": "Score below threshold",
+            "attributes": {
+              "condition": "Risk score under the threshold"
+            },
+            "next_node": "c13",
+            "next_edge": "e10",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/14"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-escalation.override",
+            "label": "Contract value over override",
+            "attributes": {
+              "condition": "Contract value above an unwritten override amount"
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/15"
+              }
+            ],
+            "issue_ids": [
+              "whale-override"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-escalation.rule-1",
+            "text": "The score threshold applies unless the override is met.",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "renewal-process",
+                "pointer": "/steps/14"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/14"
+          },
+          {
+            "source_id": "renewal-process",
+            "pointer": "/steps/15"
+          }
+        ],
+        "issue_ids": []
+      }
+    ],
+    "starts": [
+      "c01"
+    ],
+    "outcomes": [
+      "c13"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "usage-export-conflict",
+        "kind": "contradiction",
+        "status": "open",
+        "reason": "The process description says usage arrives automatically through the API; every recorded session shows a manual Pulse export.",
+        "source_ids": [
+          "renewal-process",
+          "renewal-policy"
+        ]
+      },
+      {
+        "id": "legacy-handback",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "When Pulse usage data is missing, no written rule says what happens to the risk score; the analyst messages the account's CSM and waits.",
+        "source_ids": []
+      },
+      {
+        "id": "whale-override",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "An account was escalated below the scoring threshold because its contract value exceeded $250K; no written rule states the override or its threshold.",
+        "source_ids": []
+      },
+      {
+        "id": "playbook-exists",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Whether a renewal playbook mapping risk tiers to AE talk tracks exists is unconfirmed.",
+        "source_ids": []
+      },
+      {
+        "id": "memo-template",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Which risk memo template is the real one, and whether the Finance review route for large contracts exists, could not be found in the record.",
+        "source_ids": []
+      },
+      {
+        "id": "ae-sync-unmeasured",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "The AE review shows no recorded problems in any of the nine sessions; that silence is unmeasured, not evidence the step is trouble-free.",
+        "source_ids": []
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "renewal-process:s01",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c01"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s02",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c01"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s03",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c01"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s04",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c02"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s05",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c02"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s06",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c05"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s07",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c03"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s08",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c03"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s09",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c04"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s10",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c04"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s11",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c06"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s12",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c06"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s13",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c06"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s14",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c07"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s15",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c08"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s16",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c08"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s17",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c09"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s18",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c09"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s19",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c09"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s20",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c10"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s21",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c10"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s22",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c10"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s23",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c11"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s24",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c11"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s25",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c12"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s26",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c12"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s27",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c13"
+      ]
+    },
+    {
+      "step_id": "renewal-process:s28",
+      "mapping": "mapped",
+      "graph_ids": [
+        "c13"
+      ]
+    }
+  ],
+  "prior_workflow": {
+    "path": "current-state.input.json",
+    "sha256": "789263f0f19264cb89690da2742bc4a1f2679126242205c381e2f4c488d1211b"
+  },
+  "render": {
+    "path": "current-state.svg",
+    "sha256": "63b05bd599d43da4229eccee97b877feba1af3704fa32e359ca38c548e379ea4"
+  },
+  "render_html": {
+    "path": "current-state.html",
+    "sha256": "3d5092c31f580414e37900ea50525ca3baba596d1c6713f9fd3fd29ddf56a822"
+  },
+  "render_coverage": [
+    {
+      "graph_id": "c01",
+      "render_id": "node-c01"
+    },
+    {
+      "graph_id": "c02",
+      "render_id": "node-c02"
+    },
+    {
+      "graph_id": "c03",
+      "render_id": "node-c03"
+    },
+    {
+      "graph_id": "c04",
+      "render_id": "node-c04"
+    },
+    {
+      "graph_id": "c05",
+      "render_id": "node-c05"
+    },
+    {
+      "graph_id": "c06",
+      "render_id": "node-c06"
+    },
+    {
+      "graph_id": "c07",
+      "render_id": "node-c07"
+    },
+    {
+      "graph_id": "c08",
+      "render_id": "node-c08"
+    },
+    {
+      "graph_id": "c09",
+      "render_id": "node-c09"
+    },
+    {
+      "graph_id": "c10",
+      "render_id": "node-c10"
+    },
+    {
+      "graph_id": "c11",
+      "render_id": "node-c11"
+    },
+    {
+      "graph_id": "c12",
+      "render_id": "node-c12"
+    },
+    {
+      "graph_id": "c13",
+      "render_id": "node-c13"
+    },
+    {
+      "graph_id": "sys-crm",
+      "render_id": "node-sys-crm"
+    },
+    {
+      "graph_id": "sys-usage",
+      "render_id": "node-sys-usage"
+    },
+    {
+      "graph_id": "sys-tickets",
+      "render_id": "node-sys-tickets"
+    },
+    {
+      "graph_id": "sys-billing",
+      "render_id": "node-sys-billing"
+    },
+    {
+      "graph_id": "sys-chat",
+      "render_id": "node-sys-chat"
+    },
+    {
+      "graph_id": "e01",
+      "render_id": "edge-e01"
+    },
+    {
+      "graph_id": "e02",
+      "render_id": "edge-e02"
+    },
+    {
+      "graph_id": "e03",
+      "render_id": "edge-e03"
+    },
+    {
+      "graph_id": "e04",
+      "render_id": "edge-e04"
+    },
+    {
+      "graph_id": "e05",
+      "render_id": "edge-e05"
+    },
+    {
+      "graph_id": "e06",
+      "render_id": "edge-e06"
+    },
+    {
+      "graph_id": "e07",
+      "render_id": "edge-e07"
+    },
+    {
+      "graph_id": "e08",
+      "render_id": "edge-e08"
+    },
+    {
+      "graph_id": "e09",
+      "render_id": "edge-e09"
+    },
+    {
+      "graph_id": "e10",
+      "render_id": "edge-e10"
+    },
+    {
+      "graph_id": "e11",
+      "render_id": "edge-e11"
+    },
+    {
+      "graph_id": "e12",
+      "render_id": "edge-e12"
+    },
+    {
+      "graph_id": "e13",
+      "render_id": "edge-e13"
+    },
+    {
+      "graph_id": "e14",
+      "render_id": "edge-e14"
+    },
+    {
+      "graph_id": "e15",
+      "render_id": "edge-e15"
+    },
+    {
+      "graph_id": "r01",
+      "render_id": "edge-r01"
+    },
+    {
+      "graph_id": "r02",
+      "render_id": "edge-r02"
+    },
+    {
+      "graph_id": "r03",
+      "render_id": "edge-r03"
+    },
+    {
+      "graph_id": "r04",
+      "render_id": "edge-r04"
+    },
+    {
+      "graph_id": "r05",
+      "render_id": "edge-r05"
+    },
+    {
+      "graph_id": "w01",
+      "render_id": "edge-w01"
+    },
+    {
+      "graph_id": "w02",
+      "render_id": "edge-w02"
+    },
+    {
+      "graph_id": "w03",
+      "render_id": "edge-w03"
+    },
+    {
+      "graph_id": "dt-usage-data",
+      "render_id": "table-dt-usage-data"
+    },
+    {
+      "graph_id": "dt-escalation",
+      "render_id": "table-dt-escalation"
+    }
+  ]
+}

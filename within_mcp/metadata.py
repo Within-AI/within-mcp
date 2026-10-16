@@ -96,6 +96,10 @@ WITHIN_MCP_METADATA = WithinMCPMetadata(
     skills=(
         "within-process-context-graph",
         "agent-builder",
+        "agent-recommendation",
+        "future-state-design",
+        "agent-design",
+        "agent-build",
     ),
     gemini_context_skill="agent-builder",
 )

@@ -1,0 +1,38 @@
+{
+  "schema": "agent-design.retired-end-states/1",
+  "description": "End-state words of the retired pre-build simulation (knowledge/checks/_prebuild_sim.py END_STATES). No outcome label may equal one, except a word marked allowed_as_evidence_state.",
+  "words": [
+    {
+      "word": "escalated",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "recommended",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "staged",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "routed",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "no-route",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "needs_more_information",
+      "allowed_as_evidence_state": true
+    },
+    {
+      "word": "written",
+      "allowed_as_evidence_state": false
+    },
+    {
+      "word": "handed_off",
+      "allowed_as_evidence_state": false
+    }
+  ]
+}

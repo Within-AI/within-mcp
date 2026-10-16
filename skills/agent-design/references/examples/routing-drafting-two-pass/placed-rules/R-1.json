@@ -1,0 +1,12 @@
+{
+  "rule_id": "R-1",
+  "process_id": "inbox",
+  "future_state_step": "n3",
+  "decision": "inbox:n3",
+  "scenario": "Acme Corp's fault report is summarised with the fault text quoted",
+  "why": "only a checked summary reaches the drafting pass",
+  "observation_ids": [
+    "inbox:observation:o2"
+  ],
+  "text_sha256": "a1e8bf8b1d67e63043295116a5e56a4ffc620a0399c7fe5221ae137bd7df9903"
+}

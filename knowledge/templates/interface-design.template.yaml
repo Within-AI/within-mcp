@@ -1,0 +1,328 @@
+# interface design — canonical per-seam template for "Design each part's boundary (what crosses it, in and out)"
+# (Plain-language stage name: "Design each part's boundary — what crosses it, in and out". Internal tag:
+#  the interface-design half of `deepen`. The plain-language name is the handle.)
+#
+# WHAT THIS IS
+#   The canonical shape of ONE sub-agent seam's interface design: the stable boundary through which a deep
+#   module exchanges inputs, outputs, authority signals, and failures. The stage instantiates ONE copy per
+#   seam in the built map's `closed_interface_set`, freezing that seam's `seated_in` (never re-seating it)
+#   and FILLING its `design_ref` (was null in the built map). It is deliberately GENERIC: no client-,
+#   counterparty-, desk-, or surface-specific string appears here.
+#
+#   SERIALIZATION NOTE. YAML (config-by-role, decision 0017 — the same convention the built map's
+#   `agents.yaml.template` uses). Every `<describe: ...>` slot names the source the instantiation fills it
+#   from. The section set and token grammar are FIXED so no execute turn re-decides shape.
+#
+# THE SIX ARCHETYPES (one per direction — matches the built map's closed interface set of six directions:
+#   inbound_control · read · outbound_handoff · draft · write (agent to a system) · dispatch (agent to another
+#   agent)). All six use the SAME section skeleton; only the typed-inputs / back-signals sections (S2 / S3) adapt:
+#     * read              — the typed fields the part reads from a surface.
+#     * outbound_handoff  — the cited recommendation-or-escalation the part hands the review path (a person or
+#                           an agent) at a full stop. A person-routed system-of-record write has NO write
+#                           interface: the agent's side of it is this outbound_handoff to the person.
+#     * draft_surface     — the fields the part stages into its draft surface for a person (direction `draft`).
+#     * write_surface     — direction `write`: the fields the part writes into a system under a write grant
+#                           (`agent_write: true` + `write_grant: WG-n` from the transformation map's Write grants
+#                           table). Flat `fields:` block, like outbound_handoff.
+#     * dispatch          — direction `dispatch`: the work item the part hands to another agent, under a write
+#                           grant when `agent_write: true`. Flat `fields:` block, like outbound_handoff.
+#     * inbound_control   — TWO sub-blocks, never collapsed: (i) invocation (how a person invokes the part +
+#                           the designated context) and (ii) decision_state (the routing-relevant state the
+#                           coordinator reads). Fill `inputs.control_inputs`, NOT `inputs.fields`.
+#
+# THE HONESTY BAR (binding on every instantiation)
+#   Every committed element carries `source:` AND `evidence_state:` from the canonical FOUR only —
+#   {Observed, Assumed, Contradictory, needs_more_information}. There is NO fifth `SOP-documented` state: a
+#   document-grounded field is `Observed`, its source naming the document id; a document-vs-observation
+#   conflict is `Contradictory` (never "intended vs actual"). Nothing is invented. Opens are STAMPED and
+#   SPLIT BY KIND:
+#     * a missing data VALUE  -> a needs_more_information FIELD (S2) with a `needs:` note (what would resolve
+#                                it + the gap-closure route);
+#     * a missing RULE/POLICY -> a residual in the honesty tail (`residual`, kind: rule; kind: scope for a scope open) with a named
+#                                `follow_on` to the decision-rules stage. NEVER a fabricated field, NEVER an
+#                                interim / default / fallback;
+#     * a missing ACCESS      -> a standing `assumptions:` entry stamped `Assumed`, one per read, write or
+#                                dispatch target (write access and route are always Assumed).
+#                                Access is NEVER a field and NEVER a residual.
+#
+# THIS STAGE'S LANE (do not overstep — the seam is left CLEAN for the decision-rules stage)
+#   IN scope: the typed I/O boundary, the four evidence states + honesty stamping, the back-signals, the
+#   AUTHORITY BOUNDARY (a full-stop statement, not a trigger), the failure-mode fixture SEEDS, the
+#   boundary-membership counterexample-hunt records, opens-by-kind.
+#   OUT of scope (the decision-rules stage owns them): any decision rule / rules-as-code — no `rule_sets`,
+#   `gates`, `dispatch`, `escalation_triggers`, `thresholds`, `special_cases`; any ESCALATION TRIGGER
+#   ("IF condition THEN escalate"); any threshold / precedence / interim default. This template PUBLISHES the
+#   `<interface-id>.<field>` token set the decision-rules stage binds its predicates to; it BINDS no
+#   predicate and AUTHORS no rule. `rule_set_ref` stays a REFERENCE only (see the S-guard at the bottom).
+
+schema_version: interface-design-v1
+artifact_kind: agent-seam-interface-design
+
+interface_id: "<interface id — a footnote handle, e.g. the seam's id from the built map>"
+name: "<describe: the seam's plain-language name — the PRIMARY handle on every surface>"
+archetype: "read | outbound_handoff | draft_surface | inbound_control | write_surface | dispatch"
+seated_in: "<the sub-agent id (or root-agent) that owns this seam — FROZEN from the built internal map; never re-seated>"
+anchor_step: "<the step / gate / root node this seam is anchored on>"
+lane: agent
+direction: "inbound_control | read | outbound_handoff | draft | write | dispatch"
+# target — REQUIRED on direction `write` and `dispatch`; OMIT on the other four. For `write`: the system name
+# the part writes to. For `dispatch`: the receiving sub-agent id from the built internal map. At least one
+# `assumptions:` entry stamped `Assumed` must name this target in its text (case-insensitive, whitespace
+# collapsed) — the structure check fails a missing target and a target no Assumed assumption names.
+target: "<write: the system name | dispatch: the receiving sub-agent id>"
+layer: interface_design            # NOT a 'contract' (FDE vocabulary) — this is the interface design
+design_ref: "<the path this design is filled at — the built map's design_ref (was null) now points here>"
+status: {cut: first, grounded: live-company-brain, sweep_date: "<YYYY-MM-DD of the S3 sweep>", loci: ["<named Company Brain loci>"]}
+
+# S1 — SCOPE (in / out): what this seam covers and the adjacent seams it explicitly excludes. Each in / out
+# entry is a COMMITTED boundary-membership claim, so each is a KEYED entry stamped source + evidence_state
+# and carrying (via `claim_ref`) the counterexample-hunt record in `boundary_membership` (S9) below. The
+# plain-language `scope_summary` is the human-readable roll-up; the keyed claims are the load-bearing form.
+scope:
+  scope_summary:
+    in:  ["<describe: what crosses this boundary, inbound / outbound as the direction dictates — a summary line>"]
+    out: ["<describe: adjacent seams / the review-path write / the rule that fires on a field — each named, each OUT>"]
+  in:
+    - claim_ref: "<bm-id — keys into boundary_membership (S9) below>"
+      item: "<describe: the data point / field that crosses the boundary IN>"
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"   # canonical FOUR only
+      source: "<named Company Brain source id(s)>"
+  out:
+    - claim_ref: "<bm-id — keys into boundary_membership (S9) below>"
+      item: "<describe: the adjacent seam / review-path write / decision-rules rule kept OUT>"
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+      source: "<named Company Brain source id(s)>"
+
+# S2 — TYPED INPUTS. Every field is one row carrying the field-row shape below. `token` is the published
+# <interface-id>.<field> binding name the decision-rules stage reads WITHOUT re-cutting.
+#
+# ARCHETYPE-DEPENDENT SHAPE (fill EXACTLY ONE of the two blocks; both-present / both-absent is refused):
+#   * read / outbound_handoff / draft_surface / write_surface / dispatch -> fill `fields:` (a single flat list
+#                                                 of field-rows).
+#   * inbound_control                          -> fill `control_inputs:` with its TWO named sub-blocks
+#       (`invocation` and `decision_state`) — NEVER collapse them into one `fields:` list, NEVER leave one empty.
+#
+# FIELD-ROW SHAPE (identical in every block — every field is typed AND stamped, no exceptions):
+#   token · name · type · required · evidence_state (canonical four) · source · claim_ref · [needs iff
+#   needs_more_information] · notes. `claim_ref` keys this field's boundary-membership claim into
+#   boundary_membership (S9): it MUST resolve to an existing `boundary_membership[].id` — a missing or
+#   dangling claim_ref is refused by the per-design structure check (predicate 4).
+inputs:
+  # (A) read / outbound_handoff / draft_surface / write_surface / dispatch — the flat field list. OMIT for inbound_control.
+  fields:
+    - token: "<interface-id>.<field>"      # the published binding token (the decision-rules stage binds predicates to it; never re-typed downstream)
+      name: "<describe: the field's plain-language name>"
+      type: "<string | number | boolean | enum | object>"
+      required: "true | false"
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"   # the canonical FOUR only
+      source: "<the named Company Brain source id(s) this field traces to — observation id / document id / step id>"
+      claim_ref: "<bm-id — MUST resolve to an existing boundary_membership[].id (S9); missing / dangling refused by the structure check (predicate 4)>"
+      needs: "<REQUIRED iff evidence_state == needs_more_information: what would resolve it + the gap-closure route>"
+      notes: "<describe: what the field is, and why its stamp is true to its source>"
+  # (B) inbound_control ONLY — the two sub-blocks, each a list of the SAME field-row shape. OMIT for the other five.
+  control_inputs:
+    invocation:            # (i) HOW a person invokes the part + the designated context passed at invocation
+      - token: "<interface-id>.<field>"
+        name: "<describe: e.g. the person-selected case handle / the designated context payload>"
+        type: "<string | number | boolean | enum | object>"
+        required: "true | false"
+        evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+        source: "<named Company Brain source id(s)>"
+        claim_ref: "<bm-id — MUST resolve to an existing boundary_membership[].id (S9)>"
+        needs: "<REQUIRED iff needs_more_information>"
+        notes: "<describe>"
+    decision_state:        # (ii) the routing-relevant state the coordinator READS to dispatch (a SIGNAL only — the decision-rules stage SETS it, never here)
+      - token: "<interface-id>.<field>"
+        name: "<describe: e.g. the recorded review-seam decision / stage / residual the dispatcher reads>"
+        type: "<string | number | boolean | enum | object>"
+        required: "true | false"
+        evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+        source: "<named Company Brain source id(s)>"
+        claim_ref: "<bm-id — MUST resolve to an existing boundary_membership[].id (S9)>"
+        needs: "<REQUIRED iff needs_more_information>"
+        notes: "<describe: the state SIGNAL only; the rule that sets it is the decision-rules stage — never authored here>"
+
+# S3 — TYPED OUTPUTS + BACK-SIGNALS ON THE SAME SEAM. What the part emits the moment it reads / hands over,
+# so the person on the other side knows what the agent saw: the acknowledgment, the state, and the failure
+# back-signals. EVERY output row is TYPED (`type`) AND stamped (`evidence_state` + `source`) — the same bar
+# S2 fields meet.
+outputs_back_signals:
+  - token: "<interface-id>.<signal>"
+    name: "<describe: the signal's plain-language name>"
+    kind: "acknowledgment | state | failure"
+    type: "<string | number | boolean | enum | object>"           # every output carries a type
+    required: "true | false"                                       # every output carries `required` (same bar as S2)
+    evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+    source: "<named Company Brain source id(s)>"
+    notes: "<describe>"
+#
+# S3 ARCHETYPE ADAPTATION — the concrete back-signal SET each archetype must carry (S3 adapts by direction
+# just as S2 does; no archetype leaves its S3 shape to runtime). Fill EXACTLY the set for this seam's
+# archetype. Each signal is a row of the field-row shape above — TYPED (`type`) AND stamped
+# (`evidence_state` + `source`), the same bar as S2. Names below are GENERIC (zero client strings).
+#   * read
+#       - acknowledgment: `read_ack`         — the read landed (boolean).
+#       - state:          `read_state`       — the state of the read (enum).
+#       - failure:        `not_found`        — the record was not found on the surface (boolean);
+#                         `read_structural_failure` — the surface returned a malformed / unavailable result.
+#   * outbound_handoff
+#       - acknowledgment: `handover_ack`     — the review path received the hand-over (boolean).
+#       - state:          `recorded_decision`— the review-path recorded decision the coordinator later reads (enum).
+#       - failure:        `handover_unacknowledged` — the review path did not acknowledge (the part holds at
+#                         the full stop and surfaces it — an authority boundary, never an interim retry rule).
+#   * draft_surface
+#       - acknowledgment: `draft_ack`        — the draft was staged into the draft-only surface (boolean).
+#       - state:          `draft_state`      — the state of the staged draft (enum).
+#       - failure:        `draft_rejected`   — the draft-only surface rejected the staged draft (boolean).
+#   * write_surface
+#       - acknowledgment: `write_ack`        — the system recorded the granted write (boolean).
+#       - failure:        `write_rejected`   — the system refused the write (the part surfaces it to the review
+#                         path — an authority boundary, never a retry with a changed value).
+#   * dispatch
+#       - acknowledgment: `dispatch_ack`     — the receiving agent accepted the work item (boolean).
+#       - failure:        `dispatch_unacknowledged` — the receiving agent did not accept it (surfaced to the
+#                         review path).
+#   * inbound_control
+#       - acknowledgment: `invocation_ack`   — the part received the invocation (boolean).
+#       - state:          `routing_state_read` — the routing-relevant state the coordinator READ (a signal
+#                         only; the rule that SETS it is the decision-rules stage — never authored here).
+#       - failure:        `invocation_incomplete` — the designated context was incomplete at invocation
+#                         (the part surfaces it to the review path — an authority boundary, never a default).
+#   The S-guard binds here too: a `failure` back-signal REPORTS a condition; it never encodes the
+#   condition->outcome RULE that reacts to it (that is the decision-rules stage).
+
+# S4 — AUTHORITY BOUNDARY (IN SCOPE — FM-18). What the part may EMIT, may ACCEPT, and is SYSTEM-OF-RECORD
+# for. State the FULL-STOP boundary: "the part may not decide X; it hands X to the review path." This is an
+# AUTHORITY statement, NOT a condition->outcome trigger. NO 'IF … THEN escalate' rule appears here (that is
+# the decision-rules stage — see the S-guard below).
+authority_boundary:
+  may_emit:   "<describe: the recommendation / escalation / draft / granted write / dispatch the part produces>"
+  may_accept: "<describe: what the part reads / tolerates on this seam>"
+  system_of_record: "<the system of record on this seam, and who writes to it (the part only under a write grant; by default a decision-bearing write is person-routed, unless its row in the transformation map's Write grants table grants it to the agent under `own-working-surface` or `reversible-reviewed` — the authority boundary follows that register row)>"
+  # agent_write — a boolean (design §4 write rule, enforced by the structure check, predicate 5):
+  #   * direction `write` REQUIRES `agent_write: true`;
+  #   * `agent_write: true` REQUIRES `write_grant: WG-n` (the row id in the transformation map's Write grants
+  #     table) AND a direction from {write, outbound_handoff, draft, dispatch};
+  #   * `agent_write: false` stays valid on every other direction (and is the value for read / inbound_control).
+  agent_write: false                # true only under a write grant — then fill `write_grant` below
+  write_grant: "<WG-n — REQUIRED iff agent_write: true; OMIT when agent_write: false>"
+  full_stop: "<describe: the decision the part may NOT take; it surfaces to the review path instead (an authority boundary, not a trigger)>"
+  evidence_state: "Observed | Assumed | Contradictory | needs_more_information"   # a committed element — stamped
+  source: "<named Company Brain source id(s) — the authority-envelope / recommend-then-review model this boundary traces to>"
+
+# S5 — FAILURE MODES. Each named mode SEEDS ONE synthetic fixture (a described case + expected behavior).
+# The RUNNABLE fixture file and the executable test suite are the EVAL stage — here the SEED is authored so
+# the eval stage has one case per mode.
+#
+# FIXTURE-EXPECTATION CONSTRAINT (FM-18). The fixture's SHAPE is enforced by the per-design structure check
+# (predicate 9): `expected_kind: authority_boundary` is REQUIRED and is the only permitted value, and both
+# `synthetic_case` and `expected` are non-empty. The `expected` must state an AUTHORITY-BOUNDARY outcome —
+# the part hands over to the review path / full stop. It may NEVER encode:
+#   * a conditional-escalation RULE ("IF <condition> THEN escalate") — that is an escalation trigger, out of scope;
+#   * ANY interim / default / fallback for an item stamped open (needs_more_information / Contradictory).
+# Whether the `expected` PROSE honestly reads as a full-stop hand-over vs a smuggled condition->outcome rule
+# is a SEMANTIC judgment — it is the independent review's + human sign-off's job, not the check's.
+failure_modes:
+  - id: "<seam-id>-fm-<n>"
+    desc: "<describe: the failure>"
+    fixture:
+      synthetic_case: "<describe: a SYNTHETIC (never client-real) case that exercises the mode>"
+      expected_kind: authority_boundary       # ONLY permitted value (FM-18) — a full-stop hand-over, not a trigger
+      expected: "<describe: the full-stop hand-over to the review path — NO 'IF…THEN escalate', NO interim / default / fallback>"
+    evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+    source: "<named Company Brain source id(s)>"
+
+# S6 — OWNER + ESCALATION PATH (the ROUTE / owner is in scope; the TRIGGER condition is the decision-rules
+# stage — FM-18).
+owner_escalation:
+  interface_owner: "<the accept-side owner — generically 'the agent team', never a client name>"
+  emit_counterparty: "<the emit-side counterparty — generic>"
+  handoff_partner: "<the review-path role that reviews / decides / writes — a generic role label, never a real person>"
+  review_path: "<describe: the generic escalation ROUTE (a review path). NO trigger condition here — that is the decision-rules stage>"
+  evidence_state: "Observed | Assumed | Contradictory | needs_more_information"   # committed element — stamped
+  source: "<named Company Brain source id(s) — the owner / route this traces to>"
+
+# S7 — EVAL HOOKS: the deterministic checks this interface implies (fixture seeds included). The eval SUITE
+# that runs them is the eval stage: its check engine (eval-stage/framework/evals/checks/engine.py) reads THIS
+# section by THIS name (`eval_hooks`) and builds its first-layer checks from it, so the section name and the
+# kind names below are the ones the engine dispatches on. `field_validator` checks every `required: true`
+# row in `inputs.fields`, `inputs.control_inputs.invocation`, and `inputs.control_inputs.decision_state`
+# (present + typed). The retired earlier spellings of this section and of the field-check kind are refused
+# by the per-design structure check, which names this spelling in its message.
+eval_hooks:
+  - {kind: field_validator,            target: "inputs.fields | inputs.control_inputs.invocation | inputs.control_inputs.decision_state"}
+  - {kind: backsignal_shape_validator, target: outputs_back_signals}
+  - {kind: fixture,                    target: failure_modes}     # one seed per failure mode (expected_kind: authority_boundary)
+  # Authority boundary / owner / boundary_membership are governance — no eval hook.
+
+# S8 — REFERENCED MATERIAL: the named Company Brain sources every field traces to.
+referenced_material:
+  observations: ["<L4 observation id(s)>"]
+  documents:    ["<Company Brain document id(s)>"]
+  steps:        ["<process step id(s)>"]
+  workspace:    "<the Company Brain workspace id>"
+
+# S9 — BOUNDARY-MEMBERSHIP CLAIMS + COUNTEREXAMPLE-HUNT RECORDS (well-formedness enforced by the per-design
+# structure check · predicate 7). ONE
+# KEYED ENTRY per boundary-membership claim (every scope.in / scope.out entry and every field's membership
+# references its `bm-id` here via claim_ref). Each entry carries the AUDITABLE counterexample-hunt record —
+# the search scope the hunt covered and its result — so an auditor can RE-RUN the hunt. A claim is NOT
+# `Observed` until `hunt.result` is `empty` or `reconciled`. Records the reconciliation EVIDENCE, not just a
+# boolean.
+boundary_membership:
+  - id: "<bm-id — the key scope / fields reference via claim_ref>"
+    claim: "<describe: the membership claim, e.g. 'field X crosses this seam IN' / 'item Y is OUT'>"
+    position: "in | out"
+    hunt:
+      hunt_performed: true                     # a claim stamped Observed with this false / absent is refused
+                                               # when no hunt was recorded, use hunt_performed: false, stamp Assumed, and write
+                                               # search_scope: "not run — no counterexample hunt was recorded for this claim"
+      search_scope: "<describe: WHAT the hunt searched — which process step(s), which L4 observation set /
+                      document corpus, over the CLOSED seam — named specifically enough that an auditor can re-run it>"
+      result: "empty | reconciled | contradictory"   # empty = no contradicting case; reconciled = boundary redrawn / reclassified
+      reconciliation_evidence: "<describe: for `reconciled`, HOW it was reconciled + the named Company Brain
+                                 source id(s); for `empty`, the named scope that came back clean; for
+                                 `contradictory`, the conflict>"
+    evidence_state: "Observed | Assumed | Contradictory | needs_more_information"   # Observed only if result in {empty, reconciled}
+    source: "<named Company Brain source id(s)>"
+
+# ---- STANDING LAYERS (separate from fields) ----
+
+# ASSUMPTIONS LAYER (FM-14): access-as-assumption, ONE per read surface, stamped `Assumed`. NEVER a field,
+# NEVER a residual. Closes at access verification with the client (the authority-boundary gate). On a `write`
+# or `dispatch` design, one entry here names the top-level `target` (the system or receiving sub-agent id).
+assumptions:
+  - surface: "<the read interface id this access assumption covers>"
+    access_state: Assumed
+    basis: "authority-envelope access verification (Assumed until verified at the authority-boundary gate); never a client entitlement"
+    evidence_state: Assumed                    # access is, by construction, Assumed (never a field, never Observed here)
+    source: "<the read interface id + the authority-envelope open this assumption traces to>"
+
+# HONESTY TAIL — RESIDUAL. Rule / policy opens (`kind: rule`) and scope opens (`kind: scope`) ONLY (value opens live as needs_more_information FIELDS in S2;
+# access lives in `assumptions` above). A rule / policy open is a residual with a named `follow_on` to the
+# decision-rules stage — NEVER a fabricated field, NEVER interim / default / fallback behavior (FM-14 · FM-18).
+residual:
+  - id: "<residual id>"
+    kind: rule                         # rule | scope — rule / policy open, or scope open (a value open is a needs_more_information field; access is an assumption)
+    evidence_state: "needs_more_information | Contradictory"   # one of the canonical FOUR — the SAME field name S2 / S3 use
+    source: "<named Company Brain source id(s) that establish this is an OPEN — the step / observation / document that shows the gap>"
+    touches: ["<the tokens this open touches>"]
+    question: "<a named, client-answerable question>"
+    closure_route: "<document upload | targeted Companion capture | FDE Intake>"
+    # OPTIONAL — present ONLY on a residual that carries a whole SEAM as a stamped open (a seam the built map
+    # names but no design covers this run). The residual is BOUND TO THAT SEAM BY SEAM ID (`seam`), and this
+    # stamped open is the ONE permitted alternative to a per-SEAM interface design: coverage is per-seam, so
+    # this residual SUBSTITUTES for THIS seam's design and is what the set-completeness gate accepts in lieu of a design for
+    # that seam. `direction` records the seam's direction (for the SEPARATE direction-coverage check); it
+    # does NOT mean "one stamped open per direction" — multiple same-direction seams may each be designed.
+    boundary_extension_note:
+      seam: "<the seam id (from the built map's closed_interface_set) this stamped open is bound to — one seam, one residual>"
+      direction: "inbound_control | read | outbound_handoff | draft | write | dispatch"   # this seam's direction (feeds the SEPARATE direction-coverage check)
+      note: "<describe: why this seam is carried as a stamped open rather than designed this run + the named Company Brain gap>"
+    follow_on: "Design each part's decision rules (rules-as-code)"   # the decision-rules stage — never resolved here, never defaulted
+
+# S-GUARD (FM-18, enforced by the per-design structure check · predicate 8): this template carries NO rule_sets / gates / dispatch /
+# escalation_triggers / thresholds / special_cases block, and no interim / default / fallback. Any
+# condition->outcome authoring is the decision-rules stage. `rule_set_ref` stays a REFERENCE only; the stage
+# FILLS `design_ref` (was null in the built map) to point at this design and PUBLISHES the
+# <interface-id>.<field> tokens the decision-rules stage later binds to.

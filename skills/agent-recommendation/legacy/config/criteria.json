@@ -1,0 +1,1120 @@
+{
+ "_note": "Agent recommendation criteria. Every value is a weighted mark; adverse marks score 0 and are listed as concerns. Assumed and unknown values score neutral (~). Capture depth sets confidence. A recommendation per process and tier combines the feasibility label, a written value argument against the next-simpler tier, and a categorical discussable-opportunity label. Marks: + favorable, ~ neutral, x adverse, ! strongly adverse (0 points). Two-mark values give [build, value]. Edit weights and thresholds here; every run snapshots this file and logs its hash.",
+ "points": {
+  "+": 2,
+  "~": 1,
+  "x": 0,
+  "!": 0
+ },
+ "weights": {
+  "high": 3,
+  "medium": 2,
+  "low": 1
+ },
+ "thresholds": {
+  "build_score": 0.55,
+  "min_coverage": 0.6,
+  "sem_min_classified": 0.8,
+  "material_change": 0.2,
+  "confidence": {
+   "high": 0.8,
+   "medium": 0.6
+  }
+ },
+ "tiers": {
+  "redesign": {
+   "label": "Process redesign",
+   "rung": null,
+   "reads": false,
+   "writes": false,
+   "text": "No agents; people do the same work in a better order."
+  },
+  "draft_review": {
+   "label": "Subagents draft for review",
+   "rung": "R2",
+   "reads": true,
+   "writes": false,
+   "text": "Subagents do the work as proposed and a person reviews each output. Data collection is automated; decisions are not."
+  },
+  "full_write": {
+   "label": "Full write automation (except key controls)",
+   "rung": "R5",
+   "reads": true,
+   "writes": true,
+   "text": "Subagents write to each other and at the end of the process, except on key controls."
+  }
+ },
+ "productivity_tools": [
+  "microsoft excel",
+  "microsoft excel online",
+  "excel",
+  "google sheets",
+  "outlook",
+  "microsoft outlook",
+  "gmail",
+  "microsoft teams",
+  "teams",
+  "slack",
+  "cisco webex",
+  "webex",
+  "zoom",
+  "microsoft onenote",
+  "onenote",
+  "microsoft word",
+  "word",
+  "google docs",
+  "microsoft copilot",
+  "copilot",
+  "chatgpt",
+  "preview",
+  "adobe acrobat",
+  "chrome",
+  "google chrome",
+  "microsoft edge",
+  "file explorer",
+  "finder",
+  "notepad",
+  "sharepoint",
+  "onedrive",
+  "google drive",
+  "box",
+  "dropbox",
+  "snipping tool",
+  "google search",
+  "bing",
+  "notes",
+  "stickies",
+  "numbers",
+  "pdfgear",
+  "pdf viewer",
+  "pdf document viewer",
+  "chrome pdf viewer",
+  "adobe acrobat pro 2020",
+  "microsoft photos",
+  "cisco secure client",
+  "excel online",
+  "excel for the web",
+  "microsoft outlook copilot",
+  "salesforce chatter"
+ ],
+ "frequency_per_year": {
+  "hourly": 2000,
+  "daily": 250,
+  "weekly": 52,
+  "biweekly": 26,
+  "semi-monthly": 24,
+  "monthly": 12,
+  "quarterly": 4,
+  "semi-annually": 2,
+  "annually": 1,
+  "yearly": 1,
+  "per day": 250,
+  "per week": 52,
+  "per month": 12,
+  "per quarter": 4,
+  "per year": 1
+ },
+ "performance_variance_ratio": {
+  "_note": "Branching steps / total steps. Default cut points, uncalibrated.",
+  "moderate": 0.05,
+  "high": 0.15
+ },
+ "sources": [
+  "captured",
+  "derived",
+  "researched",
+  "supplied",
+  "assumed"
+ ],
+ "priority": [
+  "read_access",
+  "automatability",
+  "annual_volume"
+ ],
+ "dimensions": {
+  "customer_policy": {
+   "name": "Customer Policy",
+   "section": "System context",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "high",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "All systems permitted": "+",
+    "Some systems unknown": "~",
+    "Prohibited system in design": "x"
+   },
+   "_note": "Derived by score from the intake statuses of the systems the tier spec reads or writes. A bypass leaves every system unknown."
+  },
+  "read_access": {
+   "name": "Read Access",
+   "section": "System context",
+   "level": "source",
+   "kind": "monotonic",
+   "weight": "high",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "A": "+",
+    "B1": "+",
+    "B2": "~",
+    "B3": "~",
+    "D": "~",
+    "B4": "x",
+    "C1": "x",
+    "E": "x",
+    "F": "x",
+    "C2": "!",
+    "G": "!"
+   }
+  },
+  "write_access": {
+   "name": "Write Access",
+   "section": "System context",
+   "level": "source",
+   "kind": "monotonic",
+   "weight": "high",
+   "tiers": [
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "A": "+",
+    "B1": "+",
+    "B2": "~",
+    "B3": "~",
+    "D": "~",
+    "B4": "x",
+    "C1": "x",
+    "E": "x",
+    "F": "x",
+    "C2": "!",
+    "G": "!"
+   },
+   "properties": [
+    "idempotent",
+    "reversible",
+    "atomic"
+   ]
+  },
+  "access_grant": {
+   "name": "Access Grant",
+   "section": "System context",
+   "level": "source",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": true,
+   "values": {
+    "Credential issued": "+",
+    "Issuable inside the window": "~",
+    "Unknown": "~",
+    "Blocked": "!"
+   }
+  },
+  "prior_agent_footprint": {
+   "name": "Prior Agent Footprint",
+   "section": "System context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "None": "+",
+    "Deterministic scripts only, no AI": "+",
+    "Prior AI attempt, abandoned": "~",
+    "Prior AI agent in production": [
+     "x",
+     "+"
+    ]
+   }
+  },
+  "input_structure": {
+   "name": "Input Structure",
+   "section": "System context",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "low",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Full schema": "+",
+    "Partial": "~",
+    "None": "x"
+   }
+  },
+  "source_fragmentation": {
+   "name": "Source Fragmentation",
+   "section": "System context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "low",
+   "request": false,
+   "values": {
+    "Single source": "+",
+    "Few, join required": "~",
+    "Many": "x"
+   }
+  },
+  "input_modality": {
+   "name": "Input Modality",
+   "section": "System context",
+   "level": "source",
+   "kind": "monotonic",
+   "weight": "low",
+   "multi": true,
+   "request": false,
+   "values": {
+    "Text": "+",
+    "Numerical": "+",
+    "Code": "~",
+    "Image or scan": "~",
+    "Video or screen": "~",
+    "Audio": "x"
+   }
+  },
+  "trigger_type": {
+   "name": "Trigger Type",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "low",
+   "request": false,
+   "values": {
+    "System event": "+",
+    "System schedule": "+",
+    "System batch": "+",
+    "System continuous": "~",
+    "Agent-initiated": [
+     "x",
+     "+"
+    ],
+    "Person pull": "x"
+   }
+  },
+  "automatability": {
+   "name": "Automatability",
+   "section": "Business context",
+   "level": "process",
+   "kind": "correlated",
+   "weight": "medium",
+   "request": false,
+   "values": {
+    "Mostly language, error-tolerant": "+",
+    "Mixed language and rule": "+",
+    "All transport or rule": "~",
+    "Mostly language, error-intolerant": "~",
+    "Any judgement step on the critical path": "x"
+   }
+  },
+  "annual_volume": {
+   "name": "Annual Volume",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "10,000+": "+",
+    "501-10,000": "+",
+    "13-500": "~",
+    "0-12": "x"
+   }
+  },
+  "sota_distance": {
+   "name": "SOTA Distance",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": false,
+   "values": {
+    "High": "+",
+    "Medium": "~",
+    "Low": "x"
+   }
+  },
+  "active_time": {
+   "name": "Active Time",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": false,
+   "values": {
+    "60+ min": "+",
+    "15-59 min": "+",
+    "2-14 min": "~",
+    "Under 2 min": "x"
+   }
+  },
+  "process_stability": {
+   "name": "Process Stability",
+   "section": "Business context",
+   "level": "process",
+   "kind": "correlated",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "Fixed, same steps and order": [
+     "+",
+     "~"
+    ],
+    "Variant-stable, small closed set of paths": [
+     "+",
+     "+"
+    ],
+    "Case-driven, no dominant path": [
+     "~",
+     "+"
+    ],
+    "Unstable, no two runs alike": [
+     "x",
+     "~"
+    ]
+   }
+  },
+  "value_profile": {
+   "name": "Value Profile",
+   "section": "Business context",
+   "level": "process",
+   "kind": "correlated",
+   "weight": "high",
+   "request": false,
+   "values": {
+    "Diminishing return": "+",
+    "Threshold": [
+     "x",
+     "+"
+    ],
+    "Step function": [
+     "x",
+     "+"
+    ]
+   }
+  },
+  "human_execution_value": {
+   "name": "Human Execution Value",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "None, pure transfer or assembly": "+",
+    "Incidental, nobody would miss it": "+",
+    "Real, this is where someone learns the account, the data or the buyer": "~",
+    "Central, the doing is the point": "!"
+   }
+  },
+  "detectability": {
+   "name": "Detectability",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "high",
+   "request": true,
+   "values": {
+    "At the step": "+",
+    "By a control the customer already runs": "+",
+    "At periodic reconciliation": "~",
+    "Only when an outside party complains": "!"
+   }
+  },
+  "reversibility": {
+   "name": "Reversibility",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "Free undo": "+",
+    "Cheap correction": "+",
+    "Expensive": "~",
+    "Irreversible": "x"
+   }
+  },
+  "process_drift": {
+   "name": "Process Drift",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "medium",
+   "request": true,
+   "values": {
+    "Very low": "+",
+    "Low": "+",
+    "Medium": "~",
+    "High": "x"
+   }
+  },
+  "process_complexity": {
+   "name": "Process Complexity",
+   "section": "Business context",
+   "level": "process",
+   "kind": "correlated",
+   "weight": "high",
+   "request": false,
+   "values": {
+    "Under 10 steps": [
+     "+",
+     "x"
+    ],
+    "10-25": [
+     "+",
+     "+"
+    ],
+    "26+": [
+     "x",
+     "+"
+    ]
+   }
+  },
+  "performance_variance": {
+   "name": "Performance Variance",
+   "section": "Business context",
+   "level": "process",
+   "kind": "correlated",
+   "weight": "high",
+   "request": false,
+   "values": {
+    "Low": "x",
+    "Moderate": "~",
+    "High": "+"
+   }
+  },
+  "data_sensitivity": {
+   "name": "Data Sensitivity",
+   "section": "Business context",
+   "level": "process",
+   "kind": "monotonic",
+   "weight": "low",
+   "request": true,
+   "values": {
+    "Public or internal-general": "+",
+    "Internal-restricted, commercial or unreleased": "~",
+    "Third-party confidential held under contract": "~",
+    "Regulated: PII, PHI, cardholder, MNPI, export-controlled": "x",
+    "Barred from leaving the tenant": "!"
+   }
+  },
+  "label_existence": {
+   "name": "Label Existence & Depth",
+   "section": "Evidence",
+   "level": "step",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": true,
+   "values": {
+    "Historical labels, dense": "+",
+    "Synthetic only": "~",
+    "Labels, sparse": "~",
+    "History exists but unlabeled": "x",
+    "None": "!"
+   }
+  },
+  "label_purity": {
+   "name": "Label Purity",
+   "section": "Evidence",
+   "level": "step",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": true,
+   "values": {
+    "High": "+",
+    "Contested": "x",
+    "Unknown": "~"
+   }
+  },
+  "tail_coverage": {
+   "name": "Tail Coverage",
+   "section": "Evidence",
+   "level": "step",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Stratified across case types": "+",
+    "Head plus partial tail": "~",
+    "Head only": "x"
+   }
+  },
+  "label_source": {
+   "name": "Label Source",
+   "section": "Evidence",
+   "level": "step",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "System of record": "+",
+    "Process Index observations": "+",
+    "SME-created": "~",
+    "Synthetic": "x"
+   }
+  },
+  "task_boundedness": {
+   "name": "Task Boundedness",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Open in / Closed out": "+",
+    "Closed / Closed": "+",
+    "Closed / Open": "~",
+    "Open / Open": "x"
+   }
+  },
+  "control_determination": {
+   "name": "Control Determination",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "L1 fixed steps, fixed order": "+",
+    "L2 fixed library, runtime path": "+",
+    "L3 generated plan, closed tools": "~",
+    "L4 generated steps, open definition": "x"
+   }
+  },
+  "composition_degree": {
+   "name": "Composition Degree",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "correlated",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Single call": "+",
+    "Agent with tools": "+",
+    "Fixed multi-agent pipeline": "~",
+    "Dynamic graph": [
+     "x",
+     "+"
+    ]
+   }
+  },
+  "inherited_error_cost": {
+   "name": "Inherited Error Cost",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "A person decides, agent only assembles": "+",
+    "Caught by a control the customer already runs": "+",
+    "Caught at reconciliation": "~",
+    "Agent carries the process's full cost": "x"
+   }
+  },
+  "output_checkability": {
+   "name": "Output Checkability",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "high",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Deterministic check against a system of record": "+",
+    "Reference answer exists, spot-checkable": "+",
+    "Person review only": "~",
+    "Not checkable before it lands": "!"
+   }
+  },
+  "error_bias": {
+   "name": "Error Bias",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "Tuned toward the cheap failure": "+",
+    "Symmetric": "~",
+    "Tuned toward the expensive failure": "x",
+    "Undetermined": "~"
+   }
+  },
+  "autonomy_rung": {
+   "name": "Autonomy Rung",
+   "section": "Agent identity",
+   "level": "agent_option",
+   "kind": "monotonic",
+   "weight": "medium",
+   "tiers": [
+    "draft_review",
+    "full_write"
+   ],
+   "request": false,
+   "values": {
+    "R1": "~",
+    "R2": "~",
+    "R3": "~",
+    "R4": "+",
+    "R5": "+",
+    "R6": "+"
+   }
+  }
+ },
+ "script_derived": [
+  "annual_volume",
+  "active_time",
+  "process_complexity",
+  "source_fragmentation",
+  "automatability",
+  "performance_variance",
+  "autonomy_rung"
+ ],
+ "high_complexity": {
+  "composition_degree": [
+   "Fixed multi-agent pipeline",
+   "Dynamic graph"
+  ],
+  "control_determination": [
+   "L3 generated plan, closed tools",
+   "L4 generated steps, open definition"
+  ],
+  "process_complexity": [
+   "26+"
+  ],
+  "max_subagents": 2
+ },
+ "labels": {
+  "_note": "Three label sets describe each process at its value ceiling, the highest tier whose argument clears its next-simpler tier: Autonomy (the tier itself), Complexity (how hard to build and run) and Opportunity (the discussable label, which drives the rank with the feasibility score). There is no feasibility label: missing data lowers confidence and shows on the data request, never as a label.",
+  "discuss": {
+   "_note": "Discussable opportunity per process and tier, first match wins: score under the build threshold (agent tiers) -> Drop; Weak argument -> Keep as is (redesign) or Drop; named dependency -> Park; Plausible argument -> Scope the build (the open question is about cost or system access) or Confirm the value (the open question is about volume, minutes, review cost or adoption); else Pursue now. Adverse criteria, low data coverage and thin capture appear in the condition and the confidence.",
+   "order": [
+    "Pursue now",
+    "Scope the build",
+    "Confirm the value",
+    "Park",
+    "Keep as is",
+    "Drop",
+    "Not argued"
+   ],
+   "pursue": [
+    "Pursue now",
+    "Scope the build",
+    "Confirm the value"
+   ],
+   "meanings": {
+    "Pursue now": "The value case is clear (a Compelling argument against the next-simpler tier), the score clears the threshold and nothing named blocks the build. The condition lists adverse criteria to weigh.",
+    "Scope the build": "The value case holds; what is unknown is the build: its cost, or whether the agent can reach a system. Next step: price the build and rate the system access before committing.",
+    "Confirm the value": "The build looks reachable; what is unknown is the value: volume, per-run minutes, review cost, or whether others adopt the change. Next step: get the named number or answer from the customer.",
+    "Park": "Worth doing, but it waits on a named dependency, often the tier below proving out or a shared integration landing.",
+    "Keep as is": "Redesign only: the argument for changing how people do the work is weak. Leave the process alone at this tier.",
+    "Drop": "This design at this tier scores under the build threshold on the weighted criteria, or has a weak value argument.",
+    "Not argued": "No value argument logged for this tier; verify fails until one is."
+   },
+   "open": [
+    "Scope the build",
+    "Confirm the value"
+   ]
+  },
+  "complexity_thresholds": {
+   "moderate": 1,
+   "complex": 2
+  },
+  "complexity": {
+   "Simple": "No complexity signals: a single subagent, fixed or library control, under 26 steps.",
+   "Moderate": "One signal: multi-agent composition (two or more subagents), generated-plan control (L3+), or 26+ steps.",
+   "Complex": "Two or more of those signals together."
+  },
+  "autonomy": {
+   "Process redesign": "People do the work differently; no agents.",
+   "Subagents draft for review": "Subagents read and draft; a person reviews and commits every output.",
+   "Full write automation (except key controls)": "Subagents read and write; a person keeps the key controls."
+  }
+ },
+ "removal_categories": [
+  "Batching or queue building",
+  "In-system navigation an API replaces",
+  "People-to-people handoff",
+  "Review staging",
+  "Re-keying between systems",
+  "Tool workaround",
+  "Duplicate tracker",
+  "Context read"
+ ],
+ "key_control": {
+  "_note": "The step a key control governs is labeled decide at every tier, so a person holds authority there whatever its captured mode.",
+  "mode": "decide",
+  "group": "human",
+  "pattern": "Person decides, agent recommends",
+  "suitability": "Assist"
+ },
+ "opportunity": {
+  "_note": "Supporting inputs for the value arguments. Labor rate, metric baseline, improvement volume and realization are logged when the customer supplies them and are shown beside each tier's argument. No formula turns them into a scalar value until realization and weeks to value are calibrated; the discussable-opportunity label carries the decision.",
+  "value_note": "Scalar opportunity value withheld until calibrated; prints [TK].",
+  "dimensions": {
+   "labor_rate": {
+    "name": "Labor rate",
+    "unit": "currency per hour, fully loaded",
+    "request": true,
+    "hint": "Loaded hourly cost of the role that performs the process"
+   },
+   "metric_baseline": {
+    "name": "Metric baseline",
+    "unit": "per the process KPI",
+    "request": true,
+    "hint": "Current value of the KPI the process moves (cycle time, unapplied cash, error rate); at best inferred from capture"
+   },
+   "improvement_volume": {
+    "name": "Improvement volume",
+    "unit": "units per year",
+    "request": true,
+    "hint": "How much of the baseline the tier can move, by volume; capture gives a floor at best",
+    "tiers": [
+     "redesign",
+     "draft_review",
+     "full_write"
+    ]
+   },
+   "realization": {
+    "name": "Realization",
+    "unit": "share of sized hours landed",
+    "request": false,
+    "hint": "Share of sized hours the tier lands in year one; [TK] until calibrated from sprints",
+    "tiers": [
+     "redesign",
+     "draft_review",
+     "full_write"
+    ]
+   }
+  }
+ },
+ "capture_bands": {
+  "_note": "Observation count sets capture depth. Thin, Single or unknown capture sets confidence to Low; the score and label come from the criteria and the value argument.",
+  "bands": [
+   [
+    15,
+    "Deep"
+   ],
+   [
+    5,
+    "Adequate"
+   ],
+   [
+    2,
+    "Thin"
+   ],
+   [
+    1,
+    "Single"
+   ]
+  ],
+  "risk": [
+   "Thin",
+   "Single"
+  ]
+ },
+ "verdicts": {
+  "Compelling": "The benefit clearly exceeds the next-simpler tier, including review and implementation cost.",
+  "Plausible": "Likely worth it, but one named open question decides it.",
+  "Weak": "The next-simpler tier gets most of the benefit, or the cost eats it."
+ },
+ "simpler_alternative": {
+  "redesign": "No change, or a feature the customer already has",
+  "draft_review": "Process redesign",
+  "full_write": "Subagents draft for review"
+ },
+ "full_write_basis": {
+  "_note": "A full-write argument cites existing criteria. It needs at least one from each list, and every cited criterion must be favorable (+) at full write; otherwise the verdict caps at Plausible.",
+  "value": [
+   "value_profile",
+   "annual_volume",
+   "active_time",
+   "sota_distance",
+   "human_execution_value"
+  ],
+  "feasibility": [
+   "write_access",
+   "detectability",
+   "reversibility",
+   "output_checkability",
+   "inherited_error_cost",
+   "error_bias",
+   "process_drift"
+  ]
+ },
+ "communication_tools": [
+  "gmail",
+  "outlook",
+  "microsoft outlook",
+  "slack",
+  "microsoft teams",
+  "teams",
+  "cisco webex",
+  "webex",
+  "zoom"
+ ],
+ "mode_groups": {
+  "move": "code",
+  "compute": "code",
+  "classify": "model",
+  "extract": "model",
+  "compare": "model",
+  "rank": "model",
+  "answer": "model",
+  "judge": "model",
+  "transform": "model",
+  "summarize": "model",
+  "generate": "model",
+  "investigate": "model",
+  "plan": "model",
+  "decide": "human",
+  "coordinate": "human",
+  "act": "human"
+ },
+ "future_dispositions": [
+  "removed",
+  "combined",
+  "added"
+ ],
+ "ranking": {
+  "_note": "Final-stage ranking math: priority = (opportunity points + tier bonus) x feasibility score. Opportunity points come from the discussable label. The tier bonus is the stated preference for agents that draft: it is added only to a live label (points above zero), only in the final analysis (stack rank, combinations), and never inside a criterion score. Redesign and full write get no bonus and no penalty. Because redesign is scored on fewer criteria than the agent tiers, its feasibility score is capped at the draft tier's score for the same process when ranking, so it cannot win on an inflated score alone. Ties go to the better label, then draft over full write over redesign. Edit the points and bonus here; no dollar value is computed until realization is calibrated.",
+  "opportunity_points": {
+   "Pursue now": 3,
+   "Scope the build": 2,
+   "Confirm the value": 2,
+   "Park": 1,
+   "Keep as is": 0,
+   "Drop": 0,
+   "Not argued": 0
+  },
+  "tier_bonus": {
+   "redesign": 0,
+   "draft_review": 0.5,
+   "full_write": 0
+  }
+ },
+ "access_ladder": {
+  "_note": "Read Access and Write Access share one ladder. The deciding line is between B and C: data in the wrong shape can be fixed, and data that is absent cannot. Weeks feed the access build estimate and are calibrated from sprints already run; [TK] until then. The rung comes from the vendor's current public API documentation, read one system at a time before the row is scored.",
+  "rungs": [
+   {
+    "rung": "A",
+    "have": "Interface has the fields, documented accurately",
+    "cost": "Days",
+    "weeks": "Under 1"
+   },
+   {
+    "rung": "B1",
+    "have": "Complete but undocumented",
+    "cost": "Discovery, resolved in week one",
+    "weeks": "1"
+   },
+   {
+    "rung": "B2",
+    "have": "Malformed shape: no filtering, whole records for one field, batch when you need live, rate limits under volume",
+    "cost": "A layer we build, reusable at the next customer on the same system",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "B3",
+    "have": "Fields named wrong: a generic custom field holds payment terms",
+    "cost": "A person who knows the fields; capture substitutes for part of that person",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "B4",
+    "have": "Snapshot only, no change history or delta",
+    "cost": "Poll, store and compare, plus a catch-up path for missed windows",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "C1",
+    "have": "The deciding input lives in another system",
+    "cost": "A second integration, which doubles scope",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "C2",
+    "have": "The deciding input lives in someone's head or on a call",
+    "cost": "Unrecoverable. Scope to the cases where it does not bind, or drop",
+    "weeks": "Not buildable"
+   },
+   {
+    "rung": "D",
+    "have": "Scheduled file export",
+    "cost": "Workable",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "E",
+    "have": "Unstructured file or log",
+    "cost": "Parsing, fragile",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "F",
+    "have": "Screen-drivable, no interface",
+    "cost": "Slow and brittle, with cost falling. Re-price against current computer use before ruling it out",
+    "weeks": "[TK]"
+   },
+   {
+    "rung": "G",
+    "have": "Human-only: phone, per-session MFA, verbal approval",
+    "cost": "No path",
+    "weeks": "Not buildable"
+   }
+  ],
+  "write_properties": "Write Access adds three properties that decide whether a mistake is survivable: idempotent (can run twice without damage) ✓ / non-idempotent ✗; reversal primitive in the system ✓ / manual correction only ✗; atomic ✓ / can half-complete ✗. A write that half-completes is worse than no write, and makes a reversible design irreversible.",
+  "setting_the_rung": [
+   "Capture shows which systems are in play. The rung comes from the vendor's current public API documentation, read one system at a time before the row is scored. Each rating goes into a rung library keyed by vendor and capability, so the next customer on the same system starts from it (log it once with process_id \"*\").",
+   "An unread vendor has no rung. Leave the cell empty (a null row) rather than assume an interface exists because a product that size ought to have one.",
+   "Rate the capability the design needs, not the product. A billing platform with a strong invoice API may expose no usage detail, which makes it C1 for a usage-based design.",
+   "Date every library entry. Rungs move, and a system rated D two years ago may be A now. Re-read entries older than [TK] months.",
+   "Use capture to separate C1 from C2. A recording where the person switches to another system partway through means the input exists elsewhere (C1). A pause and then a decision with nothing visible behind it means the input is in their head (C2). More recordings resolve C1 and never C2."
+  ]
+ },
+ "source_research": {
+  "_note": "Pass 1c. One coarse research row per system: an access grade on the shared ladder and the vendor features the customer may already have. Coarse means public documentation plus a bounded look at the recordings; the interface the agent needs is not analysed here. The grade becomes the Read Access and Write Access row for that system in every tier that reads or writes it (written when spec derives the tiers' access), and a later interface-level row replaces it. Depth is capped on purpose: the first recommendation should not spend tokens a build scoping would spend again.",
+  "scope": {
+   "min_touches": 1
+  },
+  "outcomes": {
+   "researched": "Vendor identified and documentation read; graded",
+   "internal": "Customer-built or vendor not identifiable; no grade, null access rows",
+   "skipped": "Not researched (prohibited in the intake, local utility, no web access, or customer request); no grade, null access rows"
+  },
+  "coarse_rungs": [
+   "A",
+   "B2",
+   "D",
+   "E",
+   "F",
+   "G"
+  ],
+  "observation_rungs": {
+   "C1": "cross_system_carry",
+   "C2": "off_system_input"
+  },
+  "deferred_rungs": {
+   "B1": "needs the interface to be probed",
+   "B3": "needs the customer's field configuration",
+   "B4": "needs the interface's change-history behavior"
+  },
+  "grade_confidence": [
+   "High",
+   "Medium",
+   "Low"
+  ],
+  "url_required_rungs": [
+   "A",
+   "B2",
+   "D",
+   "E"
+  ],
+  "entitlements": {
+   "yes": "The intake names the edition and the vendor's page lists the capability for it",
+   "likely": "Edition not named, but the capability is in the vendor's common tiers",
+   "check": "Gated by an edition, add-on or admin setting the customer has not confirmed",
+   "no": "The named edition does not include it",
+   "unknown": "Could not tell from public pages"
+  },
+  "observation_signals": {
+   "record_lookup": "Opens or searches records and reads fields",
+   "field_entry": "Types or selects values in named fields",
+   "status_change": "Saves a record or moves it to another state",
+   "file_export_import": "Downloads, exports, uploads or attaches a file",
+   "document_read": "Reads a PDF, email or attachment held in the system",
+   "cross_system_carry": "A value is read in this system and entered in another, or the deciding input sits in another system",
+   "off_system_input": "A value or decision appears with nothing visible in any system behind it"
+  },
+  "samples_per_system": 3,
+  "max_low_pulls_per_system": 5,
+  "medium_blocks_per_system": 1,
+  "citation_verbosity": [
+   "low",
+   "medium"
+  ],
+  "max_opportunities_per_system": 3,
+  "recency_months": 18,
+  "opportunity_kinds": {
+   "native_ai": "Native AI feature",
+   "mcp_server": "MCP server",
+   "api": "API or SDK",
+   "connector": "Connector",
+   "automation": "Workflow or automation",
+   "export": "Scheduled export",
+   "other": "Other"
+  },
+  "local_utilities": [
+   "paint",
+   "windows calculator",
+   "snipping tool",
+   "notepad",
+   "microsoft photos",
+   "microsoft sticky notes",
+   "preview",
+   "adobe acrobat",
+   "adobe acrobat reader",
+   "file explorer",
+   "finder",
+   "microsoft edge",
+   "google chrome",
+   "chrome",
+   "vpn client",
+   "pdf viewer"
+  ]
+ }
+}

@@ -1,0 +1,225 @@
+# interface design v2 — per-boundary template for "Design each part's boundary (what crosses it, in and out)"
+#
+# WHAT THIS IS
+#   The shape of ONE boundary's interface design in Agent Design: the typed rows that cross a part's boundary,
+#   in and out, each with its value shape, its run-time source, its back-signals, the write grant it needs,
+#   its failure fixtures, the access it assumes and the residuals it leaves open. It sits beside
+#   `interface-design.template.yaml` (unchanged) and carries its field content with these changes:
+#     * directions add `back_from_person` (a person's recorded result returning to the agent) and
+#       `person_write` (a write a person makes in a system after the agent hands over);
+#     * every row carries `run_time_source`; `run_time_source: rule` requires `rule_id` naming a placed rule
+#       (`stages/placement/placed-rules.json`);
+#     * there is no boundary-membership hunt and rows carry no hunt claim reference;
+#     * a failure fixture's `expected_kind` is any typed outcome label (an `outcomes.json` label), not only
+#       `authority_boundary`.
+#
+#   Fields are typed by declared `direction`, never by id prefix:
+#     inbound  = read · inbound_control · back_from_person
+#     outbound = write · person_write · draft · outbound_handoff · dispatch
+#
+# THE HONESTY BAR (binding on every instantiation)
+#   Every committed element carries `source:` AND `evidence_state:` from the four states only —
+#   {Observed, Assumed, Contradictory, needs_more_information}. Nothing is invented. Opens are stamped and
+#   split by kind:
+#     * a missing data VALUE  -> a needs_more_information row with a `needs:` note;
+#     * a missing RULE/POLICY -> a residual (`kind: rule`, or `kind: scope` for a scope open) with a named
+#                                `follow_on` to the decision-rules stage; never a made-up row, never a default;
+#     * a missing ACCESS      -> an `assumptions:` entry stamped `Assumed`, one per read, write or dispatch
+#                                target. Access is never a row and never a residual.
+#   A stand-in or configuration value is never written into a row unless `stages/placement/declarations.json`
+#   declares it (stand-ins stamped Assumed).
+
+schema_version: interface-design-v2
+artifact_kind: agent-boundary-interface-design
+
+interface_id: "<interface id — the boundary id from stages/boundaries/boundaries.json>"
+name: "<describe: the boundary's plain-language name — the primary handle on every surface>"
+archetype: "read | outbound_handoff | draft_surface | inbound_control | write_surface | dispatch | back_from_person | person_write"
+seated_in: "<the part id from agent.yaml that owns this boundary — never re-seated>"
+anchor_step: "<the qualified step reference <process_id>:<node_id> this boundary is anchored on>"
+lane: agent
+direction: "read | inbound_control | back_from_person | write | person_write | draft | outbound_handoff | dispatch"
+# target — REQUIRED on direction `write`, `person_write` and `dispatch`; OMIT on the others. For `write` and
+# `person_write`: the system name written to. For `dispatch`: the receiving part id. At least one
+# `assumptions:` entry stamped `Assumed` must name this target.
+target: "<write / person_write: the system name | dispatch: the receiving part id>"
+layer: interface_design
+design_ref: "<the run-folder-relative path this design is filled at>"
+status: {cut: first, grounded: work-brain, sweep_date: "<YYYY-MM-DD>", loci: ["<named Work Brain loci>"]}
+
+# S1 — SCOPE (in / out): what this boundary covers and the adjacent boundaries it excludes. `scope_summary`
+# is the roll-up people read; the keyed entries are the committed form.
+scope:
+  scope_summary:
+    in:  ["<describe: what crosses this boundary, inbound / outbound as the direction dictates>"]
+    out: ["<describe: adjacent boundaries / the rule that fires on a field — each named, each OUT>"]
+  in:
+    - item: "<describe: the data point that crosses the boundary IN>"
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+      source: "<named Work Brain source id(s)>"
+  out:
+    - item: "<describe: the adjacent boundary / decision-rules rule kept OUT>"
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+      source: "<named Work Brain source id(s)>"
+
+# S2 — TYPED ROWS. Every field is one row carrying the row shape below. `token` is the operative token the
+# rules read (`stages/rules/rules.json` `tokens`), never re-cut.
+#
+# SHAPE (fill EXACTLY ONE of the two blocks):
+#   * every direction except inbound_control -> `fields:` (one flat list of rows).
+#   * inbound_control -> `control_inputs:` with its two sub-blocks (`invocation`, `decision_state`).
+#
+# ROW SHAPE: token · name · type · value_shape · required · direction · signal · run_time_source ·
+#   [rule_id iff run_time_source == rule] · [stand_in iff run_time_source == stand_in] · evidence_state ·
+#   source · [needs iff needs_more_information] · notes.
+#   run_time_source:
+#     rule          — set at run time by a placed rule; `rule_id` names that placed rule (required);
+#     input         — read from the case input or a system at run time;
+#     configuration — a declared configuration value (`declarations.json` `configuration`);
+#     stand_in      — a declared stand-in (`declarations.json` `stand_ins`, stamped Assumed); the token
+#                     begins `stand_in.` and the row carries `stand_in: {declared: true}`.
+#   signal: failure (signals a failure the agent must handle) | state (signals a state such as a pending or
+#     rejected item) | value (otherwise).
+inputs:
+  fields:
+    - token: "<operative token>"
+      name: "<describe: the field's plain-language name>"
+      type: "<string | number | boolean | enum | object>"
+      value_shape: "<describe: the value's shape — enum members, units, format>"
+      required: "true | false"
+      direction: "read | inbound_control | back_from_person | write | person_write | draft | outbound_handoff | dispatch"
+      signal: "failure | state | value"
+      run_time_source: "rule | input | configuration | stand_in"
+      rule_id: "<REQUIRED iff run_time_source == rule: the placed rule's rule_id that sets this value>"
+      stand_in: {declared: true}   # REQUIRED iff run_time_source == stand_in; OMIT otherwise
+      evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+      source: "<the named Work Brain source id(s) this field traces to — observation id / document id / step id>"
+      needs: "<REQUIRED iff evidence_state == needs_more_information: what would resolve it + the gap-closure route>"
+      notes: "<describe: what the field is, and why its stamp is true to its source>"
+  control_inputs:
+    invocation:            # (i) how a person invokes the part + the designated context passed at invocation
+      - token: "<operative token>"
+        name: "<describe>"
+        type: "<string | number | boolean | enum | object>"
+        value_shape: "<describe>"
+        required: "true | false"
+        direction: inbound_control
+        signal: "failure | state | value"
+        run_time_source: "input | configuration | stand_in"
+        evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+        source: "<named Work Brain source id(s)>"
+        needs: "<REQUIRED iff needs_more_information>"
+        notes: "<describe>"
+    decision_state:        # (ii) the routing-relevant state the coordinator reads (a signal only)
+      - token: "<operative token>"
+        name: "<describe>"
+        type: "<string | number | boolean | enum | object>"
+        value_shape: "<describe>"
+        required: "true | false"
+        direction: inbound_control
+        signal: "failure | state | value"
+        run_time_source: "rule | input"
+        rule_id: "<REQUIRED iff run_time_source == rule>"
+        evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+        source: "<named Work Brain source id(s)>"
+        needs: "<REQUIRED iff needs_more_information>"
+        notes: "<describe>"
+
+# S3 — TYPED OUTPUTS + BACK-SIGNALS ON THE SAME BOUNDARY: the acknowledgment, the state, and the failure
+# back-signals. Every row is typed and stamped.
+outputs_back_signals:
+  - token: "<operative token>"
+    name: "<describe>"
+    kind: "acknowledgment | state | failure"
+    type: "<string | number | boolean | enum | object>"
+    required: "true | false"
+    signal: "failure | state | value"
+    evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+    source: "<named Work Brain source id(s)>"
+    notes: "<describe>"
+# Back-signal set per archetype (generic names):
+#   * read             — read_ack, read_state, not_found, read_structural_failure
+#   * outbound_handoff — handover_ack, recorded_decision, handover_unacknowledged
+#   * draft_surface    — draft_ack, draft_state, draft_rejected
+#   * write_surface    — write_ack, write_rejected
+#   * person_write     — person_write_recorded, person_write_not_recorded
+#   * dispatch         — dispatch_ack, dispatch_unacknowledged
+#   * inbound_control  — invocation_ack, routing_state_read, invocation_incomplete
+#   * back_from_person — person_result_received, person_result_missing
+#   A `failure` back-signal REPORTS a condition; it never encodes the rule that reacts to it.
+
+# S4 — AUTHORITY BOUNDARY: what the part may emit, may accept, and is system of record for.
+authority_boundary:
+  may_emit:   "<describe>"
+  may_accept: "<describe>"
+  system_of_record: "<the system of record on this boundary, and who writes to it (the part only under a write grant)>"
+  # agent_write: direction `write` REQUIRES `agent_write: true`; `agent_write: true` REQUIRES `write_grant: WG-n`
+  # (the row id in the transformation map's Write grants table) and a direction from
+  # {write, outbound_handoff, draft, dispatch}. `person_write` is always `agent_write: false`.
+  agent_write: false
+  write_grant: "<WG-n — REQUIRED iff agent_write: true; OMIT when agent_write: false>"
+  full_stop: "<describe: the decision the part may NOT take; it hands it to the review path instead>"
+  evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+  source: "<named Work Brain source id(s)>"
+
+# S5 — FAILURE MODES. Each named mode seeds ONE synthetic fixture. `expected_kind` is any typed outcome
+# label from `stages/rules/outcomes.json` (for example `authority_boundary`, `hold`, `route_to_review`).
+# `expected` never carries an interim / default / fallback for an item stamped open.
+failure_modes:
+  - id: "<boundary-id>-fm-<n>"
+    desc: "<describe: the failure>"
+    fixture:
+      synthetic_case: "<describe: a synthetic (never client-real) case that exercises the mode>"
+      expected_kind: "<typed outcome label>"
+      expected: "<describe: the outcome the agent reaches>"
+    evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+    source: "<named Work Brain source id(s)>"
+
+# S6 — OWNER + ESCALATION PATH (the route is in scope; the trigger condition is the decision-rules stage).
+owner_escalation:
+  interface_owner: "<the accept-side owner — generically 'the agent team', never a client name>"
+  emit_counterparty: "<generic>"
+  handoff_partner: "<a generic role label, never a real person>"
+  review_path: "<describe: the generic escalation route>"
+  evidence_state: "Observed | Assumed | Contradictory | needs_more_information"
+  source: "<named Work Brain source id(s)>"
+
+# S7 — EVAL HOOKS.
+eval_hooks:
+  - {kind: field_validator,            target: "inputs.fields | inputs.control_inputs.invocation | inputs.control_inputs.decision_state"}
+  - {kind: backsignal_shape_validator, target: outputs_back_signals}
+  - {kind: fixture,                    target: failure_modes}
+
+# S8 — REFERENCED MATERIAL.
+referenced_material:
+  observations: ["<observation id(s)>"]
+  documents:    ["<Work Brain document id(s)>"]
+  steps:        ["<qualified step reference(s)>"]
+  workspace:    "<the Work Brain workspace id>"
+
+# ---- STANDING LAYERS (separate from fields) ----
+
+# ASSUMPTIONS LAYER: access as an assumption, ONE per read / write / dispatch target, stamped `Assumed`.
+assumptions:
+  - surface: "<the interface id this access assumption covers>"
+    access_state: Assumed
+    basis: "access verification (Assumed until verified at the authority-boundary gate); never a client entitlement"
+    evidence_state: Assumed
+    source: "<the interface id + the open this assumption traces to>"
+
+# RESIDUALS: rule / policy opens (`kind: rule`) and scope opens (`kind: scope`) only.
+residual:
+  - id: "<residual id>"
+    kind: rule
+    evidence_state: "needs_more_information | Contradictory"
+    source: "<named Work Brain source id(s) that show the gap>"
+    touches: ["<the tokens this open touches>"]
+    question: "<a named, client-answerable question>"
+    closure_route: "<document upload | targeted Companion capture | FDE Intake>"
+    # OPTIONAL: when this open stands in for one boundary's design, name that boundary. `direction` records
+    # the boundary's direction for the separate direction-coverage check.
+    boundary_extension_note:
+      seam: "<the boundary id this stamped open is bound to: one boundary, one residual>"
+      direction: "inbound_control | read | back_from_person | outbound_handoff | draft | write | person_write | dispatch"
+      note: "<why this boundary is carried as a stamped open rather than designed this run, and the named Work Brain gap>"
+    follow_on: "Design each part's decision rules"

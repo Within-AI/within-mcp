@@ -1,0 +1,26 @@
+{
+  "_about": "One list of text rules, read by check/browser_check.mjs (visible page text) and check/plain_check.py (page/*.json). Change a rule here, both checks follow.",
+  "banned": ["rehearsal", "not checked yet", "Context Graph", "Process Index", "humans", "Agent Audit", "contract", "coherence", "fix cycle", "invented data", "invented cases", "invented case", "invented test", "invented sample", "(invented", "Invented data"],
+  "id_regex": "\\b(R-[a-z]+(-[a-z]+)+|I[RCHW]-\\d\\.\\w+)\\b",
+  "plain": {
+    "_about": "Extra rules for the plain-language files only (plain_check.py).",
+    "id_regexes": [
+      "\\bR-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\\b",
+      "\\bI[RCHW]-\\d(?:-fm-\\d)?(?:\\.\\w+)?\\b",
+      "\\b(?:n|s|eg|iss|fx|bm|ag|an)-[a-z0-9]+(?:-[a-z0-9]+)*\\b",
+      "\\b[A-Z]{1,3}-[A-Z]?\\d+\\b"
+    ],
+    "field_token_regexes": ["\\b[a-z]+(?:_[a-z0-9]+)+\\b", "\\b[A-Za-z0-9-]+\\.[a-z_]{3,}\\b(?!\\s)"],
+    "decode_regexes": {
+      "uuid or hash": "\\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\\b|\\b[0-9a-f]{12,}\\b",
+      "file name or path": "\\b[\\w-]+\\.(?:csv|json|ya?ml|md|py|txt|svg|html|xlsx?|jsonl)\\b|(?:^|\\s)/[\\w.-]+/[\\w./-]+",
+      "json or yaml fragment": "[{}]|\\[\\s*\"|\":|^\\s*[a-z_]+:\\s"
+    },
+    "allowed_abbreviations": ["AI", "ID", "IT", "OK", "PDF", "CSV", "SQL", "UK", "US"],
+    "stale_instructions": ["scroll sideways", "scroll to the next"],
+    "count_nouns": "steps?|rules?|cases?|points?|interfaces?|questions?|groups?|surfaces?|gates?",
+    "number_words": "two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty",
+    "lead_max_words": 60,
+    "placeholders": ["steps_current", "steps_future", "steps_future_agent", "steps_future_people", "plan_agent", "plan_people", "plan_unchanged", "plan_rows", "agent_steps", "rules", "groups", "cases", "cases_escalate", "cases_normal", "interfaces"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "agent-design.split-reasons/1",
+  "description": "The only reasons a sub-agent may be split from another part.",
+  "reasons": [
+    "independently triggered",
+    "different surfaces read",
+    "distinct gates",
+    "different authority",
+    "different owner"
+  ]
+}

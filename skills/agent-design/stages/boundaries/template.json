@@ -1,0 +1,42 @@
+{
+ "boundaries": [
+  {
+   "id": "<process_id>:<edge_id>",
+   "edge_ref": "<process_id>:<edge_id>",
+   "from": {
+    "side": "agent",
+    "ref": "<agent tag>"
+   },
+   "to": {
+    "side": "person",
+    "ref": "<lane_id>"
+   },
+   "kind": "handover_to_person",
+   "counted_apart": false,
+   "evidence_state": "needs_more_information",
+   "meaning": "<what crosses the boundary>",
+   "observation_ids": []
+  },
+  {
+   "id": "<process_id>:<gate_edge_id>",
+   "edge_ref": "<process_id>:<gate_edge_id>",
+   "from": {
+    "side": "agent",
+    "ref": "<agent tag>"
+   },
+   "to": {
+    "side": "person",
+    "ref": "<lane_id>"
+   },
+   "kind": "gate",
+   "counted_apart": false,
+   "evidence_state": "needs_more_information",
+   "meaning": "<what crosses the boundary>",
+   "observation_ids": [],
+   "gate": {
+    "meaning": "<the one outcome this gate edge carries>",
+    "evidence_state": "needs_more_information"
+   }
+  }
+ ]
+}

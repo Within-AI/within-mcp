@@ -1,0 +1,10 @@
+{
+  "id": "F1",
+  "boundary_id": "b-1",
+  "token": "invoice.amount",
+  "type": "number",
+  "direction": "read",
+  "run_time_source": "input",
+  "evidence_state": "Observed",
+  "signal": "value"
+}

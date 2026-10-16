@@ -1,0 +1,12 @@
+{
+  "rule_id": "R-2",
+  "process_id": "inbox",
+  "future_state_step": "n3",
+  "decision": "inbox:n3",
+  "scenario": "the summary of Example Co's report paraphrases the fault without quoting it",
+  "why": "an unchecked summary is never drafted from",
+  "observation_ids": [
+    "inbox:observation:o2"
+  ],
+  "text_sha256": "58c22c84c3497d915a5afdd6bb58a8db9edf34d4160bc62ad2c2364f60d0196e"
+}

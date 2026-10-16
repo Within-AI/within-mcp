@@ -1,0 +1,427 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "future-state",
+  "presentation": "none",
+  "snapshot": {
+    "path": "../../inputs/snapshot.json",
+    "sha256": "b44adb35b46b0ef32584ad0cc26664fc4da77e7b9f9b81e91b652e2f46da8740"
+  },
+  "current_state": {
+    "path": "../current-state/current-state.json",
+    "sha256": "e13b1375e8f7cdfb96d7ba5ada3a74f38209bfce7c3d3a5302ce758371325c1b"
+  },
+  "process": {
+    "name": "Service request intake and review",
+    "process_ids": [
+      "p-intake-review"
+    ]
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "f-1",
+        "type": "agent_read",
+        "lane": "Agent: intake",
+        "title": "Read the request form once (RM-1)",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-inbox"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "f-2",
+        "type": "agent_stage",
+        "lane": "Agent: intake",
+        "title": "Route the request by type (RM-2)",
+        "treatment": "agent-taken",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "iss-routing"
+      },
+      {
+        "id": "f-3",
+        "type": "agent_read",
+        "lane": "Agent: intake",
+        "title": "Look up the requester record",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-register"
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "f-4",
+        "type": "agent_stage",
+        "lane": "Agent: intake",
+        "title": "Package the request and record for review (RM-3)",
+        "treatment": "agent-taken",
+        "write_grant": "WG-1",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "f-5",
+        "type": "agent_reconciliation",
+        "lane": "Agent: review",
+        "title": "Check the package against the request rules (RM-4)",
+        "treatment": "agent-taken",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "f-6",
+        "type": "analyst_reconciliation",
+        "lane": "Analyst",
+        "title": "Review and confirm the request values",
+        "treatment": "person-kept",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "f-7",
+        "type": "agent_write",
+        "lane": "Agent: review",
+        "title": "Enter the confirmed request values",
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-register"
+        ],
+        "write_grant": "WG-2",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "f-8",
+        "type": "write_interaction",
+        "lane": "Analyst",
+        "title": "Send the requester the outcome",
+        "treatment": "person-kept",
+        "systems": [
+          "sys-email"
+        ],
+        "write_grant": "WG-3",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "sys-inbox",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Request inbox",
+        "short_label": "Inbox",
+        "surface_kind": "channel",
+        "access_state": "Assumed",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/0/tools"
+          }
+        ]
+      },
+      {
+        "id": "sys-register",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Request register",
+        "short_label": "Register",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/2/tools"
+          }
+        ]
+      },
+      {
+        "id": "sys-email",
+        "type": "system_surface",
+        "lane": "System",
+        "title": "Email",
+        "short_label": "Email",
+        "surface_kind": "channel",
+        "access_state": "Assumed",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/6/tools"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "fe-1",
+        "source": "f-1",
+        "target": "f-2",
+        "kind": "sequence",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "iss-routing"
+      },
+      {
+        "id": "fe-2",
+        "source": "f-2",
+        "target": "f-3",
+        "kind": "sequence",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "iss-routing"
+      },
+      {
+        "id": "fe-3",
+        "source": "f-3",
+        "target": "f-4",
+        "kind": "sequence",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/3"
+          }
+        ]
+      },
+      {
+        "id": "fe-4",
+        "source": "f-4",
+        "target": "f-5",
+        "kind": "handoff",
+        "label": "dispatch to the review agent (ID-1)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "fe-5",
+        "source": "f-5",
+        "target": "f-6",
+        "kind": "handoff",
+        "label": "checked package for confirmation",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/4"
+          }
+        ]
+      },
+      {
+        "id": "fe-6",
+        "source": "f-6",
+        "target": "f-7",
+        "kind": "sequence",
+        "label": "confirmed values",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "fe-7",
+        "source": "f-7",
+        "target": "f-8",
+        "kind": "handoff",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/6"
+          }
+        ]
+      },
+      {
+        "id": "fr-1",
+        "source": "f-1",
+        "target": "sys-inbox",
+        "kind": "read_access",
+        "label": "read",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/1"
+          }
+        ]
+      },
+      {
+        "id": "fr-2",
+        "source": "f-3",
+        "target": "sys-register",
+        "kind": "read_access",
+        "label": "read",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/2"
+          }
+        ]
+      },
+      {
+        "id": "fw-1",
+        "source": "f-7",
+        "target": "sys-register",
+        "kind": "write",
+        "label": "enter confirmed values (WG-2)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/5"
+          }
+        ]
+      },
+      {
+        "id": "fw-2",
+        "source": "f-8",
+        "target": "sys-email",
+        "kind": "write",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/current_version/steps/6"
+          }
+        ]
+      }
+    ],
+    "workspaces": [],
+    "decision_tables": [],
+    "starts": [
+      "f-1"
+    ],
+    "outcomes": [
+      "f-8"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "iss-routing",
+        "kind": "policy",
+        "status": "open",
+        "reason": "No written rule says which request types go to which review queue; the routing at entry is Assumed.",
+        "source_ids": [
+          "process-details"
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details:S1",
+      "graph_ids": [
+        "f-1"
+      ],
+      "mapping": "mapped",
+      "rationale": "Merged into one read by RM-1."
+    },
+    {
+      "step_id": "process-details:S2",
+      "graph_ids": [
+        "f-1"
+      ],
+      "mapping": "mapped",
+      "rationale": "Merged into one read by RM-1."
+    },
+    {
+      "step_id": "process-details:S3",
+      "graph_ids": [
+        "f-3"
+      ],
+      "mapping": "mapped"
+    },
+    {
+      "step_id": "process-details:S4",
+      "graph_ids": [
+        "f-1"
+      ],
+      "mapping": "mapped",
+      "rationale": "Merged into one read by RM-1."
+    },
+    {
+      "step_id": "process-details:S5",
+      "graph_ids": [
+        "f-6"
+      ],
+      "mapping": "mapped"
+    },
+    {
+      "step_id": "process-details:S6",
+      "graph_ids": [
+        "f-7"
+      ],
+      "mapping": "mapped",
+      "rationale": "Split by confirm/enter: the person confirms at f-6, the agent enters at f-7."
+    },
+    {
+      "step_id": "process-details:S7",
+      "graph_ids": [
+        "f-8"
+      ],
+      "mapping": "mapped"
+    }
+  ],
+  "systems_coverage": [
+    {
+      "system": "Email",
+      "treatment": "mapped"
+    },
+    {
+      "system": "Request inbox",
+      "treatment": "mapped"
+    },
+    {
+      "system": "Request register",
+      "treatment": "mapped"
+    }
+  ]
+}

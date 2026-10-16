@@ -1,0 +1,1084 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "within-adk/current-state-graph-v0.1",
+  "title": "Current state graph v0.1 (workflow bundle v2 + A3 lane fields; also carries the future state)",
+  "description": "Fast Mode's workflow bundle (schema_version 2) with additive fields for the A3 lane standard. Every existing field keeps its meaning; new fields are optional to existing checks and carry no layout positions. The renderer computes all layout. See current-state-graph-v0.1.md. v0 instances stay valid.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "variant",
+    "process",
+    "snapshot",
+    "presentation",
+    "graph",
+    "coverage"
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_state": {
+      "enum": [
+        "Observed",
+        "Assumed",
+        "Contradictory",
+        "needs_more_information"
+      ]
+    },
+    "source_ref": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "pointer"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "pointer": {
+          "type": "string"
+        }
+      }
+    },
+    "evidenced": {
+      "type": "object",
+      "required": [
+        "evidence_state",
+        "source_refs"
+      ],
+      "properties": {
+        "evidence_state": {
+          "$ref": "#/$defs/evidence_state"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        },
+        "issue_id": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "no_layout": {
+      "description": "Layout is the renderer's job: no positions anywhere.",
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "col"
+            ]
+          },
+          {
+            "required": [
+              "row"
+            ]
+          },
+          {
+            "required": [
+              "x"
+            ]
+          },
+          {
+            "required": [
+              "y"
+            ]
+          },
+          {
+            "required": [
+              "via"
+            ]
+          },
+          {
+            "required": [
+              "labat"
+            ]
+          },
+          {
+            "required": [
+              "labfrac"
+            ]
+          }
+        ]
+      }
+    },
+    "node": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenced"
+        },
+        {
+          "$ref": "#/$defs/no_layout"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "title",
+        "lane"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "description": "Existing types kept (read_interaction, write_interaction, decision, start_event, end_event, system_surface, system_result, …). New: object_state, ai_use, context_neighbour, message.",
+          "$ref": "#/$defs/text"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "lane": {
+          "description": "EXISTING coarse lane, unchanged meaning: Analyst (people), Agent (AI and agents), System, or another lane (External).",
+          "$ref": "#/$defs/text"
+        },
+        "performer": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "decision_table": {
+          "$ref": "#/$defs/id"
+        },
+        "lane_id": {
+          "description": "NEW: the A3 lane (graph.lanes[].id). Required when graph.lanes is present.",
+          "$ref": "#/$defs/id"
+        },
+        "process_id": {
+          "description": "The process frame the box belongs to. v0.1: set on every work node (sub-task boxes, decisions, ai_use, message). The reserved value 'set' marks a set-level node, e.g. the decision that routes between entry variants. Required by the schema on those types; the frames check resolves it.",
+          "$ref": "#/$defs/id"
+        },
+        "subtask": {
+          "description": "NEW: one box per Work Brain sub-task.",
+          "type": "object",
+          "required": [
+            "process_id",
+            "step_range",
+            "step_ids"
+          ],
+          "properties": {
+            "process_id": {
+              "$ref": "#/$defs/id"
+            },
+            "step_range": {
+              "type": "string"
+            },
+            "step_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "task": {
+              "type": "string"
+            },
+            "part": {
+              "description": "v0.1: one sub-task split around a decision is drawn as numbered parts.",
+              "type": "object",
+              "required": [
+                "index",
+                "of"
+              ],
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "of": {
+                  "type": "integer",
+                  "minimum": 2
+                }
+              }
+            }
+          }
+        },
+        "writes": {
+          "description": "NEW: 'Writes:' line, records written that are not drawn as a state.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "record"
+            ],
+            "properties": {
+              "record": {
+                "$ref": "#/$defs/text"
+              },
+              "work_object": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          }
+        },
+        "person_check": {
+          "description": "NEW: sign-off from a role outside this lane; no edge is drawn.",
+          "type": "object",
+          "required": [
+            "role",
+            "what"
+          ],
+          "properties": {
+            "role": {
+              "$ref": "#/$defs/text"
+            },
+            "what": {
+              "$ref": "#/$defs/text"
+            }
+          }
+        },
+        "recovery": {
+          "description": "NEW: recovery sub-tasks as numbered badges on the box they recover.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "step_ids"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "label": {
+                "$ref": "#/$defs/text"
+              },
+              "step_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ends_unresolved": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "object_state": {
+          "description": "NEW (type object_state): a state pill of a shared work object.",
+          "type": "object",
+          "required": [
+            "work_object",
+            "state"
+          ],
+          "properties": {
+            "work_object": {
+              "$ref": "#/$defs/id"
+            },
+            "state": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        "ai_use": {
+          "description": "NEW (type ai_use): one current AI use.",
+          "type": "object",
+          "required": [
+            "tool",
+            "mode",
+            "checked_by",
+            "failed",
+            "evidence_strength"
+          ],
+          "properties": {
+            "tool": {
+              "$ref": "#/$defs/text"
+            },
+            "mode": {
+              "enum": [
+                "assistant",
+                "agent"
+              ]
+            },
+            "checked_by": {
+              "$ref": "#/$defs/text"
+            },
+            "failed": {
+              "type": "boolean"
+            },
+            "failure": {
+              "type": "string"
+            },
+            "evidence_strength": {
+              "enum": [
+                "step",
+                "exception_note",
+                "observation_only"
+              ]
+            },
+            "process_id": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "if": {
+            "properties": {
+              "failed": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "failure"
+            ]
+          }
+        },
+        "neighbour": {
+          "description": "NEW (type context_neighbour): work outside the set, one collapsed box.",
+          "type": "object",
+          "required": [
+            "process_id",
+            "touches"
+          ],
+          "properties": {
+            "process_id": {
+              "$ref": "#/$defs/id"
+            },
+            "touches": {
+              "type": "string"
+            },
+            "set_map_ref": {
+              "type": "string"
+            },
+            "also": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "stop": {
+          "description": "NEW: an end that leaves the work unresolved.",
+          "type": "object",
+          "required": [
+            "unresolved"
+          ],
+          "properties": {
+            "unresolved": {
+              "const": true
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        },
+        "captured_after_cutoff": {
+          "description": "NEW: content seen only in a live read after the snapshot cutoff.",
+          "type": "boolean"
+        },
+        "evidence_note": {
+          "type": "string"
+        },
+        "agent": {
+          "type": "string",
+          "description": "v0.1, future state: tag naming the agent this step belongs to. All agents share the one AI and agents lane and are told apart by this tag."
+        },
+        "future": {
+          "description": "v0.1: future-state nodes only. How this node relates to the current state.",
+          "type": "object",
+          "required": [
+            "from",
+            "change"
+          ],
+          "properties": {
+            "from": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/id"
+              },
+              "description": "Current-state node ids this node takes over. A replaced AI use is listed here and not drawn."
+            },
+            "change": {
+              "enum": [
+                "kept",
+                "assigned",
+                "split",
+                "merged",
+                "new",
+                "upgraded"
+              ]
+            },
+            "moves": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "What moved, in plain words or lane ids."
+            },
+            "split_pair": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/id"
+              },
+              "description": "List: the other part(s) of a split. One agent step may pair with several people's boxes."
+            },
+            "spans": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/id"
+              },
+              "description": "Frames a cross-process step spans."
+            }
+          },
+          "if": {
+            "properties": {
+              "change": {
+                "const": "split"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "split_pair"
+            ],
+            "properties": {
+              "split_pair": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "actor": {
+          "$ref": "#/$defs/id",
+          "description": "v0.1: the set map actors[].id that performs this node (an automation box in the system band or the AI lane)."
+        }
+      }
+    },
+    "edge": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/evidenced"
+        },
+        {
+          "$ref": "#/$defs/no_layout"
+        }
+      ],
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "source",
+        "target"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "description": "Existing kinds kept. New: asks_returns (person box to AI box, two-way), sets_state (a step writes a work-object state that is not a handoff).",
+          "$ref": "#/$defs/text"
+        },
+        "source": {
+          "$ref": "#/$defs/id"
+        },
+        "target": {
+          "$ref": "#/$defs/id"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "display_label": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Hard cap 32 characters (unchanged from v0). The full text goes in label."
+        },
+        "context": {
+          "description": "NEW: the edge touches a context neighbour; drawn grey.",
+          "type": "boolean"
+        },
+        "weak": {
+          "description": "NEW: evidence weaker than a step; drawn lighter.",
+          "type": "boolean"
+        },
+        "link_ref": {
+          "description": "NEW: the set map link (links[].id) this edge draws.",
+          "$ref": "#/$defs/id"
+        },
+        "spine": {
+          "type": "boolean",
+          "description": "v0.1: true on edges along the work-object spine. When any edge carries it, the renderer uses only marked edges for columns; otherwise it infers the spine by excluding asks_returns, sets_state, loop and most context edges."
+        }
+      }
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "when": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}([T ][0-9:.]+(Z|[+-][0-9]{2}:?[0-9]{2})?)?$",
+      "description": "A date, or a date and time."
+    },
+    "process_version": {
+      "type": "object",
+      "required": [
+        "process_id",
+        "version_no",
+        "created_at"
+      ],
+      "properties": {
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "version_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "version_key": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/$defs/when"
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "kind": {
+      "const": "workflow"
+    },
+    "variant": {
+      "type": "string"
+    },
+    "extensions": {
+      "description": "NEW: names the additive field sets in use.",
+      "type": "array",
+      "items": {
+        "enum": [
+          "a3-lanes-v0",
+          "a3-lanes-v0.1"
+        ]
+      }
+    },
+    "process": {
+      "type": "object",
+      "required": [
+        "name",
+        "process_ids"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "process_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/when",
+          "description": "v0.1: the snapshot's evidence cutoff. Raw activity captured on or before it may be read after the freeze, through the evidence addendum."
+        },
+        "frozen_at": {
+          "$ref": "#/$defs/when",
+          "description": "v0.1: when the freeze was taken, at the start of Future State Design."
+        },
+        "process_versions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/process_version"
+          },
+          "description": "v0.1: each process's summary version and its created date, pinned by the freeze. A later version is drift and needs a re-freeze."
+        }
+      }
+    },
+    "set_map": {
+      "description": "NEW: pin of the set map this graph draws.",
+      "type": "object",
+      "required": [
+        "path",
+        "set_id"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "set_id": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "read_at": {
+          "$ref": "#/$defs/date",
+          "description": "v0.1: when the set map was last read or refreshed."
+        }
+      }
+    },
+    "current_state": {
+      "type": "object"
+    },
+    "presentation": {
+      "enum": [
+        "diagram",
+        "none"
+      ]
+    },
+    "diagram": {
+      "type": "object"
+    },
+    "graph": {
+      "type": "object",
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "properties": {
+        "lanes": {
+          "description": "The A3 lanes. Order of bands is fixed (people, ai_and_agents, system_of_record, external). v0.1: optional order pins position within a band; otherwise the renderer computes it. Exactly one ai_and_agents lane in every variant: in a future state all agents share it and are told apart by the node agent tag.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "band",
+              "label",
+              "lane"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "band": {
+                "enum": [
+                  "people",
+                  "ai_and_agents",
+                  "system_of_record",
+                  "external"
+                ]
+              },
+              "label": {
+                "$ref": "#/$defs/text"
+              },
+              "lane": {
+                "description": "The coarse existing lane its nodes carry: Analyst, Agent, System or External.",
+                "$ref": "#/$defs/text"
+              },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "system": {
+                "$ref": "#/$defs/id"
+              },
+              "work_objects": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/id"
+                }
+              },
+              "party": {
+                "type": "string"
+              },
+              "none_found": {
+                "description": "ai_and_agents only: true when no AI use was found (the lane is still drawn and says so).",
+                "type": "boolean"
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "v0.1: position within its band. Used only when present."
+              },
+              "actor": {
+                "$ref": "#/$defs/id",
+                "description": "v0.1: the set map actors[].id this lane holds (an outside party)."
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/$defs/no_layout"
+              }
+            ]
+          },
+          "contains": {
+            "properties": {
+              "band": {
+                "const": "ai_and_agents"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        "process_frames": {
+          "description": "NEW: one tinted frame per in-set process, laid over the lanes.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "process_id",
+              "name",
+              "role"
+            ],
+            "properties": {
+              "process_id": {
+                "$ref": "#/$defs/id"
+              },
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "string"
+              },
+              "key_control": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "set_map_ref": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "work_objects": {
+          "description": "NEW: the work objects drawn, by reference to the set map.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "set_map_ref": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/node",
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "ai_use"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "ai_use"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "object_state"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "object_state"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "context_neighbour"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "neighbour"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "decision_table"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "read_interaction",
+                        "write_interaction",
+                        "decision",
+                        "ai_use",
+                        "message"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "process_id"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          }
+        },
+        "workspaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "name": {
+                "$ref": "#/$defs/text"
+              },
+              "short_label": {
+                "type": "string",
+                "description": "v0.1: a chosen short name, never a cut-off of name. Leave it equal to name when no short name is chosen."
+              },
+              "group": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "decision_tables": {
+          "type": "array"
+        },
+        "starts": {
+          "type": "array"
+        },
+        "outcomes": {
+          "type": "array"
+        },
+        "open_ends": {
+          "type": "array"
+        },
+        "issues": {
+          "type": "array"
+        }
+      }
+    },
+    "coverage": {
+      "type": "array"
+    },
+    "systems_coverage": {
+      "type": "array"
+    },
+    "evidence_addendum": {
+      "description": "v0.1: the per-run evidence addendum. Every read of raw activity after the freeze (deep dive, counterexample hunt, Strengthen) is one entry. Evidence refs may point at an entry id.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "asked",
+          "why",
+          "source_ids",
+          "captured_at",
+          "capture_proof",
+          "read_at",
+          "sha256",
+          "supports"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "asked": {
+            "$ref": "#/$defs/text",
+            "description": "What was asked."
+          },
+          "why": {
+            "$ref": "#/$defs/text"
+          },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "description": "Session or observation ids read."
+          },
+          "captured_at": {
+            "$ref": "#/$defs/when",
+            "description": "Capture date: the session's capture date, or the observation's processing timestamp (the conservative proof)."
+          },
+          "capture_proof": {
+            "enum": [
+              "session_capture_date",
+              "observation_processed_at"
+            ]
+          },
+          "read_at": {
+            "$ref": "#/$defs/when"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "supports": {
+            "$ref": "#/$defs/text",
+            "description": "The claim this read supports, and the node, edge or link ids it backs."
+          },
+          "supports_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "after_cutoff": {
+            "type": "boolean",
+            "description": "True when captured_at is after the snapshot cutoff. Never used silently."
+          },
+          "resolution": {
+            "enum": [
+              "re_freeze",
+              "what_we_still_need_to_know"
+            ],
+            "description": "The person's choice for an after-cutoff entry."
+          }
+        },
+        "if": {
+          "properties": {
+            "after_cutoff": {
+              "const": true
+            }
+          },
+          "required": [
+            "after_cutoff"
+          ]
+        },
+        "then": {
+          "required": [
+            "resolution"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "variant": {
+            "const": "current-state"
+          }
+        },
+        "required": [
+          "variant"
+        ]
+      },
+      "then": {
+        "properties": {
+          "graph": {
+            "properties": {
+              "nodes": {
+                "items": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "future"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "agent"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

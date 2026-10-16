@@ -1,0 +1,500 @@
+{
+  "engines": {
+    "anthropic": {
+      "status": "offered"
+    },
+    "openai": {
+      "status": "preview",
+      "status_evidence": null
+    }
+  },
+  "blocks": [
+    {
+      "id": "runtime",
+      "name": "Agent runtime",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "Anthropic settled (exp 3); OpenAI provisional (exp 5)",
+      "options": [
+        {
+          "id": "claude-agent-sdk",
+          "label": "Claude Agent SDK",
+          "engine": "anthropic",
+          "suggested_on": [
+            "anthropic"
+          ],
+          "pin": "0.2.152"
+        },
+        {
+          "id": "mastra",
+          "label": "Mastra with @ai-sdk/openai",
+          "engine": "openai",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": "1.75 with @ai-sdk/openai 4.x"
+        },
+        {
+          "id": "openai-agents-sdk",
+          "label": "OpenAI Agents SDK (OpenAI only)",
+          "engine": "openai",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "plain-sdk",
+          "label": "Plain SDK calls with code around them",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "customer-platform",
+          "label": "The customer's platform (skill package)",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None (pure script)",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "execution_layer",
+      "name": "Execution layer",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "findings 1 (Where it runs); ruling 1",
+      "options": [
+        {
+          "id": "sandbox-folder",
+          "label": "Sandbox folder or plain process",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "docker",
+          "label": "Docker",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "customer-platform",
+          "label": "Customer platform",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "customer-chat",
+          "label": "Inside the customer's own chat",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "name": "Model",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "proposed",
+      "options": [
+        {
+          "id": "claude-sonnet-5-5",
+          "label": "claude-sonnet-5-5",
+          "engine": "anthropic",
+          "suggested_on": [
+            "anthropic"
+          ],
+          "pin": null
+        },
+        {
+          "id": "gpt-6.1-sol",
+          "label": "gpt-6.1-sol",
+          "engine": "openai",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "other-same-engine",
+          "label": "Any model the same engine offers",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "Tools and system reads",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "proposed; ruling 1",
+      "options": [
+        {
+          "id": "mcp-tool-file",
+          "label": "MCP plus a tool-definition file the build owns, with a fake MCP server as a stub",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "customer-connectors",
+          "label": "The customer's real connectors, MCPs or APIs where access allows",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "direct-api-client",
+          "label": "Direct API client",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "upload-export",
+          "label": "Upload or export",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "activity_log",
+      "name": "Activity log (required capability)",
+      "required": true,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "settled (0464 scoping findings line 55; v0.2 catalogue)",
+      "options": [
+        {
+          "id": "jsonl-log",
+          "label": "Per-case JSON-lines log the agent's own code writes, separate from tracing",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "native-adapter",
+          "label": "Native format behind an adapter that writes the normalized JSON-lines log",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "calculation",
+      "name": "Calculation (required capability when numbers exist)",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": "numbers exist",
+      "advisory": false,
+      "evidence_status": "settled (shared core; criterion 11)",
+      "options": [
+        {
+          "id": "code-function",
+          "label": "Deterministic code function per number, recorded in code_steps",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "other-code",
+          "label": "Any code implementation that records code_steps",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "name": "Persistence",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "proposed",
+      "options": [
+        {
+          "id": "sqlite",
+          "label": "SQLite",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "file-store",
+          "label": "File store",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "customer-store",
+          "label": "The customer platform's store",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "state",
+      "name": "State",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "proposed",
+      "options": [
+        {
+          "id": "run-record",
+          "label": "Run record the agent's own code writes",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "runtime-sessions",
+          "label": "Runtime sessions",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "tracing",
+      "name": "Tracing (strongly recommended, never a gate)",
+      "required": false,
+      "strongly_recommended": true,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "settled pin (exp 3); ruling 8",
+      "options": [
+        {
+          "id": "phoenix",
+          "label": "Phoenix client, failing loud when switched on",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": "0.17.2"
+        },
+        {
+          "id": "runtime-own",
+          "label": "The runtime's own tracing",
+          "engine": "any",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "otlp",
+          "label": "Any stack the customer uses (OTLP to their backend, an OTLP file, others)",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None, with a reason",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "scripted_evals",
+      "name": "Scripted evals",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "proposed",
+      "options": [
+        {
+          "id": "plain-runner",
+          "label": "Plain runner over the frozen cases through run-this-case",
+          "engine": "any",
+          "suggested_on": [
+            "anthropic",
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "runtime-scorers",
+          "label": "The runtime's own scorers behind the same runner",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "judge",
+      "name": "Judge (advisory only)",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": true,
+      "evidence_status": "settled models (exp 4); ruling 2",
+      "options": [
+        {
+          "id": "claude-sonnet-5-5",
+          "label": "claude-sonnet-5-5",
+          "engine": "anthropic",
+          "suggested_on": [
+            "anthropic"
+          ],
+          "pin": null
+        },
+        {
+          "id": "gpt-5.6-luna",
+          "label": "gpt-5.6-luna",
+          "engine": "openai",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "none",
+          "label": "None",
+          "engine": "any",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "launcher",
+      "name": "Launcher",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "settled (exp 2)",
+      "options": [
+        {
+          "id": "claude-p",
+          "label": "claude -p per unit",
+          "engine": "anthropic",
+          "suggested_on": [
+            "anthropic"
+          ],
+          "pin": null
+        },
+        {
+          "id": "codex-exec",
+          "label": "codex exec per unit, with a writable temp folder and git paths",
+          "engine": "openai",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": null
+        },
+        {
+          "id": "codex-native-workers",
+          "label": "Native Codex workers (not recommended)",
+          "engine": "openai",
+          "suggested_on": [],
+          "pin": null
+        }
+      ]
+    },
+    {
+      "id": "reviewer",
+      "name": "Reviewer",
+      "required": false,
+      "strongly_recommended": false,
+      "required_when": null,
+      "advisory": false,
+      "evidence_status": "settled (ruling 12 Oct); the other engine's reviewer only under cross_engine_review",
+      "options": [
+        {
+          "id": "claude-fresh",
+          "label": "Fresh Claude session, read-only",
+          "engine": "anthropic",
+          "suggested_on": [
+            "anthropic"
+          ],
+          "pin": null
+        },
+        {
+          "id": "codex-fresh",
+          "label": "Fresh Codex session, read-only",
+          "engine": "openai",
+          "suggested_on": [
+            "openai"
+          ],
+          "pin": null
+        }
+      ]
+    }
+  ]
+}

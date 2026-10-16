@@ -1,0 +1,52 @@
+{
+  "id": "R-1",
+  "decision": "inbox:n3",
+  "prose": "a summary that quotes the fault text and names a product setup is passed on to the drafting pass",
+  "expression": {
+    "reads": [
+      "summary.quotes_fault",
+      "summary.setup_named"
+    ],
+    "test": {
+      "kind": "and",
+      "args": [
+        {
+          "kind": "compare",
+          "op": "==",
+          "left": {
+            "kind": "read",
+            "token": "summary.quotes_fault"
+          },
+          "right": {
+            "kind": "literal",
+            "value": "yes"
+          }
+        },
+        {
+          "kind": "compare",
+          "op": "==",
+          "left": {
+            "kind": "read",
+            "token": "summary.setup_named"
+          },
+          "right": {
+            "kind": "literal",
+            "value": "yes"
+          }
+        }
+      ]
+    },
+    "sets": {
+      "route": {
+        "kind": "literal",
+        "value": "drafting"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "report_id",
+  "observation_ids": [
+    "inbox:observation:o2"
+  ],
+  "config_values": []
+}

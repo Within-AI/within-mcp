@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot-intake",
+  "scope": {
+    "process_ids": [
+      "ac4ea12e7a66",
+      "c0a6b3a6d555"
+    ],
+    "cutoff_at": "2026-09-24T16:57:10+05:30"
+  },
+  "required_source_ids": [
+    "process-details",
+    "process-details-steps-1-1",
+    "process-details-steps-1-2",
+    "process-details-steps-2-1",
+    "process-details-steps-2-2",
+    "process-details-steps-3-1",
+    "process-details-steps-3-2",
+    "observations",
+    "dependencies"
+  ],
+  "sources": [
+    {
+      "id": "process-details",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    },
+    {
+      "id": "process-details-steps-1-1",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/0/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-1-2",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/0/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-1",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-2",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-1",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-2",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_details-ac4ea12e7a66-recipe-scopes.json",
+      "sha256": "6ad757ec0b391294a78852872f78a6bf594092a737da760c85eca5045822be8a",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "observations",
+      "process_id": "ac4ea12e7a66",
+      "status": "included",
+      "path": "get_process_observations-ac4ea12e7a66-full.json",
+      "sha256": "20b8f4dc19bcb8bfd00a9330a6b4b7554d34207d3c311bc3e3f4bfcbf431a4ad",
+      "collection_kind": "observations",
+      "mapping": {
+        "items": "/items",
+        "total": "/total",
+        "item_id": "/resource_key",
+        "observed_at": "/timestamp"
+      }
+    },
+    {
+      "id": "dependencies",
+      "process_id": "c0a6b3a6d555",
+      "status": "included",
+      "path": "get_process_details-c0a6b3a6d555-dependencies.json",
+      "sha256": "6deae96db66b27ef9adfd4921b6aa644a1e534b15e980247fa107e214b4b3853",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    }
+  ],
+  "issues": []
+}

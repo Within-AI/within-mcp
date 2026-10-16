@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/field.schema.json",
+  "version": "agent-design.field/1",
+  "title": "field.schema.json",
+  "description": "A typed field on one boundary.",
+  "type": "object",
+  "required": [
+    "id",
+    "boundary_id",
+    "token",
+    "type",
+    "direction",
+    "run_time_source",
+    "evidence_state",
+    "signal"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "boundary_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "token": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "direction": {
+      "enum": [
+        "read",
+        "inbound_control",
+        "back_from_person",
+        "write",
+        "person_write",
+        "draft",
+        "outbound_handoff",
+        "dispatch"
+      ]
+    },
+    "run_time_source": {
+      "enum": [
+        "rule",
+        "input",
+        "configuration",
+        "stand_in"
+      ]
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stand_in": {
+      "type": "object",
+      "required": [
+        "declared"
+      ],
+      "properties": {
+        "declared": {
+          "const": true
+        }
+      }
+    },
+    "evidence_state": {
+      "enum": [
+        "Observed",
+        "Assumed",
+        "Contradictory",
+        "needs_more_information"
+      ]
+    },
+    "signal": {
+      "enum": [
+        "failure",
+        "state",
+        "value"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "run_time_source": {
+            "const": "rule"
+          }
+        },
+        "required": [
+          "run_time_source"
+        ]
+      },
+      "then": {
+        "required": [
+          "rule_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "run_time_source": {
+            "const": "stand_in"
+          }
+        },
+        "required": [
+          "run_time_source"
+        ]
+      },
+      "then": {
+        "required": [
+          "stand_in"
+        ]
+      }
+    }
+  ]
+}

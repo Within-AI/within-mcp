@@ -1,0 +1,621 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/case.schema.json",
+  "version": "agent-design.case/1",
+  "title": "case.schema.json",
+  "description": "One test case: an ordinary case with rows, holds, judgment answers and expected outcome, or a stamped-open exclusion. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "$defs": {
+    "derivation": {
+      "description": "U1's expression language restricted to calc, literal and read nodes; every read is <row_id>.<column>.",
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "calc",
+            "literal",
+            "read"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "literal"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "kind",
+              "value"
+            ],
+            "properties": {
+              "kind": true,
+              "value": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "read"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "kind",
+              "token"
+            ],
+            "properties": {
+              "kind": true,
+              "token": {
+                "type": "string",
+                "pattern": "^[^.\\s]+\\.[^.\\s]+$"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "calc"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "kind",
+              "step",
+              "fn",
+              "args"
+            ],
+            "properties": {
+              "kind": true,
+              "step": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fn": {
+                "enum": [
+                  "add",
+                  "subtract",
+                  "multiply",
+                  "divide",
+                  "sum",
+                  "abs",
+                  "round"
+                ]
+              },
+              "args": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/derivation"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      ]
+    },
+    "labelled_value": {
+      "type": "object",
+      "required": [
+        "value",
+        "label"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "not_applicable"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "not_applicable": {
+                  "const": true
+                }
+              }
+            }
+          ]
+        },
+        "label": {
+          "enum": [
+            "observed",
+            "synthetic"
+          ]
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "if": {
+        "properties": {
+          "label": {
+            "const": "observed"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      },
+      "then": {
+        "required": [
+          "source_ref"
+        ]
+      }
+    },
+    "plain_value": {
+      "description": "A plain output value, as in sim-input: a JSON scalar, null for unset, or the not-applicable marker; never a labelled wrapper.",
+      "anyOf": [
+        {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "not_applicable"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "not_applicable": {
+              "const": true
+            }
+          }
+        }
+      ]
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/plain_value"
+              },
+              {
+                "$ref": "#/$defs/named_derivation"
+              }
+            ]
+          }
+        },
+        "derivations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/any_derivation"
+          }
+        },
+        "amount_direction": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "credit",
+              "debit",
+              "needs_more_information"
+            ]
+          }
+        }
+      },
+      "description": "One expected outcome. Numbers are given as derivations (never computed by the stage agent); booleans, text (\"\" is the empty answer), null and not applicable are kept as typed values; amount_direction is carried for each amount whose token declares one.",
+      "anyOf": [
+        {
+          "required": [
+            "values"
+          ]
+        },
+        {
+          "required": [
+            "derivations"
+          ]
+        }
+      ]
+    },
+    "ordinary": {
+      "type": "object",
+      "required": [
+        "id",
+        "decision",
+        "kind",
+        "layer",
+        "critical",
+        "rows",
+        "holds",
+        "judgment_answers",
+        "expected",
+        "final_label"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "positive",
+            "must_escalate",
+            "boundary"
+          ]
+        },
+        "layer": {
+          "enum": [
+            "part",
+            "handover",
+            "end_to_end",
+            "authority"
+          ]
+        },
+        "critical": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "values"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "values": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/$defs/labelled_value"
+                }
+              }
+            }
+          }
+        },
+        "holds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "rule_id",
+              "item_key",
+              "holds"
+            ],
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "item_key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "holds": {
+                "enum": [
+                  true,
+                  false,
+                  "needs_more_information",
+                  "not_applicable"
+                ]
+              }
+            }
+          }
+        },
+        "judgment_answers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "rule_id",
+              "item_key"
+            ],
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "item_key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "answer": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean",
+                  "null"
+                ],
+                "description": "The recorded answer, in its own type: text (\"\" and \"explanation not found\" are legal), a number, true or false, or null for a missing answer. An absent answer is read as null."
+              }
+            }
+          }
+        },
+        "expected": {
+          "$ref": "#/$defs/outcome"
+        },
+        "allowed_alternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/outcome"
+          }
+        },
+        "interface": {
+          "type": "object",
+          "required": [
+            "boundary_id",
+            "input",
+            "output"
+          ],
+          "properties": {
+            "boundary_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "input": true,
+            "output": true
+          }
+        },
+        "final_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "person_decision": {
+          "description": "For a step a person decides: the person's decision, as synthetic data, that the walk plays at the gate before grading what the agent does next.",
+          "type": "object",
+          "required": [
+            "gate",
+            "decision"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "gate": {
+              "type": "string",
+              "minLength": 1
+            },
+            "decision": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ends_process": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "const": "handover"
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "required": [
+              "interface"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "critical": {
+                "const": true
+              }
+            },
+            "required": [
+              "critical"
+            ]
+          },
+          "else": {
+            "properties": {
+              "allowed_alternatives": false
+            }
+          }
+        }
+      ]
+    },
+    "exclusion": {
+      "type": "object",
+      "required": [
+        "id",
+        "decision",
+        "exclusion"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "positive",
+            "must_escalate",
+            "boundary"
+          ]
+        },
+        "layer": {
+          "enum": [
+            "part",
+            "handover",
+            "end_to_end",
+            "authority"
+          ]
+        },
+        "critical": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "exclusion": {
+          "type": "object",
+          "required": [
+            "missing",
+            "stamp"
+          ],
+          "properties": {
+            "missing": {
+              "type": "string",
+              "minLength": 1
+            },
+            "stamp": {
+              "const": "needs_more_information"
+            }
+          },
+          "additionalProperties": false
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_state": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "description": "A stamped-open exclusion. check_cases requires a non-empty reason and evidence_state on each one (a recorded finding when absent)."
+    },
+    "named_derivation": {
+      "description": "A named derivation: compute_expected.py makes it exact. derive is one of its NAMED derivations; inputs are taken in the order written, each a number, decimal text, or a read of the case's own rows.",
+      "type": "object",
+      "required": [
+        "derive",
+        "inputs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "derive": {
+          "enum": [
+            "copy",
+            "negate",
+            "absolute",
+            "sum",
+            "difference",
+            "absolute_difference",
+            "product",
+            "ratio",
+            "round"
+          ]
+        },
+        "inputs": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": [
+                  "number",
+                  "string"
+                ]
+              },
+              {
+                "type": "object",
+                "required": [
+                  "read"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "read": {
+                    "type": "string",
+                    "pattern": "^[^.\\s]+\\.\\S+$"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "any_derivation": {
+      "description": "A derivation: the calc/literal/read node form or a named derivation.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/derivation"
+        },
+        {
+          "$ref": "#/$defs/named_derivation"
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ordinary"
+    },
+    {
+      "$ref": "#/$defs/exclusion"
+    }
+  ]
+}

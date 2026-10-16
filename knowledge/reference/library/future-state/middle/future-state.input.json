@@ -1,0 +1,2121 @@
+{
+  "schema_version": 2,
+  "kind": "workflow",
+  "variant": "future-state",
+  "process": {
+    "name": "Clear ERP (clearing) customer open items, with a read-only agent in the loop",
+    "process_ids": [
+      "ac4ea12e7a66",
+      "c0a6b3a6d555"
+    ]
+  },
+  "snapshot": {
+    "path": "../../snapshot/middle/snapshot.json",
+    "sha256": "a5bba9fa12fdbd292628917c412929b7d9a2837435ba8f27d3cdb91cec124fde"
+  },
+  "prior_workflow": {
+    "path": "../../current-state/middle/current-state.json",
+    "sha256": "bbd4e479a13b3e1901bb5c25ca54d36d5ac57ca912afffafcb8b25459e697b0a"
+  },
+  "current_state": {
+    "path": "../../current-state/middle/current-state.json",
+    "sha256": "bbd4e479a13b3e1901bb5c25ca54d36d5ac57ca912afffafcb8b25459e697b0a",
+    "kind": "workflow-bundle"
+  },
+  "presentation": "diagram",
+  "diagram": {
+    "notes": [
+      "Three performer bands: Analyst (Offshore desk, top) - Agent (read-only, middle) - ERP (clearing) (bottom, the system rail). The Agent mediates. read_access edges flow down from a step to a System rail; handoff edges flow up from Agent to Analyst carrying the briefing; the one inbound edge (10-in) flows down from Analyst to Agent carrying the analyst-supplied company-code scope; escalation (GATED) edges are the deliberately non-default escalate-don't-act paths, drawn dashed coral. Every write edge originates in the Analyst lane and targets a System surface (ERP line-item app). The System lane holds passive ERP (clearing) rails and one preserved result; it performs nothing the analyst did not initiate.",
+      "recommend-then-review. The agent reads permitted ERP (clearing) surfaces, groups candidate items, recommends CANCELLATION where supported, triages exceptions, packages evidence, and Escalates. The analyst validates or overrides every recommendation, holds every clearing decision, and performs every ERP line-item app/ERP (clearing) write. No agent-taken authoritative decision exists; the two decision diamonds are Analyst-lane review seams.",
+      "The V3 agent is intended to hold read-only entitlement to ERP (clearing) open-item tables (header and line-item tables or equivalent) and the Additional Log surface, and to write nowhere. Production feasibility, entitlement scope, schema, and access method remain More information required (WWSNTK-7). In the Sandbox a synthetic adapter maps into a provisional clearing snapshot; production ERP (clearing) must map into the same snapshot shape. Sandbox read adapters never establish production ERP (clearing) access.",
+      "The agent writes nowhere - zero writes to client systems of record (ERP (clearing) / ERP line-item app / Excel). No write edge originates from an Agent-lane node. The agent touches ERP (clearing) only through read_access and leaves its lane only through a handoff (the briefing) or an escalation. The analyst performs every ERP line-item app/ERP (clearing) write; that today-state is Observed, the agent-zero-write boundary is an Assumed design invariant / ratified control (no V3 agent exists to observe). A single agent-originated write is a critical violation.",
+      "GATED in the DAG marks the deliberately non-default escalate-don't-act path - it is a path disposition, not a fourth epistemic grade, and in the DAG it appears only on edges. It is rendered here as the house escalation edge (edge kind 'escalation', dashed coral). The underlying epistemic state of those edges is Assumed (the DAG writes them '[GATED; Assumed control grounded by unresolved evidence]'), carried in evidence_state. No new legend term is introduced.",
+      "Zero-write: The agent writes nowhere - zero writes to client systems of record (ERP (clearing) / ERP line-item app / Excel). Assumed design invariant / ratified control; the Analyst performing every ERP line-item app/ERP (clearing) write today is Observed.",
+      "Person's decision and action: The Analyst validates or overrides every recommendation and performs every ERP line-item app/ERP (clearing) write. Observed.",
+      "Escalation-first: Insufficient evidence always Escalates; it never defaults a label. Assumed control, grounded by unresolved evidence states.",
+      "Primary-path policy only: CANCELLATION is the client-ratified first-pass policy for supported primary-path groups; not an evidence-derived selection rule. Assumed policy.",
+      "Exception limitation: The exception seam is triage plus evidence packaging only. No exception-to-label recommendation appears in this DAG. Observed boundary / Assumed Agent control.",
+      "Correction-path limitation: Correction-path routing remains Analyst-owned or belongs to a separate PRD. Needs more information.",
+      "No false certainty: Evidence state is preserved on each node and edge; GATED paths remain visibly non-default. Assumed design requirement.",
+      "Triage category blocked_period: Posting-period-closed message; defer / follow-up by a person signal. Evidence: Message and deferral Observed; accountable owner and return timing needs more information (WWSNTK-6). Boundary: No period-opening action or routing decision.",
+      "Triage category selection_rework_required: 'No G/L account documents selected' / empty-selection signal. Evidence: Observed Boundary: No selection-rule invention; package the criteria context for Analyst review.",
+      "Triage category policy_review_required: AC07 / CUSTOMER withholding-tax message. Evidence: Message presence Observed; permitted action and owner needs more information (WWSNTK-4). Boundary: Surface for review; do not assert tax policy or an Item Text label.",
+      "Triage category non_pair_residue: Item(s) without a supported offsetting-pair outcome. Evidence: Needs more information as an exception-routing category. Boundary: Surface only; the agent does not own correction-path routing.",
+      "Triage category unclassified_exception: Any other message or condition not covered above. Evidence: Needs more information Boundary: Escalate with available evidence; no default classification or label.",
+      "Excluded triage category counterpart_missing: Deliberately excluded: it has no evidence anchor.",
+      "Out of scope: Agent writes of any kind. (Observed exclusion)",
+      "Out of scope: An exception-message-to-label selection rule. (Needs more information; GATED)",
+      "Out of scope: Agent ownership of correction-path routing. (Needs more information)",
+      "Out of scope: Any label vocabulary beyond the CANCELLATION first-pass policy. (Needs more information)",
+      "Out of scope: A claim that Sandbox read adapters establish production ERP (clearing) access. (Assumed boundary)"
+    ],
+    "band_labels": {
+      "Agent": "Agent (read-only)"
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "sys-erp-oi",
+        "type": "system_surface",
+        "title": "ERP (clearing)",
+        "lane": "System",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "issue_id": "WWSNTK-7",
+        "detail": "ERP (clearing) as the agent reaches it: the open-item tables (header and line-item tables or equivalent). Open-item surface the agent queries read-only on the scheduled run (step 2a); the returned data becomes the provisional clearing snapshot (step 2b). Production read path, entitlement, schema, and access method are More information required (WWSNTK-7); in the Sandbox a synthetic adapter maps into the same snapshot shape. Read-only in V3.",
+        "short_label": "ERP (clearing)",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-erp-addlog",
+        "type": "system_surface",
+        "title": "ERP (clearing) Additional Log surface",
+        "lane": "System",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "issue_id": "correlation-gap",
+        "detail": "ERP (clearing) UI review surface for clearing-run messages; the exported artifact observed in L4 is an item list, not a message-per-row log, and Assignment (column K) is the available correlation key. The agent reads it read-only, scoped to the analyst-supplied company codes (step 10). The agent's programmatic read entitlement is More information required (WWSNTK-7); a complete Additional-Log-to-item join is More information required. Read-only in V3.",
+        "short_label": "ERP Additional…",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "sys-erp-line-items",
+        "type": "system_surface",
+        "title": "ERP line-item app / ERP (clearing) clearing",
+        "lane": "System",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "detail": "The Analyst applies approved labels in ERP line-item app, saves, and runs update mode (step 8, Analyst-owned write); ERP (clearing) posts the clearing documents and makes the Additional Log available (step 9). The only write target in the graph, and every write into it originates in the Analyst lane. The agent never writes ERP line-item app/ERP (clearing).",
+        "short_label": "ERP line-item…",
+        "surface_kind": "system_of_record",
+        "access_state": "Assumed"
+      },
+      {
+        "id": "n-01",
+        "type": "agent_trigger",
+        "title": "Scheduled daily trigger",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/11"
+          }
+        ],
+        "detail": "System-triggered daily start - no analyst inbound on the primary seam by design. Cadence is More information required. Assumed for the V3 implementation (no V3 agent exists to observe).",
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-02",
+        "type": "agent_read",
+        "title": "Query ERP (clearing) open-item tables (read-only)",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "detail": "Read-only query (read_access to sys-erp-oi). The step-2b ERP (clearing) return is the read edge itself, not a separate box (rail convention). Read entitlement / access method are More information required (WWSNTK-7). Assumed for V3.",
+        "facts": [
+          {
+            "label": "Retrieves",
+            "text": "Open-item data (header and line-item tables or equivalent); the returned data becomes the provisional clearing snapshot."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-03"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-erp-oi"
+        ]
+      },
+      {
+        "id": "n-03",
+        "type": "agent_reconciliation",
+        "title": "Compute clearable universe; group candidate rows by Assignment",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          }
+        ],
+        "detail": "Assignment grouping is Observed; V3 system-read execution is Assumed. No new agent read is created - reasoning is over the provisional clearing snapshot from step 2. Balance never determines group membership.",
+        "facts": [
+          {
+            "label": "Compares",
+            "text": "Compute the clearable universe across variant x geography x G/L; group candidate rows by Assignment, preserving the complete group and source/batch provenance. Balance never determines group membership."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-04"
+          }
+        ],
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-04",
+        "type": "agent_gate",
+        "title": "Evaluate Assignment group; compute recommendation confidence",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Confidence-gated recommendation gate (agent-internal; not an authoritative decision diamond). CANCELLATION is the client-ratified first-pass policy for supported primary-path groups, not an evidence-derived selection rule. Balance never determines Assignment-group membership. For supported evidence, computed net balance zero within the unresolved tolerance -> HIGH confidence; otherwise -> LOW confidence for closer Analyst review. Unsupported or insufficient evidence -> Escalate (GATED, n-4esc), never default a label. Offsetting pattern Observed; V3 confidence rule Assumed and client-ratified; tolerance More information required.",
+        "facts": [
+          {
+            "label": "Feeds",
+            "text": "n-05a (recommend) / n-4esc (Escalate, GATED)"
+          },
+          {
+            "label": "Assesses",
+            "text": "Each Assignment group is evaluated against the CANCELLATION first-pass policy. Net balance zero within the unresolved tolerance yields HIGH confidence; a non-zero balance yields LOW confidence for closer Analyst review. This is a recommendation flow, not an authoritative decision."
+          }
+        ],
+        "treatment": "agent-taken",
+        "decision_table": "dm-signal-label"
+      },
+      {
+        "id": "n-05a",
+        "type": "agent_recommendation",
+        "title": "Draft CANCELLATION recommendation with confidence; queue to briefing",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "CANCELLATION policy is client-ratified, not evidence-derived. Recommendation only; the agent never applies a label or acts.",
+        "facts": [
+          {
+            "label": "Recommends",
+            "text": "A CANCELLATION recommendation with confidence, queued to the briefing (a recommendation only, never an Agent action)."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-06"
+          }
+        ],
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-06",
+        "type": "agent_stage",
+        "title": "Present clearable-items briefing (ranked table + CSV)",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "The briefing is the Agent->Analyst handoff surface. Output-only: leaves the Agent lane by one handoff edge to n-07. Recommendations and Escalations only; never an Agent action.",
+        "facts": [
+          {
+            "label": "Stages",
+            "text": "A ranked UI table and downloadable CSV: the grouped clearable items, confidence, Escalations, and batch-ID provenance, handed off for a person's decision."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-07"
+          }
+        ],
+        "treatment": "agent-taken",
+        "stages_to": "clearable-items briefing"
+      },
+      {
+        "id": "n-07",
+        "type": "decision",
+        "title": "Review briefing and decide per group",
+        "lane": "Analyst",
+        "performer": "Cash Applications Analyst (Offshore desk)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Analyst review seam. The analyst validates or overrides every recommendation and holds every clearing decision (authority to override). Approved groups proceed to ERP line-item app (n-08); defer/exclude are analyst-retained and not modeled as separate edges. Also receives unsupported groups escalated from the primary gate (via n-4esc).",
+        "treatment": "person-kept",
+        "decision_table": "dt-n-07",
+        "condition": "Approve, override, defer, or exclude each recommended / escalated group.",
+        "reviews": "n-06"
+      },
+      {
+        "id": "n-4esc",
+        "type": "analyst_reconciliation",
+        "title": "Review unsupported group",
+        "lane": "Analyst",
+        "performer": "Cash Applications Analyst (Offshore desk)",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "Primary-gate alternate: where the agent's evidence is unsupported or insufficient, the group is Escalated (GATED) to the analyst rather than defaulted to a label. Flows into the per-group review and decision (n-07).",
+        "facts": [
+          {
+            "label": "Inputs",
+            "text": "n-04 (GATED escalation: unsupported / insufficient evidence)"
+          },
+          {
+            "label": "Finding",
+            "text": "The analyst may decide, defer, or exclude the unsupported group."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-07"
+          }
+        ],
+        "treatment": "person-kept"
+      },
+      {
+        "id": "n-08",
+        "type": "write_interaction",
+        "title": "Apply approved labels in ERP line-item app; save; run update mode",
+        "lane": "Analyst",
+        "performer": "Cash Applications Analyst (Offshore desk)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "process-details-steps-2-1",
+            "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          }
+        ],
+        "detail": "Analyst-owned write (write edge to sys-erp-line-items). Also the re-clean landing point for the exception seam (re-entry from n-14). The agent never applies a label or runs the update.",
+        "facts": [
+          {
+            "label": "Enters",
+            "text": "Apply the approved labels in ERP line-item app, save, and run update mode so ERP (clearing) posts the clearing documents."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-09"
+          }
+        ],
+        "treatment": "person-kept",
+        "systems": [
+          "sys-erp-line-items"
+        ]
+      },
+      {
+        "id": "n-09",
+        "type": "system_result",
+        "title": "Clearing documents posted; Additional Log available",
+        "lane": "System",
+        "performer": "ERP (clearing)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "ERP (clearing) posts the clearing documents and makes the Additional Log surface available. System-produced outcome of the Analyst-initiated update; preserved, not inferred. Feeds the exception / re-clean seam.",
+        "systems": [
+          "sys-erp-line-items"
+        ]
+      },
+      {
+        "id": "n-10in",
+        "type": "analyst_input",
+        "title": "Supply affected company-code scope for Additional Log exception handling",
+        "lane": "Analyst",
+        "performer": "Cash Applications Analyst (Offshore desk)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "detail": "The only enumerated Analyst -> Agent inbound in the DAG. Analyst-owned scoping input; the agent is a read-only consumer and asserts no scoping authority of its own. Without this scope the agent cannot triage Additional Log exceptions - they are not visible from the item-list export alone. Grounded in agent-architecture-v1.md:53-54. Whether the V3 direct read still needs this selection is More information required (WWSNTK-8). Seating this inbound edge extends the modeled lane boundary; recorded explicitly, not silent.",
+        "facts": [
+          {
+            "label": "Finding",
+            "text": "The analyst supplies the affected company-code scope (posting-period, withholding-tax) as input to exception handling."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-10"
+          }
+        ],
+        "treatment": "person-kept"
+      },
+      {
+        "id": "n-10",
+        "type": "agent_read",
+        "title": "Read Additional Log surface (read-only, scoped to analyst-supplied company codes)",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "detail": "Read-only (read_access to sys-erp-addlog), scoped by the inbound edge 10-in. Programmatic read entitlement is More information required (WWSNTK-7). Assumed for V3.",
+        "facts": [
+          {
+            "label": "Retrieves",
+            "text": "Additional Log messages on the ERP (clearing) UI surface, scoped to the analyst-supplied company codes; Assignment is the available item-list correlation key."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-11"
+          }
+        ],
+        "treatment": "agent-taken",
+        "systems": [
+          "sys-erp-addlog"
+        ]
+      },
+      {
+        "id": "n-11",
+        "type": "agent_triage",
+        "title": "Triage exception into an evidence-state category",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "detail": "Triage need is Observed; per-category evidence states vary (see triage_categories). The agent may link rows only where Assignment and the available evidence support the link; a complete Additional-Log-to-item join is More information required, and each case must visibly say when its join is partial or unavailable.",
+        "facts": [
+          {
+            "label": "Feeds",
+            "text": "n-12"
+          },
+          {
+            "label": "Assesses",
+            "text": "Triage each exception into one of five categories (blocked_period, selection_rework_required, policy_review_required, non_pair_residue, unclassified_exception), preserving category and source message. counterpart_missing is deliberately excluded (no evidence anchor)."
+          },
+          {
+            "label": "Triage categories",
+            "text": "blocked_period · selection_rework_required · policy_review_required · non_pair_residue · unclassified_exception"
+          }
+        ],
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-12",
+        "type": "agent_recommendation",
+        "title": "Produce one evidence-bearing Analyst case per exception",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "detail": "Case is packaged for Escalation (GATED), not a label recommendation. The exception seam is triage plus evidence packaging only; no exception-to-label recommendation appears in the DAG.",
+        "facts": [
+          {
+            "label": "Recommends",
+            "text": "One evidence-bearing Analyst case per exception: message, evidence state, join status, linked rows where joinable, and a bounded next step - packaged for Escalation, not a label recommendation."
+          },
+          {
+            "label": "Feeds",
+            "text": "n-13"
+          }
+        ],
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-13",
+        "type": "agent_escalation",
+        "title": "Escalation-first gate: package evidence and Escalate",
+        "lane": "Agent",
+        "performer": "ERP (clearing) clearing agent",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "detail": "Observed for analyst handback; Assumed for Agent implementation. The person's decision remains outside the agent. Two GATED escalation facets go to the analyst decision (n-14): potential re-clean where evidence does not establish message -> label; and not re-clean-eligible or evidence incomplete.",
+        "facts": [
+          {
+            "label": "Feeds",
+            "text": "n-14"
+          },
+          {
+            "label": "Assesses",
+            "text": "Package evidence and Escalate whether re-clean eligibility is unresolved or not established. Escalation-first: insufficient evidence always Escalates; it never defaults a label."
+          }
+        ],
+        "treatment": "agent-taken"
+      },
+      {
+        "id": "n-14",
+        "type": "decision",
+        "title": "Decide per exception: re-clean or route residue",
+        "lane": "Analyst",
+        "performer": "Cash Applications Analyst (Offshore desk)",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "detail": "Analyst decision seam. Observed for the re-clean loop and residue exit; route ownership (receiving owner, completion condition, correction-path rule) is More information required. Branches: re-clean -> n-08 (Analyst-owned ERP line-item app action, re-entry to the primary seam); route/defer residue -> n-corr (separate correction path, out of scope).",
+        "treatment": "person-kept",
+        "decision_table": "dt-n-14",
+        "condition": "Re-clean through ERP line-item app and return to step 8, or route residue to a separate correction path.",
+        "reviews": "n-13"
+      },
+      {
+        "id": "n-corr",
+        "type": "out_of_scope",
+        "title": "Separate correction path (out of scope)",
+        "lane": "Analyst",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "issue_id": "open-n-corr",
+        "detail": "Correction-path routing remains Analyst-owned or belongs to a separate PRD. The receiving owner, completion condition, and correction-path rule are More information required. Out of scope for this DAG; no onward edge is asserted.",
+        "treatment": "person-kept"
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-01",
+        "kind": "sequence",
+        "source": "n-01",
+        "target": "n-02",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/12"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/attributes/11"
+          },
+          {
+            "source_id": "process-details-steps-1-1",
+            "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          }
+        ],
+        "label": "scheduled run"
+      },
+      {
+        "id": "e-02",
+        "kind": "sequence",
+        "source": "n-02",
+        "target": "n-03",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "label": "returned data becomes the provisional clearing snapshot"
+      },
+      {
+        "id": "e-03",
+        "kind": "sequence",
+        "source": "n-03",
+        "target": "n-04",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "candidate groups preserve Assignment and source/batch provenance"
+      },
+      {
+        "id": "e-04-rec",
+        "kind": "then",
+        "source": "n-04",
+        "target": "n-05a",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "condition": "supported evidence and confidence",
+        "label": "supported -> recommend CANCELLATION (recommendation flow, not a GATED escalation)"
+      },
+      {
+        "id": "e-04-esc",
+        "kind": "escalation",
+        "source": "n-04",
+        "target": "n-4esc",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "GATED: unsupported or insufficient evidence -> Escalate, never default a label"
+      },
+      {
+        "id": "e-4esc-07",
+        "kind": "sequence",
+        "source": "n-4esc",
+        "target": "n-07",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "Analyst may decide, defer, or exclude"
+      },
+      {
+        "id": "e-05",
+        "kind": "sequence",
+        "source": "n-05a",
+        "target": "n-06",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "recommendation only, never an Agent action"
+      },
+      {
+        "id": "e-06",
+        "kind": "handoff",
+        "source": "n-06",
+        "target": "n-07",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "clearable-items briefing (ranked table + CSV, confidence, Escalations, batch-ID provenance); Agent->Analyst handoff for a person's decision"
+      },
+      {
+        "id": "e-07",
+        "kind": "then",
+        "source": "n-07",
+        "target": "n-08",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/5"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          }
+        ],
+        "condition": "approved",
+        "label": "Analyst approval / override",
+        "display_label": "approved"
+      },
+      {
+        "id": "e-08",
+        "kind": "sequence",
+        "source": "n-08",
+        "target": "n-09",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/4"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/4"
+          }
+        ],
+        "label": "Analyst initiates ERP (clearing) update"
+      },
+      {
+        "id": "e-09-10in",
+        "kind": "sequence",
+        "source": "n-09",
+        "target": "n-10in",
+        "evidence_state": "Assumed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+          },
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "label": "Additional Log available; the agent's programmatic read entitlement is needs more information"
+      },
+      {
+        "id": "e-10in",
+        "kind": "inbound",
+        "source": "n-10in",
+        "target": "n-10",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "affected company-code scope (Analyst -> Agent input; analyst-owned scoping, the agent is a read-only consumer)"
+      },
+      {
+        "id": "e-10-11",
+        "kind": "sequence",
+        "source": "n-10",
+        "target": "n-11",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "messages reviewed on a ERP (clearing) UI surface; Assignment is the correlation key"
+      },
+      {
+        "id": "e-11-12",
+        "kind": "sequence",
+        "source": "n-11",
+        "target": "n-12",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "preserve category and source message"
+      },
+      {
+        "id": "e-12-13",
+        "kind": "escalation",
+        "source": "n-12",
+        "target": "n-13",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "GATED: case packaged for Escalation, not a label recommendation"
+      },
+      {
+        "id": "e-13-14a",
+        "kind": "escalation",
+        "source": "n-13",
+        "target": "n-14",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "GATED: potential re-clean; evidence does not establish message -> label"
+      },
+      {
+        "id": "e-13-14b",
+        "kind": "escalation",
+        "source": "n-13",
+        "target": "n-14",
+        "evidence_state": "Assumed",
+        "source_refs": [],
+        "issue_id": "introduced-by-design",
+        "label": "GATED: not re-clean-eligible or evidence incomplete"
+      },
+      {
+        "id": "e-14-08",
+        "kind": "reentry",
+        "source": "n-14",
+        "target": "n-08",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          }
+        ],
+        "label": "re-clean through ERP line-item app -> ERP (clearing) update (Analyst-owned ERP line-item app action)"
+      },
+      {
+        "id": "e-14-corr",
+        "kind": "exception",
+        "source": "n-14",
+        "target": "n-corr",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "issue_id": "open-e-14-corr",
+        "label": "route / defer residue; receiving owner, completion condition, and correction-path rule needs more information"
+      },
+      {
+        "id": "ra-02-oi",
+        "kind": "read_access",
+        "source": "n-02",
+        "target": "sys-erp-oi",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-1-2",
+            "pointer": "/current_version/tasks/0/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/8"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "issue_id": "WWSNTK-7",
+        "label": "ERP (clearing) open-item read (header and line-item tables); entitlement & access method needs more information (WWSNTK-7)"
+      },
+      {
+        "id": "ra-10-addlog",
+        "kind": "read_access",
+        "source": "n-10",
+        "target": "sys-erp-addlog",
+        "evidence_state": "needs_more_information",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/0"
+          }
+        ],
+        "issue_id": "WWSNTK-7",
+        "label": "Additional Log read, scoped to analyst-supplied company codes; entitlement needs more information (WWSNTK-7)"
+      },
+      {
+        "id": "w-08-erp",
+        "kind": "write",
+        "source": "n-08",
+        "target": "sys-erp-line-items",
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/6"
+          },
+          {
+            "source_id": "process-details-steps-3-1",
+            "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/3"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "label": "apply approved labels in ERP line-item app; save; run update mode (Analyst-owned write)"
+      }
+    ],
+    "workspaces": [],
+    "decision_tables": [
+      {
+        "id": "dm-signal-label",
+        "owner": "n-04",
+        "kind": "signal_label",
+        "purpose": "Factual current-state expansion of the analyst's Item Text label-selection judgment for an Assignment group.",
+        "columns": [
+          "recommended_item_text_label",
+          "confidence_tier",
+          "evidence_state",
+          "ambiguity_or_tie_break_handling",
+          "analyst_handback"
+        ],
+        "rows": [
+          {
+            "id": "sig-standardize-item-text",
+            "label": "A matched Assignment group (paired positive/negative line items) requires a standardized Item Text before auto-clearing; the analyst references the standard Item Text label list (Sticky Notes) and enters the correct value for the group.",
+            "attributes": {
+              "recommended_item_text_label": "Observed applied labels, recorded as observed applications and NOT a closed or authoritative vocabulary: CANCELLATION, BANK CHARGES, PAYMENT RECEIVED, AE - SAL, SAL JUNE 2026. The condition that selects a specific label for a given Assignment group is not established (WWSNTK-1).",
+              "confidence_tier": "More information required",
+              "evidence_state": "Observed",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "Label selection is the analyst's judgment (people's-judgment core, CP-3); the analyst references the standard label list and applies the correct value, and hands back any Assignment group whose correct label is not established."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/7"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1",
+              "WWSNTK-3"
+            ]
+          },
+          {
+            "id": "sig-label-vocabulary-mapping",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "The analyst determines the correct label; the complete authoritative Item Text label vocabulary and the assignment-group -> label mapping are not established and hand back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1"
+            ]
+          },
+          {
+            "id": "sig-tie-break-overlap",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "When more than one condition, variant, or candidate label could apply, the analyst resolves it; no precedence order is established and it hands back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-3"
+            ]
+          },
+          {
+            "id": "sig-exception-relabel-taxonomy",
+            "label": "More information required",
+            "attributes": {
+              "recommended_item_text_label": "More information required",
+              "confidence_tier": "More information required",
+              "evidence_state": "More information required",
+              "ambiguity_or_tie_break_handling": "More information required",
+              "analyst_handback": "On the exception-reclean pass (n-update-exceptions / loop L2), the analyst applies the correct standard Text label for the next pass; the Additional Log taxonomy that determines which exception rows are actionable versus informational is not established and hands back to the analyst."
+            },
+            "next_node": null,
+            "next_edge": null,
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-4"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "prec-multi-condition",
+            "text": "More information required",
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              }
+            ],
+            "issue_ids": [
+              "WWSNTK-1",
+              "WWSNTK-3",
+              "WWSNTK-4"
+            ]
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          }
+        ],
+        "issue_ids": [
+          "WWSNTK-1",
+          "WWSNTK-3",
+          "WWSNTK-4"
+        ],
+        "treatment_note": "The agent evaluates each Assignment group against the label evidence this table holds and the client-ratified CANCELLATION first-pass policy; it recommends only where evidence supports the group, never a label beyond that policy. Escalation: Where the label mapping (WWSNTK-1), a tie-break (WWSNTK-3) or the Additional Log taxonomy (WWSNTK-4) would decide the outcome, the group is escalated to the analyst with its evidence; no label is defaulted."
+      },
+      {
+        "id": "dt-n-07",
+        "owner": "n-07",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-07-e-07",
+            "label": "approved",
+            "attributes": {
+              "condition": "approved",
+              "leads_to": "Apply approved labels in ERP line-item app; save; run update mode"
+            },
+            "next_node": "n-08",
+            "next_edge": "e-07",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/7"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/5"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/6"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-07-rule",
+            "text": "Approve, override, defer, or exclude each recommended / escalated group.",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-2-2",
+                "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/7"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-2-2",
+            "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/7"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          }
+        ],
+        "issue_ids": []
+      },
+      {
+        "id": "dt-n-14",
+        "owner": "n-14",
+        "kind": "selection",
+        "purpose": "Exits of this decision step, taken from the step's own links (no new facts).",
+        "columns": [
+          "condition",
+          "leads_to"
+        ],
+        "rows": [
+          {
+            "id": "dt-n-14-e-14-08",
+            "label": "reentry",
+            "attributes": {
+              "condition": "re-clean through ERP line-item app -> ERP (clearing) update (Analyst-owned ERP line-item app action)",
+              "leads_to": "Apply approved labels in ERP line-item app; save; run update mode"
+            },
+            "next_node": "n-08",
+            "next_edge": "e-14-08",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details-steps-3-1",
+                "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/3"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/3"
+              }
+            ],
+            "issue_ids": []
+          },
+          {
+            "id": "dt-n-14-e-14-corr",
+            "label": "exception",
+            "attributes": {
+              "condition": "route / defer residue; receiving owner, completion condition, and correction-path rule needs more information",
+              "leads_to": "Separate correction path (out of scope)"
+            },
+            "next_node": "n-corr",
+            "next_edge": "e-14-corr",
+            "evidence_state": "needs_more_information",
+            "source_refs": [
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              }
+            ],
+            "issue_ids": [
+              "open-e-14-corr"
+            ]
+          }
+        ],
+        "cells": [],
+        "rules": [
+          {
+            "id": "dt-n-14-rule",
+            "text": "Re-clean through ERP line-item app and return to step 8, or route residue to a separate correction path.",
+            "evidence_state": "Observed",
+            "source_refs": [
+              {
+                "source_id": "process-details-steps-3-2",
+                "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/9"
+              },
+              {
+                "source_id": "process-details",
+                "pointer": "/observations/items/2"
+              },
+              {
+                "source_id": "observations",
+                "pointer": "/items/2"
+              }
+            ],
+            "issue_ids": []
+          }
+        ],
+        "evidence_state": "Observed",
+        "source_refs": [
+          {
+            "source_id": "process-details-steps-3-2",
+            "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/9"
+          },
+          {
+            "source_id": "process-details",
+            "pointer": "/observations/items/2"
+          },
+          {
+            "source_id": "observations",
+            "pointer": "/items/2"
+          }
+        ],
+        "issue_ids": []
+      }
+    ],
+    "starts": [
+      "n-01"
+    ],
+    "outcomes": [
+      "n-corr"
+    ],
+    "open_ends": [],
+    "issues": [
+      {
+        "id": "WWSNTK-1",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Authoritative, complete Item Text label vocabulary and the assignment-group to label mapping; only CANCELLATION is broadly observed applied. Named at: n-apply-label.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-2",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Client-entity semantics (an entity, a bank or a naming convention?) and the authority of its local GL note for the island-group clearing scope. Named at: n-validate-crosscheck.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-3",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Tie-break or precedence order when several variants or G/L ranges could apply; the record shows trial and error, not a stated rule.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-4",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Additional Log message taxonomy and its actionable-versus-informational boundary. Named at: n-confirm-cleared.",
+        "source_ids": [],
+        "bound_to": [
+          "dm-signal-label"
+        ]
+      },
+      {
+        "id": "WWSNTK-5",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Variant configuration: the definitive saved-variant list, company-code scope and currency specification (variant names overlap). Named at: n-load-variant.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-6",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Posting and escalation authority boundaries: where the analyst may post an update run and where they must defer or escalate. Named at: n-teams-followup.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-7",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Read-path and integration feasibility: programmatic read of the ERP clearing program's selection screen, detail list and Additional Log, and action on the ERP line-item app.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-1",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-1 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-apply-label, sig-standardize-item-text, sig-label-vocabulary-mapping.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-2",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-2 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-period, n-dec-exceptions, n-teams-followup, e-08.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-3",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-3 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-filter-pairs, n-apply-label, sig-standardize-item-text, sig-tie-break-overlap, prec-multi-condition, dm-signal-label.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-4",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-4 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-more-scope, e-27.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-5",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-5 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-validate-crosscheck.",
+        "source_ids": []
+      },
+      {
+        "id": "evidence-CP-6",
+        "kind": "missing",
+        "status": "open",
+        "reason": "Evidence token CP-6 does not resolve into the snapshot: cross-cutting pattern of the older Markdown frozen source (its section 6): an analysis that cites several observations, with no item of its own in the Company Brain pull. Left open for a decision; never mapped by guess. Cited by: n-dec-allocation, n-confirm-allocation.",
+        "source_ids": []
+      },
+      {
+        "id": "WWSNTK-8",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Whether the V3 agent still needs the analyst's affected company-code selection for Additional Log triage, or whether a direct V3 read establishes that scope without it. Observed in the V1 detail-list-export world only.",
+        "source_ids": [],
+        "bound_to": [
+          "n-10in",
+          "e-10in"
+        ]
+      },
+      {
+        "id": "WWSNTK-9",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Whether a group the analyst rejected, deferred, or left open re-surfaces in the next scheduled briefing, and whether that re-surfacing is acceptable or needs suppression.",
+        "source_ids": [],
+        "bound_to": [
+          "n-07"
+        ]
+      },
+      {
+        "id": "correlation-gap",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Complete correlation of UI messages to selected items / results (full log -> item selection -> ERP line-item app -> later-result sequence).",
+        "source_ids": [],
+        "bound_to": [
+          "n-11",
+          "sys-erp-addlog"
+        ]
+      },
+      {
+        "id": "open-n-corr",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "Correction-path routing remains Analyst-owned or belongs to a separate PRD. The receiving owner, completion condition, and correction-path rule are More information required. Out of scope for this DAG; no onward edge is asserted.",
+        "source_ids": [],
+        "bound_to": [
+          "n-corr"
+        ]
+      },
+      {
+        "id": "open-e-14-corr",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "route / defer residue; receiving owner, completion condition, and correction-path rule needs more information",
+        "source_ids": [],
+        "bound_to": [
+          "e-14-corr"
+        ]
+      },
+      {
+        "id": "introduced-by-design",
+        "kind": "open-question",
+        "status": "open",
+        "reason": "No captured step: introduced by the future-state design (see the transformation map). Open until the design is ratified against evidence.",
+        "source_ids": [],
+        "bound_to": [
+          "e-03",
+          "e-04-rec",
+          "e-04-esc",
+          "e-4esc-07",
+          "e-05",
+          "e-06",
+          "e-10in",
+          "e-10-11",
+          "e-11-12",
+          "e-12-13",
+          "e-13-14a",
+          "e-13-14b"
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "step_id": "process-details-steps-1-1:st-001",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-02",
+        "n-08"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-002",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-08"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-1:st-003",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-02"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-2:st-004",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-02",
+        "n-03"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-1-2:st-005",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-02"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-006",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-03"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-1:st-007",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-08"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-008",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-08"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-009",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-04",
+        "n-05a",
+        "n-06",
+        "n-07",
+        "n-4esc"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-2-2:st-010",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-09"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-011",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-08"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-1:st-012",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-09",
+        "n-10in"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-013",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-10in",
+        "n-10",
+        "n-11",
+        "n-12",
+        "n-13"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-014",
+      "mapping": "mapped",
+      "graph_ids": [
+        "n-08",
+        "n-14"
+      ]
+    },
+    {
+      "step_id": "process-details-steps-3-2:st-015",
+      "mapping": "summary",
+      "graph_ids": [],
+      "rationale": "Not drawn in the future state; its disposition (retired, or folded into another step) is in the level's transformation map."
+    }
+  ],
+  "systems_coverage": [
+    {
+      "system": "Adobe Acrobat Reader",
+      "treatment": "cut",
+      "rationale": "The analyst's PDF review of the clearing report sits after the update run, outside the agent's two seams; it is retained by the analyst and not redrawn in the future workflow."
+    },
+    {
+      "system": "ERP (clearing)",
+      "treatment": "mapped",
+      "rationale": "The agent reads the open-item tables read-only; the ERP (clearing) rail is the system the whole design reads from."
+    },
+    {
+      "system": "ERP (clearing) web client",
+      "treatment": "cut",
+      "rationale": "Browser front end named only on the variant-loading step. The agent reads open items directly and the analyst's variant loading is not redrawn, so no future step goes through it."
+    },
+    {
+      "system": "Microsoft Excel",
+      "treatment": "cut",
+      "rationale": "The detail-list export and analyst filtering are replaced: the agent reads the open items directly, groups them by Assignment and presents a ranked briefing with a CSV, so no Excel step remains."
+    },
+    {
+      "system": "Microsoft Outlook",
+      "treatment": "cut",
+      "rationale": "The analyst's allocation-confirmation reply is retained by the analyst, outside the agent's seams, and not redrawn in the future workflow."
+    },
+    {
+      "system": "Sticky Notes",
+      "treatment": "cut",
+      "rationale": "The analyst's standard label list is replaced as a lookup: the agent evaluates each group against the label evidence and recommends the label, so the analyst approves instead of consulting the note."
+    }
+  ]
+}

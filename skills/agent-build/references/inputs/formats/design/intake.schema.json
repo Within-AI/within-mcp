@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/design/intake.schema.json",
+  "version": "agent-design.intake/1",
+  "title": "intake.schema.json",
+  "description": "Normalised intake of a finished Future State Design run: paths, not graphs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "layout",
+    "processes",
+    "set_map",
+    "snapshot",
+    "observations",
+    "post_freeze_reads",
+    "upstream_failing_checks"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent-design.intake/1"
+    },
+    "layout": {
+      "enum": [
+        "single",
+        "set",
+        "v0.1",
+        "single-legacy"
+      ]
+    },
+    "processes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "process_id",
+          "current_state",
+          "transformation_map",
+          "future_state",
+          "evidence_strength"
+        ],
+        "properties": {
+          "process_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "current_state": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash. null when the declared hand-over pointer was refused or its file is missing (recorded in upstream_problems)."
+          },
+          "transformation_map": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash. null when the declared hand-over pointer was refused or its file is missing (recorded in upstream_problems)."
+          },
+          "future_state": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+            "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash. null when the declared hand-over pointer was refused or its file is missing (recorded in upstream_problems)."
+          },
+          "evidence_strength": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "observation_count",
+              "source_count",
+              "evidence_states"
+            ],
+            "description": "Counting rule both readers use: observation_count counts observations dated at or before the snapshot cutoff; source_count counts snapshot-intake sources with status included for that process, per-observation sources not counted; evidence_states counts, per evidence state, the process's work nodes in the current-state and future-state graphs.",
+            "properties": {
+              "observation_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "source_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "evidence_states": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "Observed",
+                  "Assumed",
+                  "Contradictory",
+                  "needs_more_information"
+                ],
+                "properties": {
+                  "Observed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "Assumed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "Contradictory": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "needs_more_information": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          },
+          "role": {
+            "enum": [
+              "design",
+              "context"
+            ],
+            "description": "context: a snapshot process outside the recommendation, kept in scope."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "set_map": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+          "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash. null when the declared hand-over pointer was refused or its file is missing (recorded in upstream_problems)."
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cutoff",
+        "process_versions"
+      ],
+      "properties": {
+        "cutoff": {
+          "type": "string",
+          "description": "ISO 8601 timestamp."
+        },
+        "process_versions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "process_id",
+              "version_no",
+              "created_at"
+            ],
+            "properties": {
+              "process_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version_no": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "created_at": {
+                "type": "string",
+                "description": "ISO 8601 timestamp."
+              }
+            }
+          }
+        }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_intake",
+        "id_form"
+      ],
+      "properties": {
+        "snapshot_intake": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "pattern": "^(?![/~])(?![A-Za-z]:)(?!(.*/)?\\.\\.(/|$))[^\\\\]+$",
+          "description": "Run-folder-relative path: no leading / or ~, no drive letter, no .. segment, no backslash. null when the declared hand-over pointer was refused or its file is missing (recorded in upstream_problems)."
+        },
+        "id_form": {
+          "const": "<prefix>observation:<resource_key>"
+        }
+      }
+    },
+    "post_freeze_reads": {
+      "type": "array",
+      "items": {
+        "type": [
+          "string",
+          "object"
+        ]
+      },
+      "description": "Reads made after the freeze (paths or records); empty when none."
+    },
+    "upstream_failing_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "check",
+          "result",
+          "detail"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "check": {
+            "type": "string",
+            "minLength": 1
+          },
+          "result": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "detail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "description": "Required even when empty. result and detail are null only when the upstream record lacks them."
+    },
+    "upstream_problems": {
+      "type": "array",
+      "description": "Upstream problems recorded by the intake instead of stopping: malformed but parseable upstream, a declared layout disagreeing with the snapshot, a refused pointer; and readings (kind reading, with what, reading and why) the intake or ad.py init took on ambiguous but readable input.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "detail"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "detail": {
+            "type": "string"
+          },
+          "what": {
+            "type": "string",
+            "minLength": 1,
+            "description": "kind reading only: the input the reading is about."
+          },
+          "reading": {
+            "type": "string",
+            "minLength": 1,
+            "description": "kind reading only: the reading the intake (or ad.py init) took."
+          },
+          "why": {
+            "type": "string",
+            "description": "kind reading only: one line on why that reading is the best supported."
+          }
+        }
+      }
+    },
+    "recommendation_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "layout_source": {
+      "enum": [
+        "declared",
+        "legacy"
+      ]
+    }
+  }
+}

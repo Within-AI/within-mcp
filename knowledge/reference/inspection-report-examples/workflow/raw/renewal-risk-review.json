@@ -1,0 +1,153 @@
+{
+  "process": {
+    "resource_key": "p-renewal-risk"
+  },
+  "captured": "2026-08-28T00:00:00Z",
+  "steps": [
+    {
+      "code": "s01",
+      "title": "Open weekly renewal report"
+    },
+    {
+      "code": "s02",
+      "title": "Filter renewals due in 90 days"
+    },
+    {
+      "code": "s03",
+      "title": "Build cohort sheet"
+    },
+    {
+      "code": "s04",
+      "title": "Export Pulse usage CSV"
+    },
+    {
+      "code": "s05",
+      "title": "Import usage into sheet"
+    },
+    {
+      "code": "s06",
+      "title": "Check legacy metering flag"
+    },
+    {
+      "code": "s07",
+      "title": "Export Deskline tickets"
+    },
+    {
+      "code": "s08",
+      "title": "Count open severity-1 tickets"
+    },
+    {
+      "code": "s09",
+      "title": "Look up contract value in Ledgerly"
+    },
+    {
+      "code": "s10",
+      "title": "Look up payment status"
+    },
+    {
+      "code": "s11",
+      "title": "Message CSM for usage read"
+    },
+    {
+      "code": "s12",
+      "title": "Wait for CSM reply"
+    },
+    {
+      "code": "s13",
+      "title": "Record CSM estimate"
+    },
+    {
+      "code": "s14",
+      "title": "Compute risk score"
+    },
+    {
+      "code": "s15",
+      "title": "Apply score threshold"
+    },
+    {
+      "code": "s16",
+      "title": "Apply contract-value override"
+    },
+    {
+      "code": "s17",
+      "title": "Open memo template"
+    },
+    {
+      "code": "s18",
+      "title": "Write risk summary"
+    },
+    {
+      "code": "s19",
+      "title": "Attach usage and ticket evidence"
+    },
+    {
+      "code": "s20",
+      "title": "Share memo with AE"
+    },
+    {
+      "code": "s21",
+      "title": "Review memo with AE"
+    },
+    {
+      "code": "s22",
+      "title": "Agree next action"
+    },
+    {
+      "code": "s23",
+      "title": "Post escalation to AE manager"
+    },
+    {
+      "code": "s24",
+      "title": "Tag account owner"
+    },
+    {
+      "code": "s25",
+      "title": "Log outcome note in CRM"
+    },
+    {
+      "code": "s26",
+      "title": "Set renewal risk field"
+    },
+    {
+      "code": "s27",
+      "title": "Mark account reviewed"
+    },
+    {
+      "code": "s28",
+      "title": "Close cohort row"
+    }
+  ],
+  "sessions": {
+    "items": [
+      {
+        "id": "sess-1"
+      },
+      {
+        "id": "sess-2"
+      },
+      {
+        "id": "sess-3"
+      },
+      {
+        "id": "sess-4"
+      },
+      {
+        "id": "sess-5"
+      },
+      {
+        "id": "sess-6"
+      },
+      {
+        "id": "sess-7"
+      },
+      {
+        "id": "sess-8"
+      },
+      {
+        "id": "sess-9"
+      }
+    ],
+    "total": 9,
+    "next": null
+  }
+}

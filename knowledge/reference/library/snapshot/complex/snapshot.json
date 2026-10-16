@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "kind": "snapshot",
+  "intake": {
+    "path": "snapshot-intake.json",
+    "sha256": "2aa0311916637963fc7f546e8c65703b657a63b06823892ebf8501f1c340d1af"
+  },
+  "steps": [
+    {
+      "id": "process-details-steps-1-1:st-001",
+      "source_id": "process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/0"
+    },
+    {
+      "id": "process-details-steps-1-1:st-002",
+      "source_id": "process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/1"
+    },
+    {
+      "id": "process-details-steps-1-1:st-003",
+      "source_id": "process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/2"
+    },
+    {
+      "id": "process-details-steps-1-1:st-004",
+      "source_id": "process-details-steps-1-1",
+      "pointer": "/current_version/tasks/0/sub_tasks/0/steps/3"
+    },
+    {
+      "id": "process-details-steps-2-1:st-005",
+      "source_id": "process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/0"
+    },
+    {
+      "id": "process-details-steps-2-1:st-006",
+      "source_id": "process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/1"
+    },
+    {
+      "id": "process-details-steps-2-1:st-007",
+      "source_id": "process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/2"
+    },
+    {
+      "id": "process-details-steps-2-1:st-008",
+      "source_id": "process-details-steps-2-1",
+      "pointer": "/current_version/tasks/1/sub_tasks/0/steps/3"
+    },
+    {
+      "id": "process-details-steps-2-2:st-009",
+      "source_id": "process-details-steps-2-2",
+      "pointer": "/current_version/tasks/1/sub_tasks/1/steps/0"
+    },
+    {
+      "id": "process-details-steps-2-2:st-010",
+      "source_id": "process-details-steps-2-2",
+      "pointer": "/current_version/tasks/1/sub_tasks/1/steps/1"
+    },
+    {
+      "id": "process-details-steps-2-2:st-011",
+      "source_id": "process-details-steps-2-2",
+      "pointer": "/current_version/tasks/1/sub_tasks/1/steps/2"
+    },
+    {
+      "id": "process-details-steps-2-2:st-012",
+      "source_id": "process-details-steps-2-2",
+      "pointer": "/current_version/tasks/1/sub_tasks/1/steps/3"
+    },
+    {
+      "id": "process-details-steps-3-1:st-013",
+      "source_id": "process-details-steps-3-1",
+      "pointer": "/current_version/tasks/2/sub_tasks/0/steps/0"
+    },
+    {
+      "id": "process-details-steps-3-1:st-014",
+      "source_id": "process-details-steps-3-1",
+      "pointer": "/current_version/tasks/2/sub_tasks/0/steps/1"
+    },
+    {
+      "id": "process-details-steps-3-2:st-015",
+      "source_id": "process-details-steps-3-2",
+      "pointer": "/current_version/tasks/2/sub_tasks/1/steps/0"
+    },
+    {
+      "id": "process-details-steps-3-2:st-016",
+      "source_id": "process-details-steps-3-2",
+      "pointer": "/current_version/tasks/2/sub_tasks/1/steps/1"
+    }
+  ],
+  "profiles": {
+    "process-details": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 0
+    },
+    "process-details-steps-1-1": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 4
+    },
+    "process-details-steps-2-1": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 4
+    },
+    "process-details-steps-2-2": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 4
+    },
+    "process-details-steps-3-1": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 2
+    },
+    "process-details-steps-3-2": {
+      "fields": [
+        "_meta",
+        "attributes",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "observations",
+        "process_resource_key",
+        "process_state",
+        "versions"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "attributes": "list",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "observations": "dict",
+        "process_resource_key": "str",
+        "process_state": "str",
+        "versions": "list"
+      },
+      "step_count": 2
+    },
+    "observations": {
+      "fields": [
+        "_meta",
+        "items",
+        "limit",
+        "offset",
+        "total"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "items": "list",
+        "limit": "int",
+        "offset": "int",
+        "total": "int"
+      },
+      "step_count": 0
+    },
+    "dependencies": {
+      "fields": [
+        "_meta",
+        "current_version",
+        "dependencies",
+        "display_path",
+        "hierarchy_node",
+        "process_resource_key",
+        "process_state"
+      ],
+      "field_types": {
+        "_meta": "dict",
+        "current_version": "dict",
+        "dependencies": "list",
+        "display_path": "str",
+        "hierarchy_node": "dict",
+        "process_resource_key": "str",
+        "process_state": "str"
+      },
+      "step_count": 0
+    }
+  },
+  "systems": [
+    "Bank portal",
+    "Bank statement report - Summary and Detail",
+    "Collections workbench",
+    "Company records app",
+    "ERP (receipts)",
+    "ERP (receipts) - production instance",
+    "Foxit PDF Editor",
+    "Invoicing app",
+    "Microsoft Excel",
+    "Microsoft Outlook",
+    "Notepad",
+    "Snipping Tool",
+    "UiPath Action Center"
+  ],
+  "scope": {
+    "process_ids": [
+      "5bbb985d60a7",
+      "a88919d7bd0c"
+    ],
+    "cutoff_at": "2026-09-23T18:10:13+05:30"
+  },
+  "required_source_ids": [
+    "process-details",
+    "process-details-steps-1-1",
+    "process-details-steps-2-1",
+    "process-details-steps-2-2",
+    "process-details-steps-3-1",
+    "process-details-steps-3-2",
+    "observations",
+    "dependencies"
+  ],
+  "sources": [
+    {
+      "id": "process-details",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    },
+    {
+      "id": "process-details-steps-1-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/0/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-2-2",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/1/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-1",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/0/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "process-details-steps-3-2",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_details-5bbb985d60a7-recipe-scopes.json",
+      "sha256": "1bd62dce6bbe5c595eaf81f2dff93ab7b688b4b7cbb24d149365989425575a4d",
+      "mapping": {
+        "process_id": "/process_resource_key",
+        "steps": "/current_version/tasks/2/sub_tasks/1/steps",
+        "step_id": "/code",
+        "step_tools": "/tools"
+      }
+    },
+    {
+      "id": "observations",
+      "process_id": "5bbb985d60a7",
+      "status": "included",
+      "path": "get_process_observations-5bbb985d60a7-full.json",
+      "sha256": "2bebd25c352c75d0c584c0a86bc04f123edd3d99bc0251be3c61bba2ea097f3c",
+      "collection_kind": "observations",
+      "mapping": {
+        "items": "/items",
+        "total": "/total",
+        "item_id": "/resource_key",
+        "observed_at": "/timestamp"
+      }
+    },
+    {
+      "id": "dependencies",
+      "process_id": "a88919d7bd0c",
+      "status": "included",
+      "path": "get_process_details-a88919d7bd0c-dependencies.json",
+      "sha256": "16b32b4e97ca8d945d8f3f3d19c05fc6b286ed4779f130c9735539aeb136472b",
+      "mapping": {
+        "process_id": "/process_resource_key"
+      }
+    }
+  ],
+  "issues": []
+}

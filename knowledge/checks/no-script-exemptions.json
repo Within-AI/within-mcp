@@ -1,0 +1,72 @@
+{
+  "exempt": [
+    {
+      "path": "knowledge/reference/library/sandbox-ship/middle/analyst-interface-index.html",
+      "reason": "Source index.html of the Sandbox analyst app (a Vite/React application that loads /src/main.jsx). It is application code shipped for the client team to build and run, not a page the ADK writes for people to read or share; removing its script breaks the app."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/agent-build/complex/internal-dag-diagram.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/agent-build/middle/internal-dag-diagram.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/agent-build/simple/internal-dag-diagram.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/current-state/complex/current-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/current-state/middle/current-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/current-state/simple/current-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/future-state/complex/future-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/future-state/middle/future-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/references/future-state/simple/future-state.html",
+      "reason": "Staged copy of the reference library as it stood for that run. Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/stages/agent-build/internal-dag-diagram.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/stages/current-state/current-state.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/stages/future-state/future-state.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/design-set/simulation/work/marks/design/agent-build/internal-dag-diagram.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/page-run-a-plus-0313/stages/agent-build/internal-dag-diagram.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/page-run-a-plus-0313/stages/current-state/current-state.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    },
+    {
+      "path": "skills/fast-mode-build/tests/fixtures/page-run-a-plus-0313/stages/future-state/future-state.html",
+      "reason": "Frozen output of an earlier run, kept as a test input. Its pages were written before FORDEEN-87 and are pinned by hash in the fixture's own staging and log files, so editing them would break the fixture. Pages the plugin renders from it are checked when they are written (each renderer calls assert_no_script)."
+    }
+  ]
+}

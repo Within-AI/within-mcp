@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/register.schema.json",
+  "version": "agent-design.register/1",
+  "title": "register.schema.json",
+  "description": "The \"What we still need to know\" register: open items, access assumptions kept apart, and the two views. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "id",
+        "class",
+        "kind",
+        "source",
+        "unknown",
+        "why_it_matters",
+        "agent_meanwhile",
+        "who_can_answer",
+        "closure_route",
+        "resolution_evidence",
+        "breaks_if_wrong",
+        "dependent_rules",
+        "group",
+        "reader_verdict"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class": {
+          "enum": [
+            "Contradictory",
+            "needs_more_information",
+            "Assumed pending ratification",
+            "adjudication"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "evidence",
+            "ratification",
+            "escalation"
+          ]
+        },
+        "source": {
+          "enum": [
+            "rules open item",
+            "gate residual",
+            "fix residual",
+            "simulation residual",
+            "departure pending sign-off",
+            "missing future-state step",
+            "upstream failing check",
+            "fields open item",
+            "placement open item",
+            "review finding",
+            "check finding",
+            "recorded problem",
+            "unreadable source"
+          ]
+        },
+        "unknown": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why_it_matters": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agent_meanwhile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "who_can_answer": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The role that can answer, in plain words (never a person's name or contact details)."
+        },
+        "decision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "The decision this question bears on, in plain words with no ids; questions sharing it are shown together under one heading. null puts it under \"Other questions\"."
+        },
+        "closure_route": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "Targeted Companion capture",
+              "Document upload",
+              "FDE Intake"
+            ]
+          },
+          "enum": [
+            [],
+            [
+              "Targeted Companion capture"
+            ],
+            [
+              "Document upload"
+            ],
+            [
+              "Targeted Companion capture",
+              "Document upload"
+            ],
+            [
+              "FDE Intake"
+            ],
+            [
+              "Targeted Companion capture",
+              "FDE Intake"
+            ],
+            [
+              "Document upload",
+              "FDE Intake"
+            ],
+            [
+              "Targeted Companion capture",
+              "Document upload",
+              "FDE Intake"
+            ]
+          ],
+          "description": "Ordered subset of the three steps, in this order, no step twice."
+        },
+        "resolution_evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "breaks_if_wrong": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependent_rules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "group": {
+          "type": "object",
+          "required": [
+            "id",
+            "cheapest_item"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cheapest_item": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "reader_verdict": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "../lists/verdict.schema.json#/properties/items/items"
+            }
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "escalation"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "closure_route": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    "access_item": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "system",
+        "assumption",
+        "evidence_state"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "access"
+        },
+        "system": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assumption": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_state": {
+          "const": "Assumed"
+        }
+      }
+    },
+    "identity_runtime_open": {
+      "type": "object",
+      "required": [
+        "id",
+        "question",
+        "adjudicator"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adjudicator": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "type": "object",
+  "required": [
+    "items",
+    "access",
+    "views",
+    "identity_runtime_opens"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "access": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/access_item"
+      }
+    },
+    "identity_runtime_opens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/identity_runtime_open"
+      }
+    },
+    "views": {
+      "type": "object",
+      "required": [
+        "business_owner",
+        "builder"
+      ],
+      "properties": {
+        "business_owner": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "builder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

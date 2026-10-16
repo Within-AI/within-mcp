@@ -1,0 +1,764 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "within-adk/set-map-v0.1",
+  "title": "Set map v0.1",
+  "description": "The structured set map Agent Recommendations passes to Future State Design: work objects, their states, typed links between processes with evidence strength, process roles, context neighbours and open points. Extends current_state.relations[] and process_memberships; see set-map-v0.1.md. v0 instances stay valid.",
+  "type": "object",
+  "required": [
+    "set_map_version",
+    "set_id",
+    "title",
+    "read_at",
+    "processes",
+    "work_objects",
+    "object_states",
+    "links",
+    "context_neighbours",
+    "open_points"
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_state": {
+      "enum": [
+        "Observed",
+        "Assumed",
+        "Contradictory",
+        "needs_more_information"
+      ]
+    },
+    "evidence_level": {
+      "description": "Link model section 4, strongest first.",
+      "enum": [
+        "shared_instances",
+        "step_state",
+        "trigger_end_text",
+        "same_capture_session",
+        "dependency_field",
+        "hierarchy_scope",
+        "shared_team_or_system"
+      ]
+    },
+    "evidence_ref": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "locator",
+        "read_at"
+      ],
+      "properties": {
+        "source_id": {
+          "description": "An evidence.sources[] id of the report, or a snapshot source id.",
+          "$ref": "#/$defs/text"
+        },
+        "locator": {
+          "description": "Where in the source: a step code, an observation id, a field name or a JSON pointer.",
+          "$ref": "#/$defs/text"
+        },
+        "read_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "when": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}([T ][0-9:.]+(Z|[+-][0-9]{2}:?[0-9]{2})?)?$",
+      "description": "A date, or a date and time."
+    },
+    "process_version": {
+      "type": "object",
+      "required": [
+        "process_id",
+        "version_no",
+        "created_at"
+      ],
+      "properties": {
+        "process_id": {
+          "$ref": "#/$defs/id"
+        },
+        "version_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "version_key": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/$defs/when"
+        }
+      }
+    }
+  },
+  "properties": {
+    "set_map_version": {
+      "enum": [
+        "0",
+        "0.1"
+      ]
+    },
+    "set_id": {
+      "$ref": "#/$defs/id"
+    },
+    "title": {
+      "$ref": "#/$defs/text"
+    },
+    "read_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "evidence_cutoff": {
+      "type": "string",
+      "description": "Snapshot cutoff the map was refreshed against, if any."
+    },
+    "lead_process": {
+      "$ref": "#/$defs/id"
+    },
+    "processes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "process_id",
+          "title",
+          "role",
+          "trigger",
+          "end",
+          "reads_states",
+          "writes_states"
+        ],
+        "properties": {
+          "process_id": {
+            "$ref": "#/$defs/id"
+          },
+          "title": {
+            "$ref": "#/$defs/text"
+          },
+          "role": {
+            "enum": [
+              "entry_variant",
+              "main_step",
+              "closing_step",
+              "upkeep",
+              "gate",
+              "other"
+            ]
+          },
+          "role_text": {
+            "type": "string",
+            "description": "Free text, as process_memberships[].role says it."
+          },
+          "lead": {
+            "type": "boolean"
+          },
+          "key_control": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "trigger": {
+            "$ref": "#/$defs/text"
+          },
+          "end": {
+            "$ref": "#/$defs/text"
+          },
+          "reads_states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "writes_states": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "membership_of": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "description": "problems[].id whose process_memberships list this process."
+          }
+        }
+      }
+    },
+    "work_objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "system_of_record",
+          "relations"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "system_of_record": {
+            "$ref": "#/$defs/text"
+          },
+          "id_pattern": {
+            "type": "string"
+          },
+          "external": {
+            "type": "boolean",
+            "description": "True when the object lives on an outside party's side."
+          },
+          "relations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "object"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "parent_of",
+                    "child_of",
+                    "creates",
+                    "record_of",
+                    "created_by",
+                    "applied_to"
+                  ]
+                },
+                "object": {
+                  "$ref": "#/$defs/id"
+                },
+                "evidence_state": {
+                  "$ref": "#/$defs/evidence_state"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "object_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "object",
+          "name",
+          "order",
+          "moved_in_by",
+          "evidence_state"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "object": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Position in the object's life, not a layout position."
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "waiting_on": {
+            "type": "string"
+          },
+          "moved_in_by": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "description": "Process ids (in set or neighbours) or actors[].id. More than one means an overlap or variants; see open_points."
+          },
+          "evidence_state": {
+            "$ref": "#/$defs/evidence_state"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence_ref"
+            }
+          },
+          "open_point_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "from",
+          "to",
+          "evidence_level",
+          "evidence_state",
+          "evidence_refs",
+          "rationale"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "kind": {
+            "enum": [
+              "handoff",
+              "variant_entry",
+              "parent_child",
+              "lifecycle_continuation",
+              "decision_gate",
+              "re_entry",
+              "overlap",
+              "analogous_work",
+              "shared_knowledge",
+              "shared_team_or_system"
+            ]
+          },
+          "flow": {
+            "type": "boolean",
+            "description": "Derived: true for handoff, variant_entry, parent_child, lifecycle_continuation, decision_gate, re_entry. Never true for analogous_work, shared_knowledge, shared_team_or_system. v0.1: overlap is not a flow link either; the schema refuses flow: true on overlap, analogous_work, shared_knowledge and shared_team_or_system."
+          },
+          "from": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "description": "Process ids or context neighbour process ids. Several for variant_entry or overlap."
+          },
+          "to": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "object": {
+            "$ref": "#/$defs/id"
+          },
+          "state": {
+            "$ref": "#/$defs/id"
+          },
+          "evidence_level": {
+            "$ref": "#/$defs/evidence_level"
+          },
+          "shared_instance_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "evidence_state": {
+            "$ref": "#/$defs/evidence_state"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence_ref"
+            }
+          },
+          "rationale": {
+            "$ref": "#/$defs/text"
+          },
+          "routing_rule": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "variant_entry and decision_gate only: the recorded rule, or null with an open point."
+          },
+          "relation_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The current_state.relations[] row this link is the source of, or null for kinds relations[] cannot hold."
+          },
+          "relation_type": {
+            "enum": [
+              "analogous_work",
+              "shared_knowledge",
+              "observed_handoff",
+              "proposed_bridge",
+              null
+            ]
+          },
+          "open_point_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "to_object": {
+            "$ref": "#/$defs/id",
+            "description": "v0.1: when the work changes object type across the link, the object on the far side."
+          },
+          "to_state": {
+            "$ref": "#/$defs/id",
+            "description": "v0.1: the state of to_object the link lands in."
+          },
+          "direction_evidence_state": {
+            "$ref": "#/$defs/evidence_state",
+            "description": "v0.1: evidence for the direction alone, when weaker than the link's own."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "evidence_level": {
+                  "const": "shared_instances"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "evidence_state": {
+                  "not": {
+                    "const": "Assumed"
+                  }
+                }
+              },
+              "required": [
+                "shared_instance_count"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "evidence_state": {
+                  "enum": [
+                    "needs_more_information",
+                    "Contradictory"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "open_point_ids"
+              ],
+              "properties": {
+                "open_point_ids": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "overlap",
+                    "analogous_work",
+                    "shared_knowledge",
+                    "shared_team_or_system"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "flow": {
+                  "const": false
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "to_state"
+              ]
+            },
+            "then": {
+              "required": [
+                "to_object"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "context_neighbours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "process_id",
+          "title",
+          "touches",
+          "attach_to",
+          "found_by",
+          "evidence_state"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "process_id": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/id"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "v0.1: null when the neighbour is known only by name or a number that does not resolve; then unresolved is true."
+          },
+          "title": {
+            "$ref": "#/$defs/text"
+          },
+          "touches": {
+            "enum": [
+              "gate",
+              "parent",
+              "continuation",
+              "upkeep",
+              "alternative_outcome",
+              "other",
+              "upstream"
+            ]
+          },
+          "attach_to": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/id"
+            },
+            "description": "Object state ids or process ids where the neighbour touches the spine."
+          },
+          "performer": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "found_by": {
+            "$ref": "#/$defs/evidence_level"
+          },
+          "evidence_state": {
+            "$ref": "#/$defs/evidence_state"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence_ref"
+            }
+          },
+          "unresolved": {
+            "type": "boolean",
+            "description": "v0.1: true when process_id does not resolve to a snapshot or Work Brain process."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "process_id": {
+                  "type": "null"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "unresolved"
+              ],
+              "properties": {
+                "unresolved": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "open_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "evidence_state",
+          "about"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "text": {
+            "$ref": "#/$defs/text"
+          },
+          "client_text": {
+            "type": "string",
+            "description": "Wording for 'What we still need to know'."
+          },
+          "evidence_state": {
+            "$ref": "#/$defs/evidence_state"
+          },
+          "about": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "description": "Results of the link model section 5 checks, as last run.",
+      "items": {
+        "type": "object",
+        "required": [
+          "check",
+          "result"
+        ],
+        "properties": {
+          "check": {
+            "$ref": "#/$defs/text"
+          },
+          "result": {
+            "enum": [
+              "pass",
+              "open",
+              "fail"
+            ]
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "snapshot_cutoff": {
+      "$ref": "#/$defs/when",
+      "description": "v0.1: the snapshot cutoff. evidence_cutoff stays as free text."
+    },
+    "process_versions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/process_version"
+      },
+      "description": "v0.1: the process summary versions this set map was built from. A version later than the freeze's pin is drift: re-freeze."
+    },
+    "actors": {
+      "description": "v0.1: performers that move states or write objects but are not processes: an outside party, a rules-based job or bot, or an AI automation. moved_in_by may name an actor id.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "kind": {
+            "enum": [
+              "external_party",
+              "rules_automation",
+              "ai_automation",
+              "other"
+            ]
+          },
+          "kind_text": {
+            "type": "string",
+            "description": "Required when kind is other."
+          },
+          "system": {
+            "type": "string",
+            "description": "The system the automation runs in, if known."
+          },
+          "writes_objects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/id"
+            }
+          },
+          "evidence_state": {
+            "$ref": "#/$defs/evidence_state"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence_ref"
+            }
+          }
+        },
+        "if": {
+          "properties": {
+            "kind": {
+              "const": "other"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "kind_text"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "description": "v0.1: present on a scoped copy (design_brief.set_map): which set and solution it was cut from.",
+      "type": "object",
+      "required": [
+        "from_set_id",
+        "solution_id"
+      ],
+      "properties": {
+        "from_set_id": {
+          "$ref": "#/$defs/id"
+        },
+        "solution_id": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    }
+  }
+}

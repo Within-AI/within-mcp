@@ -1,0 +1,71 @@
+{
+  "id": "R-3",
+  "decision": "recon:n4",
+  "prose": "a ledger unit whose variance, less the in-transit deposits, still exceeds the tie tolerance is escalated as a residual; the residual is never assigned to a category",
+  "expression": {
+    "reads": [
+      "ledger.balance",
+      "subledger.balance",
+      "transit.amount"
+    ],
+    "test": {
+      "kind": "compare",
+      "op": ">",
+      "left": {
+        "kind": "calc",
+        "step": "abs_residual",
+        "fn": "abs",
+        "args": [
+          {
+            "kind": "calc",
+            "step": "residual",
+            "fn": "subtract",
+            "args": [
+              {
+                "kind": "calc",
+                "step": "variance",
+                "fn": "subtract",
+                "args": [
+                  {
+                    "kind": "read",
+                    "token": "ledger.balance"
+                  },
+                  {
+                    "kind": "read",
+                    "token": "subledger.balance"
+                  }
+                ]
+              },
+              {
+                "kind": "read",
+                "token": "transit.amount"
+              }
+            ]
+          }
+        ]
+      },
+      "right": {
+        "kind": "literal",
+        "value": 0.42
+      }
+    },
+    "sets": {
+      "outcome": {
+        "kind": "literal",
+        "value": "escalate_residual"
+      }
+    }
+  },
+  "scope": "item",
+  "item_key": "unit_id",
+  "observation_ids": [
+    "recon:observation:o3"
+  ],
+  "config_values": [
+    {
+      "name": "tie tolerance",
+      "value": 0.42,
+      "evidence_state": "Assumed"
+    }
+  ]
+}

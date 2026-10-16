@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-design.invalid/formats/run/suite.schema.json",
+  "version": "agent-design.suite/1",
+  "title": "suite.schema.json",
+  "description": "The test suite: simulation-only cases, open numeric floors and the layers left out with their reasons. Checks the shape of one file only; references across entries are checked by the owning units' checks, not here.",
+  "type": "object",
+  "required": [
+    "status",
+    "numeric_floors",
+    "cases",
+    "omitted_layers"
+  ],
+  "properties": {
+    "status": {
+      "const": "simulation-only"
+    },
+    "numeric_floors": {
+      "const": "open"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "case.schema.json"
+      }
+    },
+    "omitted_layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "layer",
+          "reason"
+        ],
+        "properties": {
+          "layer": {
+            "enum": [
+              "part",
+              "handover",
+              "end_to_end",
+              "authority"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

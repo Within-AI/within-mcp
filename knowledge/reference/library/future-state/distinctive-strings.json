@@ -1,0 +1,2551 @@
+{
+  "schema_version": 1,
+  "stage": "future-state",
+  "generated_from": {
+    "future-state.simple": {
+      "reference/library/future-state/simple/README.md": "fce2238661771e5b83458736db893bbd1aad656f51df8a89bf1d3837028f63b7",
+      "reference/library/future-state/simple/future-state.json": "1e1539ec0101284bd86886b3098ac52d8032d32b44e30cc701e0113df459fb29",
+      "reference/library/future-state/simple/future-state.svg": "4e1f95348a4d98d92bf84af9c3b031001a2eb6d7321ed21b37bc7c4f6dc912a8",
+      "reference/library/future-state/simple/future-state.html": "cebe6c3e57e4b76eaf1bb7d7b2af32d23a1da295e35265d993e57fe40b3b7f10",
+      "reference/library/future-state/simple/future-state.input.json": "171329335e473964a7bb748f0f876b959cf93b593548ff65a61a5a0f95efc2a0"
+    },
+    "future-state.middle": {
+      "reference/library/future-state/middle/README.md": "bd35dd342434736e532f65666968347a552bd9c5a6ee8d44fa9fd34fe3051215",
+      "reference/library/future-state/middle/future-state.json": "d6c9373b256cc15e53e5041aeb38f4433b10a53997161dca4d2609d1267eace2",
+      "reference/library/future-state/middle/future-state.svg": "ec92528cf556b57a23bc26a36a2fee2eaf967c69184ec1e1a2ad92557ebca432",
+      "reference/library/future-state/middle/future-state.html": "ac14c751ac98297b105401a0cb0ebf593b06121bb30eb546e852f28556b39d97",
+      "reference/library/future-state/middle/future-state.input.json": "ecc1806047f90cee82f167e24f83f72a080dfa054561d152ac20125deaa09402"
+    },
+    "future-state.complex": {
+      "reference/library/future-state/complex/README.md": "044df3b501a2a8a9bb9af58b9f3349b9e45075b98610b6abdac0f89b4e497e4a",
+      "reference/library/future-state/complex/future-state.json": "11a30552ef8d373fa14f65de73b07272ba78a08c7a1aa0207714757e9ff2efb3",
+      "reference/library/future-state/complex/future-state.svg": "e327013b855d32e107e240d36950c060b93d5a0edab02d375307067126be1337",
+      "reference/library/future-state/complex/future-state.html": "3cff2e04bdbe799b598126e64f7b89e7d0aa7a96d07afdcd721c8e2add387d47",
+      "reference/library/future-state/complex/future-state.input.json": "9dd1148fefc63ff969ed01e8106f43de73f24616862291a258f74eb56cd7319e"
+    }
+  },
+  "strings": [
+    {
+      "text": "AC07",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-1",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-2",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-3",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-4",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-5",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "CP-6",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-1",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-2",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-3",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-4",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-5",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-6",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-7",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-8",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "WWSNTK-9",
+      "kind": "id",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "1052.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1058.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "1064.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1354.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1365.55",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "1638.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple",
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1887.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "190,263",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "190,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "190,334",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1928.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "194.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "1986.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2019.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2218.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2241.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "2531.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "2711.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2792.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2804.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "2821.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3082.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "3088.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "3111.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "323,202",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "323,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "323,488",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "323,495",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3401.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3648.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "3666.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "369,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3747.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "3747.85",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "375,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "375,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3759.25",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "382,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "382,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "388,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "3940.55",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "3956.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "3993.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "4026.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "4037.85",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "4254.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "427,202",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "427,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "427,488",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "427,495",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "4544.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "472.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "480,263",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "480,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "480,334",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "480,549",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "480,556",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "480,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "480,802",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "484.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "486,674",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "486,802",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "5124.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "520,141",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "5402.75",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "613,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "613,488",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "613,495",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "717,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "717,488",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "717,495",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "768.45",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "770,334",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "774.15",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "836,740",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "842,556",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "842,740",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "903,273",
+      "kind": "amount",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "903,488",
+      "kind": "amount",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "903,495",
+      "kind": "amount",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "152981",
+      "kind": "number",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Acme",
+      "kind": "name",
+      "sources": [
+        "future-state.simple",
+        "future-state.middle",
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Additional Log",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Additional-Log",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Adobe Acrobat Reader",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Assemble Invoice",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assemble Invoice Identity",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assign Batch To",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assign Batch To Processor",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assignment Workbook",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assumed Agent",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Bank Difference",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Both Bank",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Cash Applications Analyst",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Cash Applications Specialist",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Check Allocation Balanced",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Check Bulk",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Check Bulk Upload Needed",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Classify Assignment",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Classify Assignment Tracker Row",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Closed-Won Influenced",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Confirm Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm Invoice In Acme",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm Mark Complete",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Corroborate Supporting",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Corroborate Supporting Evidence",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Create Google Sheet",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Create Slides",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Cross-Check Supporting Evidence",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Customer Accounts Payable",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Each Assignment",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Enter Invoice Rows",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Evaluate Assignment",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Excel Dashboard",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Invoice Allocation",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Item Left In Reviewed",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Item Text",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Mark Complete",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Marketing Weekly Dashboard",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "New Rows",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "New Search",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Observed Boundary",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Open Assigned",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Open Assigned Transaction Queue",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Pipeline Influence",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Pipeline Influenced",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Post Bank Remittance Transactions",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Propose Remaining",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Propose Remaining-Difference Reconciliation",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Qualified Pipeline Generated",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Read Additional Log",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Read Transaction",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Read Transaction Details",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Receipt Method",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Against",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Against Assignment Workbook",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining Difference",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconciliation Packet",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Record Enrichment Complete",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Remittance Inquiry Drafted",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Retrieve Pipeline",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Retrieve Pipeline Influence",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Run New Search",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Save Remittance Update",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Select Working Row",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Select Working Row Block",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Set Workflow",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Set Workflow Status",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Stage Draft Balance",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Stage Draft Balance Assessment",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Stage Recommended",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Stage Recommended Reconciliation Packet",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "State Cleared",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Status Enrichment Required",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "The Excel Dashboard",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Tracker Row",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction Details",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction History",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction Queue",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Transaction Value Date",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Transactions Assigned To Me",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Unidentified Status",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Update Workflow Statuses",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Needed",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Remittance",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Upload Remittance Template",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed Record",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Weekly Marketing Metrics Reporting",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Weekly Marketing Metrics Slides",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Wire Type",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Workflow Status",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "A small bank-charge residual must be absorbed.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Access verification with Acme and every per-surface access parameter.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Add a Finance charge line to absorb the residual.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Additional Log available; the agent's programmatic read entitlement is needs more information",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Additional Log message taxonomy and its actionable-versus-informational boundary. Named at: n-confirm-cleared.",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Alternative payer-alias resolution surface on a validation error. Read-only.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "An item cannot be identified.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Analyst approval / override",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Analyst initiates ERP (clearing) update",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Analyst may decide, defer, or exclude",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Apply approved labels in ERP line-item app; save; run update mode",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Approve, override, defer, or exclude each recommended / escalated group.",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Assemble Invoice Identity (Acme / ERP)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assigned-queue CSV export (offline)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Assignment-tracker classification taxonomy authority and class-selection rule.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Bank remittance agent",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Bank statement report - Summary and Detail",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Capture dashboard screenshot",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Cash Applications Analyst (Offshore desk)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Clean up message formatting",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Clearing documents posted; Additional Log available",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Click the 'Share' button and copy the presentation link for distribution.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Company records app",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Complete with the residual documented, then proceed to Save / Mark Complete.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Completion-without-zero-difference rule (Contradictory, anchored on n-015).",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Compose distribution message",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Compute clearable universe; group candidate rows by Assignment",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Confirm the matching invoice row; identity confirmed, node continues to n-007 (e-006).",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm the payment against Outlook payment-advice emails and PDFs.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Confirm the payment against the highlighted credit line.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Consulted as supporting evidence only.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Copy presentation share link",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Correlation or identity field used to join evidence across surfaces.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Create Google Sheet review copy and write computed metrics",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Create Slides review copy and write computed metrics",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Customer ID or Invoice#.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Decide per exception: re-clean or route residue",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Deterministic marketing-metrics skill (versioned code)",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Deterministic metrics script (versioned code)",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Does the uploaded remittance bal",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Does the uploaded remittance balance to zero difference?",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Draft CANCELLATION recommendation with confidence; queue to briefing",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "ERP (clearing) Additional Log surface",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "ERP (clearing) clearing agent",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "ERP (clearing) web client",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "ERP (receipts) - production instance",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "ERP (receipts) - production instance / ERP (receipts)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "ERP - production…",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "ERP line-item app / ERP (clearing) clearing",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "ERP receipt validation read; consultation trigger More information required (wwsntk-1)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Eligibility boundary for completion, partial allocation, money-on-account handling, and drafted-inquiry disposition.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Enrich and Post Bank Remittance Transactions",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Escalation-first gate: package evidence and Escalate",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Escalation/uncertainty seam - eligibility boundary and closure More information required (wwsntk-5)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Evaluate Assignment group; compute recommendation confidence",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Excluded triage category counterpart_missing: Deliberately excluded: it has no evidence anchor.",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Finance-charge / write-off tolerance.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Foxit PDF Editor",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Foxit PDF Editor workspace: payment-advice PDFs the agent corroborates against at n-007.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "GATED: case packaged for Escalation, not a label recommendation",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "GATED: not re-clean-eligible or evidence incomplete",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "GATED: potential re-clean; evidence does not establish message -> label",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "GATED: unsupported or insufficient evidence -> Escalate, never default a label",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Highlighted credit line.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Highlighted credit-line confirmation source. Read-only.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Include presentation link",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Insert dashboard screenshot",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Insert the captured Salesforce dashboard screenshot into the appropriate slide.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Is a one-to-many UploadTemplate ",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Is a one-to-many UploadTemplate upload the appropriate method?",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Item Left In Reviewed / Unidentified Status",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Manual invoice-row entry in the Bank remittance editor.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Marketing team member",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Method-selection rule (upload vs manual).",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Microsoft Excel (per-customer Dashboard / assignment workbook)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Microsoft Outlook (Customer Accounts Payable mailbox, Payments in Cc)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Navigate to marketing dashboard",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Navigate to team channel",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Needs more information: see open items",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "No confirmable invoice match can be found.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Notepad workspace: the inquiry email template the analyst uses at n-012-analyst.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Otherwise, the payment is populated by manual invoice-row entry.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Out of scope: Agent ownership of correction-path routing. (Needs more information)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Out of scope: Agent writes of any kind. (Observed exclusion)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Out of scope: An exception-message-to-label selection rule. (Needs more information; GATED)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Paste the presentation link into the message.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Payer alias / company identity.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Payer-alias resolution source on a validation error. Read-only.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Per-customer invoice split.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Present clearable-items briefing (ranked table + CSV)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Proceed to Save.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Produce one evidence-bearing Analyst case per exception",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Query ERP (clearing) open-item tables (read-only)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Re-sequenced by the 2026-09-24 decision (option A)",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Read Additional Log surface (read-only, scoped to analyst-supplied company codes)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Read Transaction Details (evidence)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Reconcile Remaining Difference (review, correct, disposition)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Record Enrichment Complete (0 open advices)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Record run log and reconciliation record",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Remittance Inquiry Drafted (Reviewed / On account / Sent email)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Remove any auto-generated link previews for a cleaner presentation of the message.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Resolve payer aliases when a validation error occurs during invoice confirmation.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Retrieve Pipeline Influence report",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Review briefing and decide per group",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Review payment-advice PDFs.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Review unsupported group",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Scheduled daily trigger",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Send message to team",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Send the message to the marketing team channel.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Separate correction path (out of scope)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Sequencing choice made at this stage (not fixed by the transformation map).",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Sheet review copy",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Slides review copy",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "Snipping Tool workspace: the credit-line capture the analyst attaches at n-012-analyst.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Supply affected company-code scope for Additional Log exception handling",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "Switch to Slack and navigate to the marketing team channel.",
+      "kind": "label",
+      "sources": [
+        "future-state.simple"
+      ]
+    },
+    {
+      "text": "The analyst may decide, defer, or exclude the unsupported group.",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "The assembled evidence packet with per-source citations and the resulting Difference position.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "The correction reconciles the remainder to Difference 0.00.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "The corroborating credit line, advice, and invoice-split evidence, cited per source.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "The uploaded/entered allocation over- or under-allocates; Difference is not yet 0.00.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "The working set of rows to handle.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Triage exception into an evidence-state category",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "UiPath Action Center",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "UiPath Action Center (bot-generated bank-statement output / remittance tasks)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Verify Completed Record & Set Workflow Status",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "Volume / cycle-time / pain-point attribute.",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "agent begins evidence assembly on the analyst-selected row (interface input from n-003)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "agent review surface",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "agent review surface / Excel draft columns",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "assignment workbook / SummaryReport (Excel, Analyst-lane workspace) · sys-bank (live queue)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "blocked_period · selection_rework_required · policy_review_required · non_pair_residue · unclassified_exception",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "candidate groups preserve Assignment and source/batch provenance",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "drafted inquiry on account",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "inbound edge lands on the first future node of the n-012 expansion",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "n-005 · sys-invoicing-app · sys-company-records-app · sys-collections-workbench · sys-erp",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "n-012-agent (proposed path or Escalation) · sys-bank (grid)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "n-04 (GATED escalation: unsupported / insufficient evidence)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "n-05a (recommend) / n-4esc (Escalate, GATED)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "partial residual documented",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "person-retained grid read",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "person-retained read (row selection)",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "person-retained verification read",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "preserve category and source message",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "recommendation only, never an Agent action",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "resolved to zero",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "returned data becomes the provisional clearing snapshot",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "shared review seam - agent reports balanced, analyst saves",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    },
+    {
+      "text": "supported -> recommend CANCELLATION (recommendation flow, not a GATED escalation)",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "supported evidence and confidence",
+      "kind": "label",
+      "sources": [
+        "future-state.middle"
+      ]
+    },
+    {
+      "text": "the agent's proposed allocation carried forward from n-agent-stage-1 through the upload",
+      "kind": "label",
+      "sources": [
+        "future-state.complex"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "text": "Accounts Payable",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Action Center",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Click Save",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Data Validation",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Entity Name",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Google Sheet",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Google Sheets",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Google Slides",
+      "kind": "name",
+      "sources": [
+        "future-state.simple"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Microsoft Excel",
+      "kind": "name",
+      "sources": [
+        "future-state.middle",
+        "future-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Microsoft Outlook",
+      "kind": "name",
+      "sources": [
+        "future-state.middle",
+        "future-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Payment Amount",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Save Successful",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Serial Number",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "generic business vocabulary a different process can use independently"
+    },
+    {
+      "text": "Snipping Tool",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "Sticky Notes",
+      "kind": "name",
+      "sources": [
+        "future-state.middle"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    },
+    {
+      "text": "The Excel",
+      "kind": "name",
+      "sources": [
+        "future-state.complex"
+      ],
+      "reason": "commodity tool or tool feature kept by the name map; any run may name it"
+    }
+  ]
+}
