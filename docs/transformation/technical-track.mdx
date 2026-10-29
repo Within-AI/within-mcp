@@ -13,18 +13,17 @@ The non-technical track builds skills and simple agents. This track builds the c
 The Agent Development Kit (ADK) defines the build sequence from a business objective to a tested, deployed agent. Each stage uses current [Company Brain](/concepts/process-index) evidence where the process is relevant to the decision.
 
 <Note>
-  You do not install a separate ADK package. The method is served through the MCP. Once Within is connected in your harness, the assistant calls [`get_agent_builder_instructions`](/tools/agent-builder) and follows the returned method, retrieving the supporting resources it names.
+  The ADK is a plugin you install in your harness alongside the Within MCP. See [Download and install](/adk/install).
 </Note>
 
-Because the method is served at build time, start each new build by retrieving the current instructions. Version the code, configuration, evaluations, and evidence baseline that the build produces in your own repository.
+Version the code, configuration, evaluations, and evidence baseline that the build produces in your own repository.
 
 ```mermaid
 flowchart LR
-  H[Coding harness] --> M[Within MCP]
-  M --> A[Agent Builder tools serve the methodology]
-  M --> C[Company Brain: processes and artifacts]
-  A --> B[Your agent]
-  C --> B
+  H[Coding harness] --> K[Agent Development Kit]
+  K --> M[Within MCP]
+  M --> C[Work Brain: processes and artifacts]
+  K --> B[Your agent]
 ```
 
 ## The sequence

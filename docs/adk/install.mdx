@@ -1,0 +1,70 @@
+---
+title: "Download and install"
+description: "Download the ADK from your Within workspace and install it in Claude Code, Cowork, or Codex."
+icon: "download"
+---
+
+Download the ADK from your Within workspace, then install it in the client your team works in. See the [overview](/adk/overview) for what each module does.
+
+## Requirements
+
+| | Claude Code | Cowork | Codex |
+|---|---|---|---|
+| Agent Recommendations, Future State Design, Agent Design | Yes | Yes | Yes |
+| Agent Build | Yes | No | Yes |
+
+- **Python 3.9 or later.** The ADK uses the standard library only and installs nothing. In Cowork, your administrator sets up Python.
+- **Within MCP connected** in the same client, so Agent Recommendations can read your Work Brain. See [Quickstart](/quickstart) for your client.
+
+{/* REVIEW: Claude plan tier (Pro / Max / Team / Enterprise) not stated. No verified source found; add it or drop this note. */}
+
+## Download
+
+<Steps>
+  <Step title="Open Settings">
+    In your Within workspace, go to **Settings → Downloads**.
+  </Step>
+  <Step title="Download the kit">
+    Download the latest **Agent Development Kit** zip, for example `agent-development-kit-2.0.zip`. The changelog sits alongside it.
+  </Step>
+</Steps>
+
+<Note>
+  The Downloads tab is visible to workspace admins only. If you can't see it, ask your workspace admin for the kit.
+</Note>
+
+{/* REVIEW: "changelog sits alongside it" is from Arun (Weekly Updates, 26 Oct): Chris or Souradip upload version + changelog. Confirm a changelog is actually published for 2.0 before shipping this line. */}
+
+## Install
+
+{/* REVIEW: The zip's README gives marketplace commands with a <marketplace> placeholder, not steps for installing from the downloaded zip. Each client's steps below need confirming against a real install from the zip before this ships. */}
+
+<Tabs>
+  <Tab title="Claude Code">
+    Unzip the kit, then install it as a local plugin from a Claude Code session.
+
+    {/* REVIEW: exact commands for installing from the unzipped folder. The zip has no marketplace.json, so `/plugin marketplace add <path>` may not work as-is. */}
+  </Tab>
+  <Tab title="Cowork">
+    Your organization admin uploads the zip in **Organization settings → Plugins**, or you add it yourself under **Customize → Plugins**.
+  </Tab>
+  <Tab title="Codex">
+    Unzip the kit, then install `agent-development-kit` from `/plugins`.
+
+    {/* REVIEW: exact steps for adding a local plugin folder in Codex. */}
+  </Tab>
+</Tabs>
+
+{/* REVIEW (open decision): add an "Upgrading" section — remove any older ADK install before installing a new version. Enablement session 1 saw an install that didn't detect the old version and one that read a stale old manifest. */}
+
+## Verify
+
+In your client, ask:
+
+```text
+Recommend agents for our month-end close.
+```
+
+The assistant should start Agent Recommendations and ask for your objective.
+
+{/* REVIEW: "ask for your objective" matches the skill's described start (objective, technology, constraints); confirm on a live run. */}

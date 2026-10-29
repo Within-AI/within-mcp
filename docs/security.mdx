@@ -64,6 +64,16 @@ The MCP cannot:
 
 All write operations happen in the Within UI. See [Limitations](/limitations) for the full out-of-scope list.
 
+## Agent Development Kit
+
+The [Agent Development Kit](/adk/overview) is a plugin that runs inside the customer's own Claude Code, Cowork, or Codex. It's distributed as a zip from **Settings → Downloads** in Within, which only workspace admins can see.
+
+- **Within data:** reads through the client's existing Within MCP connection, so it inherits the same authentication, authorization, and read-only scope described above.
+- **Local execution:** runs Python 3.9 or later scripts, standard library only, to freeze inputs, run checks, and render pages. It installs nothing.
+- **Local files:** each run writes to a run folder in the current project folder, including HTML pages with no JavaScript.
+- **No hooks, no bundled MCP servers, and no network calls of its own.**
+- **Agent Build** starts separate Claude Code (`claude -p`) or Codex (`codex exec`) sessions on the user's account to build and check the agent. The other modules don't start sessions.
+
 ## Summary for reviewers
 
 - **Connection**: AI client ↔ Within MCP over HTTPS + TLS. No direct external LLM integration; LLMs live inside the AI client.
