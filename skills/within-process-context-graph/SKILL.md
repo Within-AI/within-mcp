@@ -1,13 +1,13 @@
 ---
 name: within-process-context-graph
-description: Use to understand how work happens in the user's organization; references 'our' processes, SOPs, or workflows. Triggers are current-state and analytical ('how does our [process] work', 'what feeds/depends on X', 'what changed', 'where is control Y supported', 'trace the impact of Z'). Skip generic, hypothetical, or public-knowledge questions with no organizational anchor. For deciding what to build, automate, or change, use the agent-builder skill instead.
+description: Use to understand how work happens in the user's organization; references 'our' processes, SOPs, or workflows. Triggers are current-state and analytical ('how does our [process] work', 'what feeds/depends on X', 'what changed', 'where is control Y supported', 'trace the impact of Z'). Skip generic, hypothetical, or public-knowledge questions with no organizational anchor.
 ---
 
 # Within
 
 Use this skill when a customer asks an AI assistant to understand how work actually happens in their organization: how a process runs today, what it depends on, what changed, and what the evidence is.
 
-This skill is for **understanding and analysis**, not for deciding what to build. When the user wants to decide what to automate, build, or change, use the `agent-builder` skill instead. It owns that end to end and leans on the process-index tools below underneath.
+For building skills, agents, and automations, the Agent Development Kit is available as a ZIP in the Within web app under Settings → Downloads.
 
 Within captures how work happens (Companion and Interviewer) and organizes it into the **Process Index — Within's context graph of how work happens** — a living, hierarchical map of every process the organization runs, with dependencies, observations, and activity timelines.
 
@@ -76,7 +76,7 @@ Within runs the **Discover -> Structure -> Improve** loop continuously (replacin
 
 - **Discover**: Companion (ambient capture from sessions) and Interviewer (AI-guided structured capture) generate the raw process knowledge. Agents read this via process / observation / artifact tools.
 - **Structure**: The Process Index is Within's context graph of how the customer's organization runs — every process, its hierarchy, dependencies, observations, and activity timelines, all linked into one navigable structure. Agents navigate this via `search` / `fetch` / hierarchy / process-detail / observation tools.
-- **Improve**: Advisor analyzes thousands of processes simultaneously and Signals give individual-level feedback. Through this skill, agents read that same evidence to explain current state, dependencies, and change. Deciding what to build or change from it is the `agent-builder` skill's job.
+- **Improve**: Advisor analyzes thousands of processes simultaneously and Signals give individual-level feedback. Through this skill, agents read that same evidence to explain current state, dependencies, and change.
 
 The customer's question almost always maps to one of these stages. Use the catalog in `tools.md` to pick the right tool for the goal.
 
