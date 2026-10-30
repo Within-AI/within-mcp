@@ -1,14 +1,23 @@
 ---
 title: "Workspace"
-description: "List the workspaces you can access and see which one is active."
+description: "List accessible workspaces and active workspace users."
 icon: "building"
 ---
 
 | Tool | When to use |
 |---|---|
 | `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
+| `list_users` | List active human users in the current workspace, subject to directory permissions. |
 
-All tools in production are read-only. Use `list_accessible_workspaces` to orient at the start of a session or to confirm which workspace the assistant is reading from before drilling in.
+These workspace tools are read-only. Use `list_accessible_workspaces` to orient at the start of a session or to confirm which workspace the assistant is reading from before drilling in.
+
+## User directory
+
+`list_users` lists active human users in the current workspace. It requires `user.view_list` and returns names, email addresses, resource keys, and workspace roles. Workspace admins also receive `last_login_at`, the last successful WorkOS sign-in time; null means no sign-in has been recorded. This field is omitted for other callers.
+
+Inputs: `limit` defaults to 25 (1–100); `offset` defaults to 0 (minimum 0). The response contains `items`, `total`, `limit`, and `offset`. Like every tool, it also accepts the shared `context` and `mcp_thread_id` arguments.
+
+Use returned user resource keys to filter contributors in `list_sessions`.
 
 ## Switching workspaces
 

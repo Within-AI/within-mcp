@@ -1,10 +1,10 @@
 ---
 title: "Tool reference"
-description: "Every tool the Within MCP exposes in production, organized by what you're trying to do."
+description: "Within MCP tools organized by what you're trying to do."
 icon: "screwdriver-wrench"
 ---
 
-The Within MCP exposes a read-only set of tools that an AI assistant can chain to answer real questions grounded in a customer's workspace. The point of this reference is not to enumerate APIs — it's to help you **pick the right tool for the goal at hand**.
+The Within MCP exposes workspace data tools that an AI assistant can chain to answer questions grounded in a customer's workspace. It also provides an optional feedback submission tool. The point of this reference is not to enumerate APIs — it's to help you **pick the right tool for the goal at hand**.
 
 ## How the toolset is organized
 
@@ -16,8 +16,8 @@ Every workflow reduces to: **find the right process(es) → fetch detail → gat
 | [Process Index](/tools/process-index) | Hierarchy navigation, process details, ranked search | `search` results feel sparse, or you need richer metadata than `fetch` returns |
 | [Process observations](/tools/observations-and-changes) | Recent changes, observations, activity timelines, sessions | "What changed?", "what happened?", "why does this run this way?" |
 | [Artifacts](/tools/artifacts) | Document search, content retrieval, in-document text search | The user names a document or recording |
-| [Workspace](/tools/workspace) | List accessible workspaces | Orienting before drilling in |
-| [Agent Builder](/tools/agent-builder) | Agent builder instructions and build resources | Building a skill, agent, or automation from your processes |
+| [Workspace and users](/tools/workspace) | List accessible workspaces and workspace users | Orienting before drilling in or finding contributors |
+| [Feedback](/tools/feedback) | Submit explicitly approved user feedback | Sending feedback about the integration to Within |
 
 ## Before you call
 

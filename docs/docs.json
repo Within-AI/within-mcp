@@ -140,7 +140,7 @@
               "tools/observations-and-changes",
               "tools/artifacts",
               "tools/workspace",
-              "tools/agent-builder"
+              "tools/feedback"
             ]
           }
         ]

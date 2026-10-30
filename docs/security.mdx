@@ -4,7 +4,7 @@ description: "How Within MCP connects to your AI tools, how it authenticates, an
 icon: "shield-halved"
 ---
 
-The Within MCP is a read-only view into your organization's process intelligence. This page is the canonical reference for security, architecture, and access-control questions — written so InfoSec, IT, and platform reviewers can use it directly.
+The Within MCP provides read-only access to your organization's process intelligence, plus optional user-approved feedback submission. This page is the canonical reference for security, architecture, and access-control questions — written so InfoSec, IT, and platform reviewers can use it directly.
 
 ## Integration scope
 
@@ -54,7 +54,7 @@ In short, the MCP inherits the user's existing posture. Granting MCP access does
 
 ## Read-only data scope
 
-All tools exposed by the MCP in production are **read-only**. The MCP does not modify user-facing data and cannot read across workspaces — each connection is scoped to a single workspace, set by the authenticated user's session or the workspace the API key was issued for.
+Workspace data tools are **read-only**. The exception is [`submit_feedback`](/tools/feedback), which sends explicitly approved feedback to Within analytics (`readOnlyHint: false`). The MCP does not modify user-facing data and cannot read across workspaces — each connection is scoped to a single workspace, set by the authenticated user's session or the workspace the API key was issued for.
 
 The MCP cannot:
 
