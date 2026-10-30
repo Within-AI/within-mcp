@@ -28,9 +28,6 @@ The agent's job is usually one of:
 4. **Surface what the evidence shows** — describe duplication, exceptions, and
    inconsistencies across processes as observed facts, not recommendations.
 
-(Deciding what to build, automate, or change from that understanding is the
-`agent-builder` skill's job, not this one.)
-
 All these workflows reduce to: **find the right process(es) → fetch detail →
 gather evidence → traverse relationships → synthesize**. The tools below are
 grouped by where they fit in that flow.
@@ -120,7 +117,7 @@ workspace), not something the agent does at runtime.
 
 **"What depends on Z?" / "What is the impact?"** → `search` for Z → `fetch` + `get_process_details` to read its `dependencies` field → `fetch` each upstream and downstream process to walk the chain. For impact-critical answers, also pull observations on the dependents.
 
-**"Help me understand our P2P value stream"** → `get_process_hierarchy` (root: P2P node) → for each leaf: `get_process_details` → read steps, dependencies, and observed exception patterns. Describe the current state with evidence. (If the user then wants to decide what to *do* about it, hand off to the `agent-builder` skill.)
+**"Help me understand our P2P value stream"** → `get_process_hierarchy` (root: P2P node) → for each leaf: `get_process_details` → read steps, dependencies, and observed exception patterns. Describe the current state with evidence.
 
 ---
 
@@ -209,9 +206,8 @@ should produce a concise, evidence-backed brief that the manager can act on.
 **Outcome:** "Help me understand process X (or value stream Y) — how it runs
 today, what feeds it, what depends on it, and what the evidence shows."
 
-The customer wants deep, evidence-grounded understanding of a target. The
-agent's job is to describe the current state; deciding what to change or build
-from it belongs to the `agent-builder` skill.
+The customer wants deep, evidence-grounded understanding of a target. Describe
+the current state with its supporting evidence.
 
 1. `list_accessible_workspaces` — confirm workspace.
 2. `search` → `fetch` (or directly `fetch` if the ID is known) — pull

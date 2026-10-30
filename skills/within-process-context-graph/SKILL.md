@@ -46,7 +46,7 @@ The Within MCP is the surface where a customer's AI agents pull organization-spe
 
 ### Understanding a process or value stream in depth
 
-- **Outcome: understand how a whole value stream runs today.** Someone wants a grounded picture of a value stream (P2P, O2C, close cycle, etc.): the processes under it, how they connect, where the evidence shows manual steps or exceptions, and what feeds and depends on them. Walk the hierarchy, pull details and observations, trace dependencies, and describe the current state with citations. Report what's there; leave what to *do* about it to the `agent-builder` skill.
+- **Outcome: understand how a whole value stream runs today.** Someone wants a grounded picture of a value stream (P2P, O2C, close cycle, etc.): the processes under it, how they connect, where the evidence shows manual steps or exceptions, and what feeds and depends on them. Walk the hierarchy, pull details and observations, trace dependencies, and describe the current state with citations. Report the current state and its supporting evidence.
 
 See `tools.md` for end-to-end worked scenarios that compose many tools together for each of these outcomes.
 
