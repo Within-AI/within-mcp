@@ -1,33 +1,143 @@
 ---
-title: "Workspace"
-description: "List accessible workspaces and active workspace users."
+title: "Workspace and directory"
+description: "Find your workspace and the people who contribute to it."
 icon: "building"
 ---
 
+Use these tools to orient yourself in a workspace and find its contributors.
+
 | Tool | When to use |
 |---|---|
-| `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
-| `list_users` | List active human users in the current workspace, subject to directory permissions. |
-
-These workspace tools are read-only. Use `list_accessible_workspaces` to orient at the start of a session or to confirm which workspace the assistant is reading from before drilling in.
+| `list_accessible_workspaces` | Confirm which workspace is active and see the other workspaces you can access. |
+| `list_users` | Browse the workspace directory to find people and identify contributors. |
 
 ## User directory
 
-`list_users` lists active human users in the current workspace. It requires `user.view_list` and returns names, email addresses, resource keys, and workspace roles. Workspace admins also receive `last_login_at`, the last successful WorkOS sign-in time; null means no sign-in has been recorded. This field is omitted for other callers.
+The directory lists active people in the current workspace, with their names, email addresses, and workspace roles. Workspace admins can also see the last recorded sign-in time. Available information depends on your access.
 
-Inputs: `limit` defaults to 25 (1–100); `offset` defaults to 0 (minimum 0). The response contains `items`, `total`, `limit`, and `offset`. Like every tool, it also accepts the shared `context` and `mcp_thread_id` arguments.
-
-Use returned user resource keys to filter contributors in `list_sessions`.
+Use the directory with [`list_sessions`](/tools/observations-and-changes) to explore a person's contributions.
 
 ## Switching workspaces
 
-Each session is scoped to a single workspace. To switch, how you do it depends on how you authenticated:
+Each connection is scoped to one workspace.
 
-- **OAuth** — disconnect the Within connection in your client and reconnect. The reconnect flow shows a workspace picker.
-- **API key** — keys are bound to the workspace they were generated in. Generate a new key in the other workspace and swap the Bearer token in your client.
+- **OAuth:** disconnect and reconnect to choose a different workspace.
+- **API key:** use a key issued for the workspace you want to access, where API keys are available.
 
-See [Authentication → Switching workspaces](/authentication#switching-workspaces) for the full walkthrough.
+See [Switching workspaces](/authentication#switching-workspaces) for details.
 
-## Common chains
+## Current schema
 
-- **Confirm workspace at start**: `list_accessible_workspaces` to see which workspace is active before drilling in
+Parameters and examples for these tools.
+
+See [shared parameters](/tools/overview#shared-parameters). Replace example identifiers with your own.
+
+<AccordionGroup>
+
+<Accordion title="list_accessible_workspaces">
+
+This tool has no additional parameters beyond the shared parameters.
+
+**Example request**
+
+```json
+{
+  "context": "List available workspaces."
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "type": "object",
+  "required": [
+    "context"
+  ],
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="list_users">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `limit` | integer | No | Result limit. Default: `25`. Range: 1–100. |
+| `offset` | integer | No | Results to skip. Default: `0`. Minimum: 0. |
+
+**Example request**
+
+```json
+{
+  "context": "Browse the workspace directory.",
+  "limit": 25,
+  "offset": 0
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "limit": {
+      "default": 25,
+      "maximum": 100,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "offset": {
+      "default": 0,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "type": "object",
+  "required": [
+    "context"
+  ],
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+</AccordionGroup>

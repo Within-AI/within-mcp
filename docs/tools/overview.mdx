@@ -13,11 +13,22 @@ Every workflow reduces to: **find the right process(es) → fetch detail → gat
 | Group | What it covers | When to start here |
 |---|---|---|
 | [Standard entry points](/tools/entry-points) | `search`, `fetch` | The default starting path for any process question |
-| [Process Index](/tools/process-index) | Hierarchy navigation, process details, ranked search | `search` results feel sparse, or you need richer metadata than `fetch` returns |
-| [Process observations](/tools/observations-and-changes) | Recent changes, observations, activity timelines, sessions | "What changed?", "what happened?", "why does this run this way?" |
+| [Process Index](/tools/process-index) | Process browsing and relationships | Explore a business area or investigate a process in more detail |
+| [Process observations](/tools/observations-and-changes) | Changes, captured work, and participation | Understand what happened and find supporting evidence |
 | [Artifacts](/tools/artifacts) | Document search, content retrieval, in-document text search | The user names a document or recording |
-| [Workspace and users](/tools/workspace) | List accessible workspaces and workspace users | Orienting before drilling in or finding contributors |
+| [Workspace and directory](/tools/workspace) | Workspaces and people | Confirm your workspace or find a contributor |
 | [Feedback](/tools/feedback) | Submit explicitly approved user feedback | Sending feedback about the integration to Within |
+
+Each group has a purpose-based tool directory and a **Current schema** section for input details.
+
+## Shared parameters
+
+These parameters apply to every tool and are included in each raw JSON Schema.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `context` | string | Yes | Purpose of the request. |
+| `mcp_thread_id` | string or null | No | Identifier linking related requests. Default: `null`. |
 
 ## Before you call
 
