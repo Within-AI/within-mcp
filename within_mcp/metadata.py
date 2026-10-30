@@ -93,11 +93,8 @@ WITHIN_MCP_METADATA = WithinMCPMetadata(
     ),
     license_spdx="Apache-2.0",
     repository_url="https://github.com/Within-AI/within-mcp",
-    skills=(
-        "within-process-context-graph",
-        "agent-builder",
-    ),
-    gemini_context_skill="agent-builder",
+    skills=("within-process-context-graph",),
+    gemini_context_skill="within-process-context-graph",
 )
 
 
