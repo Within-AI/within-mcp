@@ -45,14 +45,14 @@ handles an inbound vendor request end to end.
 
 ## Build one skill
 
-A skill fits a repeated task with a bounded outcome: prepare a brief, check an input against a policy, classify a request, or draft from known source material. The assistant should use the Agent Builder instructions served by the MCP rather than inventing its own build method.
+A skill fits a repeated task with a bounded outcome: prepare a brief, check an input against a policy, classify a request, or draft from known source material. Download the [Agent Development Kit ZIP](/adk/install) from **Settings → Downloads** in the Within web app and follow its instructions.
 
 ### Sample prompt
 
 This example uses a fictional shipment-exception process.
 
 ```text
-Use Within Agent Builder to create a reusable skill for the synthetic "Resolve
+Use the Within Agent Development Kit to create a reusable skill for the synthetic "Resolve
 shipment exceptions" process. The skill should prepare a review brief from the
 exception record and the documented process, then stop for human approval. It must
 not approve a disposition, update the case system, or invent a missing policy.
@@ -62,13 +62,7 @@ Separate documented rules from behavior inferred from captured runs. Show me the
 proposed scope, inputs, output, and refusal conditions before writing the package.
 ```
 
-The assistant begins with the MCP-served method. A client-neutral representation of the first call is:
-
-```javascript
-get_agent_builder_instructions({ "step": "skill_track" })
-```
-
-The returned instructions identify the resources needed for that build. The assistant first gathers current process evidence and drafts the proposed scope. You approve that outline before it writes the package. After the package is built, you review the result and its smoke-test evidence before installation.
+Use the [Agent Development Kit](/adk/overview) for build instructions and resources. The assistant first gathers current process evidence and drafts the proposed scope. You approve that outline before it writes the package. After the package is built, you review the result and its smoke-test evidence before installation.
 
 ### Sample output
 

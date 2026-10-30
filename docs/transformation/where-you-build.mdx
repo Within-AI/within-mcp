@@ -13,7 +13,7 @@ These components have separate responsibilities.
 | Component | Responsibility | Boundary |
 |---|---|---|
 | Advisor | Analyze process evidence and create Within-native outputs inside Within | Work remains in the Within product experience |
-| Within MCP | Give an authorized AI client read-only access to Company Brain context and builder methods | It retrieves from Within; it does not write to Within or another system |
+| Within MCP | Give an authorized AI client read-only access to Company Brain context | Process data access is read-only; optional feedback submission sends feedback to Within analytics |
 | Your AI client | Reason over the retrieved context and use the client's tools to create files, code, skills, or actions outside Within | The client's permissions and approval controls govern those actions |
 
 This boundary matters when a build uses several systems. The MCP supplies Within context. If the assistant drafts a document, commits code, or calls another connector, the AI client performs that action through its own tools.
@@ -82,7 +82,7 @@ Activity timelines can be large. Use low or medium verbosity and request one `ac
 
 ## Choose the build method
 
-For a bounded task, ask the assistant to load the Agent Builder skill method through [`get_agent_builder_instructions`](/tools/agent-builder). [The non-technical track](/transformation/non-technical-track#build-one-skill) includes a complete example.
+For a bounded task, download the [Agent Development Kit ZIP](/adk/install) from **Settings → Downloads** and follow its instructions. [The non-technical track](/transformation/non-technical-track#build-one-skill) includes a complete example.
 
 For a compound build, use the [Agent Development Kit](/adk/overview), a plugin that runs in your coding harness and reads your workspace through the MCP. Continue with [the technical track](/transformation/technical-track).
 

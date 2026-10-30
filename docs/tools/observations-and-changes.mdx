@@ -13,6 +13,12 @@ Use these tools when the user asks "what changed?", "what happened?", or "why do
 | `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Within has. Pass the `observation_resource_key`; use `verbosity` (`low`/`medium`/`high`) for detail, and `activity_block_index` to page through the timeline one block at a time. Only works for your own sessions. |
 | `list_sessions` | Recent workspace sessions, paginated. Each entry returns the processes the session updated, its duration, and who created it — a quick way to see recent activity and who's driving it. |
 
+## Capture statistics
+
+`get_capture_stats` returns aggregate capture and engagement metrics, including session counts, capture duration, contributors, and updated processes. Omit `group_by` for workspace totals, or group by `user`, `session_type`, or `session_status`. Filter by `published`, `time_range`, `session_types`, and `statuses`. The default reporting window is the trailing 30 days; `limit` defaults to 20 (1–100) and caps breakdown rows.
+
+It requires `process.view`; grouping by user also requires team-activity access. `list_sessions` is available only to callers with team-activity access. Use it to inspect the individual sessions behind aggregate metrics.
+
 ## What an observation is
 
 An observation is a captured execution of a process — a real session, attached to a specific process and version. The **activity timeline** is the underlying sequence of user actions that produced the observation — the systems they used, what they did, when.
