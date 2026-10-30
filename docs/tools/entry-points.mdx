@@ -1,30 +1,134 @@
 ---
 title: "Standard entry points"
-description: "The default starting path for any process question."
+description: "Find a process, then read it before answering."
 icon: "door-open"
 ---
 
-Most ChatGPT, Claude, and standard MCP clients will begin every Within interaction with one of these two tools.
+Start here for most questions about how work gets done.
 
 | Tool | When to use |
 |---|---|
-| `search` | First call for almost any process question. Semantic search over the customer's process index. **Iterate** — single queries rarely cover broad topics, and processes use organization-specific names. |
-| `fetch` | Pull full details for one process by ID returned from `search` or hierarchy navigation: placement in the index, current version (steps, policies, linked artifacts), dependencies, history. Fetch dependency IDs to walk relationships. |
+| `search` | Find processes related to a question, topic, or business activity. |
+| `fetch` | Read a process you have found before explaining how it works. |
 
 ## The default loop
 
-<Steps>
-  <Step title="search">
-    Query in the user's words. Refine two to four times if results feel sparse.
-  </Step>
-  <Step title="fetch">
-    Pull the matched process. Read steps, policies, linked artifacts, and dependencies.
-  </Step>
-  <Step title="Drill if needed">
-    If `fetch`'s summary isn't enough, drop into [Process Index tools](/tools/process-index) for the richer payload, then chain into [observations and activity timelines](/tools/observations-and-changes) for primary-source evidence.
-  </Step>
-</Steps>
+1. Search using the user's words. Try related terms if the results are sparse.
+2. Read the matching processes to understand their steps and relationships.
+3. Follow up with [Process Index tools](/tools/process-index) for more detail or [process observations](/tools/observations-and-changes) for evidence from captured work.
 
-## When to skip `search`
+If you already have a process from an earlier result, go straight to `fetch`. To browse instead of search, start with [`get_process_hierarchy`](/tools/process-index).
 
-If the user has already named a specific process or you have the ID from a prior call, go straight to `fetch`. If the user wants to *browse* rather than search, start with [`get_process_hierarchy`](/tools/process-index) instead.
+## Current schema
+
+Parameters and examples for these tools.
+
+See [shared parameters](/tools/overview#shared-parameters). Replace example identifiers with your own.
+
+<AccordionGroup>
+
+<Accordion title="search">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `query` | string | Yes | Search text. |
+
+**Example request**
+
+```json
+{
+  "context": "Find invoice approval processes.",
+  "query": "invoice approval"
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "query"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="fetch">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | string | Yes | Process identifier. |
+
+**Example request**
+
+```json
+{
+  "context": "Read the selected process.",
+  "id": "process_example"
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "id"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+</AccordionGroup>

@@ -1,21 +1,481 @@
 ---
 title: "Artifacts"
-description: "Find and read the documents, recordings, and source files behind processes."
+description: "Find and read the documents and recordings behind processes."
 icon: "file"
 ---
 
-Artifacts are the underlying documents, recordings, and source files behind processes — BRDs, SOPs, video recordings, screenshots, audio, diagrams, logs.
+Artifacts are the source materials behind processes, including documents, recordings, screenshots, and diagrams.
 
 | Tool | When to use |
 |---|---|
-| `search_artifacts` | Hybrid semantic + lexical search across artifact text. Returns ranked results with short context snippets. **Start here** for artifact discovery. |
-| `get_artifact_details` | Full metadata for a single artifact by `resource_key` — type, status, file info, and linked artifacts (`input_artifacts`, `output_artifacts`, `children`). |
-| `get_artifact_content` | Full or range-mode text extraction for a single artifact. Use range mode (`start_line` / `end_line`) when you need to cite specific lines. |
-| `search_artifact_text` | Within one artifact (by `resource_key`), find line-numbered matches with surrounding context. Regex or literal. There is no cross-document text search on the external surface — for multi-document retrieval, use `search_artifacts`. |
+| `search_artifacts` | Find documents or recordings relevant to a question. |
+| `get_artifact_details` | Learn about a source and discover related materials. |
+| `get_artifact_content` | Read a source's extracted text or a specific passage. |
+| `search_artifact_text` | Locate a phrase or pattern within a source you have already found. |
 
-## Common chains
+## Common workflows
 
-- **Cite a passage**: `search_artifacts` → `get_artifact_content` with a line range → quote the lines back to the user
-- **Read a full SOP**: `search_artifacts` (find by query) → `get_artifact_content` (full text)
-- **Search inside one artifact**: `search_artifacts` (find the artifact) → `search_artifact_text` (locate specific mentions by regex or literal)
-- **Trace lineage**: `get_artifact_details` → walk `input_artifacts` / `output_artifacts` / `children` to find related sources
+- **Support an answer with a citation:** find a source, locate the relevant passage, then read it in context before quoting it.
+- **Review a procedure:** find its document and read the relevant sections.
+- **Find related evidence:** inspect a source's details and follow its links to other materials.
+
+Use `search_artifacts` to search across sources and `search_artifact_text` to search within one source.
+
+## Current schema
+
+Parameters and examples for these tools.
+
+See [shared parameters](/tools/overview#shared-parameters). Replace example identifiers with your own.
+
+<AccordionGroup>
+
+<Accordion title="search_artifacts">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `query` | string | Yes | Search text. Minimum length: 1. |
+| `top_k` | integer | No | Result limit. Default: `5`. Range: 1–10. |
+| `semantic_top_k` | integer | No | Meaning-based search limit. Default: `5`. Range: 1–50. |
+| `lexical_top_k` | integer | No | Keyword search limit. Default: `5`. Range: 1–50. |
+| `semantic_min_score` | number | No | Relevance threshold. Default: `0.3`. Range: 0.0–1.0. |
+| `artifact_resource_keys` | array of string or null | No | Sources to include. Default: `null`. |
+| `artifact_types` | array of string or null | No | Source types. Default: `null`. Values: `video`, `audio`, `document`, `diagram`, `log`, `image`, `folder`, `skill_package`, `rav_session_data`, `session_analysis`. |
+| `origin_types` | array of string or null | No | Source origins. Default: `null`. Values: `user_input`, `system_input`, `ai_generated`, `system_processed`, `gold_document`, `ai_generated_migrated`. |
+| `file_types` | array of string or null | No | File types. Default: `null`. |
+| `only_verified` | boolean or null | No | Filter by verification status. Default: `null`. |
+| `created_after` | string (date-time) or null | No | Created after this time. Default: `null`. |
+| `created_before` | string (date-time) or null | No | Created before this time. Default: `null`. |
+| `max_snippets_per_artifact` | integer | No | Snippets per source. Default: `2`. Range: 1–5. |
+
+**Example request**
+
+```json
+{
+  "context": "Find invoice approval policies.",
+  "query": "invoice approval policy",
+  "top_k": 5
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "$defs": {
+    "ArtifactOriginEnum": {
+      "enum": [
+        "user_input",
+        "system_input",
+        "ai_generated",
+        "system_processed",
+        "gold_document",
+        "ai_generated_migrated"
+      ],
+      "type": "string"
+    },
+    "ArtifactTypeEnum": {
+      "enum": [
+        "video",
+        "audio",
+        "document",
+        "diagram",
+        "log",
+        "image",
+        "folder",
+        "skill_package",
+        "rav_session_data",
+        "session_analysis"
+      ],
+      "type": "string"
+    }
+  },
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "query": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "top_k": {
+      "default": 5,
+      "maximum": 10,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "semantic_top_k": {
+      "default": 5,
+      "maximum": 50,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "lexical_top_k": {
+      "default": 5,
+      "maximum": 50,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "semantic_min_score": {
+      "default": 0.3,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "type": "number"
+    },
+    "artifact_resource_keys": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "artifact_types": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ArtifactTypeEnum"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "origin_types": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ArtifactOriginEnum"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "file_types": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "only_verified": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "created_after": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "created_before": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "max_snippets_per_artifact": {
+      "default": 2,
+      "maximum": 5,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "query"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="get_artifact_details">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `resource_key` | string | Yes | Source identifier. |
+
+**Example request**
+
+```json
+{
+  "context": "Read source details.",
+  "resource_key": "artifact_example"
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "resource_key": {
+      "type": "string"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "resource_key"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="get_artifact_content">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `resource_key` | string | Yes | Source identifier. |
+| `mode` | string | No | Reading mode. Default: `"preview"`. Values: `preview`, `range`. |
+| `start_line` | integer or null | No | First line. Default: `null`. Minimum: 1. |
+| `end_line` | integer or null | No | Last line. Default: `null`. Minimum: 1. |
+
+Range mode requires both line numbers, with the end at or after the start.
+
+**Example request**
+
+```json
+{
+  "context": "Read the selected passage.",
+  "resource_key": "artifact_example",
+  "mode": "range",
+  "start_line": 1,
+  "end_line": 20
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "resource_key": {
+      "type": "string"
+    },
+    "mode": {
+      "default": "preview",
+      "enum": [
+        "preview",
+        "range"
+      ],
+      "type": "string"
+    },
+    "start_line": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "end_line": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "resource_key"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="search_artifact_text">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `resource_key` | string | Yes | Source identifier. |
+| `query` | string | Yes | Search text. |
+| `before_chars` | integer | No | Context before each match. Default: `100`. Range: 0–2000. |
+| `after_chars` | integer | No | Context after each match. Default: `100`. Range: 0–2000. |
+| `max_matches` | integer | No | Match limit. Default: `5`. Range: 1–20. |
+| `use_regex` | boolean | No | Enable pattern matching. Default: `true`. |
+| `ignore_case` | boolean | No | Ignore letter case. Default: `true`. |
+
+**Example request**
+
+```json
+{
+  "context": "Find approval references.",
+  "resource_key": "artifact_example",
+  "query": "approval",
+  "use_regex": false
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "resource_key": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "before_chars": {
+      "default": 100,
+      "maximum": 2000,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "after_chars": {
+      "default": 100,
+      "maximum": 2000,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "max_matches": {
+      "default": 5,
+      "maximum": 20,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "use_regex": {
+      "default": true,
+      "type": "boolean"
+    },
+    "ignore_case": {
+      "default": true,
+      "type": "boolean"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "resource_key",
+    "query"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+</AccordionGroup>

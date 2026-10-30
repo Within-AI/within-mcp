@@ -1,28 +1,382 @@
 ---
 title: "Process Index"
-description: "Discover and navigate the hierarchy of processes the organization runs."
+description: "Browse processes and understand how they relate to one another."
 icon: "sitemap"
 ---
 
-Use these tools when [`search`](/tools/entry-points) results feel sparse, or when you need richer process metadata than [`fetch`](/tools/entry-points) returns.
+Use these tools to explore the process index or investigate a process in more detail.
 
 | Tool | When to use |
 |---|---|
-| `search_processes` | Ranked process search combining keyword matches (name, objective, team, value stream) with semantic similarity. Returns mixed hierarchy-node + process results — use when a top-level value stream or department might be a better starting point than a leaf process. |
-| `get_process_hierarchy` | Browse the whole index structure. Use when `search` misses, or to orient before drilling in. Cap depth with `max_depth`; the response flags truncated branches and points you at the next call. |
-| `get_hierarchy_node_details` | Inspect a single hierarchy node — parent, children, linked process, attributes. The right call for a folder / group / value stream key. |
-| `get_process_details` | The rich nested payload for a process: `current_version`, `dependencies`, `hierarchy_node`, `attributes`, optional version history. Default returns a summary with operational attributes; pass `scope` to include `tasks`, `observations`, `dependencies`, `linked_artifacts`, `policies`, or `history`. This is what [`fetch`](/tools/entry-points) reshapes — use directly when you need the structured shape. |
+| `search_processes` | Find a process, department, or value stream related to your question. |
+| `get_process_hierarchy` | Browse how the organization's work is organized when you do not know where to start. |
+| `get_hierarchy_node_details` | Explore a particular group in the index and the processes beneath it. |
+| `get_process_details` | Understand a process's work, policies, supporting evidence, history, and dependencies. |
 
-## Choosing among the lookup tools
+## Common workflows
 
-- **Semantic + keyword, broad** → `search` (entry point) or `search_processes` (richer, mixed results)
-- **You have a resource key** → `get_process_details` (for processes) or `get_hierarchy_node_details` (for folders / groups / value streams)
-- **Browse / orient** → `get_process_hierarchy`, then drill in with `get_hierarchy_node_details` or `get_process_details`
-- **Drill further** (what actually happened on a specific process) → [`get_process_observations`](/tools/observations-and-changes) → [`get_observation_citation`](/tools/observations-and-changes). See [Process observations](/tools/observations-and-changes) for the full toolset.
+- **Explore a business area:** browse the hierarchy, open a relevant group, then read its processes.
+- **Understand dependencies:** read a process and follow its relationships to other processes.
+- **Check how work happens in practice:** find a process, then use [observations and activity timelines](/tools/observations-and-changes) to examine captured work.
 
-## Common chains
+## Current schema
 
-- "What's in this value stream?" → `get_process_hierarchy` (broad) → `get_hierarchy_node_details` on the relevant node → `get_process_details` on each leaf
-- "Pull every dependency of process X" → `get_process_details` with `scope=["dependencies"]` → walk the `dependencies` list with further `get_process_details` calls
-- "I have a resource key, give me everything" → `get_process_details` with the scopes you care about (`tasks`, `linked_artifacts`, `history`)
-- "What actually happens when this process runs?" → `get_process_details` → [`get_process_observations`](/tools/observations-and-changes) → [`get_observation_citation`](/tools/observations-and-changes) on a representative deviation
+Parameters and examples for these tools.
+
+See [shared parameters](/tools/overview#shared-parameters). Replace example identifiers with your own.
+
+<AccordionGroup>
+
+<Accordion title="search_processes">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `query` | string | Yes | Search text. |
+| `top_k` | integer | No | Result limit. Default: `10`. Range: 1–10. |
+
+**Example request**
+
+```json
+{
+  "context": "Find invoice approval processes.",
+  "query": "invoice approval",
+  "top_k": 5
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "top_k": {
+      "default": 10,
+      "maximum": 10,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "query"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="get_process_hierarchy">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `root` | object or null | No | Starting group. Default: `null`. |
+| `root.node_resource_key` | string or null | No | Group identifier. Default: `null`. |
+| `root.node_name` | string or null | No | Group name. Default: `null`. |
+| `max_depth` | integer or null | No | Hierarchy depth. Default: `null`. |
+
+If `root` is supplied, include its identifier or name.
+
+**Example request**
+
+```json
+{
+  "context": "Browse the process hierarchy.",
+  "max_depth": 2
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "$defs": {
+    "NodeSelector": {
+      "properties": {
+        "node_resource_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "node_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "root": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NodeSelector"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "max_depth": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "type": "object",
+  "required": [
+    "context"
+  ],
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="get_hierarchy_node_details">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `node` | object | Yes | Group to inspect. |
+| `node.node_resource_key` | string or null | No | Group identifier. Default: `null`. |
+| `node.node_name` | string or null | No | Group name. Default: `null`. |
+
+Supply at least one of `node.node_resource_key` or `node.node_name`.
+
+**Example request**
+
+```json
+{
+  "context": "Explore the Finance group.",
+  "node": {
+    "node_name": "Finance"
+  }
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "$defs": {
+    "NodeSelector": {
+      "properties": {
+        "node_resource_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "node_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "node": {
+      "$ref": "#/$defs/NodeSelector"
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "context",
+    "node"
+  ],
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+<Accordion title="get_process_details">
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `process_resource_key` | string or null | No | Process identifier. Default: `null`. |
+| `process_name` | string or null | No | Process name. Default: `null`. |
+| `scope` | array of string or null | No | Details to include. Default: `null`. Values: `tasks`, `observations`, `dependencies`, `attributes`, `history`, `linked_artifacts`, `policies`. |
+
+Supply a process identifier or name. The identifier takes precedence when both are provided.
+
+**Example request**
+
+```json
+{
+  "context": "Read invoice approval details.",
+  "process_name": "Invoice approval",
+  "scope": [
+    "tasks",
+    "dependencies"
+  ]
+}
+```
+
+<details>
+<summary>Raw JSON Schema</summary>
+
+```json
+{
+  "properties": {
+    "context": {
+      "type": "string"
+    },
+    "process_resource_key": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "process_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "items": {
+            "enum": [
+              "tasks",
+              "observations",
+              "dependencies",
+              "attributes",
+              "history",
+              "linked_artifacts",
+              "policies"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "mcp_thread_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "type": "object",
+  "required": [
+    "context"
+  ],
+  "additionalProperties": false
+}
+```
+
+</details>
+
+</Accordion>
+
+</AccordionGroup>
