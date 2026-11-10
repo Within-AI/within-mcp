@@ -8,7 +8,7 @@ The Within MCP supports two authentication methods. Most clients will use one or
 
 | Method | When to use |
 |---|---|
-| **OAuth** | Preferred. Use in any client that supports MCP OAuth (Claude, ChatGPT, Claude Code via the plugin, Codex via `codex mcp login`, Cursor via the **Connect** button, Gemini CLI via `/mcp auth`, Microsoft Copilot via a custom Copilot Studio agent). |
+| **OAuth** | Preferred. Use in any client that supports MCP OAuth (Claude, ChatGPT, Claude Code via the plugin, Codex via the plugin, Cursor via the **Connect** button, Gemini CLI via `/mcp auth`, Microsoft Copilot via a custom Copilot Studio agent or, once listed, the Microsoft 365 Agent Store). |
 | **API key** | Use when you need a long-lived headless connection, or for custom and automated setups where the OAuth flow isn't a fit. |
 
 Both methods scope the assistant to your active Within workspace and obey the same permissions as your Within user account.
@@ -44,7 +44,7 @@ See [FAQ](/faq) for other common install issues.
 
 When the client supports MCP OAuth, you don't handle any credentials yourself. The first time the assistant calls a Within tool, the client redirects you to sign in to Within. After that, the client manages the token.
 
-Per-client setup is covered in the [Install pages](/install/claude).
+Per-client setup is covered in the [Install pages](/quickstart).
 
 <Note>
   Your organization may need to approve the Within connector or app before users can sign in. Contact your Within workspace admin if the OAuth redirect fails.
@@ -82,10 +82,9 @@ Authorization: Bearer <YOUR_API_KEY>
 
 Per-client snippets:
 
-- [Claude Code](/install/claude-code#manual-mcp-add-api-key)
-- [Codex](/install/codex#config-file-install-api-key)
+- [Claude Code](/install/anthropic#claude-code)
 - [Cursor](/install/cursor)
-- [Gemini CLI](/install/gemini-cli#api-key-fallback)
+- [Gemini CLI](/install/gemini-cli#api-key-install)
 - [GitHub Copilot](/install/github-copilot#api-key-install)
 
 ### Keep keys safe

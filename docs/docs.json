@@ -54,10 +54,8 @@
           {
             "group": "Install",
             "pages": [
-              "install/claude",
-              "install/claude-code",
-              "install/chatgpt",
-              "install/codex",
+              "install/anthropic",
+              "install/openai",
               "install/cursor",
               "install/gemini-cli",
               "install/github-copilot",
@@ -180,6 +178,12 @@
       "vscode"
     ]
   },
+  "redirects": [
+    { "source": "/install/claude", "destination": "/install/anthropic" },
+    { "source": "/install/claude-code", "destination": "/install/anthropic" },
+    { "source": "/install/chatgpt", "destination": "/install/openai" },
+    { "source": "/install/codex", "destination": "/install/openai" }
+  ],
   "footer": {
     "socials": {
       "github": "https://github.com/Within-AI",

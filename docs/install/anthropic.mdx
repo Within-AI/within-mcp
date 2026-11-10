@@ -1,0 +1,84 @@
+---
+title: "Anthropic"
+description: "Install the Within connector in Claude, or the Within plugin in Claude Code."
+icon: "/images/icons/claude.svg"
+---
+
+<Tabs>
+<Tab title="Claude apps" id="claude">
+
+<Note>
+  Once connected, Within is available in claude.ai, the Claude desktop and mobile apps, Cowork, and Claude Code when you sign in to Claude Code with your Claude account.
+</Note>
+
+<Steps>
+  <Step title="Open connector settings">
+    In Claude, go to **Customize → Connectors** and select **Discover**.
+  </Step>
+  <Step title="Find Within">
+    Search for **Within** and select **Connect to Claude**.
+  </Step>
+  <Step title="Sign in">
+    You will be redirected to Within to authenticate. Your assistant will then have access to your active workspace.
+  </Step>
+</Steps>
+
+<Note>
+  On Team and Enterprise plans, an Owner adds Within for your organization first; until then, members see **Request** instead of **Connect to Claude**. You must also be provisioned as a user in Within for the connection to succeed.
+</Note>
+
+### If you don't have access
+
+If your organization hasn't approved the Within connector yet, or you can't see it in Claude's connector directory, install from one of the [other clients](/quickstart) instead.
+
+</Tab>
+<Tab title="Claude Code plugin" id="claude-code">
+
+Use this instead of the **Claude apps** connector when you want Within's bundled skills in Claude Code, or when you run Claude Code with an API key, Amazon Bedrock, or in CI, where Claude connectors aren't loaded. Install the connector or the plugin, not both.
+
+### Plugin install (preferred, OAuth)
+
+From a Claude Code session, run these two commands one after the other.
+
+<Steps>
+  <Step title="Install the marketplace">
+    ```text
+    /plugin marketplace add Within-AI/within-mcp
+    ```
+  </Step>
+  <Step title="Install the plugin">
+    ```text
+    /plugin install within@within
+    ```
+  </Step>
+  <Step title="Sign in">
+    The first request that hits a Within tool will prompt you to authenticate.
+  </Step>
+</Steps>
+
+### Manual MCP add (API key)
+
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Within workspace (see [Authentication](/authentication#api-key)), then run:
+
+```bash
+claude mcp add --transport http within \
+  https://api.within.ai/mcp \
+  --header "Authorization: Bearer <YOUR_API_KEY>"
+```
+
+<Warning>
+  Treat the API key like a password. Anyone with the key can query your Within workspace. Rotate it from `Settings → MCP` if it's exposed.
+</Warning>
+
+</Tab>
+</Tabs>
+
+## Verify
+
+In Claude or a Claude Code session, ask:
+
+```text
+Search Within for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.
