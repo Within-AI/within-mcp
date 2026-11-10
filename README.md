@@ -13,9 +13,9 @@ actually runs — not generic guesses.
 This repository is the canonical public surface for two install paths:
 
 - **Claude Code / Claude** — Anthropic's plugin ecosystem.
-- **ChatGPT / Codex** — OpenAI's app ecosystem.
+- **ChatGPT / Codex** — OpenAI's plugin ecosystem.
 - **Gemini CLI** — Google's CLI extension ecosystem.
-- **Microsoft Copilot** — a custom Copilot Studio agent (no official connector yet).
+- **Microsoft Copilot** — a custom Copilot Studio agent (a Within agent in the Microsoft 365 Agent Store is coming soon).
 
 
 ## What it does
@@ -28,15 +28,15 @@ Context Graph traversal. The full skill prompt lives at
 
 ## Install - Claude.ai
 
-Customize -> Connectors -> Search -> Within -> Connect
+Customize -> Connectors -> Discover -> Search -> Within -> Connect to Claude
 
-> (NOTE: your organization might have to approve this connector, and you should be added as a user into Within for this to work)
+> (NOTE: on Team and Enterprise plans an Owner has to add this connector for the organization first, and you should be added as a user into Within for this to work)
 
 ## Install - ChatGPT
 
-Apps -> Search -> Within -> Connect
+Plugins -> Search -> Within -> Install plugin -> Sign in
 
-> (NOTE: your organization might have to approve this app, and you should be added as a user into Within for this to work)
+> (NOTE: on Business, Enterprise, and Edu workspaces your admin might have to make this plugin available first, and you should be added as a user into Within for this to work)
 
 ## Install — Claude Code
 
@@ -86,7 +86,7 @@ To login:
 
 ## Install — Microsoft Copilot
 
-> (NOTE: there's no official Within connector for Microsoft Copilot yet. Your organization needs Copilot Studio to create and publish a custom agent that uses Within.)
+> (NOTE: a Within agent in the Microsoft 365 Agent Store is coming soon. Until it's listed, your organization needs Copilot Studio to create and publish a custom agent that uses Within.)
 
 Copilot Studio -> New agent -> Tools -> Add tool -> Add new MCP -> `https://api.within.ai/mcp` (OAuth 2.0, Dynamic discovery) -> Publish
 

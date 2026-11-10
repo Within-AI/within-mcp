@@ -1,0 +1,60 @@
+---
+title: "OpenAI"
+description: "Install the Within plugin in ChatGPT or Codex."
+icon: "/images/icons/openai.svg"
+---
+
+<Tabs>
+<Tab title="ChatGPT" id="chatgpt">
+
+<Steps>
+  <Step title="Open the Plugin Directory">
+    In ChatGPT, click **Plugins** in the sidebar, or go to [chatgpt.com/plugins](https://chatgpt.com/plugins).
+  </Step>
+  <Step title="Find Within">
+    Search for **Within**, open it, and click **Install plugin**.
+  </Step>
+  <Step title="Sign in">
+    When prompted, sign in to Within. You'll be redirected back to ChatGPT, and the assistant can then query your active workspace.
+  </Step>
+</Steps>
+
+<Note>
+  On ChatGPT Business, Enterprise, and Edu, your workspace admin may need to make the Within plugin available first, and you must be provisioned as a user in Within for the connection to succeed.
+</Note>
+
+### If you don't have access
+
+If ChatGPT shows **Admin approval required** or **Disabled by admin**, or you can't find Within in the Plugin Directory, ask your workspace admin to enable it, or install from one of the [other clients](/quickstart) instead.
+
+</Tab>
+<Tab title="Codex" id="codex">
+
+<Steps>
+  <Step title="Open the plugins picker">
+    In a Codex session, run:
+
+    ```text
+    /plugins
+    ```
+  </Step>
+  <Step title="Install Within">
+    Search for **Within** and install the plugin.
+  </Step>
+  <Step title="Sign in">
+    Start a new Codex session. The first request that hits a Within tool will prompt you to authenticate.
+  </Step>
+</Steps>
+
+</Tab>
+</Tabs>
+
+## Verify
+
+In ChatGPT or a Codex session, ask:
+
+```text
+Search Within for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.
