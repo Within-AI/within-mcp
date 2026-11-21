@@ -1,16 +1,70 @@
 ---
 title: "Microsoft Copilot"
-description: "Add Within to Microsoft 365 Copilot with a custom Copilot Studio agent. A Within agent in the Microsoft 365 Agent Store is coming soon."
+description: "Add the Within agent to Microsoft Copilot from the Microsoft 365 Agent Store, or build a custom Copilot Studio agent."
 icon: "/images/icons/microsoft-copilot.svg"
 ---
 
-There are two ways to use Within in Microsoft 365 Copilot:
+There are two ways to use Within in Microsoft Copilot:
 
-- **Custom agent (available now):** someone in your organization creates an agent in Copilot Studio, adds Within to it as an MCP server, and publishes it to your users.
-- **Agent Store (coming soon):** add the Within agent for Microsoft Copilot directly from the Agent Store and sign in with your Within account.
+- **Agent Store (recommended):** add the Within agent directly from the Agent Store and sign in with your Within account.
+- **Custom agent:** someone in your organization creates an agent in Copilot Studio, adds Within to it as an MCP server, and publishes it to your users.
 
 <Tabs>
-<Tab title="Custom agent (Copilot Studio)">
+<Tab title="Agent Store" id="agent-store">
+
+### What you need
+
+- **Microsoft Copilot** in your organization's Microsoft 365. Within only uses actions, which [work in Microsoft 365 Copilot Chat](https://learn.microsoft.com/en-us/copilot/agents) as well as with a Microsoft 365 Copilot license.
+- **Your Microsoft 365 administrator's permission.** Many organizations require an administrator to allow agents from external publishers. See [For Microsoft 365 administrators](#for-microsoft-365-administrators).
+- **A Within account** with access to a Within workspace that has MCP enabled. Don't have one? [Sign up for access](https://www.within.ai/contact).
+
+### Add Within from the Agent Store
+
+<Steps>
+  <Step title="Open Plugins">
+    In [Microsoft Copilot](https://m365.cloud.microsoft/chat), click **Plugins** in the sidebar.
+  </Step>
+  <Step title="Add Within">
+    Search for **Within**, open it, and click **Add**. If you see **Request approval** instead, click it to ask your administrator to allow Within.
+  </Step>
+  <Step title="Sign in">
+    Open Within and pick a conversation starter. The first time Within needs your data, Copilot asks you to **Sign in**. Sign in with your Within account; if you belong to several workspaces, choose one. Copilot then answers from that workspace.
+  </Step>
+</Steps>
+
+### For Microsoft 365 administrators
+
+- **Allow Within.** In the [Microsoft 365 admin center](https://admin.cloud.microsoft), open **Agents → Settings** and make sure [agents built by external publishers](https://learn.microsoft.com/en-us/microsoft-agent-365/admin/agent-settings) are allowed for the users who need Within.
+- **Roll it out.** Under **Agents → All agents**, select **Within**, then [install it](https://learn.microsoft.com/en-us/microsoft-agent-365/admin/agent-details) for all users or specific groups, and optionally pin it for them.
+- **Approve requests.** Requests from users who clicked **Request approval** arrive in the [Teams admin center](https://admin.teams.microsoft.com) under **Manage apps**, not the Microsoft 365 admin center. [Approve and unblock](https://learn.microsoft.com/en-us/microsoftteams/user-requests-approve-apps) Within there.
+
+Changes can take up to 24 hours to reach users.
+
+### Verify
+
+In Within in Microsoft Copilot, ask:
+
+```text
+Which of our processes are the best candidates for AI agents or automation, and why?
+```
+
+Within should answer from the processes in your workspace.
+
+### Troubleshooting the Agent Store
+
+<AccordionGroup>
+  <Accordion title="Within isn't in Plugins, or shows Request approval">
+    Your Microsoft 365 administrator controls which agents users can add. Click **Request approval**, or ask them to follow [For Microsoft 365 administrators](#for-microsoft-365-administrators).
+  </Accordion>
+  <Accordion title="Sign-in doesn't complete">
+    Make sure you sign in with the account you use for Within and that it has access to a workspace with MCP enabled. Then open a new chat with Within and try again. Still stuck? See the [FAQ](/faq) or email [hello@within.ai](mailto:hello@within.ai).
+  </Accordion>
+</AccordionGroup>
+
+</Tab>
+<Tab title="Custom agent (Copilot Studio)" id="copilot-studio">
+
+Use a custom agent if your organization wants its own agent built on Within, for example with its own instructions, or can't use the Agent Store listing.
 
 ### What your organization needs
 
@@ -117,57 +171,6 @@ The agent should call Within tools and return process results from your workspac
 </AccordionGroup>
 
 For more, see Microsoft's [Copilot Studio MCP guide](https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp) and [MCP troubleshooting](https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-troubleshooting).
-
-</Tab>
-<Tab title="Agent Store (coming soon)" id="agent-store">
-
-<Note>
-  **Coming soon.** The Within agent for Microsoft Copilot is in review for the Microsoft 365 Agent Store. Until it's listed, use the **Custom agent (Copilot Studio)** tab.
-</Note>
-
-### What you need
-
-- **Microsoft 365 Copilot**, with your Microsoft 365 administrator's permission to use the Within agent.
-- **A Within account** with access to a Within workspace that has MCP enabled. Don't have one? [Sign up for access](https://www.within.ai/contact).
-
-### Add Within from the Agent Store
-
-<Steps>
-  <Step title="Open the Agent Store">
-    In [Microsoft 365 Copilot](https://m365.cloud.microsoft/chat), open **Agents** in the sidebar and choose **Get agents** to open the Agent Store.
-  </Step>
-  <Step title="Add Within">
-    Search for **Within**, open it, and click **Add**. Within appears under **Agents** in the sidebar.
-  </Step>
-  <Step title="Sign in">
-    Open Within and pick a conversation starter. The first time Within needs your data, Copilot asks you to **Sign in**. Sign in with your Within account; if you belong to several workspaces, choose one. Copilot then answers from that workspace.
-  </Step>
-</Steps>
-
-<Note>
-  If Within doesn't appear in the Agent Store, your Microsoft 365 administrator may need to allow it in the [Microsoft 365 admin center](https://learn.microsoft.com/en-us/microsoft-365/admin/manage/manage-copilot-agents-integrated-apps) under **Agents → All agents**.
-</Note>
-
-### Verify
-
-In Within in Microsoft 365 Copilot, ask:
-
-```text
-Which of our processes are the best candidates for AI agents or automation, and why?
-```
-
-Within should answer from the processes in your workspace.
-
-### Troubleshooting the Agent Store
-
-<AccordionGroup>
-  <Accordion title="Within isn't in the Agent Store">
-    Your Microsoft 365 administrator controls which agents users can add. Ask them to allow Within in the Microsoft 365 admin center under **Agents → All agents**.
-  </Accordion>
-  <Accordion title="Sign-in doesn't complete">
-    Make sure you sign in with the account you use for Within and that it has access to a workspace with MCP enabled. Then open a new chat with Within and try again. Still stuck? See the [FAQ](/faq) or email [hello@within.ai](mailto:hello@within.ai).
-  </Accordion>
-</AccordionGroup>
 
 </Tab>
 </Tabs>
