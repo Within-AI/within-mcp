@@ -88,6 +88,8 @@ To login:
 
 Microsoft Copilot -> Plugins -> search **Within** -> Add -> sign in to Within
 
+Direct links to the listing (requires a Microsoft 365 work account): [Microsoft Copilot](https://m365.cloud.microsoft/chat/?titleId=P_b46b226e-9a56-2d33-f98d-22b2280b5f97) · [Microsoft Teams](https://teams.cloud.microsoft/l/app/?source=agent-details-page&titleId=P_b46b226e-9a56-2d33-f98d-22b2280b5f97)
+
 Your Microsoft 365 administrator may need to allow Within first.
 
 To build your own agent instead: Copilot Studio -> New agent -> Tools -> Add tool -> Add new MCP -> `https://api.within.ai/mcp` (OAuth 2.0, Dynamic discovery) -> Publish
